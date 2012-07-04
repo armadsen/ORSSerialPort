@@ -16,6 +16,10 @@ If you have any questions about, suggestions for, or contributions to ORSSerialP
 How to Use ORSSerialPort
 ========================
 
+To begin using ORSSerialPort in your project, simply drag the files in the "Source" folder into your Xcode project. ORSSerialPort.h/m are required, while ORSSerialPortManager.h/m are optional, but useful (see below). Next, add `#import "ORSSerialPort.h"` and '#import "ORSSerialPortManager.h"' to the top of the source code files in which you'd like to use ORSSerialPort.
+
+*Important Note:* ORSSerialPort relies Automatic Reference Counting (ARC). If you'd like to use it in a non-ARC project, you'll need to open the Build Phases for the target(s) you're using it in, and add the -fobjc-arc flag to the Compiler Flags column for ORSSerialPort.m and ORSSerialPortManager.m. ORSSerialPort will generate a compiler error if ARC is not enabled.
+
 The ORSSerialPort library consists of only two classes: `ORSSerialPort` and `ORSSerialPortManager`. As its name implies, each instance of `ORSSerialPort` represents a serial port device. There is a 1:1 correspondence between port devices on the system and instances of `ORSSerialPort`. That means that repeated requests for a port object for a given device will return the same instance of `ORSSerialPort`.
 
 Opening a Port and Setting It Up
