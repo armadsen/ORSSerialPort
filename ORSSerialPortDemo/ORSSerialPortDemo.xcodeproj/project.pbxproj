@@ -1,0 +1,340 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9D6623B4159BD610004C9E42 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D6623B3159BD610004C9E42 /* IOKit.framework */; };
+		9D66D813159BCAB800EE6D09 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D66D812159BCAB800EE6D09 /* Cocoa.framework */; };
+		9D66D81D159BCAB800EE6D09 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9D66D81B159BCAB800EE6D09 /* InfoPlist.strings */; };
+		9D66D81F159BCAB800EE6D09 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D66D81E159BCAB800EE6D09 /* main.m */; };
+		9D66D823159BCAB900EE6D09 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 9D66D821159BCAB900EE6D09 /* Credits.rtf */; };
+		9D66D826159BCAB900EE6D09 /* ORSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D66D825159BCAB900EE6D09 /* ORSAppDelegate.m */; };
+		9D66D829159BCAB900EE6D09 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D66D827159BCAB900EE6D09 /* MainMenu.xib */; };
+		9D66D838159BCC2F00EE6D09 /* ORSSerialPort.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D66D835159BCC2F00EE6D09 /* ORSSerialPort.m */; };
+		9D66D839159BCC2F00EE6D09 /* ORSSerialPortManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D66D837159BCC2F00EE6D09 /* ORSSerialPortManager.m */; };
+		9D66D83D159BCC6400EE6D09 /* ORSSerialPortDemoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D66D83C159BCC6400EE6D09 /* ORSSerialPortDemoController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		9D6623B3159BD610004C9E42 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		9D66D80E159BCAB800EE6D09 /* ORSSerialPortDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ORSSerialPortDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D66D812159BCAB800EE6D09 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		9D66D815159BCAB800EE6D09 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		9D66D816159BCAB800EE6D09 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		9D66D817159BCAB800EE6D09 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		9D66D81A159BCAB800EE6D09 /* ORSSerialPortDemo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ORSSerialPortDemo-Info.plist"; sourceTree = "<group>"; };
+		9D66D81C159BCAB800EE6D09 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9D66D81E159BCAB800EE6D09 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		9D66D820159BCAB900EE6D09 /* ORSSerialPortDemo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ORSSerialPortDemo-Prefix.pch"; sourceTree = "<group>"; };
+		9D66D822159BCAB900EE6D09 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		9D66D824159BCAB900EE6D09 /* ORSAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORSAppDelegate.h; sourceTree = "<group>"; };
+		9D66D825159BCAB900EE6D09 /* ORSAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORSAppDelegate.m; sourceTree = "<group>"; };
+		9D66D828159BCAB900EE6D09 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		9D66D834159BCC2F00EE6D09 /* ORSSerialPort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSSerialPort.h; sourceTree = "<group>"; };
+		9D66D835159BCC2F00EE6D09 /* ORSSerialPort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSSerialPort.m; sourceTree = "<group>"; };
+		9D66D836159BCC2F00EE6D09 /* ORSSerialPortManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSSerialPortManager.h; sourceTree = "<group>"; };
+		9D66D837159BCC2F00EE6D09 /* ORSSerialPortManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSSerialPortManager.m; sourceTree = "<group>"; };
+		9D66D83B159BCC6400EE6D09 /* ORSSerialPortDemoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSSerialPortDemoController.h; sourceTree = "<group>"; };
+		9D66D83C159BCC6400EE6D09 /* ORSSerialPortDemoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSSerialPortDemoController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9D66D80B159BCAB800EE6D09 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D6623B4159BD610004C9E42 /* IOKit.framework in Frameworks */,
+				9D66D813159BCAB800EE6D09 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9D6623AD159BD599004C9E42 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9D66D827159BCAB900EE6D09 /* MainMenu.xib */,
+				9D66D81A159BCAB800EE6D09 /* ORSSerialPortDemo-Info.plist */,
+				9D66D81B159BCAB800EE6D09 /* InfoPlist.strings */,
+				9D66D821159BCAB900EE6D09 /* Credits.rtf */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		9D66D803159BCAB800EE6D09 = {
+			isa = PBXGroup;
+			children = (
+				9D66D818159BCAB800EE6D09 /* Sources */,
+				9D66D833159BCC2F00EE6D09 /* ORSSerialPort */,
+				9D6623AD159BD599004C9E42 /* Resources */,
+				9D66D819159BCAB800EE6D09 /* Supporting Files */,
+				9D66D811159BCAB800EE6D09 /* Frameworks */,
+				9D66D80F159BCAB800EE6D09 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		9D66D80F159BCAB800EE6D09 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9D66D80E159BCAB800EE6D09 /* ORSSerialPortDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9D66D811159BCAB800EE6D09 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9D66D812159BCAB800EE6D09 /* Cocoa.framework */,
+				9D6623B3159BD610004C9E42 /* IOKit.framework */,
+				9D66D814159BCAB800EE6D09 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9D66D814159BCAB800EE6D09 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9D66D815159BCAB800EE6D09 /* AppKit.framework */,
+				9D66D816159BCAB800EE6D09 /* CoreData.framework */,
+				9D66D817159BCAB800EE6D09 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		9D66D818159BCAB800EE6D09 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				9D66D824159BCAB900EE6D09 /* ORSAppDelegate.h */,
+				9D66D825159BCAB900EE6D09 /* ORSAppDelegate.m */,
+				9D66D83B159BCC6400EE6D09 /* ORSSerialPortDemoController.h */,
+				9D66D83C159BCC6400EE6D09 /* ORSSerialPortDemoController.m */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		9D66D819159BCAB800EE6D09 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9D66D81E159BCAB800EE6D09 /* main.m */,
+				9D66D820159BCAB900EE6D09 /* ORSSerialPortDemo-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		9D66D833159BCC2F00EE6D09 /* ORSSerialPort */ = {
+			isa = PBXGroup;
+			children = (
+				9D66D834159BCC2F00EE6D09 /* ORSSerialPort.h */,
+				9D66D835159BCC2F00EE6D09 /* ORSSerialPort.m */,
+				9D66D836159BCC2F00EE6D09 /* ORSSerialPortManager.h */,
+				9D66D837159BCC2F00EE6D09 /* ORSSerialPortManager.m */,
+			);
+			name = ORSSerialPort;
+			path = ../Source;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9D66D80D159BCAB800EE6D09 /* ORSSerialPortDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9D66D82C159BCAB900EE6D09 /* Build configuration list for PBXNativeTarget "ORSSerialPortDemo" */;
+			buildPhases = (
+				9D66D80A159BCAB800EE6D09 /* Sources */,
+				9D66D80B159BCAB800EE6D09 /* Frameworks */,
+				9D66D80C159BCAB800EE6D09 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ORSSerialPortDemo;
+			productName = ORSSerialPortDemo;
+			productReference = 9D66D80E159BCAB800EE6D09 /* ORSSerialPortDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9D66D805159BCAB800EE6D09 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = ORS;
+				LastUpgradeCheck = 0430;
+				ORGANIZATIONNAME = "Open Reel Software";
+			};
+			buildConfigurationList = 9D66D808159BCAB800EE6D09 /* Build configuration list for PBXProject "ORSSerialPortDemo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 9D66D803159BCAB800EE6D09;
+			productRefGroup = 9D66D80F159BCAB800EE6D09 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9D66D80D159BCAB800EE6D09 /* ORSSerialPortDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9D66D80C159BCAB800EE6D09 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D66D81D159BCAB800EE6D09 /* InfoPlist.strings in Resources */,
+				9D66D823159BCAB900EE6D09 /* Credits.rtf in Resources */,
+				9D66D829159BCAB900EE6D09 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9D66D80A159BCAB800EE6D09 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D66D81F159BCAB800EE6D09 /* main.m in Sources */,
+				9D66D826159BCAB900EE6D09 /* ORSAppDelegate.m in Sources */,
+				9D66D838159BCC2F00EE6D09 /* ORSSerialPort.m in Sources */,
+				9D66D839159BCC2F00EE6D09 /* ORSSerialPortManager.m in Sources */,
+				9D66D83D159BCC6400EE6D09 /* ORSSerialPortDemoController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		9D66D81B159BCAB800EE6D09 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9D66D81C159BCAB800EE6D09 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		9D66D821159BCAB900EE6D09 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9D66D822159BCAB900EE6D09 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		9D66D827159BCAB900EE6D09 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9D66D828159BCAB900EE6D09 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		9D66D82A159BCAB900EE6D09 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		9D66D82B159BCAB900EE6D09 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		9D66D82D159BCAB900EE6D09 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Sources/ORSSerialPortDemo-Prefix.pch";
+				INFOPLIST_FILE = "Resources/ORSSerialPortDemo-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		9D66D82E159BCAB900EE6D09 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Sources/ORSSerialPortDemo-Prefix.pch";
+				INFOPLIST_FILE = "Resources/ORSSerialPortDemo-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9D66D808159BCAB800EE6D09 /* Build configuration list for PBXProject "ORSSerialPortDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9D66D82A159BCAB900EE6D09 /* Debug */,
+				9D66D82B159BCAB900EE6D09 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9D66D82C159BCAB900EE6D09 /* Build configuration list for PBXNativeTarget "ORSSerialPortDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9D66D82D159BCAB900EE6D09 /* Debug */,
+				9D66D82E159BCAB900EE6D09 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9D66D805159BCAB800EE6D09 /* Project object */;
+}
