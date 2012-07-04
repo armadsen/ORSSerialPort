@@ -9,7 +9,7 @@ ORSSerialPort is my take on a modern, easy-to-use Objective-C serial port librar
     [serialPort sendData:someData]; // someData is an NSData object
     [serialPort close];
     
-ORSSerialPort is released under an MIT license, meaning you're free to use it in both closed an open source projects. However, even in a closed source project, you must include a publicly-accessible copy of ORSSerialPort's copyright notice, which you can find in the LICENSE file.
+ORSSerialPort is released under an MIT license, meaning you're free to use it in both closed and open source projects. However, even in a closed source project, you must include a publicly-accessible copy of ORSSerialPort's copyright notice, which you can find in the LICENSE file.
 
 If you have any questions about, suggestions for, or contributions to ORSSerialPort, please [contact me](mailto:andrew@openreelsoftware.com). I'd also love to hear about any cool projects you're using it in.
 
