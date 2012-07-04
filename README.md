@@ -16,7 +16,7 @@ If you have any questions about, suggestions for, or contributions to ORSSerialP
 How to Use ORSSerialPort
 ========================
 
-The ORSSerialPort library consists of only two classes: `ORSSerialPort` and `ORSSerialPortManager`. As its name implies, each instance of `ORSSerialPort` represents a serial port device. There is a 1:1 correspondence between port devices on the system and instances of `ORSSerialPort`. That means that repeated requests for an port object for a given device will return the same instance of `ORSSerialPort`.
+The ORSSerialPort library consists of only two classes: `ORSSerialPort` and `ORSSerialPortManager`. As its name implies, each instance of `ORSSerialPort` represents a serial port device. There is a 1:1 correspondence between port devices on the system and instances of `ORSSerialPort`. That means that repeated requests for a port object for a given device will return the same instance of `ORSSerialPort`.
 
 Opening a Port and Setting It Up
 --------------------------------
@@ -25,11 +25,11 @@ You can get an `ORSSerialPort` instance either of two ways. The easiest is to us
 
     ORSSerialPort *port = [ORSSerialPort serialPortWithPath:@"/dev/cu.KeySerial1"];
 
-Note that you must give `+serialPortWithPath:` the full path to the device, as shown in the example above.
+Note that you must give `+serialPortWithPath:` the full callout ("cu.*") path to the device, as shown in the example above.
 
 After you've got a port instance, you can open it with the `-open` method. When you're done using the port, close it using the `-close` method.
 
-Port settings such as baud rate, number of stop bits, parity, and flow control settings can be set using the various properties `ORSSerialPort` provides. Note that all of these properties are Key Value Observing (KVO) compliant. This KVO compliance also applies to read-only properties for reading the state of the CTS, DSR and DCD pins. Among other things, this means it's easy to be notified when the state of one of these pins changes, without having to continually poll them.
+Port settings such as baud rate, number of stop bits, parity, and flow control settings can be set using the various properties `ORSSerialPort` provides. Note that all of these properties are Key Value Observing (KVO) compliant. This KVO compliance also applies to read-only properties for reading the state of the CTS, DSR and DCD pins. Among other things, this means it's easy to be notified when the state of one of these pins changes, without having to continually poll them, as well as making them easy to connect to a UI with Cocoa bindings.
 
 Sending Data
 ------------
