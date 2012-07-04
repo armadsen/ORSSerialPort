@@ -24,6 +24,10 @@
 //	TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 //	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+#if !__has_feature(objc_arc)
+	#error ORSSerialPortManager.m must be compiled with ARC. Either turn on ARC for the project or set the -fobjc-arc flag for ORSSerialPortManager.m in the Build Phases for this target
+#endif
+
 #import "ORSSerialPortManager.h"
 #import "ORSSerialPort.h"
 
