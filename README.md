@@ -67,7 +67,7 @@ Also included are 3 optional methods:
 
 *Note:* All `ORSSerialPortDelegate` methods are always called on the main queue. If you need to handle them on a background queue, you must dispatch your handling to a background queue in your implementations of the delegate method.
 
-As its name implies, `-serialPort:didReceiveData:` is called when data is received from the serial port. 
+As its name implies, `-serialPort:didReceiveData:` is called when data is received from the serial port. Internally, ORSSerialPort receives data on a background queue to avoid burdening the main queue to simply received data. As with all other delegate methods, `-serialPort:didReceiveData:` is called on the main queue.
 
 `-serialPortserialPortWasRemovedFromSystem:` is called when a serial port is removed from the system, for example because a USB to serial adapter was unplugged. This method is required because you must release your reference to an `ORSSerialPort` instance when it is removed. The behavior of `ORSSerialPort` instances whose underlying serial port has been removed from the system is undefined.
 

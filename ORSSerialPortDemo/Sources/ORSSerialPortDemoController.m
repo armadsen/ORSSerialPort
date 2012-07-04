@@ -76,6 +76,7 @@
 
 - (void)serialPortWasRemovedFromSystem:(ORSSerialPort *)serialPort;
 {
+	// After a serial port is removed from the system, it is invalid and we must discard any references to it
 	self.serialPort = nil;
 	self.openCloseButton.title = @"Open";
 }
