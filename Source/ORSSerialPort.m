@@ -147,8 +147,6 @@ static __strong NSMutableArray *allSerialPorts;
 {
 	NSAssert(device != 0, @"%s requires non-zero device argument.", __PRETTY_FUNCTION__);
 	
-	LOG_SERIAL_PORT_ERROR(@"test");
-	
 	NSString *bsdPath = [[self class] bsdPathFromDevice:device];
 	ORSSerialPort *existingPort = [[self class] existingPortWithPath:bsdPath];
 	
