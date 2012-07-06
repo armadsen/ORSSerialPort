@@ -16,11 +16,11 @@ If you have any questions about, suggestions for, or contributions to ORSSerialP
 How to Use ORSSerialPort
 ========================
 
-To begin using ORSSerialPort in your project, simply drag the files in the "Source" folder into your Xcode project. ORSSerialPort.h/m are required, while ORSSerialPortManager.h/m are optional, but useful (see below). Next, add `#import "ORSSerialPort.h"` and `#import "ORSSerialPortManager.h"` to the top of the source code files in which you'd like to use ORSSerialPort.
+The ORSSerialPort library consists of only two classes: `ORSSerialPort` and `ORSSerialPortManager`. To begin using ORSSerialPort in your project, simply drag the files in the "Source" folder into your Xcode project. ORSSerialPort.h/m are required, while ORSSerialPortManager.h/m are optional, but useful (see below). Next, add `#import "ORSSerialPort.h"` and `#import "ORSSerialPortManager.h"` to the top of the source code files in which you'd like to use ORSSerialPort.
 
-*Important Note:* ORSSerialPort relies on Automatic Reference Counting (ARC). If you'd like to use it in a non-ARC project, you'll need to open the Build Phases for the target(s) you're using it in, and add the -fobjc-arc flag to the Compiler Flags column for ORSSerialPort.m and ORSSerialPortManager.m. ORSSerialPort will generate a compiler error if ARC is not enabled.
+ORSSerialPort can be used in applications targeting Mac OS X 10.6.8 and later. However, due to its use of ARC (see note below) it must be compiled on a machine running Mac OS X Lion with the LLVM 3.0 or later compiler, which is included in Xcode 4.2 and later.
 
-The ORSSerialPort library consists of only two classes: `ORSSerialPort` and `ORSSerialPortManager`. As its name implies, each instance of `ORSSerialPort` represents a serial port device. There is a 1:1 correspondence between port devices on the system and instances of `ORSSerialPort`. That means that repeated requests for a port object for a given device will return the same instance of `ORSSerialPort`.
+*Important Note:* ORSSerialPort relies on Automatic Reference Counting (ARC). If you'd like to use it in a non-ARC project, you'll need to open the "Compile Sources" build phase for the target(s) you're using it in, and add the -fobjc-arc flag to the "Compiler Flags" column for ORSSerialPort.m and ORSSerialPortManager.m. ORSSerialPort will generate a compiler error if ARC is not enabled.
 
 Opening a Port and Setting It Up
 --------------------------------
@@ -30,6 +30,8 @@ You can get an `ORSSerialPort` instance either of two ways. The easiest is to us
     ORSSerialPort *port = [ORSSerialPort serialPortWithPath:@"/dev/cu.KeySerial1"];
 
 Note that you must give `+serialPortWithPath:` the full callout ("cu.*") path to the device, as shown in the example above.
+
+Each instance of `ORSSerialPort` represents a serial port device. That is, there is a 1:1 correspondence between port devices on the system and instances of `ORSSerialPort`. That means that repeated requests for a port object for a given device or device path will return the same instance of `ORSSerialPort`.
 
 After you've got a port instance, you can open it with the `-open` method. When you're done using the port, close it using the `-close` method.
 
@@ -46,7 +48,7 @@ Send data by passing an `NSData` object to the `-sendData:` method:
 Receiving Data
 --------------
 
-To receive data, you must implement the `ORSSerialPortDelegate` protocol's `-serialPort:didReceiveData:` method, and set the `ORSSerialPort` instance's delegate property. As noted below, this method is always called on the main queue. An an example implementation is included below:
+To receive data, you must implement the `ORSSerialPortDelegate` protocol's `-serialPort:didReceiveData:` method, and set the `ORSSerialPort` instance's delegate property. As noted below, this method is always called on the main queue. An example implementation is included below:
 
     - (void)serialPort:(ORSSerialPort *)serialPort didReceiveData:(NSData *)data
     {
@@ -58,7 +60,7 @@ To receive data, you must implement the `ORSSerialPortDelegate` protocol's `-ser
 ORSSerialPortDelegate
 ---------------------
 
-ORSSerialPort includes a delegate property, and a delegate protocol called `ORSSerialPortDelegate`. The `ORSSerialPortDelegate` protocol includes two required methods:
+`ORSSerialPort` includes a delegate property, and a delegate protocol called `ORSSerialPortDelegate`. The `ORSSerialPortDelegate` protocol includes two required methods:
 
     - (void)serialPort:(ORSSerialPort *)serialPort didReceiveData:(NSData *)data;
     - (void)serialPortWasRemovedFromSystem:(ORSSerialPort *)serialPort;
@@ -69,9 +71,9 @@ Also included are 3 optional methods:
     - (void)serialPortWasOpened:(ORSSerialPort *)serialPort;
     - (void)serialPortWasClosed:(ORSSerialPort *)serialPort;
 
-*Note:* All `ORSSerialPortDelegate` methods are always called on the main queue. If you need to handle them on a background queue, you must dispatch your handling to a background queue in your implementations of the delegate method.
+*Note:* All `ORSSerialPortDelegate` methods are always called on the main queue. If you need to handle them on a background queue, you must dispatch your handling to a background queue in your implementation of the delegate method.
 
-As its name implies, `-serialPort:didReceiveData:` is called when data is received from the serial port. Internally, ORSSerialPort receives data on a background queue to avoid burdening the main queue to simply received data. As with all other delegate methods, `-serialPort:didReceiveData:` is called on the main queue.
+As its name implies, `-serialPort:didReceiveData:` is called when data is received from the serial port. Internally, ORSSerialPort receives data on a background queue to avoid burdening the main queue with waiting for data. As with all other delegate methods, `-serialPort:didReceiveData:` is called on the main queue.
 
 `-serialPortserialPortWasRemovedFromSystem:` is called when a serial port is removed from the system, for example because a USB to serial adapter was unplugged. This method is required because you must release your reference to an `ORSSerialPort` instance when it is removed. The behavior of `ORSSerialPort` instances whose underlying serial port has been removed from the system is undefined.
 
