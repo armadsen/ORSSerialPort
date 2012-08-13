@@ -163,7 +163,7 @@ static __strong NSMutableArray *allSerialPorts;
 		self.path = bsdPath;
 		self.name = [[self class] baseNameFromDevice:device];
 		self.writeBuffer = [NSMutableData data];
-		self.baudRate = [NSNumber numberWithInt:B19200];
+		self.baudRate = @B19200;
 		self.numberOfStopBits = 1;
 		self.parity = ORSSerialPortParityNone;
 		self.shouldEchoReceivedData = NO;
@@ -540,9 +540,8 @@ static __strong NSMutableArray *allSerialPorts;
 {
 	if (![(id)self.delegate respondsToSelector:@selector(serialPort:didEncounterError:)]) return;
 	
-	NSDictionary *errDict = [NSDictionary dictionaryWithObjectsAndKeys:
-							 [NSString stringWithUTF8String:strerror(errno)], NSLocalizedDescriptionKey,
-							 self.path, NSFilePathErrorKey, nil];
+	NSDictionary *errDict = @{NSLocalizedDescriptionKey: @(strerror(errno)),
+							 NSFilePathErrorKey: self.path};
 	NSError *error = [NSError errorWithDomain:NSPOSIXErrorDomain
 										 code:errno
 									 userInfo:errDict];

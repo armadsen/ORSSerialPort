@@ -175,7 +175,7 @@ static ORSSerialPortManager *sharedInstance = nil;
 		ORSSerialPort *port = [[ORSSerialPort alloc] initWithDevice:device];
 		if ([scratch containsObject:port]) 
 		{
-			ORSSerialPort *currentPort = [scratch objectAtIndex:[scratch indexOfObject:port]];
+			ORSSerialPort *currentPort = scratch[[scratch indexOfObject:port]];
 			[currentPort cleanup];
 			[scratch removeObject:currentPort];
 		}
