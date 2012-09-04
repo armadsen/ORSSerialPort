@@ -16,9 +16,11 @@ If you have any questions about, suggestions for, or contributions to ORSSerialP
 How to Use ORSSerialPort
 ========================
 
-The ORSSerialPort library consists of only two classes: `ORSSerialPort` and `ORSSerialPortManager`. To begin using ORSSerialPort in your project, simply drag the files in the "Source" folder into your Xcode project. ORSSerialPort.h/m are required, while ORSSerialPortManager.h/m are optional, but useful (see below). Next, add `#import "ORSSerialPort.h"` and `#import "ORSSerialPortManager.h"` to the top of the source code files in which you'd like to use ORSSerialPort.
+The ORSSerialPort library consists of only two classes: `ORSSerialPort` and `ORSSerialPortManager`. To begin using ORSSerialPort in your project, drag the files in the "Source" folder into your Xcode project. ORSSerialPort.h/m are required, while ORSSerialPortManager.h/m are optional, but useful (see below). Next, add `#import "ORSSerialPort.h"` and `#import "ORSSerialPortManager.h"` to the top of the source code files in which you'd like to use ORSSerialPort. 
 
-ORSSerialPort can be used in applications targeting Mac OS X 10.6.8 and later. However, due to its use of ARC (see note below) it must be compiled on a machine running Mac OS X Lion with the LLVM 3.0 or later compiler, which is included in Xcode 4.2 and later.
+ORSSerialPort relies on IOKit.framework, so you must add this framework to the "Link Binary With Libraries" build phase for your target. In your projects settings, select your application's target, then click on the "Build Phases" tab. Expand the "Link Binary With Libraries" section, then click the "+" button in the lower left corner to add a new Framework. In the list that appears, find and select IOKit.framework, then click "Add". 
+
+ORSSerialPort can be used in applications targeting Mac OS X 10.6.8 and later. However, due to its use of ARC (see note below) and modern Objective-C syntax, it must be compiled on a machine running Mac OS X Lion with the LLVM 4.0 or later compiler, which is included in Xcode 4.4 and later.
 
 *Important Note:* ORSSerialPort relies on Automatic Reference Counting (ARC). If you'd like to use it in a non-ARC project, you'll need to open the "Compile Sources" build phase for the target(s) you're using it in, and add the -fobjc-arc flag to the "Compiler Flags" column for ORSSerialPort.m and ORSSerialPortManager.m. ORSSerialPort will generate a compiler error if ARC is not enabled.
 
