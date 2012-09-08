@@ -135,7 +135,8 @@ static ORSSerialPortManager *sharedInstance = nil;
 	NSArray *ports = self.availablePorts;
 	for (ORSSerialPort *port in ports) 
 	{
-		if (port.isOpen) {
+		if (port.isOpen)
+		{
 			if ([port close]) [self.portsToReopenAfterSleep addObject:port];
 		}
 	}
@@ -196,7 +197,7 @@ static ORSSerialPortManager *sharedInstance = nil;
 	matchingDict = IOServiceMatching(kIOSerialBSDServiceValue);
 	CFRetain(matchingDict); // Need to use it twice
 	
-	CFDictionaryAddValue(matchingDict, CFSTR(kIOSerialBSDTypeKey), CFSTR(kIOSerialBSDRS232Type));
+	CFDictionaryAddValue(matchingDict, CFSTR(kIOSerialBSDTypeKey), CFSTR(kIOSerialBSDAllTypes));
 	
 	io_iterator_t portIterator = 0;
 	kern_return_t result = IOServiceAddMatchingNotification(notificationPort,
@@ -218,7 +219,8 @@ static ORSSerialPortManager *sharedInstance = nil;
 	
 	NSMutableArray *ports = [NSMutableArray array];
 	io_object_t eachPort;
-	while ((eachPort = IOIteratorNext(self.portPublishedNotificationIterator))) {
+	while ((eachPort = IOIteratorNext(self.portPublishedNotificationIterator)))
+	{
 		ORSSerialPort *port = [ORSSerialPort serialPortWithDevice:eachPort];
 		if ([port.name rangeOfString:@"bluetooth" options:NSCaseInsensitiveSearch].location == NSNotFound) 
 		{
@@ -261,7 +263,8 @@ static ORSSerialPortManager *sharedInstance = nil;
 @synthesize portPublishedNotificationIterator = _portPublishedNotificationIterator;
 - (void)setPortPublishedNotificationIterator:(io_iterator_t)iterator
 {
-	if (iterator != _portPublishedNotificationIterator) {
+	if (iterator != _portPublishedNotificationIterator)
+	{
 		if (_portPublishedNotificationIterator) IOObjectRelease(_portPublishedNotificationIterator);
 		
 		_portPublishedNotificationIterator = iterator;
@@ -272,7 +275,8 @@ static ORSSerialPortManager *sharedInstance = nil;
 @synthesize portTerminatedNotificationIterator = _portTerminatedNotificationIterator;
 - (void)setPortTerminatedNotificationIterator:(io_iterator_t)iterator
 {
-	if (iterator != _portTerminatedNotificationIterator) {
+	if (iterator != _portTerminatedNotificationIterator)
+	{
 		if (_portTerminatedNotificationIterator) IOObjectRelease(_portTerminatedNotificationIterator);
 		
 		_portTerminatedNotificationIterator = iterator;

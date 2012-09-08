@@ -190,6 +190,7 @@ static __strong NSMutableArray *allSerialPorts;
 	[[self class] removeSerialPort:self];
 	
 	if (_pinPollTimer) {
+		
 		dispatch_source_cancel(_pinPollTimer);
 		dispatch_release(_pinPollTimer);
 	}
@@ -476,7 +477,7 @@ static __strong NSMutableArray *allSerialPorts;
 	matchingDict = IOServiceMatching(kIOSerialBSDServiceValue);
 	CFRetain(matchingDict); // Need to use it twice
 	
-	CFDictionaryAddValue(matchingDict, CFSTR(kIOSerialBSDTypeKey), CFSTR(kIOSerialBSDRS232Type));
+	CFDictionaryAddValue(matchingDict, CFSTR(kIOSerialBSDTypeKey), CFSTR(kIOSerialBSDAllTypes));
 	
 	io_iterator_t portIterator = 0;
 	kern_return_t err = IOServiceGetMatchingServices(kIOMasterPortDefault, matchingDict, &portIterator);
@@ -718,7 +719,8 @@ static __strong NSMutableArray *allSerialPorts;
 @synthesize pinPollTimer = _pinPollTimer;
 - (void)setPinPollTimer:(dispatch_source_t)timer
 {
-	if (timer != _pinPollTimer) {
+	if (timer != _pinPollTimer)
+	{
 		if (_pinPollTimer) dispatch_release(_pinPollTimer);
 		
 		dispatch_retain(timer);
