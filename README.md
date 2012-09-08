@@ -31,7 +31,7 @@ You can get an `ORSSerialPort` instance either of two ways. The easiest is to us
 
     ORSSerialPort *port = [ORSSerialPort serialPortWithPath:@"/dev/cu.KeySerial1"];
 
-Note that you must give `+serialPortWithPath:` the full callout ("cu.*") path to the device, as shown in the example above.
+Note that you must give `+serialPortWithPath:` the full path to the device, as shown in the example above.
 
 Each instance of `ORSSerialPort` represents a serial port device. That is, there is a 1:1 correspondence between port devices on the system and instances of `ORSSerialPort`. That means that repeated requests for a port object for a given device or device path will return the same instance of `ORSSerialPort`.
 
