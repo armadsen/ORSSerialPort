@@ -57,7 +57,8 @@ static __strong NSMutableArray *allSerialPorts;
 - (void)setPortOptions;
 + (io_object_t)deviceFromBSDPath:(NSString *)bsdPath;
 + (NSString *)stringPropertyOf:(io_object_t)aDevice forIOSerialKey:(NSString *)key;
-+ (NSString *)bsdPathFromDevice:(io_object_t)aDevice;
++ (NSString *)bsdCalloutPathFromDevice:(io_object_t)aDevice;
++ (NSString *)bsdDialinPathFromDevice:(io_object_t)aDevice;
 + (NSString *)baseNameFromDevice:(io_object_t)aDevice;
 + (NSString *)serviceTypeFromDevice:(io_object_t)aDevice;
 + (NSString *)modemNameFromDevice:(io_object_t)aDevice;
@@ -147,7 +148,7 @@ static __strong NSMutableArray *allSerialPorts;
 {
 	NSAssert(device != 0, @"%s requires non-zero device argument.", __PRETTY_FUNCTION__);
 	
-	NSString *bsdPath = [[self class] bsdPathFromDevice:device];
+	NSString *bsdPath = [[self class] bsdCalloutPathFromDevice:device];
 	ORSSerialPort *existingPort = [[self class] existingPortWithPath:bsdPath];
 	
 	if (existingPort != nil)
@@ -199,7 +200,7 @@ static __strong NSMutableArray *allSerialPorts;
 - (NSString *)description
 {
 	return self.name;
-	//	return [NSString stringWithFormat:@"BSD Path:%@, base name:%@, modem name:%@, suffix:%@, service type:%@", [self bsdPathFromDevice:self.device], [self baseNameFromDevice:self.device], [self modemNameFromDevice:self.device], [self suffixFromDevice:self.device], [self serviceTypeFromDevice:self.device]];
+	//	return [NSString stringWithFormat:@"BSD Path:%@, base name:%@, modem name:%@, suffix:%@, service type:%@", [self bsdCalloutPathFromDevice:self.device], [self baseNameFromDevice:self.device], [self modemNameFromDevice:self.device], [self suffixFromDevice:self.device], [self serviceTypeFromDevice:self.device]];
 }
 
 - (NSUInteger)hash
@@ -488,8 +489,10 @@ static __strong NSMutableArray *allSerialPorts;
 	io_object_t result = 0;
 	while ((eachPort = IOIteratorNext(portIterator))) 
 	{
-		NSString *portPath = [self bsdPathFromDevice:eachPort];
-		if ([bsdPath isEqualToString:portPath]) 
+		NSString *calloutPath = [self bsdCalloutPathFromDevice:eachPort];
+		NSString *dialinPath = [self bsdDialinPathFromDevice:eachPort];
+		if ([bsdPath isEqualToString:calloutPath] ||
+			[bsdPath isEqualToString:dialinPath])
 		{
 			result = eachPort;
 			break;
@@ -510,9 +513,14 @@ static __strong NSMutableArray *allSerialPorts;
 	return (__bridge_transfer NSString *)string;	
 }
 
-+ (NSString *)bsdPathFromDevice:(io_object_t)aDevice;
++ (NSString *)bsdCalloutPathFromDevice:(io_object_t)aDevice;
 {
 	return [self stringPropertyOf:aDevice forIOSerialKey:(NSString*)CFSTR(kIOCalloutDeviceKey)];
+}
+
++ (NSString *)bsdDialinPathFromDevice:(io_object_t)aDevice;
+{
+	return [self stringPropertyOf:aDevice forIOSerialKey:(NSString*)CFSTR(kIODialinDeviceKey)];
 }
 
 + (NSString *)baseNameFromDevice:(io_object_t)aDevice;
@@ -562,7 +570,7 @@ static __strong NSMutableArray *allSerialPorts;
 	return keyPaths;
 }
 
-@synthesize delegate;
+@synthesize delegate = _delegate;
 
 #pragma mark Port Properties
 
