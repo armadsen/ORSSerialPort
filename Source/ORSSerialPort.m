@@ -28,6 +28,14 @@
 	#error ORSSerialPort.m must be compiled with ARC. Either turn on ARC for the project or set the -fobjc-arc flag for ORSSerialPort.m in the Build Phases for this target
 #endif
 
+#if OS_OBJECT_HAVE_OBJC_SUPPORT && __has_feature(objc_arc)
+	#define ORS_GCD_RELEASE(x)
+	#define ORS_GCD_RETAIN(x)
+#else
+	#define ORS_GCD_RELEASE(x) dispatch_release(x)
+	#define ORS_GCD_RETAIN(x) dispatch_retain(x)
+#endif
+
 #import "ORSSerialPort.h"
 #import <IOKit/serial/IOSerialKeys.h>
 #import <IOKit/serial/ioss.h>
@@ -76,7 +84,11 @@ static __strong NSMutableArray *allSerialPorts;
 @property (nonatomic, readwrite) BOOL DSR;
 @property (nonatomic, readwrite) BOOL DCD;
 
+#if OS_OBJECT_HAVE_OBJC_SUPPORT
+@property (nonatomic, strong) dispatch_source_t pinPollTimer;
+#else
 @property (nonatomic) dispatch_source_t pinPollTimer;
+#endif
 
 @end
 
@@ -193,7 +205,7 @@ static __strong NSMutableArray *allSerialPorts;
 	if (_pinPollTimer) {
 		
 		dispatch_source_cancel(_pinPollTimer);
-		dispatch_release(_pinPollTimer);
+		ORS_GCD_RELEASE(_pinPollTimer);
 	}
 }
 
@@ -338,7 +350,7 @@ static __strong NSMutableArray *allSerialPorts;
 	});
 	self.pinPollTimer = timer;
 	dispatch_resume(self.pinPollTimer);
-	dispatch_release(timer);
+	ORS_GCD_RELEASE(timer);
 }
 
 - (BOOL)close;
@@ -729,9 +741,9 @@ static __strong NSMutableArray *allSerialPorts;
 {
 	if (timer != _pinPollTimer)
 	{
-		if (_pinPollTimer) dispatch_release(_pinPollTimer);
+		if (_pinPollTimer) { ORS_GCD_RELEASE(_pinPollTimer); }
 		
-		dispatch_retain(timer);
+		ORS_GCD_RETAIN(timer);
 		_pinPollTimer = timer;
 	}
 }
