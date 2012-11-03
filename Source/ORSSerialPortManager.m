@@ -4,7 +4,7 @@
 //
 //  Created by Andrew R. Madsen on 08/7/11.
 //	Copyright (c) 2011-2012 Andrew R. Madsen (andrew@openreelsoftware.com)
-//	
+//
 //	Permission is hereby granted, free of charge, to any person obtaining a
 //	copy of this software and associated documentation files (the
 //	"Software"), to deal in the Software without restriction, including
@@ -12,10 +12,10 @@
 //	distribute, sublicense, and/or sell copies of the Software, and to
 //	permit persons to whom the Software is furnished to do so, subject to
 //	the following conditions:
-//	
+//
 //	The above copyright notice and this permission notice shall be included
 //	in all copies or substantial portions of the Software.
-//	
+//
 //	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 //	OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 //	MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
@@ -25,7 +25,7 @@
 //	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #if !__has_feature(objc_arc)
-	#error ORSSerialPortManager.m must be compiled with ARC. Either turn on ARC for the project or set the -fobjc-arc flag for ORSSerialPortManager.m in the Build Phases for this target
+	#error ORSSerialPortManager.m must be compiled with ARC. Either turn on ARC for the project or set the -fobjc-arc flag for ORSSerialPortManager.m in the Build Phases for this target.
 #endif
 
 #import "ORSSerialPortManager.h"
@@ -35,9 +35,9 @@
 #import <IOKit/serial/IOSerialKeys.h>
 
 #ifdef LOG_SERIAL_PORT_ERRORS
-#define LOG_SERIAL_PORT_ERROR(fmt, ...) NSLog(fmt, ##__VA_ARGS__)
+	#define LOG_SERIAL_PORT_ERROR(fmt, ...) NSLog(fmt, ##__VA_ARGS__)
 #else
-#define LOG_SERIAL_PORT_ERROR(fmt, ...)
+	#define LOG_SERIAL_PORT_ERROR(fmt, ...)
 #endif
 
 void ORSSerialPortManagerPortsPublishedNotificationCallback(void *refCon, io_iterator_t iterator);
@@ -45,7 +45,7 @@ void ORSSerialPortManagerPortsTerminatedNotificationCallback(void *refCon, io_it
 
 @interface ORSSerialPortManager ()
 
-- (void)availableSerialPortsChanged:(io_iterator_t)iterator;
+- (void)serialPortsWerePublished:(io_iterator_t)iterator;
 - (void)serialPortsWereTerminated:(io_iterator_t)iterator;
 - (void)getAvailablePortsAndRegisterForChangeNotifications;
 
@@ -60,6 +60,9 @@ void ORSSerialPortManagerPortsTerminatedNotificationCallback(void *refCon, io_it
 static ORSSerialPortManager *sharedInstance = nil;
 
 @implementation ORSSerialPortManager
+{
+	NSMutableArray *_availablePorts;
+}
 
 #pragma mark - Singleton Methods
 
@@ -68,7 +71,7 @@ static ORSSerialPortManager *sharedInstance = nil;
 	if (self == sharedInstance) return sharedInstance; // Already initialized
 	
 	self = [super init];
-	if (self != nil) 
+	if (self != nil)
 	{
 		[self getAvailablePortsAndRegisterForChangeNotifications];
 		
@@ -77,7 +80,7 @@ static ORSSerialPortManager *sharedInstance = nil;
 		// register for notifications
 		NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 		[nc addObserverForName:NSApplicationWillTerminateNotification
-						object:nil 
+						object:nil
 						 queue:nil
 					usingBlock:^(NSNotification *notification){
 						// For some unknown reason, this notification fires twice,
@@ -93,7 +96,7 @@ static ORSSerialPortManager *sharedInstance = nil;
 }
 
 + (ORSSerialPortManager *)sharedSerialPortManager;
-{	
+{
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
 		if (sharedInstance == nil) sharedInstance = [(ORSSerialPortManager *)[super allocWithZone:NULL] init];
@@ -113,7 +116,7 @@ static ORSSerialPortManager *sharedInstance = nil;
 }
 
 - (void)dealloc
-{	
+{
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 	[nc removeObserver:self];
 	
@@ -133,7 +136,7 @@ static ORSSerialPortManager *sharedInstance = nil;
 - (void)systemWillSleep:(NSNotification *)notification;
 {
 	NSArray *ports = self.availablePorts;
-	for (ORSSerialPort *port in ports) 
+	for (ORSSerialPort *port in ports)
 	{
 		if (port.isOpen)
 		{
@@ -145,7 +148,7 @@ static ORSSerialPortManager *sharedInstance = nil;
 - (void)systemDidWake:(NSNotification *)notification;
 {
 	NSArray *portsToReopen = [self.portsToReopenAfterSleep copy];
-	for (ORSSerialPort *port in portsToReopen) 
+	for (ORSSerialPort *port in portsToReopen)
 	{
 		[port open];
 		[self.portsToReopenAfterSleep removeObject:port];
@@ -154,42 +157,40 @@ static ORSSerialPortManager *sharedInstance = nil;
 
 #pragma mark - Private Methods
 
-- (void)availableSerialPortsChanged:(io_iterator_t)iterator;
+- (void)serialPortsWerePublished:(io_iterator_t)iterator;
 {
-	NSMutableArray *scratch = [self.availablePorts mutableCopy];
+	NSMutableArray *newlyConnectedPorts = [[NSMutableArray alloc] init];
 	io_object_t device;
-	while ((device = IOIteratorNext(iterator))) 
+	while ((device = IOIteratorNext(iterator)))
 	{
 		ORSSerialPort *port = [[ORSSerialPort alloc] initWithDevice:device];
-		if (![scratch containsObject:port]) [scratch addObject:port];
+		if (![self.availablePorts containsObject:port]) [newlyConnectedPorts addObject:port];
 		IOObjectRelease(device);
 	}
-	self.availablePorts = scratch;
+	
+	[[self mutableArrayValueForKey:@"availablePorts"] addObjectsFromArray:newlyConnectedPorts];
 }
 
 - (void)serialPortsWereTerminated:(io_iterator_t)iterator;
 {
-	NSMutableArray *scratch = [self.availablePorts mutableCopy];
+	NSMutableArray *newlyDisconnectedPorts = [[NSMutableArray alloc] init];
 	io_object_t device;
-	while ((device = IOIteratorNext(iterator))) 
+	while ((device = IOIteratorNext(iterator)))
 	{
 		ORSSerialPort *port = [[ORSSerialPort alloc] initWithDevice:device];
-		if ([scratch containsObject:port]) 
-		{
-			ORSSerialPort *currentPort = scratch[[scratch indexOfObject:port]];
-			[currentPort cleanup];
-			[scratch removeObject:currentPort];
-		}
+		[newlyDisconnectedPorts addObject:port];
 		IOObjectRelease(device);
 	}
-	self.availablePorts = scratch;
+	
+	[newlyDisconnectedPorts makeObjectsPerformSelector:@selector(cleanup)];
+	[[self mutableArrayValueForKey:@"availablePorts"] removeObjectsInArray:newlyDisconnectedPorts];
 }
 
 - (void)getAvailablePortsAndRegisterForChangeNotifications;
 {
 	IONotificationPortRef notificationPort = IONotificationPortCreate(kIOMasterPortDefault);
-	CFRunLoopAddSource(CFRunLoopGetCurrent(), 
-					   IONotificationPortGetRunLoopSource(notificationPort), 
+	CFRunLoopAddSource(CFRunLoopGetCurrent(),
+					   IONotificationPortGetRunLoopSource(notificationPort),
 					   kCFRunLoopDefaultMode);
 	
 	CFMutableDictionaryRef matchingDict = NULL;
@@ -206,7 +207,7 @@ static ORSSerialPortManager *sharedInstance = nil;
 															ORSSerialPortManagerPortsPublishedNotificationCallback,
 															(__bridge void *)(self),			// refCon/contextInfo
 															&portIterator);
-	if (result) 
+	if (result)
 	{
 		LOG_SERIAL_PORT_ERROR(@"Error getting serialPort list:%i", result);
 		if (portIterator) IOObjectRelease(portIterator);
@@ -222,11 +223,11 @@ static ORSSerialPortManager *sharedInstance = nil;
 	while ((eachPort = IOIteratorNext(self.portPublishedNotificationIterator)))
 	{
 		ORSSerialPort *port = [ORSSerialPort serialPortWithDevice:eachPort];
-		if ([port.name rangeOfString:@"bluetooth" options:NSCaseInsensitiveSearch].location == NSNotFound) 
+		if ([port.name rangeOfString:@"bluetooth" options:NSCaseInsensitiveSearch].location == NSNotFound)
 		{
 			[ports addObject:port];
-		}		
-		IOObjectRelease(eachPort); 
+		}
+		IOObjectRelease(eachPort);
 	}
 	
 	self.availablePorts = ports;
@@ -241,8 +242,8 @@ static ORSSerialPortManager *sharedInstance = nil;
 											  matchingDict,
 											  ORSSerialPortManagerPortsTerminatedNotificationCallback,
 											  (__bridge void *)(self),			// refCon/contextInfo
-											  &portIterator);	
-	if (result) 
+											  &portIterator);
+	if (result)
 	{
 		LOG_SERIAL_PORT_ERROR(@"Error registering for serial port termination notification:%i.", result);
 		if (portIterator) IOObjectRelease(portIterator);
@@ -258,6 +259,22 @@ static ORSSerialPortManager *sharedInstance = nil;
 #pragma mark - Properties
 
 @synthesize availablePorts = _availablePorts;
+
+- (void)setAvailablePorts:(NSArray *)ports
+{
+	if (ports != _availablePorts)
+	{
+		_availablePorts = [ports mutableCopy];
+	}
+}
+
+- (NSUInteger)countOfAvailablePorts { return [_availablePorts count]; }
+- (id)objectInAvailablePortsAtIndex:(NSUInteger)index { return [_availablePorts objectAtIndex:index]; }
+- (void)insertAvailablePorts:(NSArray *)array atIndexes:(NSIndexSet *)indexes { [_availablePorts insertObjects:array atIndexes:indexes]; }
+- (void)insertObject:(ORSSerialPort *)object inAvailablePortsAtIndex:(NSUInteger)index { [_availablePorts insertObject:object atIndex:index]; }
+- (void)removeAvailablePortsAtIndexes:(NSIndexSet *)indexes { [_availablePorts removeObjectsAtIndexes:indexes]; }
+- (void)removeObjectFromAvailablePortsAtIndex:(NSUInteger)index { [_availablePorts removeObjectAtIndex:index]; }
+
 @synthesize portsToReopenAfterSleep = _portsToReopenAfterSleep;
 
 @synthesize portPublishedNotificationIterator = _portPublishedNotificationIterator;
@@ -284,23 +301,26 @@ static ORSSerialPortManager *sharedInstance = nil;
 	}
 }
 
-
 @end
 
 void ORSSerialPortManagerPortsPublishedNotificationCallback(void *refCon, io_iterator_t iterator)
 {
 	ORSSerialPortManager *manager = (__bridge ORSSerialPortManager *)refCon;
-	if ([manager respondsToSelector:@selector(availableSerialPortsChanged:)])
+	if (![manager isKindOfClass:[ORSSerialPortManager class]])
 	{
-		[manager availableSerialPortsChanged:iterator];
+		NSLog(@"Unexpected context object %@ in %s. Context object should be an instance of ORSSerialPortManager", manager, __PRETTY_FUNCTION__);
+		return;
 	}
+	[manager serialPortsWerePublished:iterator];
 }
 
 void ORSSerialPortManagerPortsTerminatedNotificationCallback(void *refCon, io_iterator_t iterator)
 {
 	ORSSerialPortManager *manager = (__bridge ORSSerialPortManager *)refCon;
-	if ([manager respondsToSelector:@selector(serialPortsWereTerminated:)])
+	if (![manager isKindOfClass:[ORSSerialPortManager class]])
 	{
-		[manager serialPortsWereTerminated:iterator];
+		NSLog(@"Unexpected context object %@ in %s. Context object should be an instance of ORSSerialPortManager", manager, __PRETTY_FUNCTION__);
+		return;
 	}
+	[manager serialPortsWereTerminated:iterator];
 }
