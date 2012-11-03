@@ -25,7 +25,7 @@
 //	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #if !__has_feature(objc_arc)
-	#error ORSSerialPortManager.m must be compiled with ARC. Either turn on ARC for the project or set the -fobjc-arc flag for ORSSerialPortManager.m in the Build Phases for this target.
+	#error ORSSerialPortManager.m must be compiled with ARC. Either turn on ARC for the project or set the -fobjc-arc flag for ORSSerialPortManager.m in the Build Phases for this target
 #endif
 
 #import "ORSSerialPortManager.h"
@@ -39,6 +39,12 @@
 #else
 	#define LOG_SERIAL_PORT_ERROR(fmt, ...)
 #endif
+
+NSString * const ORSSerialPortsWereConnectedNotification = @"ORSSerialPortWasConnectedNotification";
+NSString * const ORSSerialPortsWereDisconnectedNotification = @"ORSSerialPortWasDisconnectedNotification";
+
+NSString * const ORSConnectedSerialPortsKey = @"ORSConnectedSerialPortsKey";
+NSString * const ORSDisconnectedSerialPortsKey = @"ORSDisconnectedSerialPortsKey";
 
 void ORSSerialPortManagerPortsPublishedNotificationCallback(void *refCon, io_iterator_t iterator);
 void ORSSerialPortManagerPortsTerminatedNotificationCallback(void *refCon, io_iterator_t iterator);
@@ -169,6 +175,10 @@ static ORSSerialPortManager *sharedInstance = nil;
 	}
 	
 	[[self mutableArrayValueForKey:@"availablePorts"] addObjectsFromArray:newlyConnectedPorts];
+	
+	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+	NSDictionary *userInfo = @{ORSConnectedSerialPortsKey : newlyConnectedPorts};
+	[nc postNotificationName:ORSSerialPortsWereConnectedNotification object:self userInfo:userInfo];
 }
 
 - (void)serialPortsWereTerminated:(io_iterator_t)iterator;
@@ -184,6 +194,10 @@ static ORSSerialPortManager *sharedInstance = nil;
 	
 	[newlyDisconnectedPorts makeObjectsPerformSelector:@selector(cleanup)];
 	[[self mutableArrayValueForKey:@"availablePorts"] removeObjectsInArray:newlyDisconnectedPorts];
+	
+	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+	NSDictionary *userInfo = @{ORSDisconnectedSerialPortsKey : newlyDisconnectedPorts};
+	[nc postNotificationName:ORSSerialPortsWereDisconnectedNotification object:self userInfo:userInfo];
 }
 
 - (void)getAvailablePortsAndRegisterForChangeNotifications;

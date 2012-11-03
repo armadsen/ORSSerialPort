@@ -25,6 +25,15 @@
 //	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
+// Posted when a serial port is connected to the system
+extern NSString * const ORSSerialPortsWereConnectedNotification;
+// Posted when a serial port is disconnected from the system
+extern NSString * const ORSSerialPortsWereDisconnectedNotification;
+
+// Key for connected port in ORSSerialPortWasConnectedNotification userInfo dictionary
+extern NSString * const ORSConnectedSerialPortsKey;
+// Key for disconnected port in ORSSerialPortWasDisconnectedNotification userInfo dictionary
+extern NSString * const ORSDisconnectedSerialPortsKey;
 
 @interface ORSSerialPortManager : NSObject
 
