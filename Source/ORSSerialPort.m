@@ -212,7 +212,8 @@ static __strong NSMutableArray *allSerialPorts;
 - (NSString *)description
 {
 	return self.name;
-	//	return [NSString stringWithFormat:@"BSD Path:%@, base name:%@, modem name:%@, suffix:%@, service type:%@", [self bsdCalloutPathFromDevice:self.device], [self baseNameFromDevice:self.device], [self modemNameFromDevice:self.device], [self suffixFromDevice:self.device], [self serviceTypeFromDevice:self.device]];
+//	io_object_t device = [[self class] deviceFromBSDPath:self.path];
+//	return [NSString stringWithFormat:@"BSD Path:%@, base name:%@, modem name:%@, suffix:%@, service type:%@", [[self class] bsdCalloutPathFromDevice:device], [[self class] baseNameFromDevice:device], [[self class] modemNameFromDevice:device], [[self class] suffixFromDevice:device], [[self class] serviceTypeFromDevice:device]];
 }
 
 - (NSUInteger)hash
@@ -542,12 +543,12 @@ static __strong NSMutableArray *allSerialPorts;
 
 + (NSString *)serviceTypeFromDevice:(io_object_t)aDevice;
 {
-	return [self stringPropertyOf:aDevice forIOSerialKey:(NSString*)CFSTR(kIOTTYDeviceKey)];
+	return [self stringPropertyOf:aDevice forIOSerialKey:(NSString*)CFSTR(kIOSerialBSDTypeKey)];
 }
 
 + (NSString *)modemNameFromDevice:(io_object_t)aDevice;
 {
-	return [self stringPropertyOf:aDevice forIOSerialKey:(NSString*)CFSTR(kIOSerialBSDTypeKey)];
+	return [self stringPropertyOf:aDevice forIOSerialKey:(NSString*)CFSTR(kIOTTYDeviceKey)];
 }
 
 + (NSString *)suffixFromDevice:(io_object_t)aDevice;
