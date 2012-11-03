@@ -465,7 +465,7 @@ static __strong NSMutableArray *allSerialPorts;
 			break;
 	}	
 	
-	options.c_lflag = [self numberOfStopBits] > 1 ? options.c_lflag | CSTOPB : options.c_lflag & ~CSTOPB; // number of stop bits
+	options.c_lflag = [self numberOfStopBits] > 1 ? options.c_cflag | CSTOPB : options.c_cflag & ~CSTOPB; // number of stop bits
 	options.c_lflag = [self shouldEchoReceivedData] ? options.c_lflag | ECHO : options.c_lflag & ~ECHO; // echo 
 	options.c_cflag = [self usesRTSCTSFlowControl] ? options.c_cflag | CRTSCTS : options.c_cflag & ~CRTSCTS; // RTS/CTS Flow Control
 	options.c_cflag = [self usesDTRDSRFlowControl] ? options.c_cflag | (CDTR_IFLOW | CDSR_OFLOW) : options.c_cflag & ~(CDTR_IFLOW | CDSR_OFLOW); // DTR/DSR Flow Control
@@ -479,7 +479,9 @@ static __strong NSMutableArray *allSerialPorts;
 	// Set baud rate
 	cfsetspeed(&options, [[self baudRate] unsignedLongValue]);
 	
-	tcsetattr(self.fileDescriptor, TCSANOW, &options);
+	// TODO: Call delegate error handling method if this fails
+	int result = tcsetattr(self.fileDescriptor, TCSANOW, &options);
+	if (result != 0) NSLog(@"Unable to set options on %@: %i", self, result);
 }
 
 + (io_object_t)deviceFromBSDPath:(NSString *)bsdPath;
