@@ -174,7 +174,7 @@ static __strong NSMutableArray *allSerialPorts;
 	if (self != nil)
 	{
 		self.path = bsdPath;
-		self.name = [[self class] baseNameFromDevice:device];
+		self.name = [[self class] modemNameFromDevice:device];
 		self.writeBuffer = [NSMutableData data];
 		self.baudRate = @B19200;
 		self.numberOfStopBits = 1;
