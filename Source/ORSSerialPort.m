@@ -74,6 +74,8 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (void)notifyDelegateOfPosixError;
 
+@property (nonatomic, readwrite) io_object_t device;
+
 @property (copy, readwrite) NSString *path;
 @property (copy, readwrite) NSString *name;
 
@@ -173,6 +175,7 @@ static __strong NSMutableArray *allSerialPorts;
 	
 	if (self != nil)
 	{
+        self.device = device;
 		self.path = bsdPath;
 		self.name = [[self class] modemNameFromDevice:device];
 		self.writeBuffer = [NSMutableData data];
@@ -586,6 +589,7 @@ static __strong NSMutableArray *allSerialPorts;
 }
 
 @synthesize delegate = _delegate;
+@synthesize device = _device;
 
 #pragma mark Port Properties
 
