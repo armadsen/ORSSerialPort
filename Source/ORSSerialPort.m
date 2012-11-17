@@ -175,6 +175,7 @@ static __strong NSMutableArray *allSerialPorts;
 	
 	if (self != nil)
 	{
+        IOObjectRetain(device);
         self.device = device;
 		self.path = bsdPath;
 		self.name = [[self class] modemNameFromDevice:device];
@@ -204,7 +205,8 @@ static __strong NSMutableArray *allSerialPorts;
 - (void)dealloc
 {
 	[[self class] removeSerialPort:self];
-	
+	IOObjectRelease(_device);
+
 	if (_pinPollTimer) {
 		
 		dispatch_source_cancel(_pinPollTimer);
