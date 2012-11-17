@@ -401,6 +401,7 @@ static __strong NSMutableArray *allSerialPorts;
 	{
 		[self.delegate serialPortWasRemovedFromSystem:self];
 	}
+    [ORSSerialPort removeSerialPort:self];
 }
 
 - (BOOL)sendData:(NSData *)data;
