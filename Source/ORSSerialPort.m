@@ -168,6 +168,8 @@ static __strong NSMutableArray *allSerialPorts;
 	if (existingPort != nil)
 	{
 		self = nil;
+        // the raw device object changes even when its paths do not
+        if (device != existingPort.device) existingPort.device = device;
 		return existingPort;
 	}
 	
@@ -401,7 +403,6 @@ static __strong NSMutableArray *allSerialPorts;
 	{
 		[self.delegate serialPortWasRemovedFromSystem:self];
 	}
-    [ORSSerialPort removeSerialPort:self];
 }
 
 - (BOOL)sendData:(NSData *)data;
