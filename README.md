@@ -96,13 +96,23 @@ To get a list of available ports:
 
 `ORSSerialPortManager` is Key-Value Observing (KVO) compliant for its `availablePorts` property. This means that you can observe `availablePorts` to be notified when ports are added to or removed from the system. This also means that you can easily bind UI elements to the serial port manager's `availablePorts` property using Cocoa-bindings. This makes it easy to create a popup menu that displays available serial ports and updates automatically, for example.
 
-`ORSSerialPortManager`'s close-on-sleep, reopen-on-wake functionality is automatic. The only thing necessary to enable it is to make sure that the singleton instance of `ORSSerialPortManager` has been created by calling `+sharedSerialPortManager` at least once.
+`ORSSerialPortManager`'s close-on-sleep, reopen-on-wake functionality is automatic. The only thing necessary to enable it is to make sure that the singleton instance of `ORSSerialPortManager` has been created by calling `+sharedSerialPortManager` at least once. Note that this behavior is only available in Cocoa apps, and is disabled when ORSSerialPort is used in a command-line only app.
 
-Example Project
+Example Projects
 ===============
 
-Included with ORSSerialPort is a demo application called ORSSerialPortDemo. This is a very simple serial terminal program. It demonstrates how to use ORSSerialPort, and may also be useful for simple testing of serial hardware.
+Included with ORSSerialPort is a folder called Examples, containing Xcode projects for small programs demonstrating the use of ORSSerialPort. Currently, it contains two examples to demonstrate using ORSSerialPort in both Cocoa apps, as well as in command line apps.
 
-ORSSerialPortDemo includes a dropdown menu containing all available ports on the system, controls to set baud rate, parity, number of stop bits, and flow control settings. Also included are two text fields. One is for typing characters to be sent to the serial port, the other for displaying received characters. Finally, it includes checkboxes corresponding to the RTS, DTR, CTS, DSR, and DCD pins. For the output pins (RTS, DTR), their state can be toggled using their checkbox. The input pins (CTS, DSR, DCD) are read only. 
+ORSSerialPortCocoaDemo
+----------------------
 
-The demo application demonstrates that it is possible to setup and use a serial port with ORSSerialPort without writing a lot of "glue" code. Nearly all of the UI is implemented using Cocoa bindings. With the exception of two lines in ORSAppDelegate.m, the source code for entire application is contained in ORSSerialPortDemoController.h/m.
+The first, and primary example is called ORSSerialPortCocoaDemo, and is found in the Cocoa subfolder of Examples. This is a very simple serial terminal program with a graphical user interface (GUI). It demonstrates how to use ORSSerialPort, and may also be useful for simple testing of serial hardware.
+
+ORSSerialPortCocoaDemo includes a dropdown menu containing all available ports on the system, controls to set baud rate, parity, number of stop bits, and flow control settings. Also included are two text fields. One is for typing characters to be sent to the serial port, the other for displaying received characters. Finally, it includes checkboxes corresponding to the RTS, DTR, CTS, DSR, and DCD pins. For the output pins (RTS, DTR), their state can be toggled using their checkbox. The input pins (CTS, DSR, DCD) are read only. 
+
+This application demonstrates that it is possible to setup and use a serial port with ORSSerialPort without writing a lot of "glue" code. Nearly all of the UI is implemented using Cocoa bindings. With the exception of two lines in ORSAppDelegate.m, the source code for entire application is contained in ORSSerialPortDemoController.h/m.
+
+ORSSerialPortCommandLineDemo
+----------------------------
+
+The CommandLine subfolder of Examples contains ORSSerialPortCommandLineDemo. This is a simple, Foundation-based command line app demonstrating the use of ORSSerialPort in applications without a GUI. ORSSerialPortCommandLineDemo is a very simple serial terminal. It lists the available ports, allows the user to select one, and enter a baud rate. After that, typed input is sent out on the serial port, and data received from the port is printed to the console. It was written very quickly and is intended simply as demonstration that such an app is possible rather than as a starting point for production code.
