@@ -1,6 +1,6 @@
 //
 //  ORSSerialPort.m
-//  Aether
+//  ORSSerialPort
 //
 //  Created by Andrew R. Madsen on 08/6/11.
 //	Copyright (c) 2011-2012 Andrew R. Madsen (andrew@openreelsoftware.com)
