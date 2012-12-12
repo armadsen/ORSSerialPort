@@ -21,15 +21,15 @@
 
 /* Begin PBXFileReference section */
 		9D6623B3159BD610004C9E42 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
-		9D66D80E159BCAB800EE6D09 /* ORSSerialPortDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ORSSerialPortDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D66D80E159BCAB800EE6D09 /* ORSSerialPortCocoaDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ORSSerialPortCocoaDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D66D812159BCAB800EE6D09 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		9D66D815159BCAB800EE6D09 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		9D66D816159BCAB800EE6D09 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		9D66D817159BCAB800EE6D09 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		9D66D81A159BCAB800EE6D09 /* ORSSerialPortDemo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ORSSerialPortDemo-Info.plist"; sourceTree = "<group>"; };
+		9D66D81A159BCAB800EE6D09 /* ORSSerialPortCocoaDemo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ORSSerialPortCocoaDemo-Info.plist"; sourceTree = "<group>"; };
 		9D66D81C159BCAB800EE6D09 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9D66D81E159BCAB800EE6D09 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		9D66D820159BCAB900EE6D09 /* ORSSerialPortDemo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ORSSerialPortDemo-Prefix.pch"; sourceTree = "<group>"; };
+		9D66D820159BCAB900EE6D09 /* ORSSerialPortCocoaDemo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ORSSerialPortCocoaDemo-Prefix.pch"; sourceTree = "<group>"; };
 		9D66D822159BCAB900EE6D09 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		9D66D824159BCAB900EE6D09 /* ORSAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORSAppDelegate.h; sourceTree = "<group>"; };
 		9D66D825159BCAB900EE6D09 /* ORSAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORSAppDelegate.m; sourceTree = "<group>"; };
@@ -59,7 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				9D66D827159BCAB900EE6D09 /* MainMenu.xib */,
-				9D66D81A159BCAB800EE6D09 /* ORSSerialPortDemo-Info.plist */,
+				9D66D81A159BCAB800EE6D09 /* ORSSerialPortCocoaDemo-Info.plist */,
 				9D66D81B159BCAB800EE6D09 /* InfoPlist.strings */,
 				9D66D821159BCAB900EE6D09 /* Credits.rtf */,
 			);
@@ -81,7 +81,7 @@
 		9D66D80F159BCAB800EE6D09 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9D66D80E159BCAB800EE6D09 /* ORSSerialPortDemo.app */,
+				9D66D80E159BCAB800EE6D09 /* ORSSerialPortCocoaDemo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -121,7 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				9D66D81E159BCAB800EE6D09 /* main.m */,
-				9D66D820159BCAB900EE6D09 /* ORSSerialPortDemo-Prefix.pch */,
+				9D66D820159BCAB900EE6D09 /* ORSSerialPortCocoaDemo-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			path = Sources;
@@ -142,9 +142,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		9D66D80D159BCAB800EE6D09 /* ORSSerialPortDemo */ = {
+		9D66D80D159BCAB800EE6D09 /* ORSSerialPortCocoaDemo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9D66D82C159BCAB900EE6D09 /* Build configuration list for PBXNativeTarget "ORSSerialPortDemo" */;
+			buildConfigurationList = 9D66D82C159BCAB900EE6D09 /* Build configuration list for PBXNativeTarget "ORSSerialPortCocoaDemo" */;
 			buildPhases = (
 				9D66D80A159BCAB800EE6D09 /* Sources */,
 				9D66D80B159BCAB800EE6D09 /* Frameworks */,
@@ -154,9 +154,9 @@
 			);
 			dependencies = (
 			);
-			name = ORSSerialPortDemo;
+			name = ORSSerialPortCocoaDemo;
 			productName = ORSSerialPortDemo;
-			productReference = 9D66D80E159BCAB800EE6D09 /* ORSSerialPortDemo.app */;
+			productReference = 9D66D80E159BCAB800EE6D09 /* ORSSerialPortCocoaDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -169,7 +169,7 @@
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "Open Reel Software";
 			};
-			buildConfigurationList = 9D66D808159BCAB800EE6D09 /* Build configuration list for PBXProject "ORSSerialPortDemo" */;
+			buildConfigurationList = 9D66D808159BCAB800EE6D09 /* Build configuration list for PBXProject "ORSSerialPortCocoaDemo" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -181,7 +181,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				9D66D80D159BCAB800EE6D09 /* ORSSerialPortDemo */,
+				9D66D80D159BCAB800EE6D09 /* ORSSerialPortCocoaDemo */,
 			);
 		};
 /* End PBXProject section */
@@ -292,10 +292,10 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Sources/ORSSerialPortDemo-Prefix.pch";
-				INFOPLIST_FILE = "Resources/ORSSerialPortDemo-Info.plist";
+				GCC_PREFIX_HEADER = "Sources/ORSSerialPortCocoaDemo-Prefix.pch";
+				INFOPLIST_FILE = "Resources/ORSSerialPortCocoaDemo-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ORSSerialPortCocoaDemo;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -305,10 +305,10 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Sources/ORSSerialPortDemo-Prefix.pch";
-				INFOPLIST_FILE = "Resources/ORSSerialPortDemo-Info.plist";
+				GCC_PREFIX_HEADER = "Sources/ORSSerialPortCocoaDemo-Prefix.pch";
+				INFOPLIST_FILE = "Resources/ORSSerialPortCocoaDemo-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ORSSerialPortCocoaDemo;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -316,7 +316,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		9D66D808159BCAB800EE6D09 /* Build configuration list for PBXProject "ORSSerialPortDemo" */ = {
+		9D66D808159BCAB800EE6D09 /* Build configuration list for PBXProject "ORSSerialPortCocoaDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9D66D82A159BCAB900EE6D09 /* Debug */,
@@ -325,7 +325,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9D66D82C159BCAB900EE6D09 /* Build configuration list for PBXNativeTarget "ORSSerialPortDemo" */ = {
+		9D66D82C159BCAB900EE6D09 /* Build configuration list for PBXNativeTarget "ORSSerialPortCocoaDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9D66D82D159BCAB900EE6D09 /* Debug */,
