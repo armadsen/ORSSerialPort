@@ -29,7 +29,12 @@
 
 @class ORSSerialPortManager;
 
-@interface ORSSerialPortDemoController : NSObject <ORSSerialPortDelegate>
+#if (MAC_OS_X_VERSION_MAX_ALLOWED <= MAC_OS_X_VERSION_10_7)
+@protocol NSUserNotificationCenterDelegate <NSObject>
+@end
+#endif
+
+@interface ORSSerialPortDemoController : NSObject <ORSSerialPortDelegate, NSUserNotificationCenterDelegate>
 
 - (IBAction)send:(id)sender;
 - (IBAction)openOrClosePort:(id)sender;
