@@ -79,24 +79,10 @@ static ORSSerialPortManager *sharedInstance = nil;
 	self = [super init];
 	if (self != nil)
 	{
-		[self getAvailablePortsAndRegisterForChangeNotifications];
-		
 		self.portsToReopenAfterSleep = [NSMutableArray array];
 		
-		// register for notifications
-		NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-		[nc addObserverForName:NSApplicationWillTerminateNotification
-						object:nil
-						 queue:nil
-					usingBlock:^(NSNotification *notification){
-						// For some unknown reason, this notification fires twice,
-						// doesn't cause a problem right now, but be aware
-						for (ORSSerialPort *eachPort in self.availablePorts) [eachPort cleanup];
-						self.availablePorts = nil;
-					}];
-		
-		[nc addObserver:self selector:@selector(systemWillSleep:) name:NSWorkspaceWillSleepNotification object:NULL];
-		[nc addObserver:self selector:@selector(systemDidWake:) name:NSWorkspaceDidWakeNotification object:NULL];
+		[self getAvailablePortsAndRegisterForChangeNotifications];
+		[self registerForNotifications];
 	}
 	return self;
 }
@@ -133,14 +119,43 @@ static ORSSerialPortManager *sharedInstance = nil;
 	_portTerminatedNotificationIterator = 0;
 }
 
-#pragma mark - Public Methods
+- (void)registerForNotifications
+{
+	// register for notifications (only if AppKit is available)
+	void (^terminationBlock)(void) = ^{
+		for (ORSSerialPort *eachPort in self.availablePorts) [eachPort cleanup];
+		self.availablePorts = nil;
+	};
+	
+#ifdef NSAppKitVersionNumber10_0
+	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+	[nc addObserverForName:NSApplicationWillTerminateNotification
+					object:nil
+					 queue:nil
+				usingBlock:^(NSNotification *notification){
+					// For some unknown reason, this notification fires twice,
+					// doesn't cause a problem right now, but be aware
+					terminationBlock();
+				}];
+	
+	[nc addObserver:self selector:@selector(systemWillSleep:) name:NSWorkspaceWillSleepNotification object:NULL];
+	[nc addObserver:self selector:@selector(systemDidWake:) name:NSWorkspaceDidWakeNotification object:NULL];
+#else
+	// If AppKit isn't available, as in a Foundation command-line tool, cleanup upon exit. Sleep/wake
+	// notifications don't seem to be available without NSWorkspace.
+	int result = atexit_b(terminationBlock);
+	if (result) NSLog(@"ORSSerialPort was unable to register its termination handler for serial port cleanup: %i", errno);
+#endif
+}
 
+#pragma mark - Public Methods
 
 #pragma mark -
 #pragma Sleep/Wake Management
 
 - (void)systemWillSleep:(NSNotification *)notification;
 {
+	NSLog(@"%s", __PRETTY_FUNCTION__);
 	NSArray *ports = self.availablePorts;
 	for (ORSSerialPort *port in ports)
 	{
@@ -153,6 +168,7 @@ static ORSSerialPortManager *sharedInstance = nil;
 
 - (void)systemDidWake:(NSNotification *)notification;
 {
+	NSLog(@"%s", __PRETTY_FUNCTION__);
 	NSArray *portsToReopen = [self.portsToReopenAfterSleep copy];
 	for (ORSSerialPort *port in portsToReopen)
 	{
