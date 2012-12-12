@@ -136,7 +136,7 @@
 				9D66D837159BCC2F00EE6D09 /* ORSSerialPortManager.m */,
 			);
 			name = ORSSerialPort;
-			path = ../Source;
+			path = ../../Source;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
