@@ -35,10 +35,28 @@ extern NSString * const ORSConnectedSerialPortsKey;
 // Key for disconnected port in ORSSerialPortWasDisconnectedNotification userInfo dictionary
 extern NSString * const ORSDisconnectedSerialPortsKey;
 
+@class ORSSerialPortManager;
+@class ORSSerialPort;
+
+@protocol ORSSerialPortManagerDelegate <NSObject>
+
+@required
+- (BOOL)serialPortManager:(ORSSerialPortManager *)manager shouldAddSerialPort:(ORSSerialPort *)serialPort;
+
+@optional
+- (void)serialPortManager:(ORSSerialPortManager *)manager serialPortsWereConnected:(NSArray *)serialPorts;
+- (void)serialPortManager:(ORSSerialPortManager *)manager serialPortsWereDisconnected:(NSArray *)serialPorts;
+
+@end
+
 @interface ORSSerialPortManager : NSObject
+{
+    __unsafe_unretained id<ORSSerialPortManagerDelegate> _delegate;
+}
 
 + (ORSSerialPortManager *)sharedSerialPortManager;
 
 @property (nonatomic, copy, readonly) NSArray *availablePorts;
+@property (unsafe_unretained) id<ORSSerialPortManagerDelegate> delegate;
 
 @end

@@ -184,7 +184,8 @@ static ORSSerialPortManager *sharedInstance = nil;
 	while ((device = IOIteratorNext(iterator)))
 	{
 		ORSSerialPort *port = [[ORSSerialPort alloc] initWithDevice:device];
-		if (![self.availablePorts containsObject:port]) [newlyConnectedPorts addObject:port];
+		if (![self.availablePorts containsObject:port]
+            && [self.delegate serialPortManager:self shouldAddSerialPort:port]) [newlyConnectedPorts addObject:port];
 		IOObjectRelease(device);
 	}
 	
@@ -193,6 +194,9 @@ static ORSSerialPortManager *sharedInstance = nil;
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 	NSDictionary *userInfo = @{ORSConnectedSerialPortsKey : newlyConnectedPorts};
 	[nc postNotificationName:ORSSerialPortsWereConnectedNotification object:self userInfo:userInfo];
+    if ([self.delegate respondsToSelector:@selector(serialPortManager:serialPortsWereConnected:)]) {
+        [self.delegate serialPortManager:self serialPortsWereConnected:newlyConnectedPorts];
+    }
 }
 
 - (void)serialPortsWereTerminated:(io_iterator_t)iterator;
@@ -212,6 +216,9 @@ static ORSSerialPortManager *sharedInstance = nil;
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 	NSDictionary *userInfo = @{ORSDisconnectedSerialPortsKey : newlyDisconnectedPorts};
 	[nc postNotificationName:ORSSerialPortsWereDisconnectedNotification object:self userInfo:userInfo];
+    if ([self.delegate respondsToSelector:@selector(serialPortManager:serialPortsWereDisconnected:)]) {
+        [self.delegate serialPortManager:self serialPortsWereDisconnected:newlyDisconnectedPorts];
+    }
 }
 
 - (void)getAvailablePortsAndRegisterForChangeNotifications;
@@ -295,6 +302,28 @@ static ORSSerialPortManager *sharedInstance = nil;
 		_availablePorts = [ports mutableCopy];
 	}
 }
+
+- (id<ORSSerialPortManagerDelegate>)delegate {
+    return _delegate;
+}
+
+- (void)setDelegate:(id<ORSSerialPortManagerDelegate>)delegate
+{
+    _delegate = delegate;
+	NSMutableArray *ports = [[NSMutableArray alloc] init];
+    for (ORSSerialPort *port in self.availablePorts)
+    {
+        if ([delegate serialPortManager:self shouldAddSerialPort:port]) {
+            [ports addObject:port];
+        }
+    }
+	[[self mutableArrayValueForKey:@"availablePorts"] addObjectsFromArray:ports];
+	
+	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+	NSDictionary *userInfo = @{ORSConnectedSerialPortsKey : ports};
+	[nc postNotificationName:ORSSerialPortsWereConnectedNotification object:self userInfo:userInfo];
+}
+
 
 - (NSUInteger)countOfAvailablePorts { return [_availablePorts count]; }
 - (id)objectInAvailablePortsAtIndex:(NSUInteger)index { return [_availablePorts objectAtIndex:index]; }
