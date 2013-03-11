@@ -69,6 +69,7 @@ enum {
 // Port settings
 @property (readonly, getter = isOpen) BOOL open;
 @property (copy, readonly) NSString *path;
+@property (readonly) io_object_t IOKitDevice;
 @property (copy, readonly) NSString *name;
 @property (nonatomic, copy) NSNumber *baudRate;
 @property (nonatomic) NSUInteger numberOfStopBits;

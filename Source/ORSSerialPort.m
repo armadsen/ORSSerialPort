@@ -75,6 +75,7 @@ static __strong NSMutableArray *allSerialPorts;
 - (void)notifyDelegateOfPosixError;
 
 @property (copy, readwrite) NSString *path;
+@property (readwrite) io_object_t IOKitDevice;
 @property (copy, readwrite) NSString *name;
 
 @property (strong) NSMutableData *writeBuffer;
@@ -173,6 +174,7 @@ static __strong NSMutableArray *allSerialPorts;
 	
 	if (self != nil)
 	{
+		self.ioKitDevice = device;
 		self.path = bsdPath;
 		self.name = [[self class] modemNameFromDevice:device];
 		self.writeBuffer = [NSMutableData data];
@@ -201,6 +203,7 @@ static __strong NSMutableArray *allSerialPorts;
 - (void)dealloc
 {
 	[[self class] removeSerialPort:self];
+	self.IOKitDevice = 0;
 	
 	if (_pinPollTimer) {
 		
@@ -592,6 +595,17 @@ static __strong NSMutableArray *allSerialPorts;
 - (BOOL)isOpen { return self.fileDescriptor != 0; }
 
 @synthesize path = _path;
+
+@synthesize IOKitDevice = _IOKitDevice;
+- (void)setIoKitDevice:(io_object_t)device
+{
+	if (device != _IOKitDevice) {
+		if (_IOKitDevice) IOObjectRelease(_IOKitDevice);
+		_IOKitDevice = device;
+		if (_IOKitDevice) IOObjectRetain(_IOKitDevice);
+	}
+}
+
 @synthesize name = _name;
 
 @synthesize baudRate = _baudRate;
@@ -737,6 +751,7 @@ static __strong NSMutableArray *allSerialPorts;
 @synthesize DCD = _DCD;
 
 #pragma mark Private Properties
+
 @synthesize writeBuffer = _writeBuffer;
 @synthesize fileDescriptor = _fileDescriptor;
 @synthesize pinPollTimer = _pinPollTimer;
