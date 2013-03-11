@@ -155,7 +155,6 @@ static ORSSerialPortManager *sharedInstance = nil;
 
 - (void)systemWillSleep:(NSNotification *)notification;
 {
-	NSLog(@"%s", __PRETTY_FUNCTION__);
 	NSArray *ports = self.availablePorts;
 	for (ORSSerialPort *port in ports)
 	{
@@ -168,7 +167,6 @@ static ORSSerialPortManager *sharedInstance = nil;
 
 - (void)systemDidWake:(NSNotification *)notification;
 {
-	NSLog(@"%s", __PRETTY_FUNCTION__);
 	NSArray *portsToReopen = [self.portsToReopenAfterSleep copy];
 	for (ORSSerialPort *port in portsToReopen)
 	{
