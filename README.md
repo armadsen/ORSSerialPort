@@ -88,7 +88,7 @@ How to Use ORSSerialPortManager
 
 Using `ORSSerialPortManager` is simple. To get the shared serial port manager:
 
-    ORSerialPortManager *portManager = [ORSSerialPortManager sharedSerialPortManager];
+    ORSSerialPortManager *portManager = [ORSSerialPortManager sharedSerialPortManager];
 
 To get a list of available ports:
 
