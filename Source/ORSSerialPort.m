@@ -382,6 +382,7 @@ static __strong NSMutableArray *allSerialPorts;
 	{
 		self.fileDescriptor = localFD;
 		LOG_SERIAL_PORT_ERROR(@"Error closing serial port with file descriptor %i:%i", self.fileDescriptor, errno);
+		[self notifyDelegateOfPosixError];
 		return NO;
 	}
 	
@@ -403,6 +404,7 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (BOOL)sendData:(NSData *)data;
 {
+	B9600
 	if (!self.isOpen) return NO;
 	
 	[self.writeBuffer appendData:data];
