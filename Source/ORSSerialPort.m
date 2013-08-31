@@ -97,7 +97,10 @@ static __strong NSMutableArray *allSerialPorts;
 
 + (void)initialize
 {
-	allSerialPorts = [[NSMutableArray alloc] init];
+	static dispatch_once_t once;
+    	dispatch_once(&once, ^{
+        	allSerialPorts = [[NSMutableArray alloc] init];
+    	});
 }
 
 + (void)addSerialPort:(ORSSerialPort *)port;
