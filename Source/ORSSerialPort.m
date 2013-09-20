@@ -407,7 +407,6 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (BOOL)sendData:(NSData *)data;
 {
-	B9600
 	if (!self.isOpen) return NO;
 	
 	[self.writeBuffer appendData:data];
