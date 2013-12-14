@@ -299,7 +299,7 @@ static __strong NSMutableArray *allSerialPorts;
 		{
 			fd_set localReadFDSet;
 			FD_ZERO(&localReadFDSet);
-			FD_SET(descriptor, &localReadFDSet);
+			FD_SET(localPortFD, &localReadFDSet);
 
 			timeout.tv_sec = 0; 
 			timeout.tv_usec = 100000; // Check to see if port closed every 100ms
