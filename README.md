@@ -13,14 +13,16 @@ ORSSerialPort is released under an MIT license, meaning you're free to use it in
 
 If you have any questions about, suggestions for, or contributions to ORSSerialPort, please [contact me](mailto:andrew@openreelsoftware.com). I'd also love to hear about any cool projects you're using it in.
 
+This readme provides an overview of the ORSSerialPort library and is meant to provide enough information to get up and running quickly. You can read complete documentation for ORSSerialPort here: [http://cocoadocs.org/docsets/ORSSerialPort/](http://cocoadocs.org/docsets/ORSSerialPort/)
+
 How to Use ORSSerialPort
 ========================
 
 The ORSSerialPort library consists of only two classes: `ORSSerialPort` and `ORSSerialPortManager`. To begin using ORSSerialPort in your project, drag the files in the "Source" folder into your Xcode project. ORSSerialPort.h/m are required, while ORSSerialPortManager.h/m are optional, but useful (see below). Next, add `#import "ORSSerialPort.h"` and `#import "ORSSerialPortManager.h"` to the top of the source code files in which you'd like to use ORSSerialPort. 
 
-ORSSerialPort relies on IOKit.framework, so you must add this framework to the "Link Binary With Libraries" build phase for your target. In your project's settings, select your application's target, then click on the "Build Phases" tab. Expand the "Link Binary With Libraries" section, then click the "+" button in the lower left corner to add a new Framework. In the list that appears, find and select IOKit.framework, then click "Add". 
+ORSSerialPort relies on IOKit.framework. If you're using Xcode 5 or later, you can use its support for Objective-C modules to avoid having to manually link in the IOKit framework. To use this, you must make sure Objective-C module support is turned on in your target/project's build settings (see [here](http://stackoverflow.com/a/18947634/344733)). Alternatively, if you're using an older version of Xcode, or can't enable Objective-C module support for some reason, you must add the IOKit framework to the "Link Binary With Libraries" build phase for your target. In your project's settings, select your application's target, then click on the "Build Phases" tab. Expand the "Link Binary With Libraries" section, then click the "+" button in the lower left corner to add a new Framework. In the list that appears, find and select IOKit.framework, then click "Add".
 
-ORSSerialPort can be used in 64-bit applications targeting Mac OS X 10.6.8 and later. However, due to its use of ARC (see note below) and modern Objective-C syntax, it must be compiled on a machine running Mac OS X Lion with the LLVM 4.0 or later compiler, which is included in Xcode 4.4 and later.
+ORSSerialPort can be used in 64-bit applications targeting Mac OS X 10.6.8 and later. However, due to its use of ARC (see note below) and modern Objective-C syntax, it must be compiled on a machine running Mac OS X 10.7 Lion or later, with the LLVM 4.0 or later compiler, which is included in Xcode 4.4 and later.
 
 *Important Note:* ORSSerialPort relies on Automatic Reference Counting (ARC). If you'd like to use it in a non-ARC project, you'll need to open the "Compile Sources" build phase for the target(s) you're using it in, and add the -fobjc-arc flag to the "Compiler Flags" column for ORSSerialPort.m and ORSSerialPortManager.m. ORSSerialPort will generate a compiler error if ARC is not enabled.
 
