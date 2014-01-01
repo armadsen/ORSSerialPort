@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9D6623B4159BD610004C9E42 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D6623B3159BD610004C9E42 /* IOKit.framework */; };
-		9D66D813159BCAB800EE6D09 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D66D812159BCAB800EE6D09 /* Cocoa.framework */; };
 		9D66D81D159BCAB800EE6D09 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9D66D81B159BCAB800EE6D09 /* InfoPlist.strings */; };
 		9D66D81F159BCAB800EE6D09 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D66D81E159BCAB800EE6D09 /* main.m */; };
 		9D66D823159BCAB900EE6D09 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 9D66D821159BCAB900EE6D09 /* Credits.rtf */; };
@@ -20,12 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		9D6623B3159BD610004C9E42 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		9D66D80E159BCAB800EE6D09 /* ORSSerialPortCocoaDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ORSSerialPortCocoaDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		9D66D812159BCAB800EE6D09 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
-		9D66D815159BCAB800EE6D09 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
-		9D66D816159BCAB800EE6D09 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		9D66D817159BCAB800EE6D09 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9D66D81A159BCAB800EE6D09 /* ORSSerialPortCocoaDemo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ORSSerialPortCocoaDemo-Info.plist"; sourceTree = "<group>"; };
 		9D66D81C159BCAB800EE6D09 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9D66D81E159BCAB800EE6D09 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -41,18 +34,6 @@
 		9D66D83B159BCC6400EE6D09 /* ORSSerialPortDemoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSSerialPortDemoController.h; sourceTree = "<group>"; };
 		9D66D83C159BCC6400EE6D09 /* ORSSerialPortDemoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSSerialPortDemoController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFrameworksBuildPhase section */
-		9D66D80B159BCAB800EE6D09 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				9D6623B4159BD610004C9E42 /* IOKit.framework in Frameworks */,
-				9D66D813159BCAB800EE6D09 /* Cocoa.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		9D6623AD159BD599004C9E42 /* Resources */ = {
@@ -89,21 +70,8 @@
 		9D66D811159BCAB800EE6D09 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9D66D812159BCAB800EE6D09 /* Cocoa.framework */,
-				9D6623B3159BD610004C9E42 /* IOKit.framework */,
-				9D66D814159BCAB800EE6D09 /* Other Frameworks */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		9D66D814159BCAB800EE6D09 /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				9D66D815159BCAB800EE6D09 /* AppKit.framework */,
-				9D66D816159BCAB800EE6D09 /* CoreData.framework */,
-				9D66D817159BCAB800EE6D09 /* Foundation.framework */,
-			);
-			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
 		9D66D818159BCAB800EE6D09 /* Sources */ = {
@@ -147,7 +115,6 @@
 			buildConfigurationList = 9D66D82C159BCAB900EE6D09 /* Build configuration list for PBXNativeTarget "ORSSerialPortCocoaDemo" */;
 			buildPhases = (
 				9D66D80A159BCAB800EE6D09 /* Sources */,
-				9D66D80B159BCAB800EE6D09 /* Frameworks */,
 				9D66D80C159BCAB800EE6D09 /* Resources */,
 			);
 			buildRules = (
@@ -247,6 +214,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_MODULES = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -273,6 +241,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_MODULES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
