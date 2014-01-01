@@ -51,10 +51,6 @@ void ORSSerialPortManagerPortsTerminatedNotificationCallback(void *refCon, io_it
 
 @interface ORSSerialPortManager ()
 
-- (void)serialPortsWerePublished:(io_iterator_t)iterator;
-- (void)serialPortsWereTerminated:(io_iterator_t)iterator;
-- (void)getAvailablePortsAndRegisterForChangeNotifications;
-
 @property (nonatomic, copy, readwrite) NSArray *availablePorts;
 @property (nonatomic, strong) NSMutableArray *portsToReopenAfterSleep;
 
@@ -81,7 +77,7 @@ static ORSSerialPortManager *sharedInstance = nil;
 	{
 		self.portsToReopenAfterSleep = [NSMutableArray array];
 		
-		[self getAvailablePortsAndRegisterForChangeNotifications];
+		[self retrieveAvailablePortsAndRegisterForChangeNotifications];
 		[self registerForNotifications];
 	}
 	return self;
@@ -214,7 +210,7 @@ static ORSSerialPortManager *sharedInstance = nil;
 	[nc postNotificationName:ORSSerialPortsWereDisconnectedNotification object:self userInfo:userInfo];
 }
 
-- (void)getAvailablePortsAndRegisterForChangeNotifications;
+- (void)retrieveAvailablePortsAndRegisterForChangeNotifications;
 {
 	IONotificationPortRef notificationPort = IONotificationPortCreate(kIOMasterPortDefault);
 	CFRunLoopAddSource(CFRunLoopGetCurrent(),

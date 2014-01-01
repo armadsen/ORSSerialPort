@@ -56,24 +56,6 @@ static __strong NSMutableArray *allSerialPorts;
 	struct termios originalPortAttributes;
 }
 
-+ (void)addSerialPort:(ORSSerialPort *)port;
-+ (void)removeSerialPort:(ORSSerialPort *)port;
-+ (ORSSerialPort *)existingPortWithPath:(NSString *)path;
-
-- (void)receiveData:(NSData *)data;
-
-- (void)setPortOptions;
-+ (io_object_t)deviceFromBSDPath:(NSString *)bsdPath;
-+ (NSString *)stringPropertyOf:(io_object_t)aDevice forIOSerialKey:(NSString *)key;
-+ (NSString *)bsdCalloutPathFromDevice:(io_object_t)aDevice;
-+ (NSString *)bsdDialinPathFromDevice:(io_object_t)aDevice;
-+ (NSString *)baseNameFromDevice:(io_object_t)aDevice;
-+ (NSString *)serviceTypeFromDevice:(io_object_t)aDevice;
-+ (NSString *)modemNameFromDevice:(io_object_t)aDevice;
-+ (NSString *)suffixFromDevice:(io_object_t)aDevice;
-
-- (void)notifyDelegateOfPosixError;
-
 @property (copy, readwrite) NSString *path;
 @property (readwrite) io_object_t IOKitDevice;
 @property (copy, readwrite) NSString *name;
@@ -105,8 +87,7 @@ static __strong NSMutableArray *allSerialPorts;
 
 + (void)addSerialPort:(ORSSerialPort *)port;
 {
-	NSValue *value = [NSValue valueWithNonretainedObject:port];
-	[allSerialPorts addObject:value];
+	[allSerialPorts addObject:[NSValue valueWithNonretainedObject:port]];
 }
 
 + (void)removeSerialPort:(ORSSerialPort *)port;
@@ -117,9 +98,10 @@ static __strong NSMutableArray *allSerialPorts;
 		if ([value nonretainedObjectValue] == port) 
 		{
 			valueToRemove = value;
+			break;
 		}
 	}
-	if (valueToRemove != nil) [allSerialPorts removeObject:valueToRemove];
+	if (valueToRemove) [allSerialPorts removeObject:valueToRemove];
 }
 
 + (ORSSerialPort *)existingPortWithPath:(NSString *)path;
@@ -209,7 +191,6 @@ static __strong NSMutableArray *allSerialPorts;
 	self.IOKitDevice = 0;
 	
 	if (_pinPollTimer) {
-		
 		dispatch_source_cancel(_pinPollTimer);
 		ORS_GCD_RELEASE(_pinPollTimer);
 	}
