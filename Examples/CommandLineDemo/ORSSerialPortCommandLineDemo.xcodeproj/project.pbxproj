@@ -7,11 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9DF0452E1678333000DA0CDA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DF0452D1678333000DA0CDA /* Foundation.framework */; };
 		9DF0453E1678336E00DA0CDA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF0453C1678336E00DA0CDA /* main.m */; };
 		9DF045461678375E00DA0CDA /* ORSSerialPort.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF045431678375E00DA0CDA /* ORSSerialPort.m */; };
 		9DF045471678375E00DA0CDA /* ORSSerialPortManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF045451678375E00DA0CDA /* ORSSerialPortManager.m */; };
-		9DF045491678376F00DA0CDA /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DF045481678376F00DA0CDA /* IOKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,7 +26,6 @@
 
 /* Begin PBXFileReference section */
 		9DF0452A1678333000DA0CDA /* ORSSerialPortCommandLineDemo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ORSSerialPortCommandLineDemo; sourceTree = BUILT_PRODUCTS_DIR; };
-		9DF0452D1678333000DA0CDA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9DF0453C1678336E00DA0CDA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9DF0453D1678336E00DA0CDA /* ORSSerialPortCommandLineDemo-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ORSSerialPortCommandLineDemo-Prefix.pch"; sourceTree = "<group>"; };
 		9DF045401678337900DA0CDA /* ORSSerialPortCommandLineDemo.1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.man; path = ORSSerialPortCommandLineDemo.1; sourceTree = "<group>"; };
@@ -36,20 +33,7 @@
 		9DF045431678375E00DA0CDA /* ORSSerialPort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSSerialPort.m; sourceTree = "<group>"; };
 		9DF045441678375E00DA0CDA /* ORSSerialPortManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSSerialPortManager.h; sourceTree = "<group>"; };
 		9DF045451678375E00DA0CDA /* ORSSerialPortManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSSerialPortManager.m; sourceTree = "<group>"; };
-		9DF045481678376F00DA0CDA /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
-
-/* Begin PBXFrameworksBuildPhase section */
-		9DF045271678333000DA0CDA /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				9DF045491678376F00DA0CDA /* IOKit.framework in Frameworks */,
-				9DF0452E1678333000DA0CDA /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		9DF045211678333000DA0CDA = {
@@ -73,8 +57,6 @@
 		9DF0452C1678333000DA0CDA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9DF045481678376F00DA0CDA /* IOKit.framework */,
-				9DF0452D1678333000DA0CDA /* Foundation.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -117,7 +99,6 @@
 			buildConfigurationList = 9DF045381678333000DA0CDA /* Build configuration list for PBXNativeTarget "ORSSerialPortCommandLineDemo" */;
 			buildPhases = (
 				9DF045261678333000DA0CDA /* Sources */,
-				9DF045271678333000DA0CDA /* Frameworks */,
 				9DF045281678333000DA0CDA /* CopyFiles */,
 			);
 			buildRules = (
@@ -176,6 +157,7 @@
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
@@ -209,6 +191,7 @@
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
