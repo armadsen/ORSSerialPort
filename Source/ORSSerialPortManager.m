@@ -251,10 +251,7 @@ static ORSSerialPortManager *sharedInstance = nil;
 	while ((eachPort = IOIteratorNext(self.portPublishedNotificationIterator)))
 	{
 		ORSSerialPort *port = [ORSSerialPort serialPortWithDevice:eachPort];
-		if ([port.name rangeOfString:@"bluetooth" options:NSCaseInsensitiveSearch].location == NSNotFound)
-		{
-			[ports addObject:port];
-		}
+		if (port) [ports addObject:port];
 		IOObjectRelease(eachPort);
 	}
 	
