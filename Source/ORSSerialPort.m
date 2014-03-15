@@ -301,9 +301,7 @@ static __strong NSMutableArray *allSerialPorts;
 			if (lengthRead>0)
 			{
 				NSData *readData = [NSData dataWithBytes:buf length:lengthRead];
-				if (readData != nil) dispatch_async(dispatch_get_main_queue(), ^{
-					[self receiveData:readData];
-				});
+				if (readData != nil) [self receiveData:readData];
 			}
 		}
 	});
@@ -416,10 +414,10 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (void)receiveData:(NSData *)data;
 {
-	if ([(id)[self delegate] respondsToSelector:@selector(serialPort:didReceiveData:)])
+	if ([(id)self.delegate respondsToSelector:@selector(serialPort:didReceiveData:)])
 	{
         dispatch_async(dispatch_get_main_queue(), ^{
-            [[self delegate] serialPort:self didReceiveData:data];
+            [self.delegate serialPort:self didReceiveData:data];
         });
 	}
 }
