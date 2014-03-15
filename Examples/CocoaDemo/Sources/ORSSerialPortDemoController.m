@@ -3,7 +3,7 @@
 //  ORSSerialPortDemo
 //
 //  Created by Andrew R. Madsen on 6/27/12.
-//	Copyright (c) 2012 Andrew R. Madsen (andrew@openreelsoftware.com)
+//	Copyright (c) 2012-2014 Andrew R. Madsen (andrew@openreelsoftware.com)
 //
 //	Permission is hereby granted, free of charge, to any person obtaining a
 //	copy of this software and associated documentation files (the
