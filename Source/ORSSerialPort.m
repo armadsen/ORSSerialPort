@@ -289,7 +289,7 @@ static __strong NSMutableArray *allSerialPorts;
 			if (!self.isOpen) break; // Port closed while select call was waiting
 			if (result < 0) 
 			{
-				dispatch_sync(mainQueue, ^{[self notifyDelegateOfPosixError];});
+				[self notifyDelegateOfPosixError];
 				continue;
 			}
 			
@@ -319,7 +319,7 @@ static __strong NSMutableArray *allSerialPorts;
 		int32_t modemLines=0;
 		if (ioctl(self.fileDescriptor, TIOCMGET, &modemLines) < 0)
 		{
-			dispatch_sync(mainQueue, ^{[self notifyDelegateOfPosixError];});
+			[self notifyDelegateOfPosixError];
 			return;
 		}
 		
