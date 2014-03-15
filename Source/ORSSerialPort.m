@@ -229,7 +229,7 @@ static __strong NSMutableArray *allSerialPorts;
 	if (descriptor < 1) 
 	{
 		// Error			
-		dispatch_async(mainQueue,  ^{ [self notifyDelegateOfPosixError]; });
+		[self notifyDelegateOfPosixError];
 		return;
 	}
 	
@@ -252,7 +252,7 @@ static __strong NSMutableArray *allSerialPorts;
 	if (ioctl(self.fileDescriptor, TIOCMGET, &modemLines) < 0)
 	{
 		LOG_SERIAL_PORT_ERROR(@"Error reading modem lines status");
-		dispatch_async(mainQueue, ^{[self notifyDelegateOfPosixError];});
+		[self notifyDelegateOfPosixError];
 	}
 	
 	BOOL desiredRTS = self.RTS;
@@ -262,13 +262,13 @@ static __strong NSMutableArray *allSerialPorts;
 	self.RTS = desiredRTS;
 	self.DTR = desiredDTR;
 	
-	dispatch_async(mainQueue, ^{
-		if ([(id)self.delegate respondsToSelector:@selector(serialPortWasOpened:)])
-		{
+    if ([(id)self.delegate respondsToSelector:@selector(serialPortWasOpened:)])
+    {
+        dispatch_async(mainQueue, ^{
 			[self.delegate serialPortWasOpened:self];
-		}
-	});
-	
+        });
+    }
+
 	// Start a read poller in the background
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 		
@@ -372,7 +372,9 @@ static __strong NSMutableArray *allSerialPorts;
 	
 	if ([(id)self.delegate respondsToSelector:@selector(serialPortWasClosed:)])
 	{
-		[self.delegate serialPortWasClosed:self];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.delegate serialPortWasClosed:self];
+        });
 	}
 	return YES;
 }
@@ -382,7 +384,9 @@ static __strong NSMutableArray *allSerialPorts;
 	[self close];
 	if ([(id)self.delegate respondsToSelector:@selector(serialPortWasRemovedFromSystem:)])
 	{
-		[self.delegate serialPortWasRemovedFromSystem:self];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.delegate serialPortWasRemovedFromSystem:self];
+        });
 	}
 }
 
@@ -414,7 +418,9 @@ static __strong NSMutableArray *allSerialPorts;
 {
 	if ([(id)[self delegate] respondsToSelector:@selector(serialPort:didReceiveData:)])
 	{
-		[[self delegate] serialPort:self didReceiveData:data];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[self delegate] serialPort:self didReceiveData:data];
+        });
 	}
 }
 
@@ -552,12 +558,14 @@ static __strong NSMutableArray *allSerialPorts;
 {
 	if (![(id)self.delegate respondsToSelector:@selector(serialPort:didEncounterError:)]) return;
 	
-	NSDictionary *errDict = @{NSLocalizedDescriptionKey: @(strerror(errno)),
-							 NSFilePathErrorKey: self.path};
-	NSError *error = [NSError errorWithDomain:NSPOSIXErrorDomain
-										 code:errno
-									 userInfo:errDict];
-	[self.delegate serialPort:self didEncounterError:error];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSDictionary *errDict = @{NSLocalizedDescriptionKey: @(strerror(errno)),
+                                  NSFilePathErrorKey: self.path};
+        NSError *error = [NSError errorWithDomain:NSPOSIXErrorDomain
+                                             code:errno
+                                         userInfo:errDict];
+        [self.delegate serialPort:self didEncounterError:error];
+    });
 }
 
 #pragma mark - Properties
@@ -706,7 +714,7 @@ static __strong NSMutableArray *allSerialPorts;
 		if (ioctl( self.fileDescriptor, TIOCMSET, &bits ) < 0)
 		{
 			LOG_SERIAL_PORT_ERROR(@"Error in %s", __PRETTY_FUNCTION__);
-			dispatch_async(dispatch_get_main_queue(), ^{[self notifyDelegateOfPosixError];});
+			[self notifyDelegateOfPosixError];
 		}
 	}
 }
@@ -726,7 +734,7 @@ static __strong NSMutableArray *allSerialPorts;
 		if (ioctl( self.fileDescriptor, TIOCMSET, &bits ) < 0)
 		{
 			LOG_SERIAL_PORT_ERROR(@"Error in %s", __PRETTY_FUNCTION__);
-			dispatch_async(dispatch_get_main_queue(), ^{[self notifyDelegateOfPosixError];});
+			[self notifyDelegateOfPosixError];
 		}
 	}
 }
