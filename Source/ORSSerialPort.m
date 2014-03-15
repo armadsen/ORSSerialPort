@@ -556,12 +556,13 @@ static __strong NSMutableArray *allSerialPorts;
 {
 	if (![(id)self.delegate respondsToSelector:@selector(serialPort:didEncounterError:)]) return;
 	
+	NSDictionary *errDict = @{NSLocalizedDescriptionKey: @(strerror(errno)),
+							  NSFilePathErrorKey: self.path};
+	NSError *error = [NSError errorWithDomain:NSPOSIXErrorDomain
+										 code:errno
+									 userInfo:errDict];
+	
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSDictionary *errDict = @{NSLocalizedDescriptionKey: @(strerror(errno)),
-                                  NSFilePathErrorKey: self.path};
-        NSError *error = [NSError errorWithDomain:NSPOSIXErrorDomain
-                                             code:errno
-                                         userInfo:errDict];
         [self.delegate serialPort:self didEncounterError:error];
     });
 }
