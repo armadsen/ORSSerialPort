@@ -28,7 +28,7 @@
 	#error ORSSerialPort.m must be compiled with ARC. Either turn on ARC for the project or set the -fobjc-arc flag for ORSSerialPort.m in the Build Phases for this target
 #endif
 
-#if OS_OBJECT_HAVE_OBJC_SUPPORT && __has_feature(objc_arc)
+#if OS_OBJECT_USE_OBJC && __has_feature(objc_arc)
 	#define ORS_GCD_RELEASE(x)
 	#define ORS_GCD_RETAIN(x)
 #else
@@ -67,7 +67,7 @@ static __strong NSMutableArray *allSerialPorts;
 @property (nonatomic, readwrite) BOOL DSR;
 @property (nonatomic, readwrite) BOOL DCD;
 
-#if OS_OBJECT_HAVE_OBJC_SUPPORT
+#if OS_OBJECT_USE_OBJC
 @property (nonatomic, strong) dispatch_source_t pinPollTimer;
 #else
 @property (nonatomic) dispatch_source_t pinPollTimer;
