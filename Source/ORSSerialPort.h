@@ -198,12 +198,14 @@ enum {
  */
 - (BOOL)close;
 
+- (void)cleanup DEPRECATED_ATTRIBUTE; // Should never have been called in client code, anyway.
+
 /**
  *  Closes the port and cleans up.
- *  
+ *
  *  This method should never be called directly. Call `-close` to close a port instead.
  */
-- (void)cleanup;
+- (void)cleanupAfterSystemRemoval;
 
 /** ---------------------------------------------------------------------------------------
  * @name Sending Data

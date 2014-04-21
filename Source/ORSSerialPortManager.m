@@ -119,7 +119,7 @@ static ORSSerialPortManager *sharedInstance = nil;
 {
 	// register for notifications (only if AppKit is available)
 	void (^terminationBlock)(void) = ^{
-		for (ORSSerialPort *eachPort in self.availablePorts) [eachPort cleanup];
+		for (ORSSerialPort *eachPort in self.availablePorts) [eachPort cleanupAfterSystemRemoval];
 		self.availablePorts = nil;
 	};
 	
@@ -202,7 +202,7 @@ static ORSSerialPortManager *sharedInstance = nil;
 		IOObjectRelease(device);
 	}
 	
-	[newlyDisconnectedPorts makeObjectsPerformSelector:@selector(cleanup)];
+	[newlyDisconnectedPorts makeObjectsPerformSelector:@selector(cleanupAfterSystemRemoval)];
 	[[self mutableArrayValueForKey:@"availablePorts"] removeObjectsInArray:newlyDisconnectedPorts];
 	
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];

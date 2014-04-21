@@ -4,7 +4,7 @@
 //
 //  Created by Andrew R. Madsen on 08/6/11.
 //	Copyright (c) 2011-2014 Andrew R. Madsen (andrew@openreelsoftware.com)
-//	
+//
 //	Permission is hereby granted, free of charge, to any person obtaining a
 //	copy of this software and associated documentation files (the
 //	"Software"), to deal in the Software without restriction, including
@@ -12,10 +12,10 @@
 //	distribute, sublicense, and/or sell copies of the Software, and to
 //	permit persons to whom the Software is furnished to do so, subject to
 //	the following conditions:
-//	
+//
 //	The above copyright notice and this permission notice shall be included
 //	in all copies or substantial portions of the Software.
-//	
+//
 //	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 //	OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 //	MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
@@ -23,17 +23,17 @@
 //	CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 //	TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 //	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-	
+
 #if !__has_feature(objc_arc)
-	#error ORSSerialPort.m must be compiled with ARC. Either turn on ARC for the project or set the -fobjc-arc flag for ORSSerialPort.m in the Build Phases for this target
+#error ORSSerialPort.m must be compiled with ARC. Either turn on ARC for the project or set the -fobjc-arc flag for ORSSerialPort.m in the Build Phases for this target
 #endif
 
 #if OS_OBJECT_USE_OBJC && __has_feature(objc_arc)
-	#define ORS_GCD_RELEASE(x)
-	#define ORS_GCD_RETAIN(x)
+#define ORS_GCD_RELEASE(x)
+#define ORS_GCD_RETAIN(x)
 #else
-	#define ORS_GCD_RELEASE(x) dispatch_release(x)
-	#define ORS_GCD_RETAIN(x) dispatch_retain(x)
+#define ORS_GCD_RELEASE(x) dispatch_release(x)
+#define ORS_GCD_RETAIN(x) dispatch_retain(x)
 #endif
 
 #import "ORSSerialPort.h"
@@ -46,13 +46,13 @@
 #ifdef LOG_SERIAL_PORT_ERRORS
 #define LOG_SERIAL_PORT_ERROR(fmt, ...) NSLog(fmt, ## __VA_ARGS__)
 #else
-#define LOG_SERIAL_PORT_ERROR(fmt, ...) 
+#define LOG_SERIAL_PORT_ERROR(fmt, ...)
 #endif
 
 static __strong NSMutableArray *allSerialPorts;
 
 @interface ORSSerialPort ()
-{	
+{
 	struct termios originalPortAttributes;
 }
 
@@ -80,9 +80,9 @@ static __strong NSMutableArray *allSerialPorts;
 + (void)initialize
 {
 	static dispatch_once_t once;
-    	dispatch_once(&once, ^{
-        	allSerialPorts = [[NSMutableArray alloc] init];
-    	});
+	dispatch_once(&once, ^{
+		allSerialPorts = [[NSMutableArray alloc] init];
+	});
 }
 
 + (void)addSerialPort:(ORSSerialPort *)port;
@@ -93,9 +93,9 @@ static __strong NSMutableArray *allSerialPorts;
 + (void)removeSerialPort:(ORSSerialPort *)port;
 {
 	NSValue *valueToRemove = nil;
-	for (NSValue *value in allSerialPorts) 
+	for (NSValue *value in allSerialPorts)
 	{
-		if ([value nonretainedObjectValue] == port) 
+		if ([value nonretainedObjectValue] == port)
 		{
 			valueToRemove = value;
 			break;
@@ -107,7 +107,7 @@ static __strong NSMutableArray *allSerialPorts;
 + (ORSSerialPort *)existingPortWithPath:(NSString *)path;
 {
 	ORSSerialPort *existingPort = nil;
-	for (NSValue *value in allSerialPorts) 
+	for (NSValue *value in allSerialPorts)
 	{
 		ORSSerialPort *port = [value nonretainedObjectValue];
 		if ([port.path isEqualToString:path])
@@ -133,7 +133,7 @@ static __strong NSMutableArray *allSerialPorts;
 - (id)initWithPath:(NSString *)devicePath
 {
  	io_object_t device = [[self class] deviceFromBSDPath:devicePath];
- 	if (device == 0) 
+ 	if (device == 0)
  	{
  		self = nil;
  		return self;
@@ -199,8 +199,8 @@ static __strong NSMutableArray *allSerialPorts;
 - (NSString *)description
 {
 	return self.name;
-//	io_object_t device = [[self class] deviceFromBSDPath:self.path];
-//	return [NSString stringWithFormat:@"BSD Path:%@, base name:%@, modem name:%@, suffix:%@, service type:%@", [[self class] bsdCalloutPathFromDevice:device], [[self class] baseNameFromDevice:device], [[self class] modemNameFromDevice:device], [[self class] suffixFromDevice:device], [[self class] serviceTypeFromDevice:device]];
+	//	io_object_t device = [[self class] deviceFromBSDPath:self.path];
+	//	return [NSString stringWithFormat:@"BSD Path:%@, base name:%@, modem name:%@, suffix:%@, service type:%@", [[self class] bsdCalloutPathFromDevice:device], [[self class] baseNameFromDevice:device], [[self class] modemNameFromDevice:device], [[self class] suffixFromDevice:device], [[self class] serviceTypeFromDevice:device]];
 }
 
 - (NSUInteger)hash
@@ -226,9 +226,9 @@ static __strong NSMutableArray *allSerialPorts;
 	
 	int descriptor=0;
 	descriptor = open([self.path cStringUsingEncoding:NSASCIIStringEncoding], O_RDWR | O_NOCTTY | O_EXLOCK | O_NONBLOCK);
-	if (descriptor < 1) 
+	if (descriptor < 1)
 	{
-		// Error			
+		// Error
 		[self notifyDelegateOfPosixError];
 		return;
 	}
@@ -268,7 +268,7 @@ static __strong NSMutableArray *allSerialPorts;
 			[self.delegate serialPortWasOpened:self];
         });
     }
-
+	
 	// Start a read poller in the background
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 		
@@ -276,18 +276,18 @@ static __strong NSMutableArray *allSerialPorts;
 		struct timeval timeout;
 		int result=0;
 		
-		while (self.isOpen) 
+		while (self.isOpen)
 		{
 			fd_set localReadFDSet;
 			FD_ZERO(&localReadFDSet);
 			FD_SET(localPortFD, &localReadFDSet);
-
-			timeout.tv_sec = 0; 
+			
+			timeout.tv_sec = 0;
 			timeout.tv_usec = 100000; // Check to see if port closed every 100ms
 			
 			result = select(localPortFD+1, &localReadFDSet, NULL, NULL, &timeout);
 			if (!self.isOpen) break; // Port closed while select call was waiting
-			if (result < 0) 
+			if (result < 0)
 			{
 				[self notifyDelegateOfPosixError];
 				continue;
@@ -317,9 +317,14 @@ static __strong NSMutableArray *allSerialPorts;
 		}
 		
 		int32_t modemLines=0;
-		if (ioctl(self.fileDescriptor, TIOCMGET, &modemLines) < 0)
+		int result = ioctl(self.fileDescriptor, TIOCMGET, &modemLines);
+		if (result < 0)
 		{
-			[self notifyDelegateOfPosixError];
+			[self notifyDelegateOfPosixErrorWaitingUntilDone:(errno == ENXIO)];
+			if (errno == ENXIO)
+			{
+				[self cleanupAfterSystemRemoval];
+			}
 			return;
 		}
 		
@@ -327,11 +332,11 @@ static __strong NSMutableArray *allSerialPorts;
 		BOOL DSRPin = (modemLines & TIOCM_DSR) != 0;
 		BOOL DCDPin = (modemLines & TIOCM_CAR) != 0;
 		
-		if (CTSPin != self.CTS) 
+		if (CTSPin != self.CTS)
 			dispatch_sync(mainQueue, ^{self.CTS = CTSPin;});
-		if (DSRPin != self.DSR) 
+		if (DSRPin != self.DSR)
 			dispatch_sync(mainQueue, ^{self.DSR = DSRPin;});
-		if (DCDPin != self.DCD) 
+		if (DCDPin != self.DCD)
 			dispatch_sync(mainQueue, ^{self.DCD = DCDPin;});
 	});
 	self.pinPollTimer = timer;
@@ -344,6 +349,8 @@ static __strong NSMutableArray *allSerialPorts;
 	if (!self.isOpen) return YES;
 	
 	[self.writeBuffer replaceBytesInRange:NSMakeRange(0, [self.writeBuffer length]) withBytes:NULL length:0];
+	
+	self.pinPollTimer = nil; // Stop polling CTS/DSR/DCD pins
 	
 	// The next tcsetattr() call can fail if the port is waiting to send data. This is likely to happen
 	// e.g. if flow control is on and the CTS line is low. So, turn off flow control before proceeding
@@ -379,12 +386,22 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (void)cleanup;
 {
-	[self close];
+	NSLog(@"Cleanup is deprecated and was never intended to be called publicly. You should update your code to avoid calling this method.");
+	[self cleanupAfterSystemRemoval];
+}
+
+- (void)cleanupAfterSystemRemoval
+{
 	if ([(id)self.delegate respondsToSelector:@selector(serialPortWasRemovedFromSystem:)])
 	{
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.delegate serialPortWasRemovedFromSystem:self];
+			[self close];
         });
+	}
+	else
+	{
+		[self close];
 	}
 }
 
@@ -455,10 +472,10 @@ static __strong NSMutableArray *allSerialPorts;
 			break;
 		default:
 			break;
-	}	
+	}
 	
 	options.c_cflag = [self numberOfStopBits] > 1 ? options.c_cflag | CSTOPB : options.c_cflag & ~CSTOPB; // number of stop bits
-	options.c_lflag = [self shouldEchoReceivedData] ? options.c_lflag | ECHO : options.c_lflag & ~ECHO; // echo 
+	options.c_lflag = [self shouldEchoReceivedData] ? options.c_lflag | ECHO : options.c_lflag & ~ECHO; // echo
 	options.c_cflag = [self usesRTSCTSFlowControl] ? options.c_cflag | CRTSCTS : options.c_cflag & ~CRTSCTS; // RTS/CTS Flow Control
 	options.c_cflag = [self usesDTRDSRFlowControl] ? options.c_cflag | (CDTR_IFLOW | CDSR_OFLOW) : options.c_cflag & ~(CDTR_IFLOW | CDSR_OFLOW); // DTR/DSR Flow Control
 	options.c_cflag = [self usesDCDOutputFlowControl] ? options.c_cflag | CCAR_OFLOW : options.c_cflag & ~CCAR_OFLOW; // DCD Flow Control
@@ -494,7 +511,7 @@ static __strong NSMutableArray *allSerialPorts;
 	
 	io_object_t eachPort = 0;
 	io_object_t result = 0;
-	while ((eachPort = IOIteratorNext(portIterator))) 
+	while ((eachPort = IOIteratorNext(portIterator)))
 	{
 		NSString *calloutPath = [self bsdCalloutPathFromDevice:eachPort];
 		NSString *dialinPath = [self bsdDialinPathFromDevice:eachPort];
@@ -512,12 +529,12 @@ static __strong NSMutableArray *allSerialPorts;
 }
 
 + (NSString *)stringPropertyOf:(io_object_t)aDevice forIOSerialKey:(NSString *)key;
-{	
+{
 	CFStringRef string = (CFStringRef)IORegistryEntryCreateCFProperty(aDevice,
 																	  (__bridge CFStringRef)key,
 																	  kCFAllocatorDefault,
 																	  0);
-	return (__bridge_transfer NSString *)string;	
+	return (__bridge_transfer NSString *)string;
 }
 
 + (NSString *)bsdCalloutPathFromDevice:(io_object_t)aDevice;
@@ -552,7 +569,12 @@ static __strong NSMutableArray *allSerialPorts;
 
 #pragma mark Helper Methods
 
-- (void)notifyDelegateOfPosixError;
+- (void)notifyDelegateOfPosixError
+{
+	[self notifyDelegateOfPosixErrorWaitingUntilDone:NO];
+}
+
+- (void)notifyDelegateOfPosixErrorWaitingUntilDone:(BOOL)shouldWait;
 {
 	if (![(id)self.delegate respondsToSelector:@selector(serialPort:didEncounterError:)]) return;
 	
@@ -562,9 +584,17 @@ static __strong NSMutableArray *allSerialPorts;
 										 code:errno
 									 userInfo:errDict];
 	
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.delegate serialPort:self didEncounterError:error];
-    });
+	void (^notifyBlock)(void) = ^{
+		[self.delegate serialPort:self didEncounterError:error];
+	};
+	
+	if ([NSThread isMainThread]) {
+		notifyBlock();
+	} else if (shouldWait) {
+		dispatch_sync(dispatch_get_main_queue(), notifyBlock);
+	} else {
+		dispatch_async(dispatch_get_main_queue(), notifyBlock);
+	}
 }
 
 #pragma mark - Properties
@@ -616,7 +646,7 @@ static __strong NSMutableArray *allSerialPorts;
 {
 	if (num != _numberOfStopBits)
 	{
-		_numberOfStopBits = num;		
+		_numberOfStopBits = num;
 		[self setPortOptions];
 	}
 }
@@ -653,7 +683,7 @@ static __strong NSMutableArray *allSerialPorts;
 {
 	if (flag != _usesRTSCTSFlowControl)
 	{
-		// Turning flow control one while the port is open doesn't seem to work right, 
+		// Turning flow control one while the port is open doesn't seem to work right,
 		// at least with some drivers, so close it then reopen it if needed
 		BOOL shouldReopen = self.isOpen;
 		[self close];
@@ -670,14 +700,14 @@ static __strong NSMutableArray *allSerialPorts;
 {
 	if (flag != _usesDTRDSRFlowControl)
 	{
-		// Turning flow control one while the port is open doesn't seem to work right, 
+		// Turning flow control one while the port is open doesn't seem to work right,
 		// at least with some drivers, so close it then reopen it if needed
 		BOOL shouldReopen = self.isOpen;
 		[self close];
-
-		_usesDTRDSRFlowControl = flag;		
+		
+		_usesDTRDSRFlowControl = flag;
 		[self setPortOptions];
-		if (shouldReopen) [self open];		
+		if (shouldReopen) [self open];
 	}
 }
 
@@ -686,11 +716,11 @@ static __strong NSMutableArray *allSerialPorts;
 {
 	if (flag != _usesDCDOutputFlowControl)
 	{
-		// Turning flow control one while the port is open doesn't seem to work right, 
+		// Turning flow control one while the port is open doesn't seem to work right,
 		// at least with some drivers, so close it then reopen it if needed
 		BOOL shouldReopen = self.isOpen;
 		[self close];
-
+		
 		_usesDCDOutputFlowControl = flag;
 		
 		[self setPortOptions];
@@ -751,7 +781,11 @@ static __strong NSMutableArray *allSerialPorts;
 {
 	if (timer != _pinPollTimer)
 	{
-		if (_pinPollTimer) { ORS_GCD_RELEASE(_pinPollTimer); }
+		if (_pinPollTimer)
+		{
+			dispatch_source_cancel(_pinPollTimer);
+			ORS_GCD_RELEASE(_pinPollTimer);
+		}
 		
 		ORS_GCD_RETAIN(timer);
 		_pinPollTimer = timer;
