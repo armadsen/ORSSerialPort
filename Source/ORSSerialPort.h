@@ -412,14 +412,6 @@ enum {
 @required
 
 /**
- *  Called when new data is received by the serial port from an external source.
- *
- *  @param serialPort The `ORSSerialPort` instance representing the port that received `data`.
- *  @param data       An `NSData` instance containing the data received.
- */
-- (void)serialPort:(ORSSerialPort *)serialPort didReceiveData:(NSData *)data;
-
-/**
  *  Called when a serial port is removed from the system, e.g. the user unplugs
  *  the USB to serial adapter for the port.
  *
@@ -432,6 +424,14 @@ enum {
 - (void)serialPortWasRemovedFromSystem:(ORSSerialPort *)serialPort;
 
 @optional
+
+/**
+ *  Called when new data is received by the serial port from an external source.
+ *
+ *  @param serialPort The `ORSSerialPort` instance representing the port that received `data`.
+ *  @param data       An `NSData` instance containing the data received.
+ */
+- (void)serialPort:(ORSSerialPort *)serialPort didReceiveData:(NSData *)data;
 
 /**
  *  Called when an error occurs during an operation involving a serial port.
