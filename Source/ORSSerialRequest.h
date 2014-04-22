@@ -27,12 +27,14 @@ typedef BOOL(^ORSSerialRequestResponseEvaluator)(NSData *inputData);
  *
  *  @param dataToSend        The data to be sent on the serial port.
  *  @param userInfo          An arbitrary userInfo object.
+ *  @param timeout			 The maximum amount of time in seconds to wait for a response. Pass -1.0 to wait indefinitely.
  *  @param responseEvaluator A block used to evaluate whether received data constitutes a valid response to the request. May be nil.
  *
  *  @return An initialized ORSSerialRequest instance.
  */
 + (instancetype)requestWithDataToSend:(NSData *)dataToSend
 							 userInfo:(id)userInfo
+					  timeoutInterval:(NSTimeInterval)timeout
 					responseEvaluator:(ORSSerialRequestResponseEvaluator)responseEvaluator;
 
 /**
@@ -40,12 +42,14 @@ typedef BOOL(^ORSSerialRequestResponseEvaluator)(NSData *inputData);
  *
  *  @param dataToSend        The data to be sent on the serial port.
  *  @param userInfo          An arbitrary userInfo object.
+ *  @param timeout			 The maximum amount of time in seconds to wait for a response. Pass -1.0 to wait indefinitely.
  *  @param responseEvaluator A block used to evaluate whether received data constitutes a valid response to the request. May be nil.
  *
  *  @return An initialized ORSSerialRequest instance.
  */
 - (instancetype)initWithDataToSend:(NSData *)dataToSend
 						  userInfo:(id)userInfo
+				   timeoutInterval:(NSTimeInterval)timeout
 				 responseEvaluator:(ORSSerialRequestResponseEvaluator)responseEvaluator;
 
 /**
@@ -69,6 +73,13 @@ typedef BOOL(^ORSSerialRequestResponseEvaluator)(NSData *inputData);
  *  about the request.
  */
 @property (nonatomic, strong, readonly) id userInfo;
+
+/**
+ *  The maximum amount of time to wait for a response before timing out.
+ *  Negative values indicate that serial port will wait forever for a response
+ *  without timing out.
+ */
+@property (nonatomic, readonly) NSTimeInterval timeoutInterval;
 
 /**
  *  Unique identifier for the request.

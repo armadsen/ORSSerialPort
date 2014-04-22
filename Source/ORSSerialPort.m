@@ -37,6 +37,7 @@
 #endif
 
 #import "ORSSerialPort.h"
+#import "ORSSerialRequest.h"
 #import <IOKit/serial/IOSerialKeys.h>
 #import <IOKit/serial/ioss.h>
 #import <sys/param.h>
@@ -58,10 +59,16 @@ static __strong NSMutableArray *allSerialPorts;
 
 @property (copy, readwrite) NSString *path;
 @property (readwrite) io_object_t IOKitDevice;
+@property int fileDescriptor;
 @property (copy, readwrite) NSString *name;
 
 @property (strong) NSMutableData *writeBuffer;
-@property int fileDescriptor;
+@property (strong) NSMutableData *receiveBuffer;
+
+// Request handling
+@property (nonatomic, strong) NSMutableArray *requestsQueue;
+@property (nonatomic, strong) ORSSerialRequest *pendingRequest;
+@property (nonatomic, strong) NSTimer *pendingRequestTimeoutTimer;
 
 @property (nonatomic, readwrite) BOOL CTS;
 @property (nonatomic, readwrite) BOOL DSR;
@@ -163,6 +170,8 @@ static __strong NSMutableArray *allSerialPorts;
 		self.path = bsdPath;
 		self.name = [[self class] modemNameFromDevice:device];
 		self.writeBuffer = [NSMutableData data];
+		self.receiveBuffer = [NSMutableData data];
+		self.requestsQueue = [NSMutableArray array];
 		self.baudRate = @B19200;
 		self.numberOfStopBits = 1;
 		self.parity = ORSSerialPortParityNone;
@@ -425,7 +434,60 @@ static __strong NSMutableArray *allSerialPorts;
 	return YES;
 }
 
+- (BOOL)sendRequest:(ORSSerialRequest *)request
+{
+	if (!self.pendingRequest)
+	{
+		// Send immediately
+		self.pendingRequest = request;
+		if (request.timeoutInterval > 0) {
+			self.pendingRequestTimeoutTimer = [NSTimer scheduledTimerWithTimeInterval:request.timeoutInterval
+																			   target:self
+																			 selector:@selector(pendingRequestDidTimeout:)
+																			 userInfo:nil
+																			  repeats:NO];
+		}
+		return [self sendData:request.dataToSend];
+	}
+	
+	// Queue it up to be sent after the pending request is responded to, or times out.
+	[self.requestsQueue addObject:request];
+	return YES;
+}
+
 #pragma mark - Private Methods
+
+- (void)pendingRequestDidTimeout:(NSTimer *)timer
+{
+	self.pendingRequestTimeoutTimer = nil;
+	
+	ORSSerialRequest *request = self.pendingRequest;
+	
+	if ([(id)self.delegate respondsToSelector:@selector(serialPort:requestDidTimeout:)])
+	{
+		if ([NSThread isMainThread]) {
+			[self.delegate serialPort:self requestDidTimeout:request];
+		} else {
+			dispatch_sync(dispatch_get_main_queue(), ^{
+				[self.delegate serialPort:self requestDidTimeout:request];
+			});
+		}
+	}
+	
+	self.pendingRequest = nil;
+	[self.receiveBuffer replaceBytesInRange:NSMakeRange(0, [self.receiveBuffer length])
+								  withBytes:NULL
+									 length:0];
+	[self sendNextRequest];
+}
+
+- (void)sendNextRequest
+{
+	if (![self.requestsQueue count]) return;
+	ORSSerialRequest *nextRequest = self.requestsQueue[0];
+	[self.requestsQueue removeObjectAtIndex:0];
+	[self sendRequest:nextRequest];
+}
 
 #pragma mark Port Read/Write
 
@@ -436,6 +498,28 @@ static __strong NSMutableArray *allSerialPorts;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.delegate serialPort:self didReceiveData:data];
         });
+	}
+	
+	[self.receiveBuffer appendData:data];
+	if (self.pendingRequest) {
+		if ([self.pendingRequest dataIsValidResponse:self.receiveBuffer])
+		{
+			ORSSerialRequest *request = self.pendingRequest;
+			NSData *response = [self.receiveBuffer copy];
+			
+			dispatch_async(dispatch_get_main_queue(), ^{
+				if ([(id)self.delegate respondsToSelector:@selector(serialPort:didReceiveResponse:toRequest:)])
+				{
+					[self.delegate serialPort:self didReceiveResponse:response toRequest:request];
+				}
+				
+				self.pendingRequest = nil;
+				[self.receiveBuffer replaceBytesInRange:NSMakeRange(0, [self.receiveBuffer length])
+											  withBytes:NULL
+												 length:0];
+				[self sendNextRequest];
+			});
+		}
 	}
 }
 
@@ -629,6 +713,16 @@ static __strong NSMutableArray *allSerialPorts;
 }
 
 @synthesize name = _name;
+
+@synthesize pendingRequestTimeoutTimer = _pendingRequestTimeoutTimer;
+- (void)setPendingRequestTimeoutTimer:(NSTimer *)pendingRequestTimeoutTimer
+{
+	if (pendingRequestTimeoutTimer != _pendingRequestTimeoutTimer)
+	{
+		[_pendingRequestTimeoutTimer invalidate];
+		_pendingRequestTimeoutTimer = pendingRequestTimeoutTimer;
+	}
+}
 
 @synthesize baudRate = _baudRate;
 - (void)setBaudRate:(NSNumber *)rate

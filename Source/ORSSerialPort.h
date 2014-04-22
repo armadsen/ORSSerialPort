@@ -38,6 +38,8 @@ enum {
 
 @protocol ORSSerialPortDelegate;
 
+@class ORSSerialRequest;
+
 /**
  *  The ORSSerialPort class represents a serial port, and includes methods to
  *  configure, open and close a port, and send and receive data to and from
@@ -227,9 +229,19 @@ enum {
  *
  *  @param data An `NSData` object containing the data to be sent.
  *
- *  @return YES if sending data failed, NO if an error occurred.
+ *  @return YES if sending data succeeded, NO if an error occurred.
  */
 - (BOOL)sendData:(NSData *)data;
+
+/**
+ *  Sends the data in request, and begins watching for a valid response to the request,
+ *  to be delivered to the delegate.
+ *
+ *  @param request An ORSSerialRequest instance including the data to be sent.
+ *
+ *  @return YES if sending the request's data succeeded, NO if an error occurred.
+ */
+- (BOOL)sendRequest:(ORSSerialRequest *)request;
 
 /** ---------------------------------------------------------------------------------------
  * @name Delegate
@@ -426,12 +438,32 @@ enum {
 @optional
 
 /**
- *  Called when new data is received by the serial port from an external source.
+ *  Called any time new data is received by the serial port from an external source.
  *
  *  @param serialPort The `ORSSerialPort` instance representing the port that received `data`.
  *  @param data       An `NSData` instance containing the data received.
  */
 - (void)serialPort:(ORSSerialPort *)serialPort didReceiveData:(NSData *)data;
+
+/**
+ *  Called when a valid, complete response is received for a previously sent request.
+ *
+ *  @param serialPort   The `ORSSerialPort` instance representing the port that received `responseData`.
+ *  @param responseData The An `NSData` instance containing the received response data.
+ *  @param request      The request to which the responseData is a respone.
+ */
+- (void)serialPort:(ORSSerialPort *)serialPort didReceiveResponse:(NSData *)responseData toRequest:(ORSSerialRequest *)request;
+
+/**
+ *  Called when a the timeout interval for a previously sent request elapses without a valid
+ *  response having been received.
+ *
+ *  The request can be re-sent by simply calling -sendRequest: again.
+ *
+ *  @param serialPort The `ORSSerialPort` instance representing the port through which the request was sent.
+ *  @param request    The request for which a response has not been received.
+ */
+- (void)serialPort:(ORSSerialPort *)serialPort requestDidTimeout:(ORSSerialRequest *)request;
 
 /**
  *  Called when an error occurs during an operation involving a serial port.
