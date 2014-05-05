@@ -504,6 +504,7 @@ static __strong NSMutableArray *allSerialPorts;
 	if (self.pendingRequest) {
 		if ([self.pendingRequest dataIsValidResponse:self.receiveBuffer])
 		{
+			self.pendingRequestTimeoutTimer = nil;
 			ORSSerialRequest *request = self.pendingRequest;
 			NSData *response = [self.receiveBuffer copy];
 			
