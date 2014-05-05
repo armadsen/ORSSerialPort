@@ -67,7 +67,7 @@ static __strong NSMutableArray *allSerialPorts;
 
 // Request handling
 @property (nonatomic, strong) NSMutableArray *requestsQueue;
-@property (nonatomic, strong) ORSSerialRequest *pendingRequest;
+@property (nonatomic, strong, readwrite) ORSSerialRequest *pendingRequest;
 @property (nonatomic, strong) NSTimer *pendingRequestTimeoutTimer;
 
 @property (nonatomic, readwrite) BOOL CTS;
