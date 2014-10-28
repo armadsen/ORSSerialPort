@@ -607,15 +607,10 @@ static __strong NSMutableArray *allSerialPorts;
 	return keyPaths;
 }
 
-@synthesize delegate = _delegate;
-
 #pragma mark Port Properties
 
 - (BOOL)isOpen { return self.fileDescriptor != 0; }
 
-@synthesize path = _path;
-
-@synthesize IOKitDevice = _IOKitDevice;
 - (void)setIoKitDevice:(io_object_t)device
 {
 	if (device != _IOKitDevice) {
@@ -625,9 +620,6 @@ static __strong NSMutableArray *allSerialPorts;
 	}
 }
 
-@synthesize name = _name;
-
-@synthesize baudRate = _baudRate;
 - (void)setBaudRate:(NSNumber *)rate
 {
 	if (rate != _baudRate)
@@ -638,7 +630,6 @@ static __strong NSMutableArray *allSerialPorts;
 	}
 }
 
-@synthesize numberOfStopBits = _numberOfStopBits;
 - (void)setNumberOfStopBits:(NSUInteger)num
 {
 	if (num != _numberOfStopBits)
@@ -648,7 +639,6 @@ static __strong NSMutableArray *allSerialPorts;
 	}
 }
 
-@synthesize shouldEchoReceivedData = _shouldEchoReceivedData;
 - (void)setShouldEchoReceivedData:(BOOL)flag
 {
 	if (flag != _shouldEchoReceivedData)
@@ -658,7 +648,6 @@ static __strong NSMutableArray *allSerialPorts;
 	}
 }
 
-@synthesize parity = _parity;
 - (void)setParity:(ORSSerialPortParity)aParity
 {
 	if (aParity != _parity)
@@ -675,7 +664,6 @@ static __strong NSMutableArray *allSerialPorts;
 	}
 }
 
-@synthesize usesRTSCTSFlowControl = _usesRTSCTSFlowControl;
 - (void)setUsesRTSCTSFlowControl:(BOOL)flag
 {
 	if (flag != _usesRTSCTSFlowControl)
@@ -692,7 +680,6 @@ static __strong NSMutableArray *allSerialPorts;
 	}
 }
 
-@synthesize usesDTRDSRFlowControl = _usesDTRDSRFlowControl;
 - (void)setUsesDTRDSRFlowControl:(BOOL)flag
 {
 	if (flag != _usesDTRDSRFlowControl)
@@ -708,7 +695,6 @@ static __strong NSMutableArray *allSerialPorts;
 	}
 }
 
-@synthesize usesDCDOutputFlowControl = _usesDCDOutputFlowControl;
 - (void)setUsesDCDOutputFlowControl:(BOOL)flag
 {
 	if (flag != _usesDCDOutputFlowControl)
@@ -725,7 +711,6 @@ static __strong NSMutableArray *allSerialPorts;
 	}
 }
 
-@synthesize RTS = _RTS;
 - (void)setRTS:(BOOL)flag
 {
 	if (flag != _RTS)
@@ -745,7 +730,6 @@ static __strong NSMutableArray *allSerialPorts;
 	}
 }
 
-@synthesize DTR = _DTR;
 - (void)setDTR:(BOOL)flag
 {
 	if (flag != _DTR)
@@ -765,15 +749,8 @@ static __strong NSMutableArray *allSerialPorts;
 	}
 }
 
-@synthesize CTS = _CTS;
-@synthesize DSR = _DSR;
-@synthesize DCD = _DCD;
-
 #pragma mark Private Properties
 
-@synthesize writeBuffer = _writeBuffer;
-@synthesize fileDescriptor = _fileDescriptor;
-@synthesize pinPollTimer = _pinPollTimer;
 - (void)setPinPollTimer:(dispatch_source_t)timer
 {
 	if (timer != _pinPollTimer)

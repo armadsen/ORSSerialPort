@@ -279,8 +279,6 @@ static ORSSerialPortManager *sharedInstance = nil;
 
 #pragma mark - Properties
 
-@synthesize availablePorts = _availablePorts;
-
 - (void)setAvailablePorts:(NSArray *)ports
 {
 	if (ports != _availablePorts)
@@ -296,9 +294,6 @@ static ORSSerialPortManager *sharedInstance = nil;
 - (void)removeAvailablePortsAtIndexes:(NSIndexSet *)indexes { [_availablePorts removeObjectsAtIndexes:indexes]; }
 - (void)removeObjectFromAvailablePortsAtIndex:(NSUInteger)index { [_availablePorts removeObjectAtIndex:index]; }
 
-@synthesize portsToReopenAfterSleep = _portsToReopenAfterSleep;
-
-@synthesize portPublishedNotificationIterator = _portPublishedNotificationIterator;
 - (void)setPortPublishedNotificationIterator:(io_iterator_t)iterator
 {
 	if (iterator != _portPublishedNotificationIterator)
@@ -310,7 +305,6 @@ static ORSSerialPortManager *sharedInstance = nil;
 	}
 }
 
-@synthesize portTerminatedNotificationIterator = _portTerminatedNotificationIterator;
 - (void)setPortTerminatedNotificationIterator:(io_iterator_t)iterator
 {
 	if (iterator != _portTerminatedNotificationIterator)

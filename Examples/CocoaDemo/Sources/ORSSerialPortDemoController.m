@@ -173,12 +173,6 @@
 
 #pragma mark - Properties
 
-@synthesize sendTextField = _sendTextField;
-@synthesize receivedDataTextView = _receivedDataTextView;
-@synthesize openCloseButton = _openCloseButton;
-
-@synthesize serialPortManager = _serialPortManager;
-@synthesize serialPort = _serialPort;
 - (void)setSerialPort:(ORSSerialPort *)port
 {
 	if (port != _serialPort)
@@ -191,7 +185,5 @@
 		_serialPort.delegate = self;
 	}
 }
-
-@synthesize availableBaudRates = _availableBaudRates;
 
 @end
