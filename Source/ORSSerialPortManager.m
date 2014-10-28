@@ -68,7 +68,7 @@ static ORSSerialPortManager *sharedInstance = nil;
 
 #pragma mark - Singleton Methods
 
-- (id)init
+- (instancetype)init
 {
 	if (self == sharedInstance) return sharedInstance; // Already initialized
 	
@@ -290,7 +290,7 @@ static ORSSerialPortManager *sharedInstance = nil;
 }
 
 - (NSUInteger)countOfAvailablePorts { return [_availablePorts count]; }
-- (id)objectInAvailablePortsAtIndex:(NSUInteger)index { return [_availablePorts objectAtIndex:index]; }
+- (id)objectInAvailablePortsAtIndex:(NSUInteger)index { return _availablePorts[index]; }
 - (void)insertAvailablePorts:(NSArray *)array atIndexes:(NSIndexSet *)indexes { [_availablePorts insertObjects:array atIndexes:indexes]; }
 - (void)insertObject:(ORSSerialPort *)object inAvailablePortsAtIndex:(NSUInteger)index { [_availablePorts insertObject:object atIndex:index]; }
 - (void)removeAvailablePortsAtIndexes:(NSIndexSet *)indexes { [_availablePorts removeObjectsAtIndexes:indexes]; }

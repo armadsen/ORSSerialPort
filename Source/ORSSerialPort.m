@@ -130,7 +130,7 @@ static __strong NSMutableArray *allSerialPorts;
 	return [[self alloc] initWithDevice:device];
 }
 
-- (id)initWithPath:(NSString *)devicePath
+- (instancetype)initWithPath:(NSString *)devicePath
 {
  	io_object_t device = [[self class] deviceFromBSDPath:devicePath];
  	if (device == 0)
@@ -142,7 +142,7 @@ static __strong NSMutableArray *allSerialPorts;
  	return [self initWithDevice:device];
 }
 
-- (id)initWithDevice:(io_object_t)device;
+- (instancetype)initWithDevice:(io_object_t)device;
 {
 	NSAssert(device != 0, @"%s requires non-zero device argument.", __PRETTY_FUNCTION__);
 	
@@ -179,7 +179,7 @@ static __strong NSMutableArray *allSerialPorts;
 	return self;
 }
 
-- (id)init
+- (instancetype)init
 {
     NSAssert(0, @"ORSSerialPort must be init'd using -initWithPath:");
 	return nil;
