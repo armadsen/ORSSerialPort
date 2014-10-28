@@ -133,12 +133,8 @@ static __strong NSMutableArray *allSerialPorts;
 - (instancetype)initWithPath:(NSString *)devicePath
 {
  	io_object_t device = [[self class] deviceFromBSDPath:devicePath];
- 	if (device == 0)
- 	{
- 		self = nil;
- 		return self;
- 	}
- 	
+	if (device == 0) return nil;
+	
  	return [self initWithDevice:device];
 }
 
@@ -181,8 +177,9 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (instancetype)init
 {
+	self = [self initWithPath:nil]; // To keep compiler happy.
 	NSAssert(0, @"ORSSerialPort must be init'd using -initWithPath:");
-	return nil;
+	return self;
 }
 
 - (void)dealloc
