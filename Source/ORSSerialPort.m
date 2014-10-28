@@ -32,8 +32,8 @@
 #define ORS_GCD_RELEASE(x)
 #define ORS_GCD_RETAIN(x)
 #else
-#define ORS_GCD_RELEASE(x) dispatch_release(x)
-#define ORS_GCD_RETAIN(x) dispatch_retain(x)
+#define ORS_GCD_RELEASE(x) if (x) { dispatch_release(x); }
+#define ORS_GCD_RETAIN(x) if (x) { dispatch_retain(x); }
 #endif
 
 #import "ORSSerialPort.h"
