@@ -98,12 +98,6 @@
 	NSLog(@"Serial port %@ encountered an error: %@", serialPort, error);
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-	NSLog(@"%s %@ %@", __PRETTY_FUNCTION__, object, keyPath);
-	NSLog(@"Change dictionary: %@", change);
-}
-
 #pragma mark - NSUserNotificationCenterDelegate
 
 #if (MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_7)
@@ -184,17 +178,6 @@
 @synthesize openCloseButton = _openCloseButton;
 
 @synthesize serialPortManager = _serialPortManager;
-- (void)setSerialPortManager:(ORSSerialPortManager *)manager
-{
-	if (manager != _serialPortManager)
-	{
-		[_serialPortManager removeObserver:self forKeyPath:@"availablePorts"];
-		_serialPortManager = manager;
-		NSKeyValueObservingOptions options = NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld;
-		[_serialPortManager addObserver:self forKeyPath:@"availablePorts" options:options context:NULL];
-	}
-}
-
 @synthesize serialPort = _serialPort;
 - (void)setSerialPort:(ORSSerialPort *)port
 {
