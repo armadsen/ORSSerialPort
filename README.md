@@ -4,10 +4,10 @@ ORSSerialPort
 ORSSerialPort is my take on a modern, easy-to-use Objective-C serial port library. It's a simple, Cocoa-like set of Objective-C classes useful for programmers writing Objective-C Cocoa apps that must communicate with external devices through a serial port (most commonly RS-232). Using ORSSerialPort to open a port and send data can be as simple as this:
 
     ORSSerialPort *serialPort = [ORSSerialPort serialPortWithPath:@"/dev/cu.KeySerial1"];
-    serialPort.baudRate = [NSNumber numberWithInteger:4800];
+    serialPort.baudRate = @4800;
     [serialPort open];
     [serialPort sendData:someData]; // someData is an NSData object
-    [serialPort close];
+    [serialPort close]; // Later, when you're done with the port
     
 ORSSerialPort is released under an MIT license, meaning you're free to use it in both closed and open source projects. However, even in a closed source project, you must include a publicly-accessible copy of ORSSerialPort's copyright notice, which you can find in the LICENSE file.
 
