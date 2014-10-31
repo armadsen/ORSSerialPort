@@ -1,9 +1,9 @@
 //
-//  ORSSerialRequest.m
-//  CameraRemote
+//  ORSSerialRequest.h
+//  ORSSerialPort
 //
 //  Created by Andrew Madsen on 4/21/14.
-//  Copyright (c) 2014 Ryan Darton. All rights reserved.
+//  Copyright (c) 2014 Andrew Madsen. All rights reserved.
 //
 
 #import "ORSSerialRequest.h"
