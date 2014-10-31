@@ -29,12 +29,11 @@
 #import <termios.h>
 
 //#define LOG_SERIAL_PORT_ERRORS 
-
-enum {
+typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
 	ORSSerialPortParityNone = 0,
 	ORSSerialPortParityOdd,
 	ORSSerialPortParityEven
-}; typedef NSUInteger ORSSerialPortParity;
+};
 
 @protocol ORSSerialPortDelegate;
 
@@ -154,7 +153,7 @@ enum {
  *  @see -[ORSSerialPortManager availablePorts]
  *  @see +serialPortWithPath:
  */
-- (id)initWithPath:(NSString *)devicePath;
+- (instancetype)initWithPath:(NSString *)devicePath;
 
 /**
  *  Returns an `ORSSerialPort` instance for the serial port represented by `device`.
@@ -172,7 +171,7 @@ enum {
  *  @see -[ORSSerialPortManager availablePorts]
  *  @see -initWithPath:
  */
-- (id)initWithDevice:(io_object_t)device;
+- (instancetype)initWithDevice:(io_object_t)device NS_DESIGNATED_INITIALIZER;
 
 /** ---------------------------------------------------------------------------------------
  * @name Opening and Closing
@@ -198,7 +197,7 @@ enum {
  *
  *  @return YES if closing the port was closed successfully, NO if closing the port failed.
  */
-- (BOOL)close;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL close;
 
 - (void)cleanup DEPRECATED_ATTRIBUTE; // Should never have been called in client code, anyway.
 

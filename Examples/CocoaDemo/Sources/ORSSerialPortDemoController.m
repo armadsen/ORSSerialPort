@@ -29,14 +29,13 @@
 
 @implementation ORSSerialPortDemoController
 
-- (id)init
+- (instancetype)init
 {
     self = [super init];
     if (self)
 	{
         self.serialPortManager = [ORSSerialPortManager sharedSerialPortManager];
-		self.availableBaudRates = [NSArray arrayWithObjects: [NSNumber numberWithInteger:300], [NSNumber numberWithInteger:1200], [NSNumber numberWithInteger:2400], [NSNumber numberWithInteger:4800], [NSNumber numberWithInteger:9600], [NSNumber numberWithInteger:14400], [NSNumber numberWithInteger:19200], [NSNumber numberWithInteger:28800], [NSNumber numberWithInteger:38400], [NSNumber numberWithInteger:57600], [NSNumber numberWithInteger:115200], [NSNumber numberWithInteger:230400],
-								   nil];
+		self.availableBaudRates = @[@300, @1200, @2400, @4800, @9600, @14400, @19200, @28800, @38400, @57600, @115200, @230400];
 		
 		NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 		[nc addObserver:self selector:@selector(serialPortsWereConnected:) name:ORSSerialPortsWereConnectedNotification object:nil];
@@ -99,12 +98,6 @@
 	NSLog(@"Serial port %@ encountered an error: %@", serialPort, error);
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-	NSLog(@"%s %@ %@", __PRETTY_FUNCTION__, object, keyPath);
-	NSLog(@"Change dictionary: %@", change);
-}
-
 #pragma mark - NSUserNotificationCenterDelegate
 
 #if (MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_7)
@@ -128,14 +121,14 @@
 
 - (void)serialPortsWereConnected:(NSNotification *)notification
 {
-	NSArray *connectedPorts = [[notification userInfo] objectForKey:ORSConnectedSerialPortsKey];
+	NSArray *connectedPorts = [notification userInfo][ORSConnectedSerialPortsKey];
 	NSLog(@"Ports were connected: %@", connectedPorts);
 	[self postUserNotificationForConnectedPorts:connectedPorts];
 }
 
 - (void)serialPortsWereDisconnected:(NSNotification *)notification
 {
-	NSArray *disconnectedPorts = [[notification userInfo] objectForKey:ORSDisconnectedSerialPortsKey];
+	NSArray *disconnectedPorts = [notification userInfo][ORSDisconnectedSerialPortsKey];
 	NSLog(@"Ports were disconnected: %@", disconnectedPorts);
 	[self postUserNotificationForDisconnectedPorts:disconnectedPorts];
 	
@@ -180,23 +173,6 @@
 
 #pragma mark - Properties
 
-@synthesize sendTextField = _sendTextField;
-@synthesize receivedDataTextView = _receivedDataTextView;
-@synthesize openCloseButton = _openCloseButton;
-
-@synthesize serialPortManager = _serialPortManager;
-- (void)setSerialPortManager:(ORSSerialPortManager *)manager
-{
-	if (manager != _serialPortManager)
-	{
-		[_serialPortManager removeObserver:self forKeyPath:@"availablePorts"];
-		_serialPortManager = manager;
-		NSKeyValueObservingOptions options = NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld;
-		[_serialPortManager addObserver:self forKeyPath:@"availablePorts" options:options context:NULL];
-	}
-}
-
-@synthesize serialPort = _serialPort;
 - (void)setSerialPort:(ORSSerialPort *)port
 {
 	if (port != _serialPort)
@@ -209,7 +185,5 @@
 		_serialPort.delegate = self;
 	}
 }
-
-@synthesize availableBaudRates = _availableBaudRates;
 
 @end

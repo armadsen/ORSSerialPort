@@ -36,6 +36,4 @@
 	for (ORSSerialPort *port in ports) { [port close]; } 
 }
 
-@synthesize window = _window;
-
 @end

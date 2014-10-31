@@ -68,7 +68,7 @@ static ORSSerialPortManager *sharedInstance = nil;
 
 #pragma mark - Singleton Methods
 
-- (id)init
+- (instancetype)init
 {
 	if (self == sharedInstance) return sharedInstance; // Already initialized
 	
@@ -279,8 +279,6 @@ static ORSSerialPortManager *sharedInstance = nil;
 
 #pragma mark - Properties
 
-@synthesize availablePorts = _availablePorts;
-
 - (void)setAvailablePorts:(NSArray *)ports
 {
 	if (ports != _availablePorts)
@@ -290,15 +288,12 @@ static ORSSerialPortManager *sharedInstance = nil;
 }
 
 - (NSUInteger)countOfAvailablePorts { return [_availablePorts count]; }
-- (id)objectInAvailablePortsAtIndex:(NSUInteger)index { return [_availablePorts objectAtIndex:index]; }
+- (id)objectInAvailablePortsAtIndex:(NSUInteger)index { return _availablePorts[index]; }
 - (void)insertAvailablePorts:(NSArray *)array atIndexes:(NSIndexSet *)indexes { [_availablePorts insertObjects:array atIndexes:indexes]; }
 - (void)insertObject:(ORSSerialPort *)object inAvailablePortsAtIndex:(NSUInteger)index { [_availablePorts insertObject:object atIndex:index]; }
 - (void)removeAvailablePortsAtIndexes:(NSIndexSet *)indexes { [_availablePorts removeObjectsAtIndexes:indexes]; }
 - (void)removeObjectFromAvailablePortsAtIndex:(NSUInteger)index { [_availablePorts removeObjectAtIndex:index]; }
 
-@synthesize portsToReopenAfterSleep = _portsToReopenAfterSleep;
-
-@synthesize portPublishedNotificationIterator = _portPublishedNotificationIterator;
 - (void)setPortPublishedNotificationIterator:(io_iterator_t)iterator
 {
 	if (iterator != _portPublishedNotificationIterator)
@@ -310,7 +305,6 @@ static ORSSerialPortManager *sharedInstance = nil;
 	}
 }
 
-@synthesize portTerminatedNotificationIterator = _portTerminatedNotificationIterator;
 - (void)setPortTerminatedNotificationIterator:(io_iterator_t)iterator
 {
 	if (iterator != _portTerminatedNotificationIterator)
