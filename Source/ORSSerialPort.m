@@ -24,6 +24,13 @@
 //	TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 //	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+#import "ORSSerialPort.h"
+#import <IOKit/serial/IOSerialKeys.h>
+#import <IOKit/serial/ioss.h>
+#import <sys/param.h>
+#import <sys/filio.h>
+#import <sys/ioctl.h>
+
 #if !__has_feature(objc_arc)
 #error ORSSerialPort.m must be compiled with ARC. Either turn on ARC for the project or set the -fobjc-arc flag for ORSSerialPort.m in the Build Phases for this target
 #endif
@@ -35,13 +42,6 @@
 #define ORS_GCD_RELEASE(x) if (x) { dispatch_release(x); }
 #define ORS_GCD_RETAIN(x) if (x) { dispatch_retain(x); }
 #endif
-
-#import "ORSSerialPort.h"
-#import <IOKit/serial/IOSerialKeys.h>
-#import <IOKit/serial/ioss.h>
-#import <sys/param.h>
-#import <sys/filio.h>
-#import <sys/ioctl.h>
 
 #ifdef LOG_SERIAL_PORT_ERRORS
 #define LOG_SERIAL_PORT_ERROR(fmt, ...) NSLog(fmt, ## __VA_ARGS__)
