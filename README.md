@@ -1,7 +1,7 @@
 ORSSerialPort
 =============
 
-ORSSerialPort is my take on a modern, easy-to-use Objective-C serial port library. It's a simple, Cocoa-like set of Objective-C classes useful for programmers writing Objective-C Cocoa apps that must communicate with external devices through a serial port (most commonly RS-232). Using ORSSerialPort to open a port and send data can be as simple as this:
+ORSSerialPort is my take on a modern, easy-to-use Objective-C serial port library. It's a simple, Cocoa-like set of Objective-C classes useful for programmers writing Objective-C or Swift apps for the Mac that must communicate with external devices through a serial port (most commonly RS-232). Using ORSSerialPort to open a port and send data can be as simple as this:
 
     ORSSerialPort *serialPort = [ORSSerialPort serialPortWithPath:@"/dev/cu.KeySerial1"];
     serialPort.baudRate = @4800;
@@ -113,6 +113,11 @@ The first, and primary example is called ORSSerialPortCocoaDemo, and is found in
 ORSSerialPortCocoaDemo includes a dropdown menu containing all available ports on the system, controls to set baud rate, parity, number of stop bits, and flow control settings. Also included are two text fields. One is for typing characters to be sent to the serial port, the other for displaying received characters. Finally, it includes checkboxes corresponding to the RTS, DTR, CTS, DSR, and DCD pins. For the output pins (RTS, DTR), their state can be toggled using their checkbox. The input pins (CTS, DSR, DCD) are read only. 
 
 This application demonstrates that it is possible to setup and use a serial port with ORSSerialPort without writing a lot of "glue" code. Nearly all of the UI is implemented using Cocoa bindings. With the exception of two lines in ORSAppDelegate.m, the source code for entire application is contained in ORSSerialPortDemoController.h/m.
+
+ORSSerialPortSwiftDemo
+----------------------
+
+The ORSSerialPortSwiftDemo app is functionally identical to ORSSerialPortCocoaDemo but is written in Swift. This is simply meant to give an example of using ORSSerialPort in a Swift project.
 
 ORSSerialPortCommandLineDemo
 ----------------------------
