@@ -13,7 +13,7 @@ ORSSerialPort is released under an MIT license, meaning you're free to use it in
 
 If you have any questions about, suggestions for, or contributions to ORSSerialPort, please [contact me](mailto:andrew@openreelsoftware.com). I'd also love to hear about any cool projects you're using it in.
 
-This readme provides an overview of the ORSSerialPort library and is meant to provide enough information to get up and running quickly. You can read complete documentation for ORSSerialPort here: [http://cocoadocs.org/docsets/ORSSerialPort/](http://cocoadocs.org/docsets/ORSSerialPort/)
+This readme provides an overview of the ORSSerialPort library and is meant to provide enough information to get up and running quickly. You can read complete documentation for ORSSerialPort here: [http://cocoadocs.org/docsets/ORSSerialPort/](http://cocoadocs.org/docsets/ORSSerialPort/) The example code here is in Objective-C. ORSSerialPort can also easily be used from Swift code. For Swift examples, see the ORSSerialPortSwiftDemo project in the Examples folder.
 
 How to Use ORSSerialPort
 ========================
