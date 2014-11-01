@@ -37,6 +37,8 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
 
 @protocol ORSSerialPortDelegate;
 
+@class ORSSerialRequest;
+
 /**
  *  The ORSSerialPort class represents a serial port, and includes methods to
  *  configure, open and close a port, and send and receive data to and from
@@ -226,9 +228,24 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
  *
  *  @param data An `NSData` object containing the data to be sent.
  *
- *  @return YES if sending data failed, NO if an error occurred.
+ *  @return YES if sending data succeeded, NO if an error occurred.
  */
 - (BOOL)sendData:(NSData *)data;
+
+/**
+ *  Sends the data in request, and begins watching for a valid response to the request,
+ *  to be delivered to the delegate.
+ *
+ *  If the receiver already has one or more pending requests, the request is queued to be
+ *  sent after all previous requests have received valid responses or have timed out
+ *  and this method will return YES. If there are no pending requests, the request
+ *  is sent immediately and NO is returned if an error occurs.
+ *
+ *  @param request An ORSSerialRequest instance including the data to be sent.
+ *
+ *  @return YES if sending the request's data succeeded, NO if an error occurred.
+ */
+- (BOOL)sendRequest:(ORSSerialRequest *)request;
 
 /** ---------------------------------------------------------------------------------------
  * @name Delegate
@@ -242,7 +259,18 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
 @property (nonatomic, unsafe_unretained) id<ORSSerialPortDelegate> delegate;
 
 /** ---------------------------------------------------------------------------------------
- * @name Port Object Properties
+ * @name Request/Response Properties
+ *  ---------------------------------------------------------------------------------------
+ */
+
+/**
+ *  The previously-sent request for which the port is awaiting a response, or nil
+ *  if there is no pending request.
+ */
+@property (nonatomic, strong, readonly) ORSSerialRequest *pendingRequest;
+
+/** ---------------------------------------------------------------------------------------
+ * @name Port Properties
  *  ---------------------------------------------------------------------------------------
  */
 
@@ -411,14 +439,6 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
 @required
 
 /**
- *  Called when new data is received by the serial port from an external source.
- *
- *  @param serialPort The `ORSSerialPort` instance representing the port that received `data`.
- *  @param data       An `NSData` instance containing the data received.
- */
-- (void)serialPort:(ORSSerialPort *)serialPort didReceiveData:(NSData *)data;
-
-/**
  *  Called when a serial port is removed from the system, e.g. the user unplugs
  *  the USB to serial adapter for the port.
  *
@@ -431,6 +451,34 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
 - (void)serialPortWasRemovedFromSystem:(ORSSerialPort *)serialPort;
 
 @optional
+
+/**
+ *  Called any time new data is received by the serial port from an external source.
+ *
+ *  @param serialPort The `ORSSerialPort` instance representing the port that received `data`.
+ *  @param data       An `NSData` instance containing the data received.
+ */
+- (void)serialPort:(ORSSerialPort *)serialPort didReceiveData:(NSData *)data;
+
+/**
+ *  Called when a valid, complete response is received for a previously sent request.
+ *
+ *  @param serialPort   The `ORSSerialPort` instance representing the port that received `responseData`.
+ *  @param responseData The An `NSData` instance containing the received response data.
+ *  @param request      The request to which the responseData is a respone.
+ */
+- (void)serialPort:(ORSSerialPort *)serialPort didReceiveResponse:(NSData *)responseData toRequest:(ORSSerialRequest *)request;
+
+/**
+ *  Called when a the timeout interval for a previously sent request elapses without a valid
+ *  response having been received.
+ *
+ *  The request can be re-sent by simply calling -sendRequest: again.
+ *
+ *  @param serialPort The `ORSSerialPort` instance representing the port through which the request was sent.
+ *  @param request    The request for which a response has not been received.
+ */
+- (void)serialPort:(ORSSerialPort *)serialPort requestDidTimeout:(ORSSerialRequest *)request;
 
 /**
  *  Called when an error occurs during an operation involving a serial port.
