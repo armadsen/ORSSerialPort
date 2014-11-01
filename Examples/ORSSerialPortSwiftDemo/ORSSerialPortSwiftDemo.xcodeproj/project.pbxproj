@@ -1,0 +1,302 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9D0E21661A0441F500051960 /* SerialPortDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0E21651A0441F500051960 /* SerialPortDemoController.swift */; };
+		9D0E21681A04460000051960 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D0E21671A04460000051960 /* MainMenu.xib */; };
+		9DFD06401A043BF300CE0294 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9DFD063B1A043BF300CE0294 /* Images.xcassets */; };
+		9DFD06421A043BF300CE0294 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFD063E1A043BF300CE0294 /* AppDelegate.swift */; };
+		9DFD064F1A043D3600CE0294 /* ORSSerialPort.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DFD064E1A043D3600CE0294 /* ORSSerialPort.m */; };
+		9DFD06521A043D5500CE0294 /* ORSSerialPortManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DFD06511A043D5500CE0294 /* ORSSerialPortManager.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		9D0E21651A0441F500051960 /* SerialPortDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerialPortDemoController.swift; sourceTree = "<group>"; };
+		9D0E21671A04460000051960 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		9DFD06181A043BA400CE0294 /* ORSSerialPortSwiftDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ORSSerialPortSwiftDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9DFD063B1A043BF300CE0294 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		9DFD063C1A043BF300CE0294 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9DFD063E1A043BF300CE0294 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		9DFD064D1A043D3600CE0294 /* ORSSerialPort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSSerialPort.h; sourceTree = "<group>"; };
+		9DFD064E1A043D3600CE0294 /* ORSSerialPort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSSerialPort.m; sourceTree = "<group>"; };
+		9DFD06501A043D5500CE0294 /* ORSSerialPortManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSSerialPortManager.h; sourceTree = "<group>"; };
+		9DFD06511A043D5500CE0294 /* ORSSerialPortManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSSerialPortManager.m; sourceTree = "<group>"; };
+		9DFD06531A043DB900CE0294 /* ORSSerialPortSwiftDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ORSSerialPortSwiftDemo-Bridging-Header.h"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9DFD06151A043BA400CE0294 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9DFD060F1A043BA400CE0294 = {
+			isa = PBXGroup;
+			children = (
+				9DFD063D1A043BF300CE0294 /* Sources */,
+				9DFD06431A043C8000CE0294 /* ORSSerialPort */,
+				9DFD06381A043BF300CE0294 /* Resources */,
+				9DFD06191A043BA400CE0294 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		9DFD06191A043BA400CE0294 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9DFD06181A043BA400CE0294 /* ORSSerialPortSwiftDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9DFD06381A043BF300CE0294 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9D0E21671A04460000051960 /* MainMenu.xib */,
+				9DFD063B1A043BF300CE0294 /* Images.xcassets */,
+				9DFD063C1A043BF300CE0294 /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		9DFD063D1A043BF300CE0294 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				9DFD06531A043DB900CE0294 /* ORSSerialPortSwiftDemo-Bridging-Header.h */,
+				9DFD063E1A043BF300CE0294 /* AppDelegate.swift */,
+				9D0E21651A0441F500051960 /* SerialPortDemoController.swift */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		9DFD06431A043C8000CE0294 /* ORSSerialPort */ = {
+			isa = PBXGroup;
+			children = (
+				9DFD064D1A043D3600CE0294 /* ORSSerialPort.h */,
+				9DFD064E1A043D3600CE0294 /* ORSSerialPort.m */,
+				9DFD06501A043D5500CE0294 /* ORSSerialPortManager.h */,
+				9DFD06511A043D5500CE0294 /* ORSSerialPortManager.m */,
+			);
+			name = ORSSerialPort;
+			path = ../../Source;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9DFD06171A043BA400CE0294 /* ORSSerialPortSwiftDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9DFD06321A043BA400CE0294 /* Build configuration list for PBXNativeTarget "ORSSerialPortSwiftDemo" */;
+			buildPhases = (
+				9DFD06141A043BA400CE0294 /* Sources */,
+				9DFD06151A043BA400CE0294 /* Frameworks */,
+				9DFD06161A043BA400CE0294 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ORSSerialPortSwiftDemo;
+			productName = ORSSerialPortSwiftDemo;
+			productReference = 9DFD06181A043BA400CE0294 /* ORSSerialPortSwiftDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9DFD06101A043BA400CE0294 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = "Open Reel Software";
+				TargetAttributes = {
+					9DFD06171A043BA400CE0294 = {
+						CreatedOnToolsVersion = 6.1;
+					};
+				};
+			};
+			buildConfigurationList = 9DFD06131A043BA400CE0294 /* Build configuration list for PBXProject "ORSSerialPortSwiftDemo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 9DFD060F1A043BA400CE0294;
+			productRefGroup = 9DFD06191A043BA400CE0294 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9DFD06171A043BA400CE0294 /* ORSSerialPortSwiftDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9DFD06161A043BA400CE0294 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9DFD06401A043BF300CE0294 /* Images.xcassets in Resources */,
+				9D0E21681A04460000051960 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9DFD06141A043BA400CE0294 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9DFD06521A043D5500CE0294 /* ORSSerialPortManager.m in Sources */,
+				9DFD06421A043BF300CE0294 /* AppDelegate.swift in Sources */,
+				9DFD064F1A043D3600CE0294 /* ORSSerialPort.m in Sources */,
+				9D0E21661A0441F500051960 /* SerialPortDemoController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		9DFD06301A043BA400CE0294 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		9DFD06311A043BA400CE0294 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		9DFD06331A043BA400CE0294 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Resources/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Sources/ORSSerialPortSwiftDemo-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		9DFD06341A043BA400CE0294 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Resources/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Sources/ORSSerialPortSwiftDemo-Bridging-Header.h";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9DFD06131A043BA400CE0294 /* Build configuration list for PBXProject "ORSSerialPortSwiftDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9DFD06301A043BA400CE0294 /* Debug */,
+				9DFD06311A043BA400CE0294 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9DFD06321A043BA400CE0294 /* Build configuration list for PBXNativeTarget "ORSSerialPortSwiftDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9DFD06331A043BA400CE0294 /* Debug */,
+				9DFD06341A043BA400CE0294 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9DFD06101A043BA400CE0294 /* Project object */;
+}

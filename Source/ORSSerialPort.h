@@ -197,7 +197,7 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
  *
  *  @return YES if closing the port was closed successfully, NO if closing the port failed.
  */
-@property (NS_NONATOMIC_IOSONLY, readonly) BOOL close;
+- (BOOL)close;
 
 - (void)cleanup DEPRECATED_ATTRIBUTE; // Should never have been called in client code, anyway.
 
