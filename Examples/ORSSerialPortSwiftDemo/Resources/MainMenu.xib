@@ -647,7 +647,7 @@
                 </menuItem>
             </items>
         </menu>
-        <window title="ORSSerialPortCocoaDemo" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="371">
+        <window title="ORSSerialPortSwiftDemo" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="371">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="335" y="390" width="480" height="639"/>
@@ -749,7 +749,7 @@
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <action selector="send:" target="536" id="623"/>
+                            <action selector="send:" target="536" id="wOr-CU-Hek"/>
                         </connections>
                     </button>
                     <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="583">
@@ -789,7 +789,7 @@
                         </scroller>
                     </scrollView>
                     <button id="589">
-                        <rect key="frame" x="178" y="68" width="46" height="18"/>
+                        <rect key="frame" x="178" y="68" width="48" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="check" title="RTS" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="590">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -956,7 +956,7 @@
                         </textFieldCell>
                     </textField>
                     <button id="654">
-                        <rect key="frame" x="178" y="466" width="77" height="18"/>
+                        <rect key="frame" x="178" y="466" width="79" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="RTS/CTS" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="663">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -967,7 +967,7 @@
                         </connections>
                     </button>
                     <button id="655">
-                        <rect key="frame" x="178" y="442" width="80" height="18"/>
+                        <rect key="frame" x="178" y="442" width="82" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="DTR/DSR" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="662">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -1041,7 +1041,7 @@
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <action selector="openOrClosePort:" target="536" id="693"/>
+                            <action selector="openOrClosePort:" target="536" id="wId-JT-O5E"/>
                             <binding destination="536" name="enabled" keyPath="serialPort" id="695">
                                 <dictionary key="options">
                                     <string key="NSValueTransformerName">NSIsNotNil</string>
@@ -1052,19 +1052,17 @@
                 </subviews>
             </view>
         </window>
-        <customObject id="494" customClass="ORSAppDelegate">
+        <customObject id="494" customClass="AppDelegate" customModule="ORSSerialPortSwiftDemo" customModuleProvider="target">
             <connections>
-                <outlet property="receivedDataTextView" destination="585" id="588"/>
-                <outlet property="sendTextField" destination="577" id="582"/>
-                <outlet property="window" destination="371" id="532"/>
+                <outlet property="window" destination="371" id="ZHI-kX-YCc"/>
             </connections>
         </customObject>
         <customObject id="420" customClass="NSFontManager"/>
-        <customObject id="536" customClass="ORSSerialPortDemoController">
+        <customObject id="536" customClass="SerialPortDemoController" customModule="ORSSerialPortSwiftDemo" customModuleProvider="target">
             <connections>
-                <outlet property="openCloseButton" destination="690" id="692"/>
-                <outlet property="receivedDataTextView" destination="585" id="625"/>
-                <outlet property="sendTextField" destination="577" id="624"/>
+                <outlet property="openCloseButton" destination="690" id="8IT-RK-mVg"/>
+                <outlet property="receivedDataTextView" destination="585" id="zuL-km-tmL"/>
+                <outlet property="sendTextField" destination="577" id="nfG-J7-A59"/>
             </connections>
         </customObject>
     </objects>
