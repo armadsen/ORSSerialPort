@@ -236,6 +236,11 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
  *  Sends the data in request, and begins watching for a valid response to the request,
  *  to be delivered to the delegate.
  *
+ *  If the receiver already has one or more pending requests, the request is queued to be
+ *  sent after all previous requests have received valid responses or have timed out
+ *  and this method will return YES. If there are no pending requests, the request
+ *  is sent immediately and NO is returned if an error occurs.
+ *
  *  @param request An ORSSerialRequest instance including the data to be sent.
  *
  *  @return YES if sending the request's data succeeded, NO if an error occurred.
