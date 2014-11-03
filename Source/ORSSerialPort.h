@@ -216,15 +216,18 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
 /**
  *  Sends data out through the serial port represented by the receiver.
  *
- *  This method attempts to send all data synchronously. If the serial port
- *  is unable to accept all the passed in data in a single write operation,
- *  The remaining data is buffered and sent later asynchronously.
+ *  This method attempts to send all data synchronously. That is, the method
+ *  will not return until all passed in data has been sent, or an error has occurred.
  *
  *  If an error occurs, the ORSSerialPortDelegate method `-serialPort:didEncounterError:` will
  *  be called. The exception to this is if sending data fails because the port
  *  is closed. In that case, this method returns NO, but `-serialPort:didEncounterError:`
  *  is *not* called. You can ensure that the port is open by calling `-isOpen` before 
  *  calling this method.
+ *
+ *  Note that this method can take a long time to return when a very large amount of data
+ *  is passed in, due to the relatively slow nature of serial communication. It is better
+ *  to send data in discrete short packets if possible.
  *
  *  @param data An `NSData` object containing the data to be sent.
  *
