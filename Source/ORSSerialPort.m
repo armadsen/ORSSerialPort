@@ -62,7 +62,6 @@ static __strong NSMutableArray *allSerialPorts;
 @property int fileDescriptor;
 @property (copy, readwrite) NSString *name;
 
-@property (strong) NSMutableData *writeBuffer;
 @property (strong) NSMutableData *receiveBuffer;
 
 // Request handling
@@ -129,7 +128,7 @@ static __strong NSMutableArray *allSerialPorts;
 
 + (ORSSerialPort *)serialPortWithPath:(NSString *)devicePath
 {
- 	return [[self alloc] initWithPath:devicePath];
+	return [[self alloc] initWithPath:devicePath];
 }
 
 + (ORSSerialPort *)serialPortWithDevice:(io_object_t)device;
@@ -139,10 +138,10 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (instancetype)initWithPath:(NSString *)devicePath
 {
- 	io_object_t device = [[self class] deviceFromBSDPath:devicePath];
+	io_object_t device = [[self class] deviceFromBSDPath:devicePath];
 	if (device == 0) return nil;
 	
- 	return [self initWithDevice:device];
+	return [self initWithDevice:device];
 }
 
 - (instancetype)initWithDevice:(io_object_t)device;
@@ -165,7 +164,6 @@ static __strong NSMutableArray *allSerialPorts;
 		self.ioKitDevice = device;
 		self.path = bsdPath;
 		self.name = [[self class] modemNameFromDevice:device];
-		self.writeBuffer = [NSMutableData data];
 		self.receiveBuffer = [NSMutableData data];
 		self.requestsQueue = [NSMutableArray array];
 		self.baudRate = @B19200;
@@ -268,12 +266,12 @@ static __strong NSMutableArray *allSerialPorts;
 	self.RTS = desiredRTS;
 	self.DTR = desiredDTR;
 	
-    if ([(id)self.delegate respondsToSelector:@selector(serialPortWasOpened:)])
-    {
-        dispatch_async(mainQueue, ^{
+	if ([(id)self.delegate respondsToSelector:@selector(serialPortWasOpened:)])
+	{
+		dispatch_async(mainQueue, ^{
 			[self.delegate serialPortWasOpened:self];
-        });
-    }
+		});
+	}
 	
 	// Start a read poller in the background
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -354,8 +352,6 @@ static __strong NSMutableArray *allSerialPorts;
 {
 	if (!self.isOpen) return YES;
 	
-	[self.writeBuffer replaceBytesInRange:NSMakeRange(0, [self.writeBuffer length]) withBytes:NULL length:0];
-	
 	self.pinPollTimer = nil; // Stop polling CTS/DSR/DCD pins
 	
 	// The next tcsetattr() call can fail if the port is waiting to send data. This is likely to happen
@@ -383,9 +379,9 @@ static __strong NSMutableArray *allSerialPorts;
 	
 	if ([(id)self.delegate respondsToSelector:@selector(serialPortWasClosed:)])
 	{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.delegate serialPortWasClosed:self];
-        });
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self.delegate serialPortWasClosed:self];
+		});
 	}
 	return YES;
 }
@@ -400,10 +396,10 @@ static __strong NSMutableArray *allSerialPorts;
 {
 	if ([(id)self.delegate respondsToSelector:@selector(serialPortWasRemovedFromSystem:)])
 	{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.delegate serialPortWasRemovedFromSystem:self];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self.delegate serialPortWasRemovedFromSystem:self];
 			[self close];
-        });
+		});
 	}
 	else
 	{
@@ -414,19 +410,31 @@ static __strong NSMutableArray *allSerialPorts;
 - (BOOL)sendData:(NSData *)data;
 {
 	if (!self.isOpen) return NO;
+	if ([data length] == 0) return YES;
 	
-	[self.writeBuffer appendData:data];
+	NSUInteger numBytes = [data length];
+	CFTimeInterval startTime = CFAbsoluteTimeGetCurrent();
+	NSUInteger numLoops = 0;
 	
-	if ([self.writeBuffer length] < 1) return YES;
-	
-	long numBytesWritten = write(self.fileDescriptor, [self.writeBuffer bytes], [self.writeBuffer length]);
-	if (numBytesWritten < 0)
+	NSMutableData *writeBuffer = [data mutableCopy];
+	while ([writeBuffer length] > 0)
 	{
-		LOG_SERIAL_PORT_ERROR(@"Error writing to serial port:%d", errno);
-		[self notifyDelegateOfPosixError];
-		return NO;
+		 long numBytesWritten = write(self.fileDescriptor, [writeBuffer bytes], [writeBuffer length]);
+		 if (numBytesWritten < 0)
+		 {
+			 LOG_SERIAL_PORT_ERROR(@"Error writing to serial port:%d", errno);
+			 [self notifyDelegateOfPosixError];
+			 return NO;
+		 }
+		 else if (numBytesWritten > 0)
+		 {
+			 [writeBuffer replaceBytesInRange:NSMakeRange(0, numBytesWritten) withBytes:NULL length:0];
+		 }
+		
+		numLoops++;
 	}
-	if (numBytesWritten > 0) [self.writeBuffer replaceBytesInRange:NSMakeRange(0, numBytesWritten) withBytes:NULL length:0];
+	
+	NSLog(@"Sending %lu bytes took %f s and %lu loops.", numBytes, CFAbsoluteTimeGetCurrent() - startTime, numLoops);
 	
 	return YES;
 }
@@ -492,9 +500,9 @@ static __strong NSMutableArray *allSerialPorts;
 {
 	if ([(id)self.delegate respondsToSelector:@selector(serialPort:didReceiveData:)])
 	{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.delegate serialPort:self didReceiveData:data];
-        });
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self.delegate serialPort:self didReceiveData:data];
+		});
 	}
 	
 	[self.receiveBuffer appendData:data];
@@ -509,8 +517,8 @@ static __strong NSMutableArray *allSerialPorts;
 				if ([(id)self.delegate respondsToSelector:@selector(serialPort:didReceiveResponse:toRequest:)])
 				{
 					[self.delegate serialPort:self didReceiveResponse:response toRequest:request];
-}
-
+				}
+				
 				self.pendingRequest = nil;
 				[self.receiveBuffer replaceBytesInRange:NSMakeRange(0, [self.receiveBuffer length])
 											  withBytes:NULL
