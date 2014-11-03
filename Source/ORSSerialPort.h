@@ -225,7 +225,7 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
  *  is *not* called. You can ensure that the port is open by calling `-isOpen` before 
  *  calling this method.
  *
- *  Note that this method can take a long time to return when a very large amount of data
+ *  @note This method can take a long time to return when a very large amount of data
  *  is passed in, due to the relatively slow nature of serial communication. It is better
  *  to send data in discrete short packets if possible.
  *
@@ -243,6 +243,9 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
  *  sent after all previous requests have received valid responses or have timed out
  *  and this method will return YES. If there are no pending requests, the request
  *  is sent immediately and NO is returned if an error occurs.
+ *
+ *  @note This method calls through to -sendData:, and the same caveat
+ *  about it taking a long time to send very large requests applies.
  *
  *  @param request An ORSSerialRequest instance including the data to be sent.
  *

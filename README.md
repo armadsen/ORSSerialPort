@@ -18,7 +18,7 @@ This readme provides an overview of the ORSSerialPort library and is meant to pr
 How to Use ORSSerialPort
 ========================
 
-The ORSSerialPort library consists of only two classes: `ORSSerialPort` and `ORSSerialPortManager`. To begin using ORSSerialPort in your project, drag the files in the "Source" folder into your Xcode project. ORSSerialPort.h/m are required, while ORSSerialPortManager.h/m are optional, but useful (see below). Next, add `#import "ORSSerialPort.h"` and `#import "ORSSerialPortManager.h"` to the top of the source code files in which you'd like to use ORSSerialPort. 
+The ORSSerialPort library consists of three classes: `ORSSerialPort`, `ORSSerialPortManager`, and `ORSSerialRequest`. To begin using ORSSerialPort in your project, drag the files in the "Source" folder into your Xcode project. ORSSerialPort.h/m and ORSSerialRequest.h/m are required, while ORSSerialPortManager.h/m are optional, but useful (see below). Next, add the appropriate #import statements (e.g. `#import "ORSSerialPort.h"`)  to the top of the source code files in which you'd like to use ORSSerialPort. 
 
 ORSSerialPort relies on IOKit.framework. If you're using Xcode 5 or later, you can use its support for Objective-C modules to avoid having to manually link in the IOKit framework. To use this, you must make sure Objective-C module support is turned on in your target/project's build settings (see [here](http://stackoverflow.com/a/18947634/344733)). Alternatively, if you're using an older version of Xcode, or can't enable Objective-C module support for some reason, you must add the IOKit framework to the "Link Binary With Libraries" build phase for your target. In your project's settings, select your application's target, then click on the "Build Phases" tab. Expand the "Link Binary With Libraries" section, then click the "+" button in the lower left corner to add a new Framework. In the list that appears, find and select IOKit.framework, then click "Add".
 
@@ -44,7 +44,7 @@ Port settings such as baud rate, number of stop bits, parity, and flow control s
 Sending Data
 ------------
 
-Send data by passing an `NSData` object to the `-sendData:` method:
+Send raw data by passing an `NSData` object to the `-sendData:` method:
 
     NSData *dataToSend = [self.sendTextField.stringValue dataUsingEncoding:NSUTF8StringEncoding];
     [self.serialPort sendData:dataToSend];
@@ -52,36 +52,39 @@ Send data by passing an `NSData` object to the `-sendData:` method:
 Receiving Data
 --------------
 
-To receive data, you must implement the `ORSSerialPortDelegate` protocol's `-serialPort:didReceiveData:` method, and set the `ORSSerialPort` instance's delegate property. As noted below, this method is always called on the main queue. An example implementation is included below:
+To receive data, you can implement the `ORSSerialPortDelegate` protocol's `-serialPort:didReceiveData:` method, and set the `ORSSerialPort` instance's delegate property. As noted below, this method is always called on the main queue. An example implementation is included below:
 
     - (void)serialPort:(ORSSerialPort *)serialPort didReceiveData:(NSData *)data
     {
-    	NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    	[self.receivedDataTextView.textStorage.mutableString appendString:string];
-    	[self.receivedDataTextView setNeedsDisplay:YES];
+        NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        [self.receivedDataTextView.textStorage.mutableString appendString:string];
+        [self.receivedDataTextView setNeedsDisplay:YES];
     }
 
 ORSSerialPortDelegate
 ---------------------
 
-`ORSSerialPort` includes a delegate property, and a delegate protocol called `ORSSerialPortDelegate`. The `ORSSerialPortDelegate` protocol includes two required methods:
+`ORSSerialPort` includes a delegate property, and a delegate protocol called `ORSSerialPortDelegate`. The `ORSSerialPortDelegate` protocol includes one required method:
 
-    - (void)serialPort:(ORSSerialPort *)serialPort didReceiveData:(NSData *)data;
     - (void)serialPortWasRemovedFromSystem:(ORSSerialPort *)serialPort;
     
-Also included are 3 optional methods:
+Also included are five optional methods:
 
+    - (void)serialPort:(ORSSerialPort *)serialPort didReceiveData:(NSData *)data;
+    - (void)serialPort:(ORSSerialPort *)serialPort didReceiveResponse:(NSData *)responseData toRequest:(ORSSerialRequest *)request;
     - (void)serialPort:(ORSSerialPort *)serialPort didEncounterError:(NSError *)error;
     - (void)serialPortWasOpened:(ORSSerialPort *)serialPort;
     - (void)serialPortWasClosed:(ORSSerialPort *)serialPort;
 
 *Note:* All `ORSSerialPortDelegate` methods are always called on the main queue. If you need to handle them on a background queue, you must dispatch your handling to a background queue in your implementation of the delegate method.
 
-As its name implies, `-serialPort:didReceiveData:` is called when data is received from the serial port. Internally, ORSSerialPort receives data on a background queue to avoid burdening the main queue with waiting for data. As with all other delegate methods, `-serialPort:didReceiveData:` is called on the main queue.
-
 `-serialPortserialPortWasRemovedFromSystem:` is called when a serial port is removed from the system, for example because a USB to serial adapter was unplugged. This method is required because you must release your reference to an `ORSSerialPort` instance when it is removed. The behavior of `ORSSerialPort` instances whose underlying serial port has been removed from the system is undefined.
 
-The three optional methods' function can easily be discerned from their name. Note that `-serialPort:didEncounterError:` is always used to report errors. None of ORSSerialPort's methods take an NSError object passed in by reference.
+The five optional methods' function can easily be discerned from their name. Note that `-serialPort:didEncounterError:` is always used to report errors. None of ORSSerialPort's methods take an NSError object passed in by reference.
+
+As its name implies, `-serialPort:didReceiveData:` is always called when data is received from the serial port. Internally, ORSSerialPort receives data on a background queue to avoid burdening the main queue with waiting for data. As with all other delegate methods, `-serialPort:didReceiveData:` is called on the main queue.
+
+`-serialPort:didReceiveResponse:toRequest:` is called when a complete, valid response to a previously sent `ORSSerialRequest` is received. Note that `-serialPort:didReceiveData:` is always _also_ called when data is received, even if the data is (possibly) in response to a pending request. If you're exclusively using the request/response API, you should probably ignore or not implement `-serialPort:didReceiveData:`.
 
 How to Use ORSSerialPortManager
 ===============================
