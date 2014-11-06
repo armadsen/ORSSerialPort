@@ -113,15 +113,16 @@ An ORSSerialRequest instance encapsulates a generic "request" command sent via t
 For the purposes of illustration, assume a communications protocol where a request might consist of the ASCII string "data?" and a valid response is ASCII "data" followed by 4 bytes of data. Such a request would be created like so:
 
     NSData *requestData = [@"data?" dataUsingEncoding:NSASCIIStringEncoding];
-    ORSSerialRequest *request = [ORSSerialRequest requestWithDataToSend:requestData
-                                                               userInfo:nil
-                                                        timeoutInterval:2.0
-                                                      responseEvaluator:^BOOL(NSData *inputData) {
-                                                          if ([inputData length] != 8) return NO;
-                                                          NSData *headerData = [inputData subdataWithRange:NSMakeRange(0, 4)];
-                                                          NSString *header = [[NSString alloc] initWithData:headerData encoding:NSASCIIStringEncoding];
-                                                          return [header isEqualToString:@"data"];
-                                                      }];
+    ORSSerialRequest *request = 
+        [ORSSerialRequest requestWithDataToSend:requestData
+                                       userInfo:nil
+                                timeoutInterval:2.0
+                              responseEvaluator:^BOOL(NSData *inputData) {
+                                  if ([inputData length] != 8) return NO;
+                                  NSData *headerData = [inputData subdataWithRange:NSMakeRange(0, 4)];
+                                  NSString *header = [[NSString alloc] initWithData:headerData encoding:NSASCIIStringEncoding];
+                                  return [header isEqualToString:@"data"];
+                              }];
 
 The response evaluator block only returns YES if the received data is 8 bytes long and has the expected "data" header. If a valid response is not received within 2 seconds, the request will timeout.
 
