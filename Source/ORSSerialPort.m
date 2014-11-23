@@ -412,10 +412,6 @@ static __strong NSMutableArray *allSerialPorts;
 	if (!self.isOpen) return NO;
 	if ([data length] == 0) return YES;
 	
-	NSUInteger numBytes = [data length];
-	CFTimeInterval startTime = CFAbsoluteTimeGetCurrent();
-	NSUInteger numLoops = 0;
-	
 	NSMutableData *writeBuffer = [data mutableCopy];
 	while ([writeBuffer length] > 0)
 	{
@@ -433,8 +429,6 @@ static __strong NSMutableArray *allSerialPorts;
 		
 		numLoops++;
 	}
-	
-	NSLog(@"Sending %lu bytes took %f s and %lu loops.", numBytes, CFAbsoluteTimeGetCurrent() - startTime, numLoops);
 	
 	return YES;
 }
