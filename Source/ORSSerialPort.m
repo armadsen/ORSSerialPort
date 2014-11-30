@@ -426,8 +426,6 @@ static __strong NSMutableArray *allSerialPorts;
 		 {
 			 [writeBuffer replaceBytesInRange:NSMakeRange(0, numBytesWritten) withBytes:NULL length:0];
 		 }
-		
-		numLoops++;
 	}
 	
 	return YES;
