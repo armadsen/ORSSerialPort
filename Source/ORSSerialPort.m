@@ -490,7 +490,8 @@ static __strong NSMutableArray *allSerialPorts;
 		ORSSerialRequest *request = self.pendingRequest;
 		
 		dispatch_async(dispatch_get_main_queue(), ^{
-			if ([(id)self.delegate respondsToSelector:@selector(serialPort:didReceiveResponse:toRequest:)])
+			if ([responseData length] &&
+				[(id)self.delegate respondsToSelector:@selector(serialPort:didReceiveResponse:toRequest:)])
 			{
 				[self.delegate serialPort:self didReceiveResponse:responseData toRequest:request];
 			}
