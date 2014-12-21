@@ -15,22 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "9DCA89111A2BB106009285EB"
-               BuildableName = "ORSSerialPort.framework"
-               BlueprintName = "ORSSerialPort"
-               ReferencedContainer = "container:ORSSerialPort.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9DCA891C1A2BB106009285EB"
-               BuildableName = "ORSSerialPortTests.xctest"
-               BlueprintName = "ORSSerialPortTests"
+               BuildableName = "ORSSerial.framework"
+               BlueprintName = "ORSSerial"
                ReferencedContainer = "container:ORSSerialPort.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -42,26 +28,7 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9DCA891C1A2BB106009285EB"
-               BuildableName = "ORSSerialPortTests.xctest"
-               BlueprintName = "ORSSerialPortTests"
-               ReferencedContainer = "container:ORSSerialPort.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "9DCA89111A2BB106009285EB"
-            BuildableName = "ORSSerialPort.framework"
-            BlueprintName = "ORSSerialPort"
-            ReferencedContainer = "container:ORSSerialPort.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </TestAction>
    <LaunchAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
@@ -76,8 +43,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9DCA89111A2BB106009285EB"
-            BuildableName = "ORSSerialPort.framework"
-            BlueprintName = "ORSSerialPort"
+            BuildableName = "ORSSerial.framework"
+            BlueprintName = "ORSSerial"
             ReferencedContainer = "container:ORSSerialPort.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -94,8 +61,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9DCA89111A2BB106009285EB"
-            BuildableName = "ORSSerialPort.framework"
-            BlueprintName = "ORSSerialPort"
+            BuildableName = "ORSSerial.framework"
+            BlueprintName = "ORSSerial"
             ReferencedContainer = "container:ORSSerialPort.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

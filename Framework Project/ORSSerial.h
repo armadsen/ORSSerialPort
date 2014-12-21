@@ -6,6 +6,6 @@
 //  Copyright (c) 2014 Open Reel Software. All rights reserved.
 //
 
-#import <ORSSerialPort/ORSSerialPort.h>
-#import <ORSSerialPort/ORSSerialPortManager.h>
-#import <ORSSerialPort/ORSSerialRequest.h>
+#import <ORSSerial/ORSSerialPort.h>
+#import <ORSSerial/ORSSerialPortManager.h>
+#import <ORSSerial/ORSSerialRequest.h>

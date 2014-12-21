@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9DCA89321A2BB15A009285EB /* ORSSerialPortHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = 9DCA89311A2BB15A009285EB /* ORSSerialPortHeader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9DCA89321A2BB15A009285EB /* ORSSerial.h in Headers */ = {isa = PBXBuildFile; fileRef = 9DCA89311A2BB15A009285EB /* ORSSerial.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9DCA893A1A2BB1E2009285EB /* ORSSerialPort.h in Headers */ = {isa = PBXBuildFile; fileRef = 9DCA89341A2BB1E2009285EB /* ORSSerialPort.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9DCA893B1A2BB1E2009285EB /* ORSSerialPort.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA89351A2BB1E2009285EB /* ORSSerialPort.m */; };
 		9DCA893C1A2BB1E2009285EB /* ORSSerialPortManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 9DCA89361A2BB1E2009285EB /* ORSSerialPortManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -17,9 +17,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		9DCA89121A2BB106009285EB /* ORSSerialPort.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ORSSerialPort.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9DCA89121A2BB106009285EB /* ORSSerial.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ORSSerial.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DCA892E1A2BB14B009285EB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9DCA89311A2BB15A009285EB /* ORSSerialPortHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSSerialPortHeader.h; sourceTree = "<group>"; };
+		9DCA89311A2BB15A009285EB /* ORSSerial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSSerial.h; sourceTree = "<group>"; };
 		9DCA89341A2BB1E2009285EB /* ORSSerialPort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSSerialPort.h; sourceTree = "<group>"; };
 		9DCA89351A2BB1E2009285EB /* ORSSerialPort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSSerialPort.m; sourceTree = "<group>"; };
 		9DCA89361A2BB1E2009285EB /* ORSSerialPortManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSSerialPortManager.h; sourceTree = "<group>"; };
@@ -42,7 +42,7 @@
 		9DCA89081A2BB106009285EB = {
 			isa = PBXGroup;
 			children = (
-				9DCA89311A2BB15A009285EB /* ORSSerialPortHeader.h */,
+				9DCA89311A2BB15A009285EB /* ORSSerial.h */,
 				9DCA89331A2BB1E2009285EB /* Source */,
 				9DCA89301A2BB14E009285EB /* Resources */,
 				9DCA89131A2BB106009285EB /* Products */,
@@ -52,7 +52,7 @@
 		9DCA89131A2BB106009285EB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9DCA89121A2BB106009285EB /* ORSSerialPort.framework */,
+				9DCA89121A2BB106009285EB /* ORSSerial.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -88,7 +88,7 @@
 			files = (
 				9DCA893A1A2BB1E2009285EB /* ORSSerialPort.h in Headers */,
 				9DCA893E1A2BB1E2009285EB /* ORSSerialRequest.h in Headers */,
-				9DCA89321A2BB15A009285EB /* ORSSerialPortHeader.h in Headers */,
+				9DCA89321A2BB15A009285EB /* ORSSerial.h in Headers */,
 				9DCA893C1A2BB1E2009285EB /* ORSSerialPortManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -96,9 +96,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		9DCA89111A2BB106009285EB /* ORSSerialPort */ = {
+		9DCA89111A2BB106009285EB /* ORSSerial */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9DCA89281A2BB106009285EB /* Build configuration list for PBXNativeTarget "ORSSerialPort" */;
+			buildConfigurationList = 9DCA89281A2BB106009285EB /* Build configuration list for PBXNativeTarget "ORSSerial" */;
 			buildPhases = (
 				9DCA890D1A2BB106009285EB /* Sources */,
 				9DCA890E1A2BB106009285EB /* Frameworks */,
@@ -109,9 +109,9 @@
 			);
 			dependencies = (
 			);
-			name = ORSSerialPort;
+			name = ORSSerial;
 			productName = ORSSerialPort;
-			productReference = 9DCA89121A2BB106009285EB /* ORSSerialPort.framework */;
+			productReference = 9DCA89121A2BB106009285EB /* ORSSerial.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -140,7 +140,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				9DCA89111A2BB106009285EB /* ORSSerialPort */,
+				9DCA89111A2BB106009285EB /* ORSSerial */,
 			);
 		};
 /* End PBXProject section */
@@ -295,7 +295,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9DCA89281A2BB106009285EB /* Build configuration list for PBXNativeTarget "ORSSerialPort" */ = {
+		9DCA89281A2BB106009285EB /* Build configuration list for PBXNativeTarget "ORSSerial" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9DCA89291A2BB106009285EB /* Debug */,
