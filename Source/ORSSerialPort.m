@@ -444,7 +444,10 @@ static __strong NSMutableArray *allSerialPorts;
 																			 userInfo:nil
 																			  repeats:NO];
 		}
-		return [self sendData:request.dataToSend];
+		BOOL success = [self sendData:request.dataToSend];
+		// Immediately send next request if this one doesn't require a response
+		if (success) [self checkResponseToPendingRequestAndContinueIfValid];
+		return success;
 	}
 	
 	// Queue it up to be sent after the pending request is responded to, or times out.
@@ -478,6 +481,28 @@ static __strong NSMutableArray *allSerialPorts;
 	[self sendNextRequest];
 }
 
+- (void)checkResponseToPendingRequestAndContinueIfValid
+{
+	NSData *responseData = [self.receiveBuffer copy];
+	if (![self.pendingRequest dataIsValidResponse:responseData]) return;
+
+	self.pendingRequestTimeoutTimer = nil;
+		ORSSerialRequest *request = self.pendingRequest;
+		
+		dispatch_async(dispatch_get_main_queue(), ^{
+			if ([(id)self.delegate respondsToSelector:@selector(serialPort:didReceiveResponse:toRequest:)])
+			{
+				[self.delegate serialPort:self didReceiveResponse:responseData toRequest:request];
+			}
+			
+			self.pendingRequest = nil;
+			[self.receiveBuffer replaceBytesInRange:NSMakeRange(0, [self.receiveBuffer length])
+										  withBytes:NULL
+											 length:0];
+			[self sendNextRequest];
+		});
+}
+
 - (void)sendNextRequest
 {
 	if (![self.requestsQueue count]) return;
@@ -498,27 +523,7 @@ static __strong NSMutableArray *allSerialPorts;
 	}
 	
 	[self.receiveBuffer appendData:data];
-	if (self.pendingRequest) {
-		if ([self.pendingRequest dataIsValidResponse:self.receiveBuffer])
-		{
-			self.pendingRequestTimeoutTimer = nil;
-			ORSSerialRequest *request = self.pendingRequest;
-			NSData *response = [self.receiveBuffer copy];
-			
-			dispatch_async(dispatch_get_main_queue(), ^{
-				if ([(id)self.delegate respondsToSelector:@selector(serialPort:didReceiveResponse:toRequest:)])
-				{
-					[self.delegate serialPort:self didReceiveResponse:response toRequest:request];
-				}
-				
-				self.pendingRequest = nil;
-				[self.receiveBuffer replaceBytesInRange:NSMakeRange(0, [self.receiveBuffer length])
-											  withBytes:NULL
-												 length:0];
-				[self sendNextRequest];
-			});
-		}
-	}
+	[self checkResponseToPendingRequestAndContinueIfValid];
 }
 
 #pragma mark Port Propeties Methods

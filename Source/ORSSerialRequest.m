@@ -51,7 +51,7 @@
 
 - (BOOL)dataIsValidResponse:(NSData *)responseData
 {
-	if (!self.responseEvaluator) return [responseData length] > 0;
+	if (!self.responseEvaluator) return YES;
 	
 	return self.responseEvaluator(responseData);
 }

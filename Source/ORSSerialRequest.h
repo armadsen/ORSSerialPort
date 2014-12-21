@@ -28,7 +28,9 @@ typedef BOOL(^ORSSerialRequestResponseEvaluator)(NSData *inputData);
  *  @param dataToSend        The data to be sent on the serial port.
  *  @param userInfo          An arbitrary userInfo object.
  *  @param timeout			 The maximum amount of time in seconds to wait for a response. Pass -1.0 to wait indefinitely.
- *  @param responseEvaluator A block used to evaluate whether received data constitutes a valid response to the request. May be nil.
+ *  @param responseEvaluator A block used to evaluate whether received data constitutes a valid response to the request.
+ *  May be nil. If responseEvaluator is nil, the request is assumed not to require a response, and the next request in the queue will
+ *  be sent immediately.
  *
  *  @return An initialized ORSSerialRequest instance.
  */
@@ -43,7 +45,9 @@ typedef BOOL(^ORSSerialRequestResponseEvaluator)(NSData *inputData);
  *  @param dataToSend        The data to be sent on the serial port.
  *  @param userInfo          An arbitrary userInfo object.
  *  @param timeout			 The maximum amount of time in seconds to wait for a response. Pass -1.0 to wait indefinitely.
- *  @param responseEvaluator A block used to evaluate whether received data constitutes a valid response to the request. May be nil.
+ *  @param responseEvaluator A block used to evaluate whether received data constitutes a valid response to the request. 
+ *  May be nil. If responseEvaluator is nil, the request is assumed not to require a response, and the next request in the queue will
+ *  be sent immediately.
  *
  *  @return An initialized ORSSerialRequest instance.
  */
@@ -55,7 +59,7 @@ typedef BOOL(^ORSSerialRequestResponseEvaluator)(NSData *inputData);
 /**
  *  Can be used to determine if a block of data is a valid response to the request encapsulated
  *  by the receiver. If the receiver doesn't have a response data evaulator block, this method
- *  always returns YES for non-empty input data.
+ *  always returns YES.
  *
  *  @param responseData Data received from a serial port.
  *
