@@ -2,7 +2,7 @@ Contributions to ORSSerialPort are most welcome!
 
 There are a few guidelines to follow to make it easier to integrate your contributions.
 
-## ORSSerialPort Is Meant To Be Simple ##
+## ORSSerialPort Is Simple ##
 
 The goal of ORSSerialPort is to make serial port programming in a Cocoa app
 much easier than it otherwise would be. It should be simple enough for complete
@@ -32,5 +32,5 @@ good "paper trail" explaining the change. If you're new to contributing via GitH
 ORSSerialPort doesn't currently have a style guide document, but its style should be easy to infer by reading the existing code.
 If you’re interested in contributing code, please try to match this style closely.
 
-**Thanks!**
+**Thanks!**  
 Andrew Madsen
