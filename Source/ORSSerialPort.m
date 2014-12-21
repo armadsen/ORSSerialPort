@@ -67,7 +67,6 @@ static __strong NSMutableArray *allSerialPorts;
 // Request handling
 @property (nonatomic, strong) NSMutableArray *requestsQueue;
 @property (nonatomic, strong, readwrite) ORSSerialRequest *pendingRequest;
-@property (nonatomic, strong) NSTimer *pendingRequestTimeoutTimer;
 
 @property (nonatomic, readwrite) BOOL CTS;
 @property (nonatomic, readwrite) BOOL DSR;
@@ -75,9 +74,11 @@ static __strong NSMutableArray *allSerialPorts;
 
 #if OS_OBJECT_USE_OBJC
 @property (nonatomic, strong) dispatch_source_t pinPollTimer;
+@property (nonatomic, strong) dispatch_source_t pendingRequestTimeoutTimer;
 @property (nonatomic, strong) dispatch_queue_t requestHandlingQueue;
 #else
 @property (nonatomic) dispatch_source_t pinPollTimer;
+@property (nonatomic) dispatch_source_t pendingRequestTimeoutTimer;
 @property (nonatomic) dispatch_queue_t requestHandlingQueue;
 #endif
 
@@ -459,11 +460,12 @@ static __strong NSMutableArray *allSerialPorts;
 		// Send immediately
 		self.pendingRequest = request;
 		if (request.timeoutInterval > 0) {
-			self.pendingRequestTimeoutTimer = [NSTimer scheduledTimerWithTimeInterval:request.timeoutInterval
-																			   target:self
-																			 selector:@selector(pendingRequestDidTimeout:)
-																			 userInfo:nil
-																			  repeats:NO];
+			NSTimeInterval timeoutInterval = request.timeoutInterval;
+			dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, self.requestHandlingQueue);
+			dispatch_source_set_timer(timer, dispatch_time(DISPATCH_TIME_NOW, timeoutInterval * NSEC_PER_SEC), timeoutInterval * NSEC_PER_SEC, timeoutInterval/10.0 * NSEC_PER_SEC);
+			dispatch_source_set_event_handler(timer, ^{ [self pendingRequestDidTimeout]; });
+			self.pendingRequestTimeoutTimer = timer;
+			dispatch_resume(self.pendingRequestTimeoutTimer);
 		}
 		BOOL success = [self sendData:request.dataToSend];
 		// Immediately send next request if this one doesn't require a response
@@ -487,7 +489,7 @@ static __strong NSMutableArray *allSerialPorts;
 }
 
 // Will only be called on requestHandlingQueue
-- (void)pendingRequestDidTimeout:(NSTimer *)timer
+- (void)pendingRequestDidTimeout
 {
 	self.pendingRequestTimeoutTimer = nil;
 	
@@ -728,15 +730,6 @@ static __strong NSMutableArray *allSerialPorts;
 	}
 }
 
-- (void)setPendingRequestTimeoutTimer:(NSTimer *)pendingRequestTimeoutTimer
-{
-	if (pendingRequestTimeoutTimer != _pendingRequestTimeoutTimer)
-	{
-		[_pendingRequestTimeoutTimer invalidate];
-		_pendingRequestTimeoutTimer = pendingRequestTimeoutTimer;
-	}
-}
-
 - (void)setBaudRate:(NSNumber *)rate
 {
 	if (rate != _baudRate)
@@ -880,6 +873,19 @@ static __strong NSMutableArray *allSerialPorts;
 		
 		ORS_GCD_RETAIN(timer);
 		_pinPollTimer = timer;
+	}
+}
+
+- (void)setPendingRequestTimeoutTimer:(dispatch_source_t)pendingRequestTimeoutTimer
+{
+	if (pendingRequestTimeoutTimer != _pendingRequestTimeoutTimer) {
+		if (_pendingRequestTimeoutTimer) {
+			dispatch_source_cancel(_pendingRequestTimeoutTimer);
+			ORS_GCD_RELEASE(_pendingRequestTimeoutTimer);
+		}
+		
+		ORS_GCD_RETAIN(pendingRequestTimeoutTimer);
+		_pendingRequestTimeoutTimer = pendingRequestTimeoutTimer;
 	}
 }
 
