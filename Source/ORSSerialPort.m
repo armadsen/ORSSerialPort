@@ -75,8 +75,10 @@ static __strong NSMutableArray *allSerialPorts;
 
 #if OS_OBJECT_USE_OBJC
 @property (nonatomic, strong) dispatch_source_t pinPollTimer;
+@property (nonatomic, strong) dispatch_queue_t requestHandlingQueue;
 #else
 @property (nonatomic) dispatch_source_t pinPollTimer;
+@property (nonatomic) dispatch_queue_t requestHandlingQueue;
 #endif
 
 @end
@@ -165,6 +167,7 @@ static __strong NSMutableArray *allSerialPorts;
 		self.path = bsdPath;
 		self.name = [[self class] modemNameFromDevice:device];
 		self.receiveBuffer = [NSMutableData data];
+		self.requestHandlingQueue = dispatch_queue_create("com.openreelsoftware.ORSSerialPort.requestHandlingQueue", 0);
 		self.requestsQueue = [NSMutableArray array];
 		self.baudRate = @B19200;
 		self.numberOfStopBits = 1;
@@ -198,6 +201,8 @@ static __strong NSMutableArray *allSerialPorts;
 		dispatch_source_cancel(_pinPollTimer);
 		ORS_GCD_RELEASE(_pinPollTimer);
 	}
+	
+	self.requestHandlingQueue = nil;
 }
 
 - (NSString *)description
@@ -415,17 +420,17 @@ static __strong NSMutableArray *allSerialPorts;
 	NSMutableData *writeBuffer = [data mutableCopy];
 	while ([writeBuffer length] > 0)
 	{
-		 long numBytesWritten = write(self.fileDescriptor, [writeBuffer bytes], [writeBuffer length]);
-		 if (numBytesWritten < 0)
-		 {
-			 LOG_SERIAL_PORT_ERROR(@"Error writing to serial port:%d", errno);
-			 [self notifyDelegateOfPosixError];
-			 return NO;
-		 }
-		 else if (numBytesWritten > 0)
-		 {
-			 [writeBuffer replaceBytesInRange:NSMakeRange(0, numBytesWritten) withBytes:NULL length:0];
-		 }
+		long numBytesWritten = write(self.fileDescriptor, [writeBuffer bytes], [writeBuffer length]);
+		if (numBytesWritten < 0)
+		{
+			LOG_SERIAL_PORT_ERROR(@"Error writing to serial port:%d", errno);
+			[self notifyDelegateOfPosixError];
+			return NO;
+		}
+		else if (numBytesWritten > 0)
+		{
+			[writeBuffer replaceBytesInRange:NSMakeRange(0, numBytesWritten) withBytes:NULL length:0];
+		}
 	}
 	
 	return YES;
@@ -433,8 +438,24 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (BOOL)sendRequest:(ORSSerialRequest *)request
 {
+	__block BOOL success = NO;
+	dispatch_sync(self.requestHandlingQueue, ^{
+		success = [self reallySendRequest:request];
+	});
+	return success;
+}
+
+#pragma mark - Private Methods
+
+// Must only be called on requestHandlingQueue (ie. wrap call to this method in dispatch())
+- (BOOL)reallySendRequest:(ORSSerialRequest *)request
+{
 	if (!self.pendingRequest)
 	{
+		[self.receiveBuffer replaceBytesInRange:NSMakeRange(0, [self.receiveBuffer length])
+									  withBytes:NULL
+										 length:0];
+		
 		// Send immediately
 		self.pendingRequest = request;
 		if (request.timeoutInterval > 0) {
@@ -455,8 +476,17 @@ static __strong NSMutableArray *allSerialPorts;
 	return YES;
 }
 
-#pragma mark - Private Methods
+// Must only be called on requestHandlingQueue
+- (void)sendNextRequest
+{
+	self.pendingRequest = nil;
+	if (![self.requestsQueue count]) return;
+	ORSSerialRequest *nextRequest = self.requestsQueue[0];
+	[self.requestsQueue removeObjectAtIndex:0];
+	[self reallySendRequest:nextRequest];
+}
 
+// Will only be called on requestHandlingQueue
 - (void)pendingRequestDidTimeout:(NSTimer *)timer
 {
 	self.pendingRequestTimeoutTimer = nil;
@@ -474,42 +504,27 @@ static __strong NSMutableArray *allSerialPorts;
 		}
 	}
 	
-	self.pendingRequest = nil;
-	[self.receiveBuffer replaceBytesInRange:NSMakeRange(0, [self.receiveBuffer length])
-								  withBytes:NULL
-									 length:0];
 	[self sendNextRequest];
 }
 
+// Must only be called on requestHandlingQueue
 - (void)checkResponseToPendingRequestAndContinueIfValid
 {
 	NSData *responseData = [self.receiveBuffer copy];
 	if (![self.pendingRequest dataIsValidResponse:responseData]) return;
-
+	
 	self.pendingRequestTimeoutTimer = nil;
-		ORSSerialRequest *request = self.pendingRequest;
-		
-		dispatch_async(dispatch_get_main_queue(), ^{
-			if ([responseData length] &&
-				[(id)self.delegate respondsToSelector:@selector(serialPort:didReceiveResponse:toRequest:)])
-			{
-				[self.delegate serialPort:self didReceiveResponse:responseData toRequest:request];
-			}
-			
-			self.pendingRequest = nil;
-			[self.receiveBuffer replaceBytesInRange:NSMakeRange(0, [self.receiveBuffer length])
-										  withBytes:NULL
-											 length:0];
-			[self sendNextRequest];
-		});
-}
-
-- (void)sendNextRequest
-{
-	if (![self.requestsQueue count]) return;
-	ORSSerialRequest *nextRequest = self.requestsQueue[0];
-	[self.requestsQueue removeObjectAtIndex:0];
-	[self sendRequest:nextRequest];
+	ORSSerialRequest *request = self.pendingRequest;
+	
+	dispatch_async(dispatch_get_main_queue(), ^{
+		if ([responseData length] &&
+			[(id)self.delegate respondsToSelector:@selector(serialPort:didReceiveResponse:toRequest:)])
+		{
+			[self.delegate serialPort:self didReceiveResponse:responseData toRequest:request];
+		}
+	});
+	
+	[self sendNextRequest];
 }
 
 #pragma mark Port Read/Write
@@ -523,8 +538,10 @@ static __strong NSMutableArray *allSerialPorts;
 		});
 	}
 	
-	[self.receiveBuffer appendData:data];
-	[self checkResponseToPendingRequestAndContinueIfValid];
+	dispatch_async(self.requestHandlingQueue, ^{
+		[self.receiveBuffer appendData:data];
+		[self checkResponseToPendingRequestAndContinueIfValid];
+	});
 }
 
 #pragma mark Port Propeties Methods
@@ -863,6 +880,20 @@ static __strong NSMutableArray *allSerialPorts;
 		
 		ORS_GCD_RETAIN(timer);
 		_pinPollTimer = timer;
+	}
+}
+
+- (void)setRequestHandlingQueue:(dispatch_queue_t)requestHandlingQueue
+{
+	if (requestHandlingQueue != _requestHandlingQueue)
+	{
+		if (_requestHandlingQueue)
+		{
+			ORS_GCD_RELEASE(_requestHandlingQueue);
+		}
+		
+		ORS_GCD_RETAIN(requestHandlingQueue);
+		_requestHandlingQueue = requestHandlingQueue;
 	}
 }
 

@@ -273,7 +273,7 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
  *  The previously-sent request for which the port is awaiting a response, or nil
  *  if there is no pending request.
  */
-@property (nonatomic, strong, readonly) ORSSerialRequest *pendingRequest;
+@property (strong, readonly) ORSSerialRequest *pendingRequest;
 
 /** ---------------------------------------------------------------------------------------
  * @name Port Properties
