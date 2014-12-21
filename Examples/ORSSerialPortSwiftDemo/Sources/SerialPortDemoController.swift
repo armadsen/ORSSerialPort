@@ -50,6 +50,7 @@ class SerialPortDemoController: NSObject, ORSSerialPortDelegate, NSUserNotificat
 				port.close()
 			} else {
 				port.open()
+				self.receivedDataTextView.textStorage?.mutableString.setString("");
 			}
 		}
 	}
