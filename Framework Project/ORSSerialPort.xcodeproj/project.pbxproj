@@ -8,11 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		9DCA89321A2BB15A009285EB /* ORSSerialPortHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = 9DCA89311A2BB15A009285EB /* ORSSerialPortHeader.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9DCA893A1A2BB1E2009285EB /* ORSSerialPort.h in Headers */ = {isa = PBXBuildFile; fileRef = 9DCA89341A2BB1E2009285EB /* ORSSerialPort.h */; };
+		9DCA893A1A2BB1E2009285EB /* ORSSerialPort.h in Headers */ = {isa = PBXBuildFile; fileRef = 9DCA89341A2BB1E2009285EB /* ORSSerialPort.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9DCA893B1A2BB1E2009285EB /* ORSSerialPort.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA89351A2BB1E2009285EB /* ORSSerialPort.m */; };
-		9DCA893C1A2BB1E2009285EB /* ORSSerialPortManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 9DCA89361A2BB1E2009285EB /* ORSSerialPortManager.h */; };
+		9DCA893C1A2BB1E2009285EB /* ORSSerialPortManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 9DCA89361A2BB1E2009285EB /* ORSSerialPortManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9DCA893D1A2BB1E2009285EB /* ORSSerialPortManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA89371A2BB1E2009285EB /* ORSSerialPortManager.m */; };
-		9DCA893E1A2BB1E2009285EB /* ORSSerialRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 9DCA89381A2BB1E2009285EB /* ORSSerialRequest.h */; };
+		9DCA893E1A2BB1E2009285EB /* ORSSerialRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 9DCA89381A2BB1E2009285EB /* ORSSerialRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9DCA893F1A2BB1E2009285EB /* ORSSerialRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA89391A2BB1E2009285EB /* ORSSerialRequest.m */; };
 /* End PBXBuildFile section */
 
