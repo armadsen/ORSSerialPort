@@ -26,6 +26,8 @@ ORSSerialPort can be used in 64-bit applications targeting Mac OS X 10.6.8 and l
 
 *Important Note:* ORSSerialPort relies on Automatic Reference Counting (ARC). If you'd like to use it in a non-ARC project, you'll need to open the "Compile Sources" build phase for the target(s) you're using it in, and add the -fobjc-arc flag to the "Compiler Flags" column for ORSSerialPort.m and ORSSerialPortManager.m. ORSSerialPort will generate a compiler error if ARC is not enabled.
 
+As an alternative to including the ORSSerialPort sources in your project directly, you can also use the [CocoaPods](http://cocoapods.org) or [Carthage](https://github.com/Carthage) dependency managers to add ORSSerialPort to your project. Another option is to use the included framework project to build ORSSerial.framework which can then be linked to by your app.
+
 Opening a Port and Setting It Up
 --------------------------------
 
