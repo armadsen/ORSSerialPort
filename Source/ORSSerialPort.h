@@ -444,7 +444,7 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
  *  to a background queue in your implementation of the delegate method.
  */
 
-@protocol ORSSerialPortDelegate
+@protocol ORSSerialPortDelegate <NSObject>
 
 @required
 

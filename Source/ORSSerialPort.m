@@ -272,7 +272,7 @@ static __strong NSMutableArray *allSerialPorts;
 	self.RTS = desiredRTS;
 	self.DTR = desiredDTR;
 	
-	if ([(id)self.delegate respondsToSelector:@selector(serialPortWasOpened:)])
+	if ([self.delegate respondsToSelector:@selector(serialPortWasOpened:)])
 	{
 		dispatch_async(mainQueue, ^{
 			[self.delegate serialPortWasOpened:self];
@@ -383,7 +383,7 @@ static __strong NSMutableArray *allSerialPorts;
 		return NO;
 	}
 	
-	if ([(id)self.delegate respondsToSelector:@selector(serialPortWasClosed:)])
+	if ([self.delegate respondsToSelector:@selector(serialPortWasClosed:)])
 	{
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[self.delegate serialPortWasClosed:self];
@@ -400,7 +400,7 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (void)cleanupAfterSystemRemoval
 {
-	if ([(id)self.delegate respondsToSelector:@selector(serialPortWasRemovedFromSystem:)])
+	if ([self.delegate respondsToSelector:@selector(serialPortWasRemovedFromSystem:)])
 	{
 		[(id)self.delegate performSelectorOnMainThread:@selector(serialPortWasRemovedFromSystem:) withObject:self waitUntilDone:YES];
 	}
@@ -489,7 +489,7 @@ static __strong NSMutableArray *allSerialPorts;
 	
 	ORSSerialRequest *request = self.pendingRequest;
 	
-	if ([(id)self.delegate respondsToSelector:@selector(serialPort:requestDidTimeout:)])
+	if ([self.delegate respondsToSelector:@selector(serialPort:requestDidTimeout:)])
 	{
 		if ([NSThread isMainThread]) {
 			[self.delegate serialPort:self requestDidTimeout:request];
@@ -514,7 +514,7 @@ static __strong NSMutableArray *allSerialPorts;
 	
 	dispatch_async(dispatch_get_main_queue(), ^{
 		if ([responseData length] &&
-			[(id)self.delegate respondsToSelector:@selector(serialPort:didReceiveResponse:toRequest:)])
+			[self.delegate respondsToSelector:@selector(serialPort:didReceiveResponse:toRequest:)])
 		{
 			[self.delegate serialPort:self didReceiveResponse:responseData toRequest:request];
 		}
@@ -527,7 +527,7 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (void)receiveData:(NSData *)data;
 {
-	if ([(id)self.delegate respondsToSelector:@selector(serialPort:didReceiveData:)])
+	if ([self.delegate respondsToSelector:@selector(serialPort:didReceiveData:)])
 	{
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[self.delegate serialPort:self didReceiveData:data];
@@ -677,7 +677,7 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (void)notifyDelegateOfPosixErrorWaitingUntilDone:(BOOL)shouldWait;
 {
-	if (![(id)self.delegate respondsToSelector:@selector(serialPort:didEncounterError:)]) return;
+	if (![self.delegate respondsToSelector:@selector(serialPort:didEncounterError:)]) return;
 	
 	NSDictionary *errDict = @{NSLocalizedDescriptionKey: @(strerror(errno)),
 							  NSFilePathErrorKey: self.path};
