@@ -262,7 +262,11 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
  *  The delegate for the serial port object. Must implement the `ORSSerialPortDelegate` protocol.
  *
  */
+#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_8
+@property (nonatomic, weak) id<ORSSerialPortDelegate> delegate;
+#else
 @property (nonatomic, unsafe_unretained) id<ORSSerialPortDelegate> delegate;
+#endif
 
 /** ---------------------------------------------------------------------------------------
  * @name Request/Response Properties
