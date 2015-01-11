@@ -25,7 +25,7 @@
 //	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #if !__has_feature(objc_arc)
-	#error ORSSerialPortManager.m must be compiled with ARC. Either turn on ARC for the project or set the -fobjc-arc flag for ORSSerialPortManager.m in the Build Phases for this target
+#error ORSSerialPortManager.m must be compiled with ARC. Either turn on ARC for the project or set the -fobjc-arc flag for ORSSerialPortManager.m in the Build Phases for this target
 #endif
 
 #import "ORSSerialPortManager.h"
@@ -35,9 +35,9 @@
 #import <IOKit/serial/IOSerialKeys.h>
 
 #ifdef LOG_SERIAL_PORT_ERRORS
-	#define LOG_SERIAL_PORT_ERROR(fmt, ...) NSLog(fmt, ##__VA_ARGS__)
+#define LOG_SERIAL_PORT_ERROR(fmt, ...) NSLog(fmt, ##__VA_ARGS__)
 #else
-	#define LOG_SERIAL_PORT_ERROR(fmt, ...)
+#define LOG_SERIAL_PORT_ERROR(fmt, ...)
 #endif
 
 NSString * const ORSSerialPortsWereConnectedNotification = @"ORSSerialPortWasConnectedNotification";
@@ -53,6 +53,7 @@ void ORSSerialPortManagerPortsTerminatedNotificationCallback(void *refCon, io_it
 
 @property (nonatomic, copy, readwrite) NSArray *availablePorts;
 @property (nonatomic, strong) NSMutableArray *portsToReopenAfterSleep;
+@property (nonatomic, strong) id terminationObserver;
 
 @property (nonatomic) io_iterator_t portPublishedNotificationIterator;
 @property (nonatomic) io_iterator_t portTerminatedNotificationIterator;
@@ -107,6 +108,7 @@ static ORSSerialPortManager *sharedInstance = nil;
 {
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 	[nc removeObserver:self];
+	if (self.terminationObserver) [nc removeObserver:self.terminationObserver];
 	
 	// Stop IOKit notifications for ports being added/removed
 	IOObjectRelease(_portPublishedNotificationIterator);
@@ -125,14 +127,10 @@ static ORSSerialPortManager *sharedInstance = nil;
 	
 #ifdef NSAppKitVersionNumber10_0
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-	[nc addObserverForName:NSApplicationWillTerminateNotification
-					object:nil
-					 queue:nil
-				usingBlock:^(NSNotification *notification){
-					// For some unknown reason, this notification fires twice,
-					// doesn't cause a problem right now, but be aware
-					terminationBlock();
-				}];
+	self.terminationObserver = [nc addObserverForName:NSApplicationWillTerminateNotification
+											   object:nil
+												queue:nil
+										   usingBlock:^(NSNotification *notification){ terminationBlock(); }];
 	
 	[nc addObserver:self selector:@selector(systemWillSleep:) name:NSWorkspaceWillSleepNotification object:NULL];
 	[nc addObserver:self selector:@selector(systemDidWake:) name:NSWorkspaceDidWakeNotification object:NULL];
