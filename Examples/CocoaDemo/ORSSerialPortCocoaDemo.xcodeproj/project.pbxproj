@@ -133,7 +133,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = ORS;
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = "Open Reel Software";
 			};
 			buildConfigurationList = 9D66D808159BCAB800EE6D09 /* Build configuration list for PBXProject "ORSSerialPortCocoaDemo" */;
@@ -213,7 +213,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_MODULES = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -240,7 +239,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_MODULES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -260,6 +258,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sources/ORSSerialPortCocoaDemo-Prefix.pch";
 				INFOPLIST_FILE = "Resources/ORSSerialPortCocoaDemo-Info.plist";
@@ -273,6 +272,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sources/ORSSerialPortCocoaDemo-Prefix.pch";
 				INFOPLIST_FILE = "Resources/ORSSerialPortCocoaDemo-Info.plist";
