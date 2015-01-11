@@ -357,7 +357,7 @@ static __strong NSMutableArray *allSerialPorts;
 - (BOOL)close;
 {
 	if (!self.isOpen) return YES;
-	
+		
 	self.pinPollTimer = nil; // Stop polling CTS/DSR/DCD pins
 	
 	// The next tcsetattr() call can fail if the port is waiting to send data. This is likely to happen
@@ -394,7 +394,7 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (void)cleanup;
 {
-	NSLog(@"Cleanup is deprecated and was never intended to be called publicly. You should update your code to avoid calling this method.");
+	NSLog(@"WARNING: Cleanup is deprecated and was never intended to be called publicly. You should update your code to avoid calling this method.");
 	[self cleanupAfterSystemRemoval];
 }
 
@@ -402,15 +402,9 @@ static __strong NSMutableArray *allSerialPorts;
 {
 	if ([(id)self.delegate respondsToSelector:@selector(serialPortWasRemovedFromSystem:)])
 	{
-		dispatch_async(dispatch_get_main_queue(), ^{
-			[self.delegate serialPortWasRemovedFromSystem:self];
-			[self close];
-		});
+		[(id)self.delegate performSelectorOnMainThread:@selector(serialPortWasRemovedFromSystem:) withObject:self waitUntilDone:YES];
 	}
-	else
-	{
-		[self close];
-	}
+	[self close];
 }
 
 - (BOOL)sendData:(NSData *)data;
