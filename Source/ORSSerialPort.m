@@ -495,7 +495,7 @@ static __strong NSMutableArray *allSerialPorts;
 	
 	ORSSerialRequest *request = self.pendingRequest;
 	
-	if ([(id)self.delegate respondsToSelector:@selector(serialPort:requestDidTimeout:)])
+	if (![(id)self.delegate respondsToSelector:@selector(serialPort:requestDidTimeout:)])
 	{
 		[self sendNextRequest];
 		return;
