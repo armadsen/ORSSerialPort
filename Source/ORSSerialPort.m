@@ -495,18 +495,18 @@ static __strong NSMutableArray *allSerialPorts;
 	
 	ORSSerialRequest *request = self.pendingRequest;
 	
-	if ([(id)self.delegate respondsToSelector:@selector(serialPort:requestDidTimeout:)])
+	if (![(id)self.delegate respondsToSelector:@selector(serialPort:requestDidTimeout:)])
 	{
-		if ([NSThread isMainThread]) {
-			[self.delegate serialPort:self requestDidTimeout:request];
-		} else {
-			dispatch_sync(dispatch_get_main_queue(), ^{
-				[self.delegate serialPort:self requestDidTimeout:request];
-			});
-		}
+		[self sendNextRequest];
+		return;
 	}
 	
-	[self sendNextRequest];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self.delegate serialPort:self requestDidTimeout:request];
+		dispatch_async(self.requestHandlingQueue, ^{
+			[self sendNextRequest];
+		});
+	});
 }
 
 // Must only be called on requestHandlingQueue
