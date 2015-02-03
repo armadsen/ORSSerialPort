@@ -3,11 +3,13 @@ ORSSerialPort
 
 ORSSerialPort is my take on a modern, easy-to-use Objective-C serial port library. It's a simple, Cocoa-like set of Objective-C classes useful for programmers writing Objective-C or Swift apps for the Mac that must communicate with external devices through a serial port (most commonly RS-232). Using ORSSerialPort to open a port and send data can be as simple as this:
 
-    ORSSerialPort *serialPort = [ORSSerialPort serialPortWithPath:@"/dev/cu.KeySerial1"];
-    serialPort.baudRate = @4800;
-    [serialPort open];
-    [serialPort sendData:someData]; // someData is an NSData object
-    [serialPort close]; // Later, when you're done with the port
+```objective-c
+ORSSerialPort *serialPort = [ORSSerialPort serialPortWithPath:@"/dev/cu.KeySerial1"];
+serialPort.baudRate = @4800;
+[serialPort open];
+[serialPort sendData:someData]; // someData is an NSData object
+[serialPort close]; // Later, when you're done with the port
+```
     
 ORSSerialPort is released under an MIT license, meaning you're free to use it in both closed and open source projects. However, even in a closed source project, you must include a publicly-accessible copy of ORSSerialPort's copyright notice, which you can find in the LICENSE file.
 
@@ -33,7 +35,9 @@ Opening a Port and Setting It Up
 
 You can get an `ORSSerialPort` instance either of two ways. The easiest is to use `ORSSerialPortManager`'s `availablePorts` array (explained below). The other way is to get a new `ORSSerialPort` instance using the serial port's BSD device path:
 
-    ORSSerialPort *port = [ORSSerialPort serialPortWithPath:@"/dev/cu.KeySerial1"];
+```objective-c
+ORSSerialPort *port = [ORSSerialPort serialPortWithPath:@"/dev/cu.KeySerial1"];
+```
 
 Note that you must give `+serialPortWithPath:` the full path to the device, as shown in the example above.
 
@@ -48,35 +52,43 @@ Sending Data
 
 Send raw data by passing an `NSData` object to the `-sendData:` method:
 
-    NSData *dataToSend = [self.sendTextField.stringValue dataUsingEncoding:NSUTF8StringEncoding];
-    [self.serialPort sendData:dataToSend];
+```objective-c
+NSData *dataToSend = [self.sendTextField.stringValue dataUsingEncoding:NSUTF8StringEncoding];
+[self.serialPort sendData:dataToSend];
+```
 
 Receiving Data
 --------------
 
 To receive data, you can implement the `ORSSerialPortDelegate` protocol's `-serialPort:didReceiveData:` method, and set the `ORSSerialPort` instance's delegate property. As noted below, this method is always called on the main queue. An example implementation is included below:
 
-    - (void)serialPort:(ORSSerialPort *)serialPort didReceiveData:(NSData *)data
-    {
-        NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        [self.receivedDataTextView.textStorage.mutableString appendString:string];
-        [self.receivedDataTextView setNeedsDisplay:YES];
-    }
+```objective-c
+- (void)serialPort:(ORSSerialPort *)serialPort didReceiveData:(NSData *)data
+{
+    NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    [self.receivedDataTextView.textStorage.mutableString appendString:string];
+    [self.receivedDataTextView setNeedsDisplay:YES];
+}
+```
 
 ORSSerialPortDelegate
 ---------------------
 
 `ORSSerialPort` includes a delegate property, and a delegate protocol called `ORSSerialPortDelegate`. The `ORSSerialPortDelegate` protocol includes one required method:
 
-    - (void)serialPortWasRemovedFromSystem:(ORSSerialPort *)serialPort;
+```objective-c
+- (void)serialPortWasRemovedFromSystem:(ORSSerialPort *)serialPort;
+```
     
 Also included are five optional methods:
 
-    - (void)serialPort:(ORSSerialPort *)serialPort didReceiveData:(NSData *)data;
-    - (void)serialPort:(ORSSerialPort *)serialPort didReceiveResponse:(NSData *)responseData toRequest:(ORSSerialRequest *)request;
-    - (void)serialPort:(ORSSerialPort *)serialPort didEncounterError:(NSError *)error;
-    - (void)serialPortWasOpened:(ORSSerialPort *)serialPort;
-    - (void)serialPortWasClosed:(ORSSerialPort *)serialPort;
+```objective-c
+- (void)serialPort:(ORSSerialPort *)serialPort didReceiveData:(NSData *)data;
+- (void)serialPort:(ORSSerialPort *)serialPort didReceiveResponse:(NSData *)responseData toRequest:(ORSSerialRequest *)request;
+- (void)serialPort:(ORSSerialPort *)serialPort didEncounterError:(NSError *)error;
+- (void)serialPortWasOpened:(ORSSerialPort *)serialPort;
+- (void)serialPortWasClosed:(ORSSerialPort *)serialPort;
+```
 
 *Note:* All `ORSSerialPortDelegate` methods are always called on the main queue. If you need to handle them on a background queue, you must dispatch your handling to a background queue in your implementation of the delegate method.
 
@@ -95,11 +107,15 @@ How to Use ORSSerialPortManager
 
 Using `ORSSerialPortManager` is simple. To get the shared serial port manager:
 
-    ORSSerialPortManager *portManager = [ORSSerialPortManager sharedSerialPortManager];
+```objective-c
+ORSSerialPortManager *portManager = [ORSSerialPortManager sharedSerialPortManager];
+```
 
 To get a list of available ports:
 
-    NSArray *availablePorts = portManager.availablePorts;
+```objective-c
+NSArray *availablePorts = portManager.availablePorts;
+```
 
 `ORSSerialPortManager` is Key-Value Observing (KVO) compliant for its `availablePorts` property. This means that you can observe `availablePorts` to be notified when ports are added to or removed from the system. This also means that you can easily bind UI elements to the serial port manager's `availablePorts` property using Cocoa-bindings. This makes it easy to create a popup menu that displays available serial ports and updates automatically, for example.
 
@@ -114,17 +130,19 @@ An ORSSerialRequest instance encapsulates a generic "request" command sent via t
 
 For the purposes of illustration, assume a communications protocol where a request might consist of the ASCII string "data?" and a valid response is ASCII "data" followed by 4 bytes of data. Such a request would be created like so:
 
-    NSData *requestData = [@"data?" dataUsingEncoding:NSASCIIStringEncoding];
-    ORSSerialRequest *request = 
-        [ORSSerialRequest requestWithDataToSend:requestData
-                                       userInfo:nil
-                                timeoutInterval:2.0
-                              responseEvaluator:^BOOL(NSData *inputData) {
-                                  if ([inputData length] != 8) return NO;
-                                  NSData *headerData = [inputData subdataWithRange:NSMakeRange(0, 4)];
-                                  NSString *header = [[NSString alloc] initWithData:headerData encoding:NSASCIIStringEncoding];
-                                  return [header isEqualToString:@"data"];
-                              }];
+```objective-c
+NSData *requestData = [@"data?" dataUsingEncoding:NSASCIIStringEncoding];
+ORSSerialRequest *request = 
+    [ORSSerialRequest requestWithDataToSend:requestData
+                                   userInfo:nil
+                            timeoutInterval:2.0
+                          responseEvaluator:^BOOL(NSData *inputData) {
+                              if ([inputData length] != 8) return NO;
+                              NSData *headerData = [inputData subdataWithRange:NSMakeRange(0, 4)];
+                              NSString *header = [[NSString alloc] initWithData:headerData encoding:NSASCIIStringEncoding];
+                              return [header isEqualToString:@"data"];
+                          }];
+```
 
 The response evaluator block only returns YES if the received data is 8 bytes long and has the expected "data" header. If a valid response is not received within 2 seconds, the request will timeout.
 

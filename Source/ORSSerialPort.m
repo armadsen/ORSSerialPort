@@ -357,7 +357,7 @@ static __strong NSMutableArray *allSerialPorts;
 - (BOOL)close;
 {
 	if (!self.isOpen) return YES;
-		
+	
 	self.pinPollTimer = nil; // Stop polling CTS/DSR/DCD pins
 	
 	// The next tcsetattr() call can fail if the port is waiting to send data. This is likely to happen
@@ -404,8 +404,8 @@ static __strong NSMutableArray *allSerialPorts;
 	{
 		[(id)self.delegate performSelectorOnMainThread:@selector(serialPortWasRemovedFromSystem:) withObject:self waitUntilDone:YES];
 	}
-	[self close];
-}
+		[self close];
+	}
 
 - (BOOL)sendData:(NSData *)data;
 {
@@ -489,18 +489,18 @@ static __strong NSMutableArray *allSerialPorts;
 	
 	ORSSerialRequest *request = self.pendingRequest;
 	
-	if ([self.delegate respondsToSelector:@selector(serialPort:requestDidTimeout:)])
+	if (![self.delegate respondsToSelector:@selector(serialPort:requestDidTimeout:)])
 	{
-		if ([NSThread isMainThread]) {
-			[self.delegate serialPort:self requestDidTimeout:request];
-		} else {
-			dispatch_sync(dispatch_get_main_queue(), ^{
-				[self.delegate serialPort:self requestDidTimeout:request];
-			});
-		}
+		[self sendNextRequest];
+		return;
 	}
 	
-	[self sendNextRequest];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self.delegate serialPort:self requestDidTimeout:request];
+		dispatch_async(self.requestHandlingQueue, ^{
+			[self sendNextRequest];
+		});
+	});
 }
 
 // Must only be called on requestHandlingQueue

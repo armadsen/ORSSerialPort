@@ -49,6 +49,11 @@
 	return self;
 }
 
+- (NSString *)description
+{
+	return [NSString stringWithFormat:@"%@ data: %@ userInfo: %@ timeout interval: %f", [super description], self.dataToSend, self.userInfo, self.timeoutInterval];
+}
+
 - (BOOL)dataIsValidResponse:(NSData *)responseData
 {
 	if (!self.responseEvaluator) return YES;

@@ -25,7 +25,7 @@
 //	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #if !__has_feature(objc_arc)
-#error ORSSerialPortManager.m must be compiled with ARC. Either turn on ARC for the project or set the -fobjc-arc flag for ORSSerialPortManager.m in the Build Phases for this target
+	#error ORSSerialPortManager.m must be compiled with ARC. Either turn on ARC for the project or set the -fobjc-arc flag for ORSSerialPortManager.m in the Build Phases for this target
 #endif
 
 #import "ORSSerialPortManager.h"
@@ -35,9 +35,9 @@
 #import <IOKit/serial/IOSerialKeys.h>
 
 #ifdef LOG_SERIAL_PORT_ERRORS
-#define LOG_SERIAL_PORT_ERROR(fmt, ...) NSLog(fmt, ##__VA_ARGS__)
+	#define LOG_SERIAL_PORT_ERROR(fmt, ...) NSLog(fmt, ##__VA_ARGS__)
 #else
-#define LOG_SERIAL_PORT_ERROR(fmt, ...)
+	#define LOG_SERIAL_PORT_ERROR(fmt, ...)
 #endif
 
 NSString * const ORSSerialPortsWereConnectedNotification = @"ORSSerialPortWasConnectedNotification";
@@ -128,12 +128,13 @@ static ORSSerialPortManager *sharedInstance = nil;
 #ifdef NSAppKitVersionNumber10_0
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 	self.terminationObserver = [nc addObserverForName:NSApplicationWillTerminateNotification
-											   object:nil
-												queue:nil
+					object:nil
+					 queue:nil
 										   usingBlock:^(NSNotification *notification){ terminationBlock(); }];
-	
-	[nc addObserver:self selector:@selector(systemWillSleep:) name:NSWorkspaceWillSleepNotification object:NULL];
-	[nc addObserver:self selector:@selector(systemDidWake:) name:NSWorkspaceDidWakeNotification object:NULL];
+
+	NSNotificationCenter *nc_ws = [[NSWorkspace sharedWorkspace] notificationCenter];
+	[nc_ws addObserver:self selector:@selector(systemWillSleep:) name:NSWorkspaceWillSleepNotification object:NULL];
+	[nc_ws addObserver:self selector:@selector(systemDidWake:) name:NSWorkspaceDidWakeNotification object:NULL];
 #else
 	// If AppKit isn't available, as in a Foundation command-line tool, cleanup upon exit. Sleep/wake
 	// notifications don't seem to be available without NSWorkspace.
