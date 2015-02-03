@@ -107,7 +107,9 @@ static ORSSerialPortManager *sharedInstance = nil;
 - (void)dealloc
 {
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+	NSNotificationCenter *wsnc = [[NSWorkspace sharedWorkspace] notificationCenter];
 	[nc removeObserver:self];
+	[wsnc removeObserver:self];
 	if (self.terminationObserver) [nc removeObserver:self.terminationObserver];
 	
 	// Stop IOKit notifications for ports being added/removed
@@ -132,9 +134,9 @@ static ORSSerialPortManager *sharedInstance = nil;
 					 queue:nil
 										   usingBlock:^(NSNotification *notification){ terminationBlock(); }];
 
-	NSNotificationCenter *nc_ws = [[NSWorkspace sharedWorkspace] notificationCenter];
-	[nc_ws addObserver:self selector:@selector(systemWillSleep:) name:NSWorkspaceWillSleepNotification object:NULL];
-	[nc_ws addObserver:self selector:@selector(systemDidWake:) name:NSWorkspaceDidWakeNotification object:NULL];
+	NSNotificationCenter *wsnc = [[NSWorkspace sharedWorkspace] notificationCenter];
+	[wsnc addObserver:self selector:@selector(systemWillSleep:) name:NSWorkspaceWillSleepNotification object:NULL];
+	[wsnc addObserver:self selector:@selector(systemDidWake:) name:NSWorkspaceDidWakeNotification object:NULL];
 #else
 	// If AppKit isn't available, as in a Foundation command-line tool, cleanup upon exit. Sleep/wake
 	// notifications don't seem to be available without NSWorkspace.
