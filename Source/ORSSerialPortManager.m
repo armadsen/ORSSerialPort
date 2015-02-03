@@ -133,9 +133,10 @@ static ORSSerialPortManager *sharedInstance = nil;
 					// doesn't cause a problem right now, but be aware
 					terminationBlock();
 				}];
-	
-	[nc addObserver:self selector:@selector(systemWillSleep:) name:NSWorkspaceWillSleepNotification object:NULL];
-	[nc addObserver:self selector:@selector(systemDidWake:) name:NSWorkspaceDidWakeNotification object:NULL];
+
+	NSNotificationCenter *nc_ws = [[NSWorkspace sharedWorkspace] notificationCenter];
+	[nc_ws addObserver:self selector:@selector(systemWillSleep:) name:NSWorkspaceWillSleepNotification object:NULL];
+	[nc_ws addObserver:self selector:@selector(systemDidWake:) name:NSWorkspaceDidWakeNotification object:NULL];
 #else
 	// If AppKit isn't available, as in a Foundation command-line tool, cleanup upon exit. Sleep/wake
 	// notifications don't seem to be available without NSWorkspace.
