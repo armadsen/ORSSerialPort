@@ -106,10 +106,11 @@ static ORSSerialPortManager *sharedInstance = nil;
 - (void)dealloc
 {
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-	NSNotificationCenter *wsnc = [[NSWorkspace sharedWorkspace] notificationCenter];
 	[nc removeObserver:self];
+#ifdef NSAppKitVersionNumber10_0
+	NSNotificationCenter *wsnc = [[NSWorkspace sharedWorkspace] notificationCenter];
 	[wsnc removeObserver:self];
-	
+#endif
 	// Stop IOKit notifications for ports being added/removed
 	IOObjectRelease(_portPublishedNotificationIterator);
 	_portPublishedNotificationIterator = 0;
