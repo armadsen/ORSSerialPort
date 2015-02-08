@@ -16,11 +16,11 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "ORSSerialPort"
-  s.version      = "1.5.1"
-  s.summary      = "Easy to use Objective-C serial port library for Mac OS X."
+  s.version      = "1.5.4"
+  s.summary      = "Easy to use serial port library for Objective-C and Swift Mac apps."
 
   s.description  = <<-DESC
-                   A simple, Cocoa-like set of Objective-C classes useful for programmers writing Objective-C Cocoa apps that must communicate with external devices through a serial port (most commonly RS-232).
+                   A simple, Cocoa-like library useful for programmers writing Objective-C or Swift apps for the Mac that must communicate with external devices through a serial port (most commonly RS-232). ORSSerialPort makes it easy to find the serial ports available on the system, configure serial ports, and send and receive data. It also includes an optional request/response API to simplify structured communication with external devices.
                    DESC
 
   s.homepage     = "https://github.com/armadsen/ORSSerialPort"
@@ -46,6 +46,7 @@ Pod::Spec.new do |s|
   #
 
   s.author             = { "Andrew Madsen" => "andrew@openreelsoftware.com" }
+  s.social_media_url   = 'https://twitter.com/armadsen'
 
   # ――― Platform Specifics ――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
@@ -61,7 +62,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/armadsen/ORSSerialPort.git", :tag => "1.5.1" }
+  s.source       = { :git => "https://github.com/armadsen/ORSSerialPort.git", :tag => "1.5.4" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
