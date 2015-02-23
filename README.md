@@ -79,26 +79,11 @@ For more information about ORSSerialPort's request/response API, see the [Reques
 
 # Example Projects
 
-Included with ORSSerialPort is a folder called Examples, containing Xcode projects for small programs demonstrating the use of ORSSerialPort. Currently, it contains two examples to demonstrate using ORSSerialPort in both Cocoa apps, as well as in command line apps.
+Included with ORSSerialPort is a folder called Examples, containing Xcode projects for small programs demonstrating the use of ORSSerialPort. Currently, it contains three examples to demonstrate using ORSSerialPort in Objective-C and Swift Cocoa apps, as well as using it in command line apps. You can read more about these three examples on the [ORSSerialPort wiki](https://github.com/armadsen/ORSSerialPort/wiki):
 
-ORSSerialPortCocoaDemo
-----------------------
-
-The first, and primary example is called ORSSerialPortCocoaDemo, and is found in the Cocoa subfolder of Examples. This is a very simple serial terminal program with a graphical user interface (GUI). It demonstrates how to use ORSSerialPort, and may also be useful for simple testing of serial hardware.
-
-ORSSerialPortCocoaDemo includes a dropdown menu containing all available ports on the system, controls to set baud rate, parity, number of stop bits, and flow control settings. Also included are two text fields. One is for typing characters to be sent to the serial port, the other for displaying received characters. Finally, it includes checkboxes corresponding to the RTS, DTR, CTS, DSR, and DCD pins. For the output pins (RTS, DTR), their state can be toggled using their checkbox. The input pins (CTS, DSR, DCD) are read only. 
-
-This application demonstrates that it is possible to setup and use a serial port with ORSSerialPort without writing a lot of "glue" code. Nearly all of the UI is implemented using Cocoa bindings. With the exception of two lines in ORSAppDelegate.m, the source code for entire application is contained in ORSSerialPortDemoController.h/m.
-
-ORSSerialPortSwiftDemo
-----------------------
-
-The ORSSerialPortSwiftDemo app is functionally identical to ORSSerialPortCocoaDemo but is written in Swift. This is simply meant to give an example of using ORSSerialPort in a Swift project.
-
-ORSSerialPortCommandLineDemo
-----------------------------
-
-The CommandLine subfolder of Examples contains ORSSerialPortCommandLineDemo. This is a Foundation-based command line program demonstrating the use of ORSSerialPort in applications without a GUI. ORSSerialPortCommandLineDemo is a very simple serial terminal. It lists the available ports, allows the user to select one, and enter a baud rate. After that, typed input is sent out on the serial port, and data received from the port is printed to the console. It was written very quickly and is intended simply as demonstration that such an app is possible rather than as a starting point for production code. The source code for the entire program is contained in main.m.
+- ORSSerialPortCocoaDemo(https://github.com/armadsen/ORSSerialPort/wiki/Cocoa-Demo) - Objective-C GUI app.
+- ORSSerialPortSwiftDemo(https://github.com/armadsen/ORSSerialPort/wiki/Swift-Demo) - Swift GUI app.
+- ORSSerialPortCommandLineDemo(https://github.com/armadsen/ORSSerialPort/wiki/Command-Line-Demo) - Objective-C command line app.
 
 # Contributing
 
