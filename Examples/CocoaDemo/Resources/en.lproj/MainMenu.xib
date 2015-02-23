@@ -956,7 +956,7 @@
                         </textFieldCell>
                     </textField>
                     <button id="654">
-                        <rect key="frame" x="178" y="466" width="77" height="18"/>
+                        <rect key="frame" x="178" y="466" width="80" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="RTS/CTS" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="663">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
