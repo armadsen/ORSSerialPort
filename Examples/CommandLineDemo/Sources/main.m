@@ -70,7 +70,7 @@ void listAvailablePorts(void)
 
 void promptForBaudRate(void)
 {
-	printf("\nPlease enter a baud rate:");
+	printf("\nPlease enter a baud rate: ");
 }
 
 BOOL setupAndOpenPortWithSelectionString(NSString *selectionString)
@@ -149,6 +149,8 @@ void handleUserInputData(NSData *dataFromUser)
 int main(int argc, const char * argv[])
 {
 	@autoreleasepool {
+		
+		setbuf(stdout, NULL);
 		
 		printIntroduction();
 		
