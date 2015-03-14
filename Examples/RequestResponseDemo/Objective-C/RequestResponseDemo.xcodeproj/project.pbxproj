@@ -11,6 +11,7 @@
 		9D0F6B261AB4B77A006BF3F0 /* ORSMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D0F6B251AB4B77A006BF3F0 /* ORSMainWindowController.m */; };
 		9D0F6B291AB4B7DB006BF3F0 /* ORSSerialBoardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D0F6B281AB4B7DB006BF3F0 /* ORSSerialBoardController.m */; };
 		9D0F6B2C1AB4C388006BF3F0 /* ORSMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D0F6B2B1AB4C388006BF3F0 /* ORSMainViewController.m */; };
+		9D0F6B2F1AB4C5E2006BF3F0 /* ORSTemperaturePlotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D0F6B2E1AB4C5E2006BF3F0 /* ORSTemperaturePlotView.m */; };
 		9DCDDBC01AB48F8A00F8347E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9DCDDBB91AB48F8A00F8347E /* Images.xcassets */; };
 		9DCDDBC21AB48F8A00F8347E /* ORSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DCDDBBD1AB48F8A00F8347E /* ORSAppDelegate.m */; };
 		9DCDDBC31AB48F8A00F8347E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DCDDBBE1AB48F8A00F8347E /* main.m */; };
@@ -50,6 +51,8 @@
 		9D0F6B281AB4B7DB006BF3F0 /* ORSSerialBoardController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSSerialBoardController.m; sourceTree = "<group>"; };
 		9D0F6B2A1AB4C388006BF3F0 /* ORSMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSMainViewController.h; sourceTree = "<group>"; };
 		9D0F6B2B1AB4C388006BF3F0 /* ORSMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSMainViewController.m; sourceTree = "<group>"; };
+		9D0F6B2D1AB4C5E2006BF3F0 /* ORSTemperaturePlotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSTemperaturePlotView.h; sourceTree = "<group>"; };
+		9D0F6B2E1AB4C5E2006BF3F0 /* ORSTemperaturePlotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSTemperaturePlotView.m; sourceTree = "<group>"; };
 		9DCDDB931AB48F5300F8347E /* RequestResponseDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RequestResponseDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DCDDBB91AB48F8A00F8347E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		9DCDDBBA1AB48F8A00F8347E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -108,6 +111,8 @@
 				9D0F6B251AB4B77A006BF3F0 /* ORSMainWindowController.m */,
 				9D0F6B2A1AB4C388006BF3F0 /* ORSMainViewController.h */,
 				9D0F6B2B1AB4C388006BF3F0 /* ORSMainViewController.m */,
+				9D0F6B2D1AB4C5E2006BF3F0 /* ORSTemperaturePlotView.h */,
+				9D0F6B2E1AB4C5E2006BF3F0 /* ORSTemperaturePlotView.m */,
 				9D0F6B271AB4B7DB006BF3F0 /* ORSSerialBoardController.h */,
 				9D0F6B281AB4B7DB006BF3F0 /* ORSSerialBoardController.m */,
 				9DCDDBC41AB48F9500F8347E /* Supporting Files */,
@@ -227,6 +232,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9DCDDBC31AB48F8A00F8347E /* main.m in Sources */,
+				9D0F6B2F1AB4C5E2006BF3F0 /* ORSTemperaturePlotView.m in Sources */,
 				9D0F6B2C1AB4C388006BF3F0 /* ORSMainViewController.m in Sources */,
 				9D0F6B291AB4B7DB006BF3F0 /* ORSSerialBoardController.m in Sources */,
 				9D0F6B261AB4B77A006BF3F0 /* ORSMainWindowController.m in Sources */,

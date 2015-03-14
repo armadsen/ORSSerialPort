@@ -704,15 +704,36 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="mBF-cM-c1F" customClass="ORSTemperaturePlotView">
+                                <rect key="frame" x="0.0" y="0.0" width="480" height="209"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="minTemperatureValue">
+                                        <integer key="value" value="17"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="maxTemperatureValue">
+                                        <integer key="value" value="25"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="plotColor">
+                                        <color key="value" red="1" green="0.0" blue="0.76948565546512349" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="drawsPoints" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="drawsLines" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                            </customView>
                         </subviews>
                         <constraints>
                             <constraint firstItem="QIu-lt-rOg" firstAttribute="leading" secondItem="uRe-8u-lyD" secondAttribute="trailing" constant="8" symbolic="YES" id="EkE-D4-ghx"/>
                             <constraint firstItem="uRe-8u-lyD" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" symbolic="YES" id="GES-BH-Xyf"/>
+                            <constraint firstAttribute="trailing" secondItem="mBF-cM-c1F" secondAttribute="trailing" id="U0h-P4-brz"/>
                             <constraint firstItem="QIu-lt-rOg" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" symbolic="YES" id="VPb-6T-8K5"/>
+                            <constraint firstItem="mBF-cM-c1F" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="ZDU-KQ-Qnj"/>
+                            <constraint firstItem="mBF-cM-c1F" firstAttribute="top" secondItem="QIu-lt-rOg" secondAttribute="bottom" constant="20" id="ir3-Ke-zRV"/>
                             <constraint firstItem="uRe-8u-lyD" firstAttribute="centerY" secondItem="QIu-lt-rOg" secondAttribute="centerY" id="vrC-Zj-s3c"/>
+                            <constraint firstAttribute="bottom" secondItem="mBF-cM-c1F" secondAttribute="bottom" id="zmk-fQ-ZkO"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="temperaturePlotView" destination="mBF-cM-c1F" id="Qet-S0-lSV"/>
                         <outlet property="view" destination="m2S-Jp-Qdl" id="fjU-x1-83A"/>
                     </connections>
                 </viewController>

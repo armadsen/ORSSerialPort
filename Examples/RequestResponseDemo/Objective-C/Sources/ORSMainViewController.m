@@ -9,6 +9,7 @@
 #import "ORSMainViewController.h"
 #import "ORSSerialBoardController.h"
 @import ORSSerial;
+#import "ORSTemperaturePlotView.h"
 
 static void *ORSMainViewControllerKVOContext = &ORSMainViewControllerKVOContext;
 
@@ -48,7 +49,7 @@ static void *ORSMainViewControllerKVOContext = &ORSMainViewControllerKVOContext;
 	}
 	
 	if (object == self.boardController && [keyPath isEqualToString:@"temperature"]) {
-		NSLog(@"Temperature: %@", @(self.boardController.temperature));
+		[self.temperaturePlotView addTemperature:self.boardController.temperature];
 	}
 }
 

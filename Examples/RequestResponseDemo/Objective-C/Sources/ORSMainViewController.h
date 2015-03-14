@@ -10,10 +10,13 @@
 
 @class ORSSerialPortManager;
 @class ORSSerialBoardController;
+@class ORSTemperaturePlotView;
 
 @interface ORSMainViewController : NSViewController
 
 @property (nonatomic, readonly) ORSSerialPortManager *serialPortManager;
 @property (nonatomic, strong, readonly) ORSSerialBoardController *boardController;
+
+@property (weak) IBOutlet ORSTemperaturePlotView *temperaturePlotView;
 
 @end
