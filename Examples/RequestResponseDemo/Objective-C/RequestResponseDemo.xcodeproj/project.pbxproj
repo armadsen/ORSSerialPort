@@ -11,7 +11,33 @@
 		9DCDDBC01AB48F8A00F8347E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9DCDDBB91AB48F8A00F8347E /* Images.xcassets */; };
 		9DCDDBC21AB48F8A00F8347E /* ORSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DCDDBBD1AB48F8A00F8347E /* ORSAppDelegate.m */; };
 		9DCDDBC31AB48F8A00F8347E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DCDDBBE1AB48F8A00F8347E /* main.m */; };
+		9DCDDBCC1AB4906A00F8347E /* ORSSerial.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DCDDBCB1AB4906100F8347E /* ORSSerial.framework */; };
+		9DCDDBCE1AB4907A00F8347E /* ORSSerial.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 9DCDDBCB1AB4906100F8347E /* ORSSerial.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		9DCDDBCA1AB4906100F8347E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9DCDDBC61AB4906100F8347E /* ORSSerialPort.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9DCA89121A2BB106009285EB;
+			remoteInfo = ORSSerial;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		9DCDDBCD1AB4906E00F8347E /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				9DCDDBCE1AB4907A00F8347E /* ORSSerial.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		9DCDDB931AB48F5300F8347E /* RequestResponseDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RequestResponseDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -21,6 +47,7 @@
 		9DCDDBBC1AB48F8A00F8347E /* ORSAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSAppDelegate.h; sourceTree = "<group>"; };
 		9DCDDBBD1AB48F8A00F8347E /* ORSAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSAppDelegate.m; sourceTree = "<group>"; };
 		9DCDDBBE1AB48F8A00F8347E /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		9DCDDBC61AB4906100F8347E /* ORSSerialPort.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ORSSerialPort.xcodeproj; path = "../../../Framework Project/ORSSerialPort.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -28,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9DCDDBCC1AB4906A00F8347E /* ORSSerial.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -39,6 +67,7 @@
 			children = (
 				9DCDDBBB1AB48F8A00F8347E /* Sources */,
 				9DCDDBB61AB48F8A00F8347E /* Resources */,
+				9DCDDBC51AB4905800F8347E /* Frameworks */,
 				9DCDDB941AB48F5300F8347E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -79,6 +108,22 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		9DCDDBC51AB4905800F8347E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9DCDDBC61AB4906100F8347E /* ORSSerialPort.xcodeproj */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9DCDDBC71AB4906100F8347E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9DCDDBCB1AB4906100F8347E /* ORSSerial.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -89,6 +134,7 @@
 				9DCDDB8F1AB48F5300F8347E /* Sources */,
 				9DCDDB901AB48F5300F8347E /* Frameworks */,
 				9DCDDB911AB48F5300F8347E /* Resources */,
+				9DCDDBCD1AB4906E00F8347E /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
@@ -124,12 +170,28 @@
 			mainGroup = 9DCDDB8A1AB48F5300F8347E;
 			productRefGroup = 9DCDDB941AB48F5300F8347E /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 9DCDDBC71AB4906100F8347E /* Products */;
+					ProjectRef = 9DCDDBC61AB4906100F8347E /* ORSSerialPort.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				9DCDDB921AB48F5300F8347E /* RequestResponseDemo */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		9DCDDBCB1AB4906100F8347E /* ORSSerial.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ORSSerial.framework;
+			remoteRef = 9DCDDBCA1AB4906100F8347E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		9DCDDB911AB48F5300F8347E /* Resources */ = {
