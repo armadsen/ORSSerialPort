@@ -720,10 +720,23 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="drawsLines" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                             </customView>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="BRs-R2-1DH">
+                                <rect key="frame" x="249" y="230" width="48" height="18"/>
+                                <buttonCell key="cell" type="check" title="LED" bezelStyle="regularSquare" imagePosition="left" alignment="center" state="on" inset="2" id="WhO-34-muz">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="LEDCheckboxWasToggled:" target="XfG-lQ-9wD" id="6QD-6u-w2A"/>
+                                    <binding destination="XfG-lQ-9wD" name="value" keyPath="boardController.LEDOn" id="8SK-vp-xpN"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="BRs-R2-1DH" firstAttribute="baseline" secondItem="uRe-8u-lyD" secondAttribute="baseline" id="7Ry-2t-mBd"/>
                             <constraint firstItem="QIu-lt-rOg" firstAttribute="leading" secondItem="uRe-8u-lyD" secondAttribute="trailing" constant="8" symbolic="YES" id="EkE-D4-ghx"/>
                             <constraint firstItem="uRe-8u-lyD" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" symbolic="YES" id="GES-BH-Xyf"/>
+                            <constraint firstItem="BRs-R2-1DH" firstAttribute="leading" secondItem="QIu-lt-rOg" secondAttribute="trailing" constant="8" symbolic="YES" id="Ty3-ct-Itm"/>
                             <constraint firstAttribute="trailing" secondItem="mBF-cM-c1F" secondAttribute="trailing" id="U0h-P4-brz"/>
                             <constraint firstItem="QIu-lt-rOg" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" symbolic="YES" id="VPb-6T-8K5"/>
                             <constraint firstItem="mBF-cM-c1F" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="ZDU-KQ-Qnj"/>

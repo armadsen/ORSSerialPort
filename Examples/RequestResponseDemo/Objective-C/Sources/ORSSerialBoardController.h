@@ -15,5 +15,6 @@
 @property (nonatomic, strong) ORSSerialPort *serialPort;
 
 @property (nonatomic, readonly) NSInteger temperature; // In degrees C
+@property (nonatomic, getter=isLEDOn) BOOL LEDOn;
 
 @end

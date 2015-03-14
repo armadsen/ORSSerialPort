@@ -13,8 +13,8 @@ static const NSTimeInterval kTimeoutDuration = 0.5;
 
 typedef NS_ENUM(NSInteger, ORSSerialBoardRequestType) {
 	ORSSerialBoardRequestTypeReadTemperature = 1,
-	ORSSerialBoardRequestTypeSetLED,
 	ORSSerialBoardRequestTypeReadLED,
+	ORSSerialBoardRequestTypeSetLED,
 };
 
 @interface ORSSerialBoardController () <ORSSerialPortDelegate>
@@ -29,6 +29,14 @@ typedef NS_ENUM(NSInteger, ORSSerialBoardRequestType) {
 
 #pragma mark - Private
 
+- (void)pollingTimerFired:(NSTimer *)timer
+{
+	[self readTemperature];
+	[self readLEDState];
+}
+
+#pragma mark Sending Commands
+
 - (void)readTemperature
 {
 	NSData *command = [@"$TEMP?;" dataUsingEncoding:NSASCIIStringEncoding];
@@ -38,9 +46,38 @@ typedef NS_ENUM(NSInteger, ORSSerialBoardRequestType) {
 							timeoutInterval:kTimeoutDuration
 						  responseEvaluator:^BOOL(NSData *data) {
 							  return [self temperatureFromResponsePacket:data] != nil;
-        }];
+						  }];
 	[self.serialPort sendRequest:request];
 }
+
+- (void)readLEDState
+{
+	NSData *command = [@"$LED?;" dataUsingEncoding:NSASCIIStringEncoding];
+	ORSSerialRequest *request =
+	[ORSSerialRequest requestWithDataToSend:command
+								   userInfo:@(ORSSerialBoardRequestTypeReadLED)
+							timeoutInterval:kTimeoutDuration
+						  responseEvaluator:^BOOL(NSData *data) {
+							  return [self LEDStateFromResponsePacket:data] != nil;
+						  }];
+	[self.serialPort sendRequest:request];
+}
+
+- (void)sendCommandToSetLEDToState:(BOOL)LEDState
+{
+	NSString *commandString = [NSString stringWithFormat:@"$LED%@;", (LEDState ? @"1" : @"0")];
+	NSData *command = [commandString dataUsingEncoding:NSASCIIStringEncoding];
+	ORSSerialRequest *request =
+	[ORSSerialRequest requestWithDataToSend:command
+								   userInfo:@(ORSSerialBoardRequestTypeSetLED)
+							timeoutInterval:kTimeoutDuration
+						  responseEvaluator:^BOOL(NSData *data) {
+							  return [self LEDStateFromResponsePacket:data] != nil;
+						  }];
+	[self.serialPort sendRequest:request];
+}
+
+#pragma mark Parsing Responses
 
 - (NSNumber *)temperatureFromResponsePacket:(NSData *)data
 {
@@ -54,9 +91,16 @@ typedef NS_ENUM(NSInteger, ORSSerialBoardRequestType) {
 	return @([temperatureString integerValue]);
 }
 
-- (void)pollingTimerFired:(NSTimer *)timer
+- (NSNumber *)LEDStateFromResponsePacket:(NSData *)data
 {
-	[self readTemperature];
+	if (![data length]) return nil;
+	NSString *dataAsString = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+	if (![dataAsString hasPrefix:@"!LED"]) return nil;
+	if (![dataAsString hasSuffix:@";"]) return nil;
+	if ([dataAsString length] < 6) return nil;
+	
+	NSString *LEDStateString = [dataAsString substringWithRange:NSMakeRange(4, [dataAsString length]-5)];
+	return @([LEDStateString integerValue]);
 }
 
 #pragma mark - ORSSerialPortDelegate
@@ -71,6 +115,11 @@ typedef NS_ENUM(NSInteger, ORSSerialBoardRequestType) {
 	NSLog(@"Serial port %@ encountered an error: %@", self.serialPort, error);
 }
 
+- (void)serialPort:(ORSSerialPort *)serialPort didReceiveData:(NSData *)data
+{
+	NSLog(@"%@", [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding]);
+}
+
 - (void)serialPort:(ORSSerialPort *)serialPort didReceiveResponse:(NSData *)responseData toRequest:(ORSSerialRequest *)request
 {
 	ORSSerialBoardRequestType requestType = [request.userInfo integerValue];
@@ -78,20 +127,26 @@ typedef NS_ENUM(NSInteger, ORSSerialBoardRequestType) {
 		case ORSSerialBoardRequestTypeReadTemperature:
 			self.temperature = [[self temperatureFromResponsePacket:responseData] integerValue];
 			break;
+
+		case ORSSerialBoardRequestTypeReadLED:
+		case ORSSerialBoardRequestTypeSetLED:
+			// Don't call the setter to avoid continuing to send set commands indefinitely
+			[self willChangeValueForKey:@"LEDOn"];
+			_LEDOn = [[self LEDStateFromResponsePacket:responseData] boolValue];
+			[self didChangeValueForKey:@"LEDOn"];
+			break;
+			
 		default:
 			break;
 	}
-}
-
-- (void)serialPort:(ORSSerialPort *)serialPort requestDidTimeout:(ORSSerialRequest *)request
-{
-	NSLog(@"Request %@ timed out.", request);
 }
 
 - (void)serialPortWasOpened:(ORSSerialPort *)serialPort
 {
 	// Start polling
 	self.pollingTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(pollingTimerFired:) userInfo:nil repeats:YES];
+	[self readLEDState];
+	[self.pollingTimer fire];
 }
 
 - (void)serialPortWasClosed:(ORSSerialPort *)serialPort
@@ -114,6 +169,12 @@ typedef NS_ENUM(NSInteger, ORSSerialBoardRequestType) {
 		_serialPort.delegate = self;
 		[_serialPort open];
 	}
+}
+
+- (void)setLEDOn:(BOOL)LEDOn
+{
+	_LEDOn = LEDOn;
+	[self sendCommandToSetLEDToState:_LEDOn];
 }
 
 - (void)setPollingTimer:(NSTimer *)pollingTimer
