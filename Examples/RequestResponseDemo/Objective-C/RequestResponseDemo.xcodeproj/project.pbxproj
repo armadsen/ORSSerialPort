@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9DCDDBBF1AB48F8A00F8347E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DCDDBB71AB48F8A00F8347E /* MainMenu.xib */; };
+		9D0F6B231AB4B6EC006BF3F0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D0F6B221AB4B6EC006BF3F0 /* Main.storyboard */; };
 		9DCDDBC01AB48F8A00F8347E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9DCDDBB91AB48F8A00F8347E /* Images.xcassets */; };
 		9DCDDBC21AB48F8A00F8347E /* ORSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DCDDBBD1AB48F8A00F8347E /* ORSAppDelegate.m */; };
 		9DCDDBC31AB48F8A00F8347E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DCDDBBE1AB48F8A00F8347E /* main.m */; };
@@ -40,8 +40,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9D0F6B221AB4B6EC006BF3F0 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		9DCDDB931AB48F5300F8347E /* RequestResponseDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RequestResponseDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		9DCDDBB81AB48F8A00F8347E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		9DCDDBB91AB48F8A00F8347E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		9DCDDBBA1AB48F8A00F8347E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9DCDDBBC1AB48F8A00F8347E /* ORSAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSAppDelegate.h; sourceTree = "<group>"; };
@@ -83,7 +83,7 @@
 		9DCDDBB61AB48F8A00F8347E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				9DCDDBB71AB48F8A00F8347E /* MainMenu.xib */,
+				9D0F6B221AB4B6EC006BF3F0 /* Main.storyboard */,
 				9DCDDBB91AB48F8A00F8347E /* Images.xcassets */,
 				9DCDDBBA1AB48F8A00F8347E /* Info.plist */,
 			);
@@ -151,6 +151,7 @@
 		9DCDDB8B1AB48F5300F8347E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = ORS;
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = "Open Reel Software";
 				TargetAttributes = {
@@ -198,8 +199,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9DCDDBBF1AB48F8A00F8347E /* MainMenu.xib in Resources */,
 				9DCDDBC01AB48F8A00F8347E /* Images.xcassets in Resources */,
+				9D0F6B231AB4B6EC006BF3F0 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,17 +217,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		9DCDDBB71AB48F8A00F8347E /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9DCDDBB81AB48F8A00F8347E /* Base */,
-			);
-			name = MainMenu.xib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		9DCDDBAE1AB48F5300F8347E /* Debug */ = {

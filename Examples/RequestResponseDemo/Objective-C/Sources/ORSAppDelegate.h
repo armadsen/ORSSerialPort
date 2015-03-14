@@ -10,6 +10,5 @@
 
 @interface ORSAppDelegate : NSObject <NSApplicationDelegate>
 
-
 @end
 
