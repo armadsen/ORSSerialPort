@@ -666,14 +666,55 @@
             </objects>
             <point key="canvasLocation" x="75" y="250"/>
         </scene>
-        <!--View Controller-->
+        <!--Main View Controller-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController id="XfG-lQ-9wD" sceneMemberID="viewController">
+                <viewController id="XfG-lQ-9wD" customClass="ORSMainViewController" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QIu-lt-rOg">
+                                <rect key="frame" x="91" y="226" width="155" height="26"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="bsc-hi-XSB"/>
+                                </constraints>
+                                <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="y69-My-U0Y" id="rb0-kx-cda">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="menu"/>
+                                    <menu key="menu" id="pHz-8e-L2Z">
+                                        <items>
+                                            <menuItem title="Item 1" state="on" id="y69-My-U0Y"/>
+                                            <menuItem title="Item 2" id="5uq-BC-uhV"/>
+                                            <menuItem title="Item 3" id="1u2-dH-iZO"/>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                                <connections>
+                                    <binding destination="XfG-lQ-9wD" name="content" keyPath="serialPortManager.availablePorts" id="qYj-eB-a0S"/>
+                                    <binding destination="XfG-lQ-9wD" name="contentValues" keyPath="serialPortManager.availablePorts.name" previousBinding="qYj-eB-a0S" id="DgL-Vy-PGX"/>
+                                    <binding destination="XfG-lQ-9wD" name="selectedObject" keyPath="boardController.serialPort" previousBinding="DgL-Vy-PGX" id="vcl-YA-1IC"/>
+                                </connections>
+                            </popUpButton>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uRe-8u-lyD">
+                                <rect key="frame" x="18" y="231" width="69" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Serial Port" id="7PY-Oz-O2D">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="QIu-lt-rOg" firstAttribute="leading" secondItem="uRe-8u-lyD" secondAttribute="trailing" constant="8" symbolic="YES" id="EkE-D4-ghx"/>
+                            <constraint firstItem="uRe-8u-lyD" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" symbolic="YES" id="GES-BH-Xyf"/>
+                            <constraint firstItem="QIu-lt-rOg" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" symbolic="YES" id="VPb-6T-8K5"/>
+                            <constraint firstItem="uRe-8u-lyD" firstAttribute="centerY" secondItem="QIu-lt-rOg" secondAttribute="centerY" id="vrC-Zj-s3c"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="view" destination="m2S-Jp-Qdl" id="fjU-x1-83A"/>
+                    </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>

@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Open Reel Software. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+@import Cocoa;
 
 @interface ORSMainWindowController : NSWindowController
 
