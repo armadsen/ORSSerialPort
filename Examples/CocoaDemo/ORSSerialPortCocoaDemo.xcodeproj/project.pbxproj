@@ -17,6 +17,18 @@
 		9D66D83D159BCC6400EE6D09 /* ORSSerialPortDemoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D66D83C159BCC6400EE6D09 /* ORSSerialPortDemoController.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		9D3FF0EA1AB09AA100E9B6F9 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		9D66D80E159BCAB800EE6D09 /* ORSSerialPortCocoaDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ORSSerialPortCocoaDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D66D81A159BCAB800EE6D09 /* ORSSerialPortCocoaDemo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ORSSerialPortCocoaDemo-Info.plist"; sourceTree = "<group>"; };
@@ -116,6 +128,7 @@
 			buildPhases = (
 				9D66D80A159BCAB800EE6D09 /* Sources */,
 				9D66D80C159BCAB800EE6D09 /* Resources */,
+				9D3FF0EA1AB09AA100E9B6F9 /* CopyFiles */,
 			);
 			buildRules = (
 			);
