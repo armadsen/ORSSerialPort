@@ -708,10 +708,10 @@
                                 <rect key="frame" x="0.0" y="0.0" width="480" height="209"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="minTemperatureValue">
-                                        <integer key="value" value="17"/>
+                                        <integer key="value" value="15"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="maxTemperatureValue">
-                                        <integer key="value" value="25"/>
+                                        <integer key="value" value="30"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="plotColor">
                                         <color key="value" red="1" green="0.0" blue="0.76948565546512349" alpha="1" colorSpace="calibratedRGB"/>
