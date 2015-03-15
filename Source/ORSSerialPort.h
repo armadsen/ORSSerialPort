@@ -532,6 +532,11 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
 /**
  *  Called when a serial port was closed (e.g. because `-close`) was called.
  *
+ *  When an ORSSerialPort instance is closed, its queued requests are cancelled, and
+ *  its pending request is discarded. This is done _after_ the call to `-serialPortWasClosed:`.
+ *  If upon later reopening you may need to resend those requests, you 
+ *  should retrieve and store them in your implementation of this method.
+ *
  *  @param serialPort The `ORSSerialPort` instance representing the port that was closed.
  */
 - (void)serialPortWasClosed:(ORSSerialPort *)serialPort;

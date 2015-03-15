@@ -385,8 +385,10 @@ static __strong NSMutableArray *allSerialPorts;
 	
 	if ([self.delegate respondsToSelector:@selector(serialPortWasClosed:)])
 	{
-		dispatch_async(dispatch_get_main_queue(), ^{
-			[self.delegate serialPortWasClosed:self];
+		[(id)self.delegate performSelectorOnMainThread:@selector(serialPortWasClosed:) withObject:self waitUntilDone:YES];
+		dispatch_async(self.requestHandlingQueue, ^{
+			self.requestsQueue = [NSMutableArray array]; // Cancel all queued requests
+			self.pendingRequest = nil; // Discard pending request
 		});
 	}
 	return YES;
@@ -404,8 +406,8 @@ static __strong NSMutableArray *allSerialPorts;
 	{
 		[(id)self.delegate performSelectorOnMainThread:@selector(serialPortWasRemovedFromSystem:) withObject:self waitUntilDone:YES];
 	}
-		[self close];
-	}
+	[self close];
+}
 
 - (BOOL)sendData:(NSData *)data;
 {
