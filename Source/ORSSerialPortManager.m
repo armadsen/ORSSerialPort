@@ -31,6 +31,11 @@
 #import "ORSSerialPortManager.h"
 #import "ORSSerialPort.h"
 
+#ifdef ORSSERIAL_FRAMEWORK
+// To enable sleep/wake notifications, etc.
+#import <Cocoa/Cocoa.h>
+#endif
+
 #import <IOKit/IOKitLib.h>
 #import <IOKit/serial/IOSerialKeys.h>
 
