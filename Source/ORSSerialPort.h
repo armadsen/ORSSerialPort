@@ -262,7 +262,11 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
  *  The delegate for the serial port object. Must implement the `ORSSerialPortDelegate` protocol.
  *
  */
+#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_8
+@property (nonatomic, weak) id<ORSSerialPortDelegate> delegate;
+#else
 @property (nonatomic, unsafe_unretained) id<ORSSerialPortDelegate> delegate;
+#endif
 
 /** ---------------------------------------------------------------------------------------
  * @name Request/Response Properties
@@ -272,8 +276,22 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
 /**
  *  The previously-sent request for which the port is awaiting a response, or nil
  *  if there is no pending request.
+ *
+ *	This property can be observed using Key Value Observing.
  */
 @property (strong, readonly) ORSSerialRequest *pendingRequest;
+
+/**
+ *  Requests in the queue waiting to be sent, or an empty array if there are no queued requests.
+ *  Requests are sent from the queue in FIFO order. That is, the first request in the array
+ *  returned by this property is the next request to be sent.
+ *
+ *	This property can be observed using Key Value Observing.
+ *
+ *  @note This array does not contain the pending request, a sent request for which
+ *  the port is awaiting a response.
+ */
+@property (strong, readonly) NSArray *queuedRequests;
 
 /** ---------------------------------------------------------------------------------------
  * @name Port Properties
@@ -335,8 +353,6 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
  *	- 76800
  *	- 115200
  *	- 230400
- *	- 19200
- *	- 38400
  */
 @property (nonatomic, copy) NSNumber *baudRate;
 
@@ -440,7 +456,7 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
  *  to a background queue in your implementation of the delegate method.
  */
 
-@protocol ORSSerialPortDelegate
+@protocol ORSSerialPortDelegate <NSObject>
 
 @required
 
@@ -515,6 +531,11 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
 
 /**
  *  Called when a serial port was closed (e.g. because `-close`) was called.
+ *
+ *  When an ORSSerialPort instance is closed, its queued requests are cancelled, and
+ *  its pending request is discarded. This is done _after_ the call to `-serialPortWasClosed:`.
+ *  If upon later reopening you may need to resend those requests, you 
+ *  should retrieve and store them in your implementation of this method.
  *
  *  @param serialPort The `ORSSerialPort` instance representing the port that was closed.
  */

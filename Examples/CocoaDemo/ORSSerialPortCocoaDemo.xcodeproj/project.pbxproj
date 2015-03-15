@@ -17,6 +17,18 @@
 		9D66D83D159BCC6400EE6D09 /* ORSSerialPortDemoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D66D83C159BCC6400EE6D09 /* ORSSerialPortDemoController.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		9D3FF0EA1AB09AA100E9B6F9 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		9D66D80E159BCAB800EE6D09 /* ORSSerialPortCocoaDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ORSSerialPortCocoaDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D66D81A159BCAB800EE6D09 /* ORSSerialPortCocoaDemo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ORSSerialPortCocoaDemo-Info.plist"; sourceTree = "<group>"; };
@@ -116,6 +128,7 @@
 			buildPhases = (
 				9D66D80A159BCAB800EE6D09 /* Sources */,
 				9D66D80C159BCAB800EE6D09 /* Resources */,
+				9D3FF0EA1AB09AA100E9B6F9 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -133,7 +146,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = ORS;
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = "Open Reel Software";
 			};
 			buildConfigurationList = 9D66D808159BCAB800EE6D09 /* Build configuration list for PBXProject "ORSSerialPortCocoaDemo" */;
@@ -213,7 +226,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_MODULES = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -230,7 +242,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
@@ -240,7 +252,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_MODULES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -251,7 +262,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -260,10 +271,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sources/ORSSerialPortCocoaDemo-Prefix.pch";
 				INFOPLIST_FILE = "Resources/ORSSerialPortCocoaDemo-Info.plist";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = ORSSerialPortCocoaDemo;
 				WRAPPER_EXTENSION = app;
 			};
@@ -273,10 +284,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sources/ORSSerialPortCocoaDemo-Prefix.pch";
 				INFOPLIST_FILE = "Resources/ORSSerialPortCocoaDemo-Info.plist";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = ORSSerialPortCocoaDemo;
 				WRAPPER_EXTENSION = app;
 			};
