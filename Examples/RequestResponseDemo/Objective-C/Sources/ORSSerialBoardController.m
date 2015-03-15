@@ -115,11 +115,6 @@ typedef NS_ENUM(NSInteger, ORSSerialBoardRequestType) {
 	NSLog(@"Serial port %@ encountered an error: %@", self.serialPort, error);
 }
 
-- (void)serialPort:(ORSSerialPort *)serialPort didReceiveData:(NSData *)data
-{
-	NSLog(@"%@", [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding]);
-}
-
 - (void)serialPort:(ORSSerialPort *)serialPort didReceiveResponse:(NSData *)responseData toRequest:(ORSSerialRequest *)request
 {
 	ORSSerialBoardRequestType requestType = [request.userInfo integerValue];
