@@ -651,11 +651,12 @@
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController id="B8D-0N-5wS" customClass="ORSMainWindowController" sceneMemberID="viewController">
-                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
+                    <window key="window" title="Objective-C Request Response Demo" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="196" y="240" width="480" height="270"/>
+                        <rect key="contentRect" x="89" y="617" width="480" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+                        <value key="minSize" type="size" width="480" height="270"/>
                     </window>
                     <connections>
                         <outlet property="window" destination="IQv-IB-iLA" id="pl5-2e-9dQ"/>
@@ -691,9 +692,9 @@
                                     </menu>
                                 </popUpButtonCell>
                                 <connections>
+                                    <binding destination="XfG-lQ-9wD" name="selectedObject" keyPath="boardController.serialPort" previousBinding="DgL-Vy-PGX" id="vcl-YA-1IC"/>
                                     <binding destination="XfG-lQ-9wD" name="content" keyPath="serialPortManager.availablePorts" id="qYj-eB-a0S"/>
                                     <binding destination="XfG-lQ-9wD" name="contentValues" keyPath="serialPortManager.availablePorts.name" previousBinding="qYj-eB-a0S" id="DgL-Vy-PGX"/>
-                                    <binding destination="XfG-lQ-9wD" name="selectedObject" keyPath="boardController.serialPort" previousBinding="DgL-Vy-PGX" id="vcl-YA-1IC"/>
                                 </connections>
                             </popUpButton>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uRe-8u-lyD">
