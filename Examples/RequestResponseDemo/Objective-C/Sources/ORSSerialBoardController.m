@@ -140,8 +140,7 @@ typedef NS_ENUM(NSInteger, ORSSerialBoardRequestType) {
 {
 	// Start polling
 	self.pollingTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(pollingTimerFired:) userInfo:nil repeats:YES];
-	[self readLEDState];
-	[self.pollingTimer fire];
+	[self.pollingTimer fire]; // Do first read
 }
 
 - (void)serialPortWasClosed:(ORSSerialPort *)serialPort
