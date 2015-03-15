@@ -276,8 +276,22 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
 /**
  *  The previously-sent request for which the port is awaiting a response, or nil
  *  if there is no pending request.
+ *
+ *	This property can be observed using Key Value Observing.
  */
 @property (strong, readonly) ORSSerialRequest *pendingRequest;
+
+/**
+ *  Requests in the queue waiting to be sent, or an empty array if there are no queued requests.
+ *  Requests are sent from the queue in FIFO order. That is, the first request in the array
+ *  returned by this property is the next request to be sent.
+ *
+ *	This property can be observed using Key Value Observing.
+ *
+ *  @note This array does not contain the pending request, a sent request for which
+ *  the port is awaiting a response.
+ */
+@property (strong, readonly) NSArray *queuedRequests;
 
 /** ---------------------------------------------------------------------------------------
  * @name Port Properties
@@ -339,8 +353,6 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
  *	- 76800
  *	- 115200
  *	- 230400
- *	- 19200
- *	- 38400
  */
 @property (nonatomic, copy) NSNumber *baudRate;
 

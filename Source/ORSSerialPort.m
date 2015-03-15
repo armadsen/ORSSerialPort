@@ -468,7 +468,7 @@ static __strong NSMutableArray *allSerialPorts;
 	}
 	
 	// Queue it up to be sent after the pending request is responded to, or times out.
-	[self.requestsQueue addObject:request];
+	[self insertObject:request inRequestsQueueAtIndex:[self.requestsQueue count]];
 	return YES;
 }
 
@@ -478,7 +478,7 @@ static __strong NSMutableArray *allSerialPorts;
 	self.pendingRequest = nil;
 	if (![self.requestsQueue count]) return;
 	ORSSerialRequest *nextRequest = self.requestsQueue[0];
-	[self.requestsQueue removeObjectAtIndex:0];
+	[self removeObjectFromRequestsQueueAtIndex:0];
 	[self reallySendRequest:nextRequest];
 }
 
@@ -708,10 +708,29 @@ static __strong NSMutableArray *allSerialPorts;
 		keyPaths = [keyPaths setByAddingObject:@"fileDescriptor"];
 	}
 	
+	if ([key isEqualToString:@"queuedRequests"]) {
+		keyPaths = [keyPaths setByAddingObject:@"requestsQueue"];
+	}
+	
 	return keyPaths;
 }
 
 #pragma mark Port Properties
+
+- (void)insertObject:(ORSSerialRequest *)request inRequestsQueueAtIndex:(NSUInteger)index
+{
+	[self.requestsQueue insertObject:request atIndex:index];
+}
+
+- (void)removeObjectFromRequestsQueueAtIndex:(NSUInteger)index
+{
+	[self.requestsQueue removeObjectAtIndex:index];
+}
+
+- (NSArray *)queuedRequests
+{
+	return [self.requestsQueue copy];
+}
 
 - (BOOL)isOpen { return self.fileDescriptor != 0; }
 
