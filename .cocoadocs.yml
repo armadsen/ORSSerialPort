@@ -9,3 +9,9 @@ darker-dark-color: "#09453A"
 background-color: "#9B9B9B"
 alt-link-color: "#B094B7"
 warning-color: "#B80E3D"
+
+additional_guides:
+    - https://github.com/armadsen/ORSSerialPort/wiki/Installing-ORSSerialPort
+    - https://github.com/armadsen/ORSSerialPort/wiki/Getting-Started
+    - https://github.com/armadsen/ORSSerialPort/wiki/Request-Response-API
+    - https://github.com/armadsen/ORSSerialPort/wiki/System-Requirements
