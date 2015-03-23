@@ -1,0 +1,342 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9D0F6B641AB50343006BF3F0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D0F6B5E1AB50343006BF3F0 /* Images.xcassets */; };
+		9D0F6B661AB50343006BF3F0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0F6B611AB50343006BF3F0 /* AppDelegate.swift */; };
+		9D0F6B671AB50343006BF3F0 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0F6B621AB50343006BF3F0 /* MainViewController.swift */; };
+		9D0F6B691AB50385006BF3F0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D0F6B681AB50385006BF3F0 /* Main.storyboard */; };
+		9D0F6B6B1AB50398006BF3F0 /* TemperaturePlotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0F6B6A1AB50398006BF3F0 /* TemperaturePlotView.swift */; };
+		9D0F6B6D1AB503A8006BF3F0 /* SerialBoardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0F6B6C1AB503A8006BF3F0 /* SerialBoardController.swift */; };
+		9D0F6B771AB50421006BF3F0 /* ORSSerial.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D0F6B741AB5040E006BF3F0 /* ORSSerial.framework */; };
+		9D0F6B791AB50431006BF3F0 /* ORSSerial.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 9D0F6B741AB5040E006BF3F0 /* ORSSerial.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		9D0F6B731AB5040E006BF3F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9D0F6B6F1AB5040E006BF3F0 /* ORSSerialPort.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9DCA89121A2BB106009285EB;
+			remoteInfo = ORSSerial;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		9D0F6B781AB50427006BF3F0 /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				9D0F6B791AB50431006BF3F0 /* ORSSerial.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		9D0F6B391AB502F7006BF3F0 /* RequestResponseDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RequestResponseDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D0F6B5E1AB50343006BF3F0 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		9D0F6B5F1AB50343006BF3F0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9D0F6B611AB50343006BF3F0 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		9D0F6B621AB50343006BF3F0 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		9D0F6B681AB50385006BF3F0 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		9D0F6B6A1AB50398006BF3F0 /* TemperaturePlotView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemperaturePlotView.swift; sourceTree = "<group>"; };
+		9D0F6B6C1AB503A8006BF3F0 /* SerialBoardController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerialBoardController.swift; sourceTree = "<group>"; };
+		9D0F6B6F1AB5040E006BF3F0 /* ORSSerialPort.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ORSSerialPort.xcodeproj; path = "../../../Framework Project/ORSSerialPort.xcodeproj"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9D0F6B361AB502F7006BF3F0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D0F6B771AB50421006BF3F0 /* ORSSerial.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9D0F6B301AB502F7006BF3F0 = {
+			isa = PBXGroup;
+			children = (
+				9D0F6B601AB50343006BF3F0 /* Sources */,
+				9D0F6B5B1AB50343006BF3F0 /* Resources */,
+				9D0F6B6E1AB50408006BF3F0 /* Frameworks */,
+				9D0F6B3A1AB502F7006BF3F0 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		9D0F6B3A1AB502F7006BF3F0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9D0F6B391AB502F7006BF3F0 /* RequestResponseDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9D0F6B5B1AB50343006BF3F0 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9D0F6B681AB50385006BF3F0 /* Main.storyboard */,
+				9D0F6B5E1AB50343006BF3F0 /* Images.xcassets */,
+				9D0F6B5F1AB50343006BF3F0 /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		9D0F6B601AB50343006BF3F0 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				9D0F6B611AB50343006BF3F0 /* AppDelegate.swift */,
+				9D0F6B621AB50343006BF3F0 /* MainViewController.swift */,
+				9D0F6B6A1AB50398006BF3F0 /* TemperaturePlotView.swift */,
+				9D0F6B6C1AB503A8006BF3F0 /* SerialBoardController.swift */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		9D0F6B6E1AB50408006BF3F0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9D0F6B6F1AB5040E006BF3F0 /* ORSSerialPort.xcodeproj */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9D0F6B701AB5040E006BF3F0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9D0F6B741AB5040E006BF3F0 /* ORSSerial.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9D0F6B381AB502F7006BF3F0 /* RequestResponseDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9D0F6B551AB502F7006BF3F0 /* Build configuration list for PBXNativeTarget "RequestResponseDemo" */;
+			buildPhases = (
+				9D0F6B351AB502F7006BF3F0 /* Sources */,
+				9D0F6B361AB502F7006BF3F0 /* Frameworks */,
+				9D0F6B371AB502F7006BF3F0 /* Resources */,
+				9D0F6B781AB50427006BF3F0 /* Copy Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RequestResponseDemo;
+			productName = RequestResponseDemo;
+			productReference = 9D0F6B391AB502F7006BF3F0 /* RequestResponseDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9D0F6B311AB502F7006BF3F0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0620;
+				ORGANIZATIONNAME = "Open Reel Software";
+				TargetAttributes = {
+					9D0F6B381AB502F7006BF3F0 = {
+						CreatedOnToolsVersion = 6.2;
+					};
+				};
+			};
+			buildConfigurationList = 9D0F6B341AB502F7006BF3F0 /* Build configuration list for PBXProject "RequestResponseDemo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 9D0F6B301AB502F7006BF3F0;
+			productRefGroup = 9D0F6B3A1AB502F7006BF3F0 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 9D0F6B701AB5040E006BF3F0 /* Products */;
+					ProjectRef = 9D0F6B6F1AB5040E006BF3F0 /* ORSSerialPort.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				9D0F6B381AB502F7006BF3F0 /* RequestResponseDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		9D0F6B741AB5040E006BF3F0 /* ORSSerial.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ORSSerial.framework;
+			remoteRef = 9D0F6B731AB5040E006BF3F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9D0F6B371AB502F7006BF3F0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D0F6B641AB50343006BF3F0 /* Images.xcassets in Resources */,
+				9D0F6B691AB50385006BF3F0 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9D0F6B351AB502F7006BF3F0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D0F6B671AB50343006BF3F0 /* MainViewController.swift in Sources */,
+				9D0F6B6B1AB50398006BF3F0 /* TemperaturePlotView.swift in Sources */,
+				9D0F6B6D1AB503A8006BF3F0 /* SerialBoardController.swift in Sources */,
+				9D0F6B661AB50343006BF3F0 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		9D0F6B531AB502F7006BF3F0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		9D0F6B541AB502F7006BF3F0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		9D0F6B561AB502F7006BF3F0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Resources/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		9D0F6B571AB502F7006BF3F0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Resources/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9D0F6B341AB502F7006BF3F0 /* Build configuration list for PBXProject "RequestResponseDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9D0F6B531AB502F7006BF3F0 /* Debug */,
+				9D0F6B541AB502F7006BF3F0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9D0F6B551AB502F7006BF3F0 /* Build configuration list for PBXNativeTarget "RequestResponseDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9D0F6B561AB502F7006BF3F0 /* Debug */,
+				9D0F6B571AB502F7006BF3F0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9D0F6B311AB502F7006BF3F0 /* Project object */;
+}

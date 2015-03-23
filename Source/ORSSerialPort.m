@@ -76,10 +76,12 @@ static __strong NSMutableArray *allSerialPorts;
 @property (nonatomic, strong) dispatch_source_t pinPollTimer;
 @property (nonatomic, strong) dispatch_source_t pendingRequestTimeoutTimer;
 @property (nonatomic, strong) dispatch_queue_t requestHandlingQueue;
+@property (nonatomic, strong) dispatch_semaphore_t selectSemaphore;
 #else
 @property (nonatomic) dispatch_source_t pinPollTimer;
 @property (nonatomic) dispatch_source_t pendingRequestTimeoutTimer;
 @property (nonatomic) dispatch_queue_t requestHandlingQueue;
+@property (nonatomic) dispatch_semaphore_t selectSemaphore;
 #endif
 
 @end
@@ -170,6 +172,7 @@ static __strong NSMutableArray *allSerialPorts;
 		self.receiveBuffer = [NSMutableData data];
 		self.requestHandlingQueue = dispatch_queue_create("com.openreelsoftware.ORSSerialPort.requestHandlingQueue", 0);
 		self.requestsQueue = [NSMutableArray array];
+		self.selectSemaphore = dispatch_semaphore_create(1);
 		self.baudRate = @B19200;
 		self.numberOfStopBits = 1;
 		self.parity = ORSSerialPortParityNone;
@@ -204,6 +207,7 @@ static __strong NSMutableArray *allSerialPorts;
 	}
 	
 	self.requestHandlingQueue = nil;
+	self.selectSemaphore = nil;
 }
 
 - (NSString *)description
@@ -272,7 +276,7 @@ static __strong NSMutableArray *allSerialPorts;
 	self.RTS = desiredRTS;
 	self.DTR = desiredDTR;
 	
-	if ([(id)self.delegate respondsToSelector:@selector(serialPortWasOpened:)])
+	if ([self.delegate respondsToSelector:@selector(serialPortWasOpened:)])
 	{
 		dispatch_async(mainQueue, ^{
 			[self.delegate serialPortWasOpened:self];
@@ -295,7 +299,9 @@ static __strong NSMutableArray *allSerialPorts;
 			timeout.tv_sec = 0;
 			timeout.tv_usec = 100000; // Check to see if port closed every 100ms
 			
+			dispatch_semaphore_wait(self.selectSemaphore, DISPATCH_TIME_FOREVER);
 			result = select(localPortFD+1, &localReadFDSet, NULL, NULL, &timeout);
+			dispatch_semaphore_signal(self.selectSemaphore);
 			if (!self.isOpen) break; // Port closed while select call was waiting
 			if (result < 0)
 			{
@@ -360,6 +366,7 @@ static __strong NSMutableArray *allSerialPorts;
 	
 	self.pinPollTimer = nil; // Stop polling CTS/DSR/DCD pins
 	
+	dispatch_semaphore_wait(self.selectSemaphore, DISPATCH_TIME_FOREVER);
 	// The next tcsetattr() call can fail if the port is waiting to send data. This is likely to happen
 	// e.g. if flow control is on and the CTS line is low. So, turn off flow control before proceeding
 	struct termios options;
@@ -382,11 +389,14 @@ static __strong NSMutableArray *allSerialPorts;
 		[self notifyDelegateOfPosixError];
 		return NO;
 	}
+	dispatch_semaphore_signal(self.selectSemaphore);
 	
-	if ([(id)self.delegate respondsToSelector:@selector(serialPortWasClosed:)])
+	if ([self.delegate respondsToSelector:@selector(serialPortWasClosed:)])
 	{
-		dispatch_async(dispatch_get_main_queue(), ^{
-			[self.delegate serialPortWasClosed:self];
+		[(id)self.delegate performSelectorOnMainThread:@selector(serialPortWasClosed:) withObject:self waitUntilDone:YES];
+		dispatch_async(self.requestHandlingQueue, ^{
+			self.requestsQueue = [NSMutableArray array]; // Cancel all queued requests
+			self.pendingRequest = nil; // Discard pending request
 		});
 	}
 	return YES;
@@ -394,23 +404,17 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (void)cleanup;
 {
-	NSLog(@"Cleanup is deprecated and was never intended to be called publicly. You should update your code to avoid calling this method.");
+	NSLog(@"WARNING: Cleanup is deprecated and was never intended to be called publicly. You should update your code to avoid calling this method.");
 	[self cleanupAfterSystemRemoval];
 }
 
 - (void)cleanupAfterSystemRemoval
 {
-	if ([(id)self.delegate respondsToSelector:@selector(serialPortWasRemovedFromSystem:)])
+	if ([self.delegate respondsToSelector:@selector(serialPortWasRemovedFromSystem:)])
 	{
-		dispatch_async(dispatch_get_main_queue(), ^{
-			[self.delegate serialPortWasRemovedFromSystem:self];
-			[self close];
-		});
+		[(id)self.delegate performSelectorOnMainThread:@selector(serialPortWasRemovedFromSystem:) withObject:self waitUntilDone:YES];
 	}
-	else
-	{
-		[self close];
-	}
+	[self close];
 }
 
 - (BOOL)sendData:(NSData *)data;
@@ -474,7 +478,7 @@ static __strong NSMutableArray *allSerialPorts;
 	}
 	
 	// Queue it up to be sent after the pending request is responded to, or times out.
-	[self.requestsQueue addObject:request];
+	[self insertObject:request inRequestsQueueAtIndex:[self.requestsQueue count]];
 	return YES;
 }
 
@@ -484,7 +488,7 @@ static __strong NSMutableArray *allSerialPorts;
 	self.pendingRequest = nil;
 	if (![self.requestsQueue count]) return;
 	ORSSerialRequest *nextRequest = self.requestsQueue[0];
-	[self.requestsQueue removeObjectAtIndex:0];
+	[self removeObjectFromRequestsQueueAtIndex:0];
 	[self reallySendRequest:nextRequest];
 }
 
@@ -495,7 +499,7 @@ static __strong NSMutableArray *allSerialPorts;
 	
 	ORSSerialRequest *request = self.pendingRequest;
 	
-	if (![(id)self.delegate respondsToSelector:@selector(serialPort:requestDidTimeout:)])
+	if (![self.delegate respondsToSelector:@selector(serialPort:requestDidTimeout:)])
 	{
 		[self sendNextRequest];
 		return;
@@ -520,7 +524,7 @@ static __strong NSMutableArray *allSerialPorts;
 	
 	dispatch_async(dispatch_get_main_queue(), ^{
 		if ([responseData length] &&
-			[(id)self.delegate respondsToSelector:@selector(serialPort:didReceiveResponse:toRequest:)])
+			[self.delegate respondsToSelector:@selector(serialPort:didReceiveResponse:toRequest:)])
 		{
 			[self.delegate serialPort:self didReceiveResponse:responseData toRequest:request];
 		}
@@ -533,7 +537,7 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (void)receiveData:(NSData *)data;
 {
-	if ([(id)self.delegate respondsToSelector:@selector(serialPort:didReceiveData:)])
+	if ([self.delegate respondsToSelector:@selector(serialPort:didReceiveData:)])
 	{
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[self.delegate serialPort:self didReceiveData:data];
@@ -687,7 +691,7 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (void)notifyDelegateOfPosixErrorWaitingUntilDone:(BOOL)shouldWait;
 {
-	if (![(id)self.delegate respondsToSelector:@selector(serialPort:didEncounterError:)]) return;
+	if (![self.delegate respondsToSelector:@selector(serialPort:didEncounterError:)]) return;
 	
 	NSDictionary *errDict = @{NSLocalizedDescriptionKey: @(strerror(errno)),
 							  NSFilePathErrorKey: self.path};
@@ -718,10 +722,29 @@ static __strong NSMutableArray *allSerialPorts;
 		keyPaths = [keyPaths setByAddingObject:@"fileDescriptor"];
 	}
 	
+	if ([key isEqualToString:@"queuedRequests"]) {
+		keyPaths = [keyPaths setByAddingObject:@"requestsQueue"];
+	}
+	
 	return keyPaths;
 }
 
 #pragma mark Port Properties
+
+- (void)insertObject:(ORSSerialRequest *)request inRequestsQueueAtIndex:(NSUInteger)index
+{
+	[self.requestsQueue insertObject:request atIndex:index];
+}
+
+- (void)removeObjectFromRequestsQueueAtIndex:(NSUInteger)index
+{
+	[self.requestsQueue removeObjectAtIndex:index];
+}
+
+- (NSArray *)queuedRequests
+{
+	return [self.requestsQueue copy];
+}
 
 - (BOOL)isOpen { return self.fileDescriptor != 0; }
 
@@ -897,13 +920,18 @@ static __strong NSMutableArray *allSerialPorts;
 {
 	if (requestHandlingQueue != _requestHandlingQueue)
 	{
-		if (_requestHandlingQueue)
-		{
-			ORS_GCD_RELEASE(_requestHandlingQueue);
-		}
-		
+		ORS_GCD_RELEASE(_requestHandlingQueue);
 		ORS_GCD_RETAIN(requestHandlingQueue);
 		_requestHandlingQueue = requestHandlingQueue;
+	}
+}
+
+- (void)setSelectSemaphore:(dispatch_semaphore_t)selectSemaphore
+{
+	if (selectSemaphore != _selectSemaphore) {
+		ORS_GCD_RELEASE(_selectSemaphore);
+		ORS_GCD_RETAIN(selectSemaphore);
+		_selectSemaphore = selectSemaphore;
 	}
 }
 

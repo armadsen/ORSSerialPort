@@ -31,6 +31,11 @@
 #import "ORSSerialPortManager.h"
 #import "ORSSerialPort.h"
 
+#ifdef ORSSERIAL_FRAMEWORK
+// To enable sleep/wake notifications, etc.
+#import <Cocoa/Cocoa.h>
+#endif
+
 #import <IOKit/IOKitLib.h>
 #import <IOKit/serial/IOSerialKeys.h>
 
@@ -53,6 +58,7 @@ void ORSSerialPortManagerPortsTerminatedNotificationCallback(void *refCon, io_it
 
 @property (nonatomic, copy, readwrite) NSArray *availablePorts;
 @property (nonatomic, strong) NSMutableArray *portsToReopenAfterSleep;
+@property (nonatomic, strong) id terminationObserver;
 
 @property (nonatomic) io_iterator_t portPublishedNotificationIterator;
 @property (nonatomic) io_iterator_t portTerminatedNotificationIterator;
@@ -110,6 +116,7 @@ static ORSSerialPortManager *sharedInstance = nil;
 #ifdef NSAppKitVersionNumber10_0
 	NSNotificationCenter *wsnc = [[NSWorkspace sharedWorkspace] notificationCenter];
 	[wsnc removeObserver:self];
+	if (self.terminationObserver) [nc removeObserver:self.terminationObserver];
 #endif
 	// Stop IOKit notifications for ports being added/removed
 	IOObjectRelease(_portPublishedNotificationIterator);
@@ -128,14 +135,10 @@ static ORSSerialPortManager *sharedInstance = nil;
 	
 #ifdef NSAppKitVersionNumber10_0
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-	[nc addObserverForName:NSApplicationWillTerminateNotification
+	self.terminationObserver = [nc addObserverForName:NSApplicationWillTerminateNotification
 					object:nil
 					 queue:nil
-				usingBlock:^(NSNotification *notification){
-					// For some unknown reason, this notification fires twice,
-					// doesn't cause a problem right now, but be aware
-					terminationBlock();
-				}];
+										   usingBlock:^(NSNotification *notification){ terminationBlock(); }];
 
 	NSNotificationCenter *wsnc = [[NSWorkspace sharedWorkspace] notificationCenter];
 	[wsnc addObserver:self selector:@selector(systemWillSleep:) name:NSWorkspaceWillSleepNotification object:NULL];
