@@ -37,6 +37,8 @@ extern NSString * const ORSConnectedSerialPortsKey;
 /// Key for disconnected port in ORSSerialPortWasDisconnectedNotification userInfo dictionary
 extern NSString * const ORSDisconnectedSerialPortsKey;
 
+@class ORSSerialPort;
+
 /**
  *  `ORSSerialPortManager` is a singleton class (one instance per
  *  application) that can be used to get a list of available serial ports.
@@ -98,6 +100,15 @@ extern NSString * const ORSDisconnectedSerialPortsKey;
  *  @return The shared serial port manager.
  */
 + (ORSSerialPortManager *)sharedSerialPortManager;
+
+/**
+ *  Can be used to obtain an ORSSerialPort instance by name.
+ *
+ *  @param name The name of the port, as returned by -[ORSSerialPort name]
+ *
+ *  @return An ORSSerialPort instance with the specified name, or nil if none could be found.
+ */
+- (ORSSerialPort *)availablePortWithName:(NSString *)name;
 
 /**
  *  An array containing ORSSerialPort instances representing the

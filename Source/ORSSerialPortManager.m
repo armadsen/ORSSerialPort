@@ -153,6 +153,13 @@ static ORSSerialPortManager *sharedInstance = nil;
 
 #pragma mark - Public Methods
 
+- (ORSSerialPort *)availablePortWithName:(NSString *)name;
+{
+	if (![name length]) return nil;
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @"name", name];
+	return [[self.availablePorts filteredArrayUsingPredicate:predicate] firstObject];
+}
+
 #pragma mark -
 #pragma Sleep/Wake Management
 
