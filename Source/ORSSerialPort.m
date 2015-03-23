@@ -597,7 +597,11 @@ static __strong NSMutableArray *allSerialPorts;
 	
 	// TODO: Call delegate error handling method if this fails
 	int result = tcsetattr(self.fileDescriptor, TCSANOW, &options);
-	if (result != 0) NSLog(@"Unable to set options on %@: %i", self, result);
+	if (result != 0) {
+#define IOSSIOSPEED _IOW('T', 2, speed_t)
+        int new_baud = [[self baudRate] intValue];
+        ioctl(self.fileDescriptor, IOSSIOSPEED, &new_baud, 1);
+    }
 }
 
 + (io_object_t)deviceFromBSDPath:(NSString *)bsdPath;

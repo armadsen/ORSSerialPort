@@ -171,7 +171,7 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
  *  @see -[ORSSerialPortManager availablePorts]
  *  @see -initWithPath:
  */
-- (instancetype)initWithDevice:(io_object_t)device NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithDevice:(io_object_t)device;
 
 /** ---------------------------------------------------------------------------------------
  * @name Opening and Closing
