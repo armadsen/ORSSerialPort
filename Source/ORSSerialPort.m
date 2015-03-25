@@ -599,9 +599,16 @@ static __strong NSMutableArray *allSerialPorts;
 	// Set baud rate
 	cfsetspeed(&options, [[self baudRate] unsignedLongValue]);
 	
-	// TODO: Call delegate error handling method if this fails
 	int result = tcsetattr(self.fileDescriptor, TCSANOW, &options);
-	if (result != 0) NSLog(@"Unable to set options on %@: %i", self, result);
+    if (result != 0) {
+        // Try to set baud rate via ioctl if normal port settings fail
+        int new_baud = [[self baudRate] intValue];
+        result = ioctl(self.fileDescriptor, IOSSIOSPEED, &new_baud, 1);
+        if (result == -1) {
+            // Notify delegate of port error stored in errno
+            [self notifyDelegateOfPosixError];
+        }
+    }
 }
 
 + (io_object_t)deviceFromBSDPath:(NSString *)bsdPath;
