@@ -157,7 +157,7 @@ static ORSSerialPortManager *sharedInstance = nil;
 {
 	if (![name length]) return nil;
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @"name", name];
-	return [[self.availablePorts filteredArrayUsingPredicate:predicate] firstObject];
+	return [[self.availablePorts filteredArrayUsingPredicate:predicate] objectAtIndex:0];
 }
 
 #pragma mark -
