@@ -31,6 +31,8 @@ class SerialPortDemoController: NSObject, ORSSerialPortDelegate, NSUserNotificat
 		let nc = NSNotificationCenter.defaultCenter()
 		nc.addObserver(self, selector: "serialPortsWereConnected:", name: ORSSerialPortsWereConnectedNotification, object: nil)
 		nc.addObserver(self, selector: "serialPortsWereDisconnected:", name: ORSSerialPortsWereDisconnectedNotification, object: nil)
+		
+		NSUserNotificationCenter.defaultUserNotificationCenter().delegate = self
 	}
 	
 	deinit {
