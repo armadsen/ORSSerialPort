@@ -10,6 +10,16 @@ serialPort.baudRate = @4800;
 [serialPort sendData:someData]; // someData is an NSData object
 [serialPort close]; // Later, when you're done with the port
 ```
+
+Or, in Swift:
+
+```swift
+let serialPort = ORSSerialPort(path: "/dev/cu.KeySerial1")
+serialPort.baudRate = 4800
+serialPort.open()
+serialPort.sendData(someData) // someData is an NSData object
+serialPort.close() // Later, when you're done with the port
+```
     
 ORSSerialPort is released under an MIT license, meaning you're free to use it in both closed and open source projects. However, even in a closed source project, you must include a publicly-accessible copy of ORSSerialPort's copyright notice, which you can find in the LICENSE file.
 
