@@ -1,7 +1,7 @@
 # ORSSerialPort
 
 
-ORSSerialPort is a modern, easy-to-use Objective-C serial port library useful for programmers writing Objective-C or Swift apps for the Mac that must communicate with external devices through a serial port (most commonly RS-232). Using ORSSerialPort to open a port and send data can be as simple as this:
+ORSSerialPort is a modern, easy-to-use Objective-C serial port library for OS X. It is useful for programmers writing Objective-C or Swift Mac apps that must communicate with external devices through a serial port (most commonly RS-232). Using ORSSerialPort to open a port and send data can be as simple as this:
 
 ```objective-c
 ORSSerialPort *serialPort = [ORSSerialPort serialPortWithPath:@"/dev/cu.KeySerial1"];
