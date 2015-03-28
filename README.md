@@ -1,7 +1,7 @@
 # ORSSerialPort
 
 
-ORSSerialPort is my take on a modern, easy-to-use Objective-C serial port library. It's a simple, Cocoa-like set of Objective-C classes useful for programmers writing Objective-C or Swift apps for the Mac that must communicate with external devices through a serial port (most commonly RS-232). Using ORSSerialPort to open a port and send data can be as simple as this:
+ORSSerialPort is a modern, easy-to-use Objective-C serial port library useful for programmers writing Objective-C or Swift apps for the Mac that must communicate with external devices through a serial port (most commonly RS-232). Using ORSSerialPort to open a port and send data can be as simple as this:
 
 ```objective-c
 ORSSerialPort *serialPort = [ORSSerialPort serialPortWithPath:@"/dev/cu.KeySerial1"];
@@ -63,11 +63,11 @@ To receive data, you can implement the `ORSSerialPortDelegate` protocol's `-seri
 
 ### ORSSerialPortDelegate 
 
-`ORSSerialPort` includes a delegate property, and a delegate protocol called `ORSSerialPortDelegate`. A port uses informs its delegate of events including receipt of data, port open/close events, removal from the system, and errors. For more information, see the [Getting Started Guide](https://github.com/armadsen/ORSSerialPort/wiki/Getting-Started#orsserialportdelegate), or read the documentation in [ORSSerialPort.h](https://github.com/armadsen/ORSSerialPort/blob/master/Source/ORSSerialPort.h#L443).
+`ORSSerialPort` includes a delegate property, and a delegate protocol called `ORSSerialPortDelegate`. A port informs its delegate of events including receipt of data, port open/close events, removal from the system, and errors. For more information, see the [Getting Started Guide](https://github.com/armadsen/ORSSerialPort/wiki/Getting-Started#orsserialportdelegate), or read the documentation in [ORSSerialPort.h](https://github.com/armadsen/ORSSerialPort/blob/master/Source/ORSSerialPort.h#L443).
 
 ### ORSSerialPortManager
 
-`ORSSerialPortManager` is a singleton class (one instance per application) that can be used to get a list of available serial ports. It will also handle closing open serial ports when the Mac goes to sleep, and reopening them automatically on wake. This prevents problems I've seen with serial port drivers that can hang if the port is left open when putting the machine to sleep. Note that using `ORSSerialPortManager` is optional. It provides some nice functionality, but only `ORSSerialPort` is necessary to simply send and received data.
+`ORSSerialPortManager` is a singleton class (one instance per application) that can be used to get a list of available serial ports. It will also handle closing open serial ports when the Mac goes to sleep, and reopening them automatically on wake. This prevents problems I've seen with serial port drivers that can hang if the port is left open when putting the machine to sleep. Note that using `ORSSerialPortManager` is optional. It provides some nice functionality, but only `ORSSerialPort` is necessary to simply send and receive data.
 
 For more information about ORSSerialPortManager, see the [Getting Started Guide](https://github.com/armadsen/ORSSerialPort/wiki/Getting-Started#orsserialportmanager), or read the documentation in [ORSSerialPortManager.h](https://github.com/armadsen/ORSSerialPort/blob/master/Source/ORSSerialPortManager.h).
 
@@ -75,15 +75,18 @@ For more information about ORSSerialPortManager, see the [Getting Started Guide]
 
 Incoming serial data is delivered to your application as it is received. A low level library like ORSSerialPort has no way of knowing anything about the structure and format of the data you're sending and receiving. For example, you may be expecting a complete packet of data, but receive callbacks for each byte. Normally, this requires you to maintain a buffer which you fill up with incoming data, only processing it when a complete packet has been received. In order to eliminate the need for manual management and buffering of incoming data, ORSSerialPort includes a request/response API. This is implemented by ORSSerialRequest.
 
-For more information about ORSSerialPort's request/response API, see the [Request/Response API Guide](https://github.com/armadsen/ORSSerialPort/wiki/Request-Response-API), or read the documentation in [ORSSerialRequest.h](https://github.com/armadsen/ORSSerialPort/blob/master/Source/ORSSerialPortRequest.h).
+For more information about ORSSerialPort's request/response API, see the [Request/Response API Guide](https://github.com/armadsen/ORSSerialPort/wiki/Request-Response-API), read the documentation in [ORSSerialRequest.h](https://github.com/armadsen/ORSSerialPort/blob/master/Source/ORSSerialRequest.h), and see the [RequestResponseDemo](https://github.com/armadsen/ORSSerialPort/tree/master/Examples/RequestResponseDemo) example app.
 
 # Example Projects
 
-Included with ORSSerialPort is a folder called Examples, containing Xcode projects for small programs demonstrating the use of ORSSerialPort. Currently, it contains three examples to demonstrate using ORSSerialPort in Objective-C and Swift Cocoa apps, as well as using it in command line apps. You can read more about these three examples on the [ORSSerialPort wiki](https://github.com/armadsen/ORSSerialPort/wiki):
+Included with ORSSerialPort is a folder called Examples, containing Xcode projects for small programs demonstrating the use of ORSSerialPort. The following example apps are included:
 
 - ORSSerialPortCocoaDemo(https://github.com/armadsen/ORSSerialPort/wiki/Cocoa-Demo) - Objective-C GUI app.
 - ORSSerialPortSwiftDemo(https://github.com/armadsen/ORSSerialPort/wiki/Swift-Demo) - Swift GUI app.
 - ORSSerialPortCommandLineDemo(https://github.com/armadsen/ORSSerialPort/wiki/Command-Line-Demo) - Objective-C command line app.
+- RequestResponseDemo(https://github.com/armadsen/ORSSerialPort/wiki/Request-Response-API) - Objective-C and Swift GUI apps demonstrating the use of ORSSerialRequest.
+
+You can read more about these examples on the [ORSSerialPort wiki](https://github.com/armadsen/ORSSerialPort/wiki).
 
 # Contributing
 
