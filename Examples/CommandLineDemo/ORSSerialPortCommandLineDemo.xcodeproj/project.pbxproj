@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9D2D68F71AC8524E00779F24 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D2D68F61AC8524E00779F24 /* IOKit.framework */; };
 		9DF0453E1678336E00DA0CDA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF0453C1678336E00DA0CDA /* main.m */; };
 		9DF045461678375E00DA0CDA /* ORSSerialPort.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF045431678375E00DA0CDA /* ORSSerialPort.m */; };
 		9DF045471678375E00DA0CDA /* ORSSerialPortManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF045451678375E00DA0CDA /* ORSSerialPortManager.m */; };
@@ -25,15 +26,26 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9D2D68F61AC8524E00779F24 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		9DF0452A1678333000DA0CDA /* ORSSerialPortCommandLineDemo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ORSSerialPortCommandLineDemo; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DF0453C1678336E00DA0CDA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		9DF0453D1678336E00DA0CDA /* ORSSerialPortCommandLineDemo-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ORSSerialPortCommandLineDemo-Prefix.pch"; sourceTree = "<group>"; };
 		9DF045401678337900DA0CDA /* ORSSerialPortCommandLineDemo.1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.man; path = ORSSerialPortCommandLineDemo.1; sourceTree = "<group>"; };
 		9DF045421678375E00DA0CDA /* ORSSerialPort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSSerialPort.h; sourceTree = "<group>"; };
 		9DF045431678375E00DA0CDA /* ORSSerialPort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSSerialPort.m; sourceTree = "<group>"; };
 		9DF045441678375E00DA0CDA /* ORSSerialPortManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSSerialPortManager.h; sourceTree = "<group>"; };
 		9DF045451678375E00DA0CDA /* ORSSerialPortManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSSerialPortManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9D2D68F51AC8524200779F24 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D2D68F71AC8524E00779F24 /* IOKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		9DF045211678333000DA0CDA = {
@@ -57,6 +69,7 @@
 		9DF0452C1678333000DA0CDA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9D2D68F61AC8524E00779F24 /* IOKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -65,7 +78,6 @@
 			isa = PBXGroup;
 			children = (
 				9DF0453C1678336E00DA0CDA /* main.m */,
-				9DF0453D1678336E00DA0CDA /* ORSSerialPortCommandLineDemo-Prefix.pch */,
 				9DF045411678375E00DA0CDA /* ORSSerialPort */,
 			);
 			path = Sources;
@@ -99,6 +111,7 @@
 			buildConfigurationList = 9DF045381678333000DA0CDA /* Build configuration list for PBXNativeTarget "ORSSerialPortCommandLineDemo" */;
 			buildPhases = (
 				9DF045261678333000DA0CDA /* Sources */,
+				9D2D68F51AC8524200779F24 /* Frameworks */,
 				9DF045281678333000DA0CDA /* CopyFiles */,
 			);
 			buildRules = (
@@ -214,8 +227,8 @@
 		9DF045391678333000DA0CDA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Sources/ORSSerialPortCommandLineDemo-Prefix.pch";
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -223,8 +236,8 @@
 		9DF0453A1678333000DA0CDA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Sources/ORSSerialPortCommandLineDemo-Prefix.pch";
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

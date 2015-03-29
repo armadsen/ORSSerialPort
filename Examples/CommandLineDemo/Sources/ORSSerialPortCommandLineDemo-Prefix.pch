@@ -1,7 +1,0 @@
-//
-// Prefix header for all source files of the 'ORSSerialPortCommandLineDemo' target in the 'ORSSerialPortCommandLineDemo' project
-//
-
-#ifdef __OBJC__
-	@import Foundation;
-#endif
