@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9D52392E1AC859DF00AEB75F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D52392D1AC859DF00AEB75F /* IOKit.framework */; };
+		9D5239301AC859E700AEB75F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D52392F1AC859E700AEB75F /* Cocoa.framework */; };
 		9D66D81D159BCAB800EE6D09 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9D66D81B159BCAB800EE6D09 /* InfoPlist.strings */; };
 		9D66D81F159BCAB800EE6D09 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D66D81E159BCAB800EE6D09 /* main.m */; };
 		9D66D823159BCAB900EE6D09 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 9D66D821159BCAB900EE6D09 /* Credits.rtf */; };
@@ -18,23 +20,25 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		9D3FF0EA1AB09AA100E9B6F9 /* CopyFiles */ = {
+		9D3FF0EA1AB09AA100E9B6F9 /* Copy Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
 			);
+			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9D52392D1AC859DF00AEB75F /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		9D52392F1AC859E700AEB75F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		9D66D80E159BCAB800EE6D09 /* ORSSerialPortCocoaDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ORSSerialPortCocoaDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D66D81A159BCAB800EE6D09 /* ORSSerialPortCocoaDemo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ORSSerialPortCocoaDemo-Info.plist"; sourceTree = "<group>"; };
 		9D66D81C159BCAB800EE6D09 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9D66D81E159BCAB800EE6D09 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		9D66D820159BCAB900EE6D09 /* ORSSerialPortCocoaDemo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ORSSerialPortCocoaDemo-Prefix.pch"; sourceTree = "<group>"; };
 		9D66D822159BCAB900EE6D09 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		9D66D824159BCAB900EE6D09 /* ORSAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORSAppDelegate.h; sourceTree = "<group>"; };
 		9D66D825159BCAB900EE6D09 /* ORSAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORSAppDelegate.m; sourceTree = "<group>"; };
@@ -46,6 +50,18 @@
 		9D66D83B159BCC6400EE6D09 /* ORSSerialPortDemoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSSerialPortDemoController.h; sourceTree = "<group>"; };
 		9D66D83C159BCC6400EE6D09 /* ORSSerialPortDemoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSSerialPortDemoController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9D5239281AC8596600AEB75F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D5239301AC859E700AEB75F /* Cocoa.framework in Frameworks */,
+				9D52392E1AC859DF00AEB75F /* IOKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		9D6623AD159BD599004C9E42 /* Resources */ = {
@@ -82,6 +98,8 @@
 		9D66D811159BCAB800EE6D09 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9D52392F1AC859E700AEB75F /* Cocoa.framework */,
+				9D52392D1AC859DF00AEB75F /* IOKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -101,7 +119,6 @@
 			isa = PBXGroup;
 			children = (
 				9D66D81E159BCAB800EE6D09 /* main.m */,
-				9D66D820159BCAB900EE6D09 /* ORSSerialPortCocoaDemo-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			path = Sources;
@@ -127,8 +144,9 @@
 			buildConfigurationList = 9D66D82C159BCAB900EE6D09 /* Build configuration list for PBXNativeTarget "ORSSerialPortCocoaDemo" */;
 			buildPhases = (
 				9D66D80A159BCAB800EE6D09 /* Sources */,
+				9D5239281AC8596600AEB75F /* Frameworks */,
 				9D66D80C159BCAB800EE6D09 /* Resources */,
-				9D3FF0EA1AB09AA100E9B6F9 /* CopyFiles */,
+				9D3FF0EA1AB09AA100E9B6F9 /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
@@ -226,6 +244,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_MODULES = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -245,6 +264,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
 		};
@@ -252,6 +272,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_MODULES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -264,6 +285,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				SDKROOT = macosx;
+				VALID_ARCHS = x86_64;
 			};
 			name = Release;
 		};
@@ -272,8 +294,7 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Sources/ORSSerialPortCocoaDemo-Prefix.pch";
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INFOPLIST_FILE = "Resources/ORSSerialPortCocoaDemo-Info.plist";
 				PRODUCT_NAME = ORSSerialPortCocoaDemo;
 				WRAPPER_EXTENSION = app;
@@ -285,8 +306,7 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Sources/ORSSerialPortCocoaDemo-Prefix.pch";
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INFOPLIST_FILE = "Resources/ORSSerialPortCocoaDemo-Info.plist";
 				PRODUCT_NAME = ORSSerialPortCocoaDemo;
 				WRAPPER_EXTENSION = app;
