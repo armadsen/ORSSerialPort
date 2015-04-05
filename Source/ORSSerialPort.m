@@ -596,12 +596,18 @@ static __strong NSMutableArray *allSerialPorts;
 	options.c_cflag |= CREAD; // Enable receiver
 	options.c_lflag &= ~(ICANON /*| ECHO*/ | ISIG); // Turn off canonical mode and signals
 	
-	// Set baud rate
-	cfsetspeed(&options, [[self baudRate] unsignedLongValue]);
-	
+		
 	// TODO: Call delegate error handling method if this fails
 	int result = tcsetattr(self.fileDescriptor, TCSANOW, &options);
-	if (result != 0) NSLog(@"Unable to set options on %@: %i", self, result);
+	if (result != 0) NSLog(@"Unable to set options on %@: %i", self, errno);
+
+	// Set baud rate
+	// this allows higher (non-standard) baud rates, apparently not supported (on darwin) via termios
+	const int TGTBAUD = [[self baudRate] intValue];
+	result = ioctl([self fileDescriptor], IOSSIOSPEED, &TGTBAUD); // as opposed to setting it in theTermios ?
+	if (result) {
+		NSLog(@"Unable to set speed on %@: %i", self, errno);
+	}
 }
 
 + (io_object_t)deviceFromBSDPath:(NSString *)bsdPath;
