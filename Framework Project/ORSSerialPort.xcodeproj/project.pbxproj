@@ -48,11 +48,10 @@
 		9DCA89081A2BB106009285EB = {
 			isa = PBXGroup;
 			children = (
-				A933F59A1AC33D2700461525 /* Cocoa.framework */,
-				A933F5981AC33D1700461525 /* IOKit.framework */,
 				9DCA89311A2BB15A009285EB /* ORSSerial.h */,
 				9DCA89331A2BB1E2009285EB /* Source */,
 				9DCA89301A2BB14E009285EB /* Resources */,
+				9DCCC2531AD1D289003E21FC /* Linked Frameworks */,
 				9DCA89131A2BB106009285EB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -85,6 +84,15 @@
 			);
 			name = Source;
 			path = ../Source;
+			sourceTree = "<group>";
+		};
+		9DCCC2531AD1D289003E21FC /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A933F59A1AC33D2700461525 /* Cocoa.framework */,
+				A933F5981AC33D1700461525 /* IOKit.framework */,
+			);
+			name = "Linked Frameworks";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
