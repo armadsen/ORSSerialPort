@@ -174,6 +174,7 @@ static __strong NSMutableArray *allSerialPorts;
 		self.requestsQueue = [NSMutableArray array];
 		self.selectSemaphore = dispatch_semaphore_create(1);
 		self.baudRate = @B19200;
+		self.allowsNonStandardBaudRates = NO;
 		self.numberOfStopBits = 1;
 		self.parity = ORSSerialPortParityNone;
 		self.shouldEchoReceivedData = NO;
@@ -600,15 +601,17 @@ static __strong NSMutableArray *allSerialPorts;
 	cfsetspeed(&options, [[self baudRate] unsignedLongValue]);
 	
 	int result = tcsetattr(self.fileDescriptor, TCSANOW, &options);
-    if (result != 0) {
-        // Try to set baud rate via ioctl if normal port settings fail
-        int new_baud = [[self baudRate] intValue];
-        result = ioctl(self.fileDescriptor, IOSSIOSPEED, &new_baud, 1);
-        if (result == -1) {
-            // Notify delegate of port error stored in errno
-            [self notifyDelegateOfPosixError];
-        }
-    }
+	if (result != 0) {
+		if (self.allowsNonStandardBaudRates) {
+			// Try to set baud rate via ioctl if normal port settings fail
+			int new_baud = [[self baudRate] intValue];
+			result = ioctl(self.fileDescriptor, IOSSIOSPEED, &new_baud, 1);
+		}
+		if (result != 0) {
+			// Notify delegate of port error stored in errno
+			[self notifyDelegateOfPosixError];
+		}
+	}
 }
 
 + (io_object_t)deviceFromBSDPath:(NSString *)bsdPath;

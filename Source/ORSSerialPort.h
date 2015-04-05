@@ -328,7 +328,8 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
 /**
  *  The baud rate for the port.
  *
- *  This value should be one of the values defined in termios.h:
+ *  Unless supportsNonStandardBaudRates is YES, 
+ *  this value should be one of the values defined in termios.h:
  *
  *	- 0
  *	- 50
@@ -355,6 +356,23 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
  *	- 230400
  */
 @property (nonatomic, copy) NSNumber *baudRate;
+
+/**
+ *  Whether or not the port allows setting non-standard baud rates.
+ *  Set this property to YES to allow setting non-standard baud rates
+ *  for the port. The default is NO.
+ *
+ *  @note Support for non-standard baud rates
+ *  depends on the serial hardware and driver being used. Even
+ *  for hardware/drivers that support non-standard baud rates,
+ *  it may be that not all baud rates are supported.
+ *  ORSSerialPort may *not* report an error when setting
+ *  a non-standard baud rate, nor will the baudRate getter return
+ *  the actual baud rate when non-standard baud rates are
+ *  used. This option should only be used when necessary,
+ *  and should be used with caution.
+ */
+@property (nonatomic) BOOL allowsNonStandardBaudRates;
 
 /**
  *  The number of stop bits. Values other than 1 or 2 are invalid.
