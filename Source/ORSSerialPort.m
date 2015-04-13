@@ -192,8 +192,8 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (instancetype)init
 {
-	self = [self initWithPath:nil]; // To keep compiler happy.
 	NSAssert(0, @"ORSSerialPort must be init'd using -initWithPath:");
+	self = [self initWithPath:@""]; // To keep compiler happy.
 	return self;
 }
 

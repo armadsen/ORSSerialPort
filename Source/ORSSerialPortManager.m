@@ -130,7 +130,7 @@ static ORSSerialPortManager *sharedInstance = nil;
 	// register for notifications (only if AppKit is available)
 	void (^terminationBlock)(void) = ^{
 		for (ORSSerialPort *eachPort in self.availablePorts) [eachPort cleanupAfterSystemRemoval];
-		self.availablePorts = nil;
+		self.availablePorts = @[];
 	};
 	
 #ifdef NSAppKitVersionNumber10_0
