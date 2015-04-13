@@ -136,7 +136,7 @@
 		9DCA89091A2BB106009285EB /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0620;
+				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = "Open Reel Software";
 				TargetAttributes = {
 					9DCA89111A2BB106009285EB = {

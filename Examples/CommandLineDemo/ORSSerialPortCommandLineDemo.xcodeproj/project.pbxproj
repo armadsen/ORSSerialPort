@@ -129,7 +129,7 @@
 		9DF045221678333000DA0CDA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = "Open Reel Software";
 			};
 			buildConfigurationList = 9DF045251678333000DA0CDA /* Build configuration list for PBXProject "ORSSerialPortCommandLineDemo" */;
