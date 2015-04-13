@@ -69,7 +69,7 @@ class SerialPortDemoController: NSObject, ORSSerialPortDelegate, NSUserNotificat
 	
 	func serialPort(serialPort: ORSSerialPort!, didReceiveData data: NSData!) {
 		if let string = NSString(data: data, encoding: NSUTF8StringEncoding) {
-			self.receivedDataTextView.textStorage?.mutableString.appendString(string)
+			self.receivedDataTextView.textStorage?.mutableString.appendString(string as String)
 			self.receivedDataTextView.needsDisplay = true
 		}
 	}
@@ -100,7 +100,7 @@ class SerialPortDemoController: NSObject, ORSSerialPortDelegate, NSUserNotificat
 	
 	func serialPortsWereConnected(notification: NSNotification) {
 		if let userInfo = notification.userInfo {
-			let connectedPorts = userInfo[ORSConnectedSerialPortsKey] as [ORSSerialPort]
+			let connectedPorts = userInfo[ORSConnectedSerialPortsKey] as! [ORSSerialPort]
 			println("Ports were connected: \(connectedPorts)")
 			self.postUserNotificationForConnectedPorts(connectedPorts)
 		}
@@ -108,7 +108,7 @@ class SerialPortDemoController: NSObject, ORSSerialPortDelegate, NSUserNotificat
 	
 	func serialPortsWereDisconnected(notification: NSNotification) {
 		if let userInfo = notification.userInfo {
-			let disconnectedPorts: [ORSSerialPort] = userInfo[ORSDisconnectedSerialPortsKey] as [ORSSerialPort]
+			let disconnectedPorts: [ORSSerialPort] = userInfo[ORSDisconnectedSerialPortsKey] as! [ORSSerialPort]
 			println("Ports were disconnected: \(disconnectedPorts)")
 			self.postUserNotificationForDisconnectedPorts(disconnectedPorts)
 		}
