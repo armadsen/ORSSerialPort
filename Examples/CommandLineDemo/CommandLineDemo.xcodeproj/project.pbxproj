@@ -106,9 +106,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		9DF045291678333000DA0CDA /* ORSSerialPortCommandLineDemo */ = {
+		9DF045291678333000DA0CDA /* CommandLineDemo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9DF045381678333000DA0CDA /* Build configuration list for PBXNativeTarget "ORSSerialPortCommandLineDemo" */;
+			buildConfigurationList = 9DF045381678333000DA0CDA /* Build configuration list for PBXNativeTarget "CommandLineDemo" */;
 			buildPhases = (
 				9DF045261678333000DA0CDA /* Sources */,
 				9D2D68F51AC8524200779F24 /* Frameworks */,
@@ -118,7 +118,7 @@
 			);
 			dependencies = (
 			);
-			name = ORSSerialPortCommandLineDemo;
+			name = CommandLineDemo;
 			productName = ORSSerialPortCommandLineDemo;
 			productReference = 9DF0452A1678333000DA0CDA /* ORSSerialPortCommandLineDemo */;
 			productType = "com.apple.product-type.tool";
@@ -132,7 +132,7 @@
 				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = "Open Reel Software";
 			};
-			buildConfigurationList = 9DF045251678333000DA0CDA /* Build configuration list for PBXProject "ORSSerialPortCommandLineDemo" */;
+			buildConfigurationList = 9DF045251678333000DA0CDA /* Build configuration list for PBXProject "CommandLineDemo" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -144,7 +144,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				9DF045291678333000DA0CDA /* ORSSerialPortCommandLineDemo */,
+				9DF045291678333000DA0CDA /* CommandLineDemo */,
 			);
 		};
 /* End PBXProject section */
@@ -245,7 +245,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		9DF045251678333000DA0CDA /* Build configuration list for PBXProject "ORSSerialPortCommandLineDemo" */ = {
+		9DF045251678333000DA0CDA /* Build configuration list for PBXProject "CommandLineDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9DF045361678333000DA0CDA /* Debug */,
@@ -254,7 +254,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9DF045381678333000DA0CDA /* Build configuration list for PBXNativeTarget "ORSSerialPortCommandLineDemo" */ = {
+		9DF045381678333000DA0CDA /* Build configuration list for PBXNativeTarget "CommandLineDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9DF045391678333000DA0CDA /* Debug */,
