@@ -42,8 +42,9 @@ class SerialPortDemoController: NSObject, ORSSerialPortDelegate, NSUserNotificat
 	// MARK: - Actions
 	
 	@IBAction func send(AnyObject) {
-		let data = self.sendTextField.stringValue.dataUsingEncoding(NSUTF8StringEncoding)
-		self.serialPort?.sendData(data)
+		if let data = self.sendTextField.stringValue.dataUsingEncoding(NSUTF8StringEncoding) {
+			self.serialPort?.sendData(data)
+		}
 	}
 	
 	@IBAction func openOrClosePort(sender: AnyObject) {
@@ -59,27 +60,27 @@ class SerialPortDemoController: NSObject, ORSSerialPortDelegate, NSUserNotificat
 	
 	// MARK: - ORSSerialPortDelegate
 	
-	func serialPortWasOpened(serialPort: ORSSerialPort!) {
+	func serialPortWasOpened(serialPort: ORSSerialPort) {
 		self.openCloseButton.title = "Close"
 	}
 	
-	func serialPortWasClosed(serialPort: ORSSerialPort!) {
+	func serialPortWasClosed(serialPort: ORSSerialPort) {
 		self.openCloseButton.title = "Open"
 	}
 	
-	func serialPort(serialPort: ORSSerialPort!, didReceiveData data: NSData!) {
+	func serialPort(serialPort: ORSSerialPort, didReceiveData data: NSData) {
 		if let string = NSString(data: data, encoding: NSUTF8StringEncoding) {
 			self.receivedDataTextView.textStorage?.mutableString.appendString(string as String)
 			self.receivedDataTextView.needsDisplay = true
 		}
 	}
 	
-	func serialPortWasRemovedFromSystem(serialPort: ORSSerialPort!) {
+	func serialPortWasRemovedFromSystem(serialPort: ORSSerialPort) {
 		self.serialPort = nil
 		self.openCloseButton.title = "Open"
 	}
 	
-	func serialPort(serialPort: ORSSerialPort!, didEncounterError error: NSError!) {
+	func serialPort(serialPort: ORSSerialPort, didEncounterError error: NSError) {
 		println("SerialPort \(serialPort) encountered an error: \(error)")
 	}
 	
