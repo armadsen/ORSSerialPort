@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9D2B580C1ADC16E200B08D53 /* ORSSerialPort.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D2B58091ADC16E200B08D53 /* ORSSerialPort.m */; };
+		9D2B580D1ADC16E200B08D53 /* ORSSerialPortManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D2B580B1ADC16E200B08D53 /* ORSSerialPortManager.m */; };
 		9D2D68F71AC8524E00779F24 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D2D68F61AC8524E00779F24 /* IOKit.framework */; };
 		9DF0453E1678336E00DA0CDA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF0453C1678336E00DA0CDA /* main.m */; };
-		9DF045461678375E00DA0CDA /* ORSSerialPort.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF045431678375E00DA0CDA /* ORSSerialPort.m */; };
-		9DF045471678375E00DA0CDA /* ORSSerialPortManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF045451678375E00DA0CDA /* ORSSerialPortManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,14 +26,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9D2B58081ADC16E200B08D53 /* ORSSerialPort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORSSerialPort.h; path = ../../../../Source/ORSSerialPort.h; sourceTree = "<group>"; };
+		9D2B58091ADC16E200B08D53 /* ORSSerialPort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ORSSerialPort.m; path = ../../../../Source/ORSSerialPort.m; sourceTree = "<group>"; };
+		9D2B580A1ADC16E200B08D53 /* ORSSerialPortManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORSSerialPortManager.h; path = ../../../../Source/ORSSerialPortManager.h; sourceTree = "<group>"; };
+		9D2B580B1ADC16E200B08D53 /* ORSSerialPortManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ORSSerialPortManager.m; path = ../../../../Source/ORSSerialPortManager.m; sourceTree = "<group>"; };
 		9D2D68F61AC8524E00779F24 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
-		9DF0452A1678333000DA0CDA /* ORSSerialPortCommandLineDemo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ORSSerialPortCommandLineDemo; sourceTree = BUILT_PRODUCTS_DIR; };
+		9DF0452A1678333000DA0CDA /* ORSSerialPortCommandLineDemo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = ORSSerialPortCommandLineDemo; path = CommandLineDemo; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DF0453C1678336E00DA0CDA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9DF045401678337900DA0CDA /* ORSSerialPortCommandLineDemo.1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.man; path = ORSSerialPortCommandLineDemo.1; sourceTree = "<group>"; };
-		9DF045421678375E00DA0CDA /* ORSSerialPort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSSerialPort.h; sourceTree = "<group>"; };
-		9DF045431678375E00DA0CDA /* ORSSerialPort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSSerialPort.m; sourceTree = "<group>"; };
-		9DF045441678375E00DA0CDA /* ORSSerialPortManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSSerialPortManager.h; sourceTree = "<group>"; };
-		9DF045451678375E00DA0CDA /* ORSSerialPortManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSSerialPortManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +48,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9D2B580E1ADC16E500B08D53 /* ORSSerialPort */ = {
+			isa = PBXGroup;
+			children = (
+				9D2B58081ADC16E200B08D53 /* ORSSerialPort.h */,
+				9D2B58091ADC16E200B08D53 /* ORSSerialPort.m */,
+				9D2B580A1ADC16E200B08D53 /* ORSSerialPortManager.h */,
+				9D2B580B1ADC16E200B08D53 /* ORSSerialPortManager.m */,
+			);
+			name = ORSSerialPort;
+			sourceTree = "<group>";
+		};
 		9DF045211678333000DA0CDA = {
 			isa = PBXGroup;
 			children = (
@@ -78,7 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				9DF0453C1678336E00DA0CDA /* main.m */,
-				9DF045411678375E00DA0CDA /* ORSSerialPort */,
+				9D2B580E1ADC16E500B08D53 /* ORSSerialPort */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -89,18 +100,6 @@
 				9DF045401678337900DA0CDA /* ORSSerialPortCommandLineDemo.1 */,
 			);
 			path = Resources;
-			sourceTree = "<group>";
-		};
-		9DF045411678375E00DA0CDA /* ORSSerialPort */ = {
-			isa = PBXGroup;
-			children = (
-				9DF045421678375E00DA0CDA /* ORSSerialPort.h */,
-				9DF045431678375E00DA0CDA /* ORSSerialPort.m */,
-				9DF045441678375E00DA0CDA /* ORSSerialPortManager.h */,
-				9DF045451678375E00DA0CDA /* ORSSerialPortManager.m */,
-			);
-			name = ORSSerialPort;
-			path = ../../../Source;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -154,9 +153,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D2B580D1ADC16E200B08D53 /* ORSSerialPortManager.m in Sources */,
 				9DF0453E1678336E00DA0CDA /* main.m in Sources */,
-				9DF045461678375E00DA0CDA /* ORSSerialPort.m in Sources */,
-				9DF045471678375E00DA0CDA /* ORSSerialPortManager.m in Sources */,
+				9D2B580C1ADC16E200B08D53 /* ORSSerialPort.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
