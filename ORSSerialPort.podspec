@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "ORSSerialPort"
-  s.version      = "1.7.1"
+  s.version      = "1.8.0"
   s.summary      = "Easy to use serial port library for Objective-C and Swift Mac apps."
 
   s.description  = <<-DESC
@@ -62,7 +62,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/armadsen/ORSSerialPort.git", :tag => "1.7.1" }
+  s.source       = { :git => "https://github.com/armadsen/ORSSerialPort.git", :tag => "1.8.0" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
