@@ -647,7 +647,7 @@
                 </menuItem>
             </items>
         </menu>
-        <window title="ORSSerialPortSwiftDemo" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="371">
+        <window title="ORSSerialPortDemo" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="371">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="335" y="390" width="480" height="639"/>
@@ -1052,13 +1052,13 @@
                 </subviews>
             </view>
         </window>
-        <customObject id="494" customClass="AppDelegate" customModule="ORSSerialPortSwiftDemo" customModuleProvider="target">
+        <customObject id="494" customClass="AppDelegate" customModule="ORSSerialPortDemo" customModuleProvider="target">
             <connections>
                 <outlet property="window" destination="371" id="ZHI-kX-YCc"/>
             </connections>
         </customObject>
         <customObject id="420" customClass="NSFontManager"/>
-        <customObject id="536" customClass="SerialPortDemoController" customModule="ORSSerialPortSwiftDemo" customModuleProvider="target">
+        <customObject id="536" customClass="SerialPortDemoController" customModule="ORSSerialPortDemo" customModuleProvider="target">
             <connections>
                 <outlet property="openCloseButton" destination="690" id="8IT-RK-mVg"/>
                 <outlet property="receivedDataTextView" destination="585" id="zuL-km-tmL"/>

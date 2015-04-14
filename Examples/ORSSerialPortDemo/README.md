@@ -1,0 +1,7 @@
+ORSSerialPortDemo is a very simple serial terminal program with a graphical user interface (GUI). It demonstrates how to use ORSSerialPort, and may also be useful for simple testing of serial hardware.
+
+The app is available in both Objective-C and Swift versions. Both versions are functionally identical, and are intended to demonstrate that ORSSerialPort is equally useful whether working in Objective-C or Swift.
+
+ORSSerialPortDemo includes a dropdown menu containing all available ports on the system, controls to set baud rate, parity, number of stop bits, and flow control settings. Also included are two text fields. One is for typing characters to be sent to the serial port, the other for displaying received characters. Finally, it includes checkboxes corresponding to the RTS, DTR, CTS, DSR, and DCD pins. For the output pins (RTS, DTR), their state can be toggled using their checkbox. The input pins (CTS, DSR, DCD) are read only.
+
+This application demonstrates that it is possible to setup and use a serial port with ORSSerialPort without writing a lot of "glue" code. Nearly all of the UI is implemented using Cocoa bindings. The source code for entire application is contained in ORSSerialPortDemoController.h/m (Objective-C) or SerialPortDemoController.swift (Swift), with the UI implemented entirely in Interface Builder using Cocoa Bindings.

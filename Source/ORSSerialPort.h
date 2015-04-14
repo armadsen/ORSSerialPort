@@ -39,6 +39,8 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
 
 @class ORSSerialRequest;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  The ORSSerialPort class represents a serial port, and includes methods to
  *  configure, open and close a port, and send and receive data to and from
@@ -99,7 +101,6 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
  *  		[self.receivedDataTextView setNeedsDisplay:YES];
  *  	}
  */
-
 @interface ORSSerialPort : NSObject
 
 /** ---------------------------------------------------------------------------------------
@@ -120,7 +121,7 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
  *  @see -[ORSSerialPortManager availablePorts]
  *  @see -initWithPath:
  */
-+ (ORSSerialPort *)serialPortWithPath:(NSString *)devicePath;
++ (nullable ORSSerialPort *)serialPortWithPath:(NSString *)devicePath;
 
 /**
  *  Returns an `ORSSerialPort` instance for the serial port represented by `device`.
@@ -138,7 +139,7 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
  *  @see -[ORSSerialPortManager availablePorts]
  *  @see +serialPortWithPath:
  */
-+ (ORSSerialPort *)serialPortWithDevice:(io_object_t)device;
++ (nullable ORSSerialPort *)serialPortWithDevice:(io_object_t)device;
 
 /**
  *  Returns an `ORSSerialPort` instance representing the serial port at `devicePath`.
@@ -153,7 +154,7 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
  *  @see -[ORSSerialPortManager availablePorts]
  *  @see +serialPortWithPath:
  */
-- (instancetype)initWithPath:(NSString *)devicePath;
+- (nullable instancetype)initWithPath:(NSString *)devicePath;
 
 /**
  *  Returns an `ORSSerialPort` instance for the serial port represented by `device`.
@@ -171,7 +172,7 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
  *  @see -[ORSSerialPortManager availablePorts]
  *  @see -initWithPath:
  */
-- (instancetype)initWithDevice:(io_object_t)device;
+- (nullable instancetype)initWithDevice:(io_object_t)device;
 
 /** ---------------------------------------------------------------------------------------
  * @name Opening and Closing
@@ -263,9 +264,9 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
  *
  */
 #if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_8
-@property (nonatomic, weak) id<ORSSerialPortDelegate> delegate;
+@property (nonatomic, weak, nullable) id<ORSSerialPortDelegate> delegate;
 #else
-@property (nonatomic, unsafe_unretained) id<ORSSerialPortDelegate> delegate;
+@property (nonatomic, unsafe_unretained, nullable) id<ORSSerialPortDelegate> delegate;
 #endif
 
 /** ---------------------------------------------------------------------------------------
@@ -279,7 +280,7 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
  *
  *	This property can be observed using Key Value Observing.
  */
-@property (strong, readonly) ORSSerialRequest *pendingRequest;
+@property (strong, readonly, nullable) ORSSerialRequest *pendingRequest;
 
 /**
  *  Requests in the queue waiting to be sent, or an empty array if there are no queued requests.
@@ -328,7 +329,8 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
 /**
  *  The baud rate for the port.
  *
- *  This value should be one of the values defined in termios.h:
+ *  Unless supportsNonStandardBaudRates is YES, 
+ *  this value should be one of the values defined in termios.h:
  *
  *	- 0
  *	- 50
@@ -355,6 +357,23 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
  *	- 230400
  */
 @property (nonatomic, copy) NSNumber *baudRate;
+
+/**
+ *  Whether or not the port allows setting non-standard baud rates.
+ *  Set this property to YES to allow setting non-standard baud rates
+ *  for the port. The default is NO.
+ *
+ *  @note Support for non-standard baud rates
+ *  depends on the serial hardware and driver being used. Even
+ *  for hardware/drivers that support non-standard baud rates,
+ *  it may be that not all baud rates are supported.
+ *  ORSSerialPort may *not* report an error when setting
+ *  a non-standard baud rate, nor will the baudRate getter return
+ *  the actual baud rate when non-standard baud rates are
+ *  used. This option should only be used when necessary,
+ *  and should be used with caution.
+ */
+@property (nonatomic) BOOL allowsNonStandardBaudRates;
 
 /**
  *  The number of stop bits. Values other than 1 or 2 are invalid.
@@ -447,6 +466,8 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
 
 @end
 
+NS_ASSUME_NONNULL_END
+
 /**
  *  The ORSSerialPortDelegate protocol defines methods to be implemented
  *  by the delegate of an `ORSSerialPort` object.
@@ -455,6 +476,8 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
  *  If you need to handle them on a background queue, you must dispatch your handling
  *  to a background queue in your implementation of the delegate method.
  */
+
+NS_ASSUME_NONNULL_BEGIN
 
 @protocol ORSSerialPortDelegate <NSObject>
 
@@ -542,3 +565,5 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
 - (void)serialPortWasClosed:(ORSSerialPort *)serialPort;
 
 @end
+
+NS_ASSUME_NONNULL_END

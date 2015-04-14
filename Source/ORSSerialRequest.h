@@ -8,7 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-typedef BOOL(^ORSSerialRequestResponseEvaluator)(NSData *inputData);
+typedef BOOL(^ORSSerialRequestResponseEvaluator)(NSData * __nullable inputData);
+
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  An ORSSerialRequest encapsulates a generic "request" command sent via the serial
@@ -35,9 +37,9 @@ typedef BOOL(^ORSSerialRequestResponseEvaluator)(NSData *inputData);
  *  @return An initialized ORSSerialRequest instance.
  */
 + (instancetype)requestWithDataToSend:(NSData *)dataToSend
-							 userInfo:(id)userInfo
+							 userInfo:(nullable id)userInfo
 					  timeoutInterval:(NSTimeInterval)timeout
-					responseEvaluator:(ORSSerialRequestResponseEvaluator)responseEvaluator;
+					responseEvaluator:(nullable ORSSerialRequestResponseEvaluator)responseEvaluator;
 
 /**
  *  Initializes an ORSSerialRequest instance.
@@ -52,9 +54,9 @@ typedef BOOL(^ORSSerialRequestResponseEvaluator)(NSData *inputData);
  *  @return An initialized ORSSerialRequest instance.
  */
 - (instancetype)initWithDataToSend:(NSData *)dataToSend
-						  userInfo:(id)userInfo
+						  userInfo:(nullable id)userInfo
 				   timeoutInterval:(NSTimeInterval)timeout
-				 responseEvaluator:(ORSSerialRequestResponseEvaluator)responseEvaluator;
+				 responseEvaluator:(nullable ORSSerialRequestResponseEvaluator)responseEvaluator;
 
 /**
  *  Can be used to determine if a block of data is a valid response to the request encapsulated
@@ -65,7 +67,7 @@ typedef BOOL(^ORSSerialRequestResponseEvaluator)(NSData *inputData);
  *
  *  @return YES if the data is a valid response, NO otherwise.
  */
-- (BOOL)dataIsValidResponse:(NSData *)responseData;
+- (BOOL)dataIsValidResponse:(nullable NSData *)responseData;
 
 /**
  *  Data to be sent on the serial port when the receiver is sent.
@@ -76,7 +78,7 @@ typedef BOOL(^ORSSerialRequestResponseEvaluator)(NSData *inputData);
  *  Arbitrary object (e.g. NSDictionary) used to store additional data
  *  about the request.
  */
-@property (nonatomic, strong, readonly) id userInfo;
+@property (nonatomic, strong, readonly, nullable) id userInfo;
 
 /**
  *  The maximum amount of time to wait for a response before timing out.
@@ -91,3 +93,5 @@ typedef BOOL(^ORSSerialRequestResponseEvaluator)(NSData *inputData);
 @property (nonatomic, strong, readonly) NSString *UUIDString;
 
 @end
+
+NS_ASSUME_NONNULL_END

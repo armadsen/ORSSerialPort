@@ -89,12 +89,11 @@ For more information about ORSSerialPort's request/response API, see the [Reques
 
 # Example Projects
 
-Included with ORSSerialPort is a folder called Examples, containing Xcode projects for small programs demonstrating the use of ORSSerialPort. The following example apps are included:
+Included with ORSSerialPort is a folder called Examples, containing Xcode projects for small programs demonstrating the use of ORSSerialPort. Each example is available in *both* Objective-C and Swift. The following example apps are included:
 
-- [ORSSerialPortCocoaDemo](https://github.com/armadsen/ORSSerialPort/wiki/Cocoa-Demo) - Objective-C GUI app.
-- [ORSSerialPortSwiftDemo](https://github.com/armadsen/ORSSerialPort/wiki/Swift-Demo) - Swift GUI app.
-- [ORSSerialPortCommandLineDemo](https://github.com/armadsen/ORSSerialPort/wiki/Command-Line-Demo) - Objective-C command line app.
-- [RequestResponseDemo](https://github.com/armadsen/ORSSerialPort/wiki/Request-Response-API) - Objective-C and Swift GUI apps demonstrating the use of ORSSerialRequest.
+- ORSSerialPortDemo(https://github.com/armadsen/ORSSerialPort/wiki/ORSSerialPortDemo) - Simple graphical serial terminal example app. This is the main ORSSerialPort example.
+- CommandLineDemo(https://github.com/armadsen/ORSSerialPort/wiki/Command-Line-Demo) - Command line app example.
+- RequestResponseDemo(https://github.com/armadsen/ORSSerialPort/wiki/Request-Response-API) - GUI app demonstrating the use of ORSSerialRequest.
 
 You can read more about these examples on the [ORSSerialPort wiki](https://github.com/armadsen/ORSSerialPort/wiki).
 

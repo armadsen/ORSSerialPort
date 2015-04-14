@@ -18,7 +18,7 @@
 /* Begin PBXFileReference section */
 		9D0E21651A0441F500051960 /* SerialPortDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerialPortDemoController.swift; sourceTree = "<group>"; };
 		9D0E21671A04460000051960 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
-		9DFD06181A043BA400CE0294 /* ORSSerialPortSwiftDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ORSSerialPortSwiftDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9DFD06181A043BA400CE0294 /* ORSSerialPortDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ORSSerialPortDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DFD063B1A043BF300CE0294 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		9DFD063C1A043BF300CE0294 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9DFD063E1A043BF300CE0294 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -26,7 +26,7 @@
 		9DFD064E1A043D3600CE0294 /* ORSSerialPort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSSerialPort.m; sourceTree = "<group>"; };
 		9DFD06501A043D5500CE0294 /* ORSSerialPortManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSSerialPortManager.h; sourceTree = "<group>"; };
 		9DFD06511A043D5500CE0294 /* ORSSerialPortManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSSerialPortManager.m; sourceTree = "<group>"; };
-		9DFD06531A043DB900CE0294 /* ORSSerialPortSwiftDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ORSSerialPortSwiftDemo-Bridging-Header.h"; sourceTree = "<group>"; };
+		9DFD06531A043DB900CE0294 /* ORSSerialPortDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ORSSerialPortDemo-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,7 +53,7 @@
 		9DFD06191A043BA400CE0294 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9DFD06181A043BA400CE0294 /* ORSSerialPortSwiftDemo.app */,
+				9DFD06181A043BA400CE0294 /* ORSSerialPortDemo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -71,7 +71,7 @@
 		9DFD063D1A043BF300CE0294 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				9DFD06531A043DB900CE0294 /* ORSSerialPortSwiftDemo-Bridging-Header.h */,
+				9DFD06531A043DB900CE0294 /* ORSSerialPortDemo-Bridging-Header.h */,
 				9DFD063E1A043BF300CE0294 /* AppDelegate.swift */,
 				9D0E21651A0441F500051960 /* SerialPortDemoController.swift */,
 			);
@@ -87,15 +87,15 @@
 				9DFD06511A043D5500CE0294 /* ORSSerialPortManager.m */,
 			);
 			name = ORSSerialPort;
-			path = ../../Source;
+			path = ../../../Source;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		9DFD06171A043BA400CE0294 /* ORSSerialPortSwiftDemo */ = {
+		9DFD06171A043BA400CE0294 /* ORSSerialPortDemo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9DFD06321A043BA400CE0294 /* Build configuration list for PBXNativeTarget "ORSSerialPortSwiftDemo" */;
+			buildConfigurationList = 9DFD06321A043BA400CE0294 /* Build configuration list for PBXNativeTarget "ORSSerialPortDemo" */;
 			buildPhases = (
 				9DFD06141A043BA400CE0294 /* Sources */,
 				9DFD06151A043BA400CE0294 /* Frameworks */,
@@ -105,9 +105,9 @@
 			);
 			dependencies = (
 			);
-			name = ORSSerialPortSwiftDemo;
+			name = ORSSerialPortDemo;
 			productName = ORSSerialPortSwiftDemo;
-			productReference = 9DFD06181A043BA400CE0294 /* ORSSerialPortSwiftDemo.app */;
+			productReference = 9DFD06181A043BA400CE0294 /* ORSSerialPortDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -124,7 +124,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 9DFD06131A043BA400CE0294 /* Build configuration list for PBXProject "ORSSerialPortSwiftDemo" */;
+			buildConfigurationList = 9DFD06131A043BA400CE0294 /* Build configuration list for PBXProject "ORSSerialPortDemo" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -137,7 +137,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				9DFD06171A043BA400CE0294 /* ORSSerialPortSwiftDemo */,
+				9DFD06171A043BA400CE0294 /* ORSSerialPortDemo */,
 			);
 		};
 /* End PBXProject section */
@@ -256,7 +256,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Sources/ORSSerialPortSwiftDemo-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Sources/ORSSerialPortDemo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -271,14 +271,14 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Sources/ORSSerialPortSwiftDemo-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Sources/ORSSerialPortDemo-Bridging-Header.h";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		9DFD06131A043BA400CE0294 /* Build configuration list for PBXProject "ORSSerialPortSwiftDemo" */ = {
+		9DFD06131A043BA400CE0294 /* Build configuration list for PBXProject "ORSSerialPortDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9DFD06301A043BA400CE0294 /* Debug */,
@@ -287,7 +287,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9DFD06321A043BA400CE0294 /* Build configuration list for PBXNativeTarget "ORSSerialPortSwiftDemo" */ = {
+		9DFD06321A043BA400CE0294 /* Build configuration list for PBXNativeTarget "ORSSerialPortDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9DFD06331A043BA400CE0294 /* Debug */,

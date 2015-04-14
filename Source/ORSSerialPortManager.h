@@ -26,6 +26,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /// Posted when a serial port is connected to the system
 extern NSString * const ORSSerialPortsWereConnectedNotification;
 
@@ -111,3 +113,5 @@ extern NSString * const ORSDisconnectedSerialPortsKey;
 @property (nonatomic, copy, readonly) NSArray *availablePorts;
 
 @end
+
+NS_ASSUME_NONNULL_END
