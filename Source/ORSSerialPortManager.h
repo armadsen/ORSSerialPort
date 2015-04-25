@@ -26,6 +26,15 @@
 
 #import <Foundation/Foundation.h>
 
+// Keep older versions of the compiler happy
+#ifndef NS_ASSUME_NONNULL_BEGIN
+#define NS_ASSUME_NONNULL_BEGIN
+#define NS_ASSUME_NONNULL_END
+#define nullable
+#define nonnullable
+#define __nullable
+#endif
+
 NS_ASSUME_NONNULL_BEGIN
 
 /// Posted when a serial port is connected to the system

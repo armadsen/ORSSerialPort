@@ -28,7 +28,16 @@
 #import <IOKit/IOTypes.h>
 #import <termios.h>
 
-//#define LOG_SERIAL_PORT_ERRORS 
+// Keep older versions of the compiler happy
+#ifndef NS_ASSUME_NONNULL_BEGIN
+#define NS_ASSUME_NONNULL_BEGIN
+#define NS_ASSUME_NONNULL_END
+#define nullable
+#define nonnullable
+#define __nullable
+#endif
+
+//#define LOG_SERIAL_PORT_ERRORS
 typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
 	ORSSerialPortParityNone = 0,
 	ORSSerialPortParityOdd,
