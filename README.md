@@ -27,7 +27,7 @@ If you have any questions about, suggestions for, or contributions to ORSSerialP
 
 This readme provides an overview of the ORSSerialPort library and is meant to provide enough information to get up and running quickly. You can read complete technical documentation for ORSSerialPort on [http://cocoadocs.org/docsets/ORSSerialPort/](http://cocoadocs.org/docsets/ORSSerialPort/).
 
-The example code in this readme is in Objective-C. However, ORSSerialPort can also easily be used from Swift code. For Swift examples, see the ORSSerialPortSwiftDemo project in the Examples folder.
+The example code in this readme is in Objective-C. However, ORSSerialPort can also easily be used from Swift code. The Examples folder contains Swift versions of all three example projects. See the Example Projects section below for more information.
 
 # How to Use ORSSerialPort
 
@@ -87,7 +87,7 @@ Incoming serial data is delivered to your application as it is received. A low l
 
 For more information about ORSSerialPort's request/response API, see the [Request/Response API Guide](https://github.com/armadsen/ORSSerialPort/wiki/Request-Response-API), read the documentation in [ORSSerialRequest.h](https://github.com/armadsen/ORSSerialPort/blob/master/Source/ORSSerialRequest.h), and see the [RequestResponseDemo](https://github.com/armadsen/ORSSerialPort/tree/master/Examples/RequestResponseDemo) example app.
 
-# Example Projects
+#Example Projects
 
 Included with ORSSerialPort is a folder called Examples, containing Xcode projects for small programs demonstrating the use of ORSSerialPort. Each example is available in *both* Objective-C and Swift. The following example apps are included:
 
