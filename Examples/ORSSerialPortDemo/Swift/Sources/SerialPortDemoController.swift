@@ -12,6 +12,7 @@ class SerialPortDemoController: NSObject, ORSSerialPortDelegate, NSUserNotificat
 	
 	let serialPortManager = ORSSerialPortManager.sharedSerialPortManager()
 	let availableBaudRates = [300, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 38400, 57600, 115200, 230400]
+	var shouldAddLineEnding = false
 	
 	var serialPort: ORSSerialPort? {
 		didSet {
@@ -24,6 +25,15 @@ class SerialPortDemoController: NSObject, ORSSerialPortDelegate, NSUserNotificat
 	@IBOutlet weak var sendTextField: NSTextField!
 	@IBOutlet var receivedDataTextView: NSTextView!
 	@IBOutlet weak var openCloseButton: NSButton!
+	@IBOutlet weak var lineEndingPopUpButton: NSPopUpButton!
+	var lineEndingString: String {
+		let map = [0: "\r", 1: "\n", 2: "\r\n"]
+		if let result = map[self.lineEndingPopUpButton.selectedTag()] {
+			return result
+		} else {
+			return "\n"
+		}
+	}
 	
 	override init() {
 		super.init()
@@ -42,7 +52,11 @@ class SerialPortDemoController: NSObject, ORSSerialPortDelegate, NSUserNotificat
 	// MARK: - Actions
 	
 	@IBAction func send(AnyObject) {
-		if let data = self.sendTextField.stringValue.dataUsingEncoding(NSUTF8StringEncoding) {
+		var string = self.sendTextField.stringValue
+		if self.shouldAddLineEnding && !string.hasSuffix("\n") {
+			string += self.lineEndingString
+		}
+		if let data = string.dataUsingEncoding(NSUTF8StringEncoding) {
 			self.serialPort?.sendData(data)
 		}
 	}

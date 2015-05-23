@@ -164,7 +164,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = ORS;
-				LastUpgradeCheck = 0630;
+				LastUpgradeCheck = 0640;
 				ORGANIZATIONNAME = "Open Reel Software";
 			};
 			buildConfigurationList = 9D66D808159BCAB800EE6D09 /* Build configuration list for PBXProject "ORSSerialPortDemo" */;

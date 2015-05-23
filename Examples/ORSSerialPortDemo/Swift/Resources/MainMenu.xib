@@ -733,7 +733,7 @@
                         <font key="titleFont" metaFont="system"/>
                     </box>
                     <textField verticalHuggingPriority="750" id="577">
-                        <rect key="frame" x="20" y="344" width="373" height="22"/>
+                        <rect key="frame" x="20" y="344" width="232" height="22"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="578">
                             <font key="font" metaFont="system"/>
@@ -744,17 +744,6 @@
                             <action selector="send:" target="536" id="g0F-8f-kYA"/>
                         </connections>
                     </textField>
-                    <button verticalHuggingPriority="750" id="579">
-                        <rect key="frame" x="395" y="338" width="71" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="push" title="Send" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="580">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="send:" target="536" id="wOr-CU-Hek"/>
-                        </connections>
-                    </button>
                     <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="583">
                         <rect key="frame" x="12" y="323" width="456" height="5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -774,10 +763,10 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <size key="minSize" width="438" height="180"/>
-                                    <size key="maxSize" width="463" height="10000000"/>
+                                    <size key="maxSize" width="471" height="10000000"/>
                                     <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                     <size key="minSize" width="438" height="180"/>
-                                    <size key="maxSize" width="463" height="10000000"/>
+                                    <size key="maxSize" width="471" height="10000000"/>
                                 </textView>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1052,8 +1041,46 @@
                             </binding>
                         </connections>
                     </button>
+                    <button verticalHuggingPriority="750" id="579">
+                        <rect key="frame" x="254" y="338" width="71" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Send" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="580">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="send:" target="536" id="wOr-CU-Hek"/>
+                        </connections>
+                    </button>
+                    <button id="CYr-Fx-gcN">
+                        <rect key="frame" x="325" y="346" width="48" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Add" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="AW8-iT-k1f">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="536" name="value" keyPath="shouldAddLineEnding" id="RLy-Fv-31S"/>
+                        </connections>
+                    </button>
+                    <popUpButton verticalHuggingPriority="750" id="6mR-XF-AH1">
+                        <rect key="frame" x="377" y="342" width="86" height="26"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="v3X-ZB-I9T">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="menu"/>
+                            <menu key="menu" id="aW2-Et-VQg">
+                                <items>
+                                    <menuItem title="CR (\r)" id="67t-Tc-zAB"/>
+                                    <menuItem title="LF (\n)" tag="1" id="IQh-bc-Y6D"/>
+                                    <menuItem title="CRLF (\r\n)" tag="2" id="JW9-qA-JTm"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                    </popUpButton>
                 </subviews>
             </view>
+            <point key="canvasLocation" x="705" y="379.5"/>
         </window>
         <customObject id="494" customClass="AppDelegate" customModule="ORSSerialPortDemo" customModuleProvider="target">
             <connections>
@@ -1063,6 +1090,7 @@
         <customObject id="420" customClass="NSFontManager"/>
         <customObject id="536" customClass="SerialPortDemoController" customModule="ORSSerialPortDemo" customModuleProvider="target">
             <connections>
+                <outlet property="lineEndingPopUpButton" destination="6mR-XF-AH1" id="nbJ-rR-0eO"/>
                 <outlet property="openCloseButton" destination="690" id="8IT-RK-mVg"/>
                 <outlet property="receivedDataTextView" destination="585" id="zuL-km-tmL"/>
                 <outlet property="sendTextField" destination="577" id="nfG-J7-A59"/>

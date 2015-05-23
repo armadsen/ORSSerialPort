@@ -31,21 +31,21 @@
 
 - (instancetype)init
 {
-    self = [super init];
-    if (self)
+	self = [super init];
+	if (self)
 	{
-        self.serialPortManager = [ORSSerialPortManager sharedSerialPortManager];
+		self.serialPortManager = [ORSSerialPortManager sharedSerialPortManager];
 		self.availableBaudRates = @[@300, @1200, @2400, @4800, @9600, @14400, @19200, @28800, @38400, @57600, @115200, @230400];
 		
 		NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 		[nc addObserver:self selector:@selector(serialPortsWereConnected:) name:ORSSerialPortsWereConnectedNotification object:nil];
 		[nc addObserver:self selector:@selector(serialPortsWereDisconnected:) name:ORSSerialPortsWereDisconnectedNotification object:nil];
-
+		
 #if (MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_7)
 		[[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
 #endif
-    }
-    return self;
+	}
+	return self;
 }
 
 - (void)dealloc
@@ -55,9 +55,21 @@
 
 #pragma mark - Actions
 
+// Private
+- (NSString *)lineEndingString
+{
+	NSDictionary *map = @{@0: @"\r", @1: @"\n", @2: @"\r\n"};
+	NSString *result = map[@(self.lineEndingPopUpButton.selectedTag)];
+	return result ?: @"\n";
+}
+
 - (IBAction)send:(id)sender
 {
-	NSData *dataToSend = [self.sendTextField.stringValue dataUsingEncoding:NSUTF8StringEncoding];
+	NSString *string = self.sendTextField.stringValue;
+	if (self.shouldAddLineEnding && ![string hasSuffix:[self lineEndingString]]) {
+		string = [string stringByAppendingString:[self lineEndingString]];
+	}
+	NSData *dataToSend = [string dataUsingEncoding:NSUTF8StringEncoding];
 	[self.serialPort sendData:dataToSend];
 }
 

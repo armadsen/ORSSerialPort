@@ -42,9 +42,11 @@
 @property (unsafe_unretained) IBOutlet NSTextField *sendTextField;
 @property (unsafe_unretained) IBOutlet NSTextView *receivedDataTextView;
 @property (unsafe_unretained) IBOutlet NSButton *openCloseButton;
+@property (unsafe_unretained) IBOutlet NSPopUpButton *lineEndingPopUpButton;
 
 @property (nonatomic, strong) ORSSerialPortManager *serialPortManager;
 @property (nonatomic, strong) ORSSerialPort *serialPort;
 @property (nonatomic, strong) NSArray *availableBaudRates;
+@property (nonatomic) BOOL shouldAddLineEnding;
 
 @end
