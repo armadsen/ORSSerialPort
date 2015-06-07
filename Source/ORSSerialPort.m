@@ -451,6 +451,24 @@ static __strong NSMutableArray *allSerialPorts;
 	return success;
 }
 
+- (void)cancelQueuedRequest:(ORSSerialRequest *)request
+{
+	if (!request) return;
+	dispatch_async(self.requestHandlingQueue, ^{
+		if (request == self.pendingRequest) return;
+		NSInteger requestIndex = [self.requestsQueue indexOfObject:request];
+		if (requestIndex == NSNotFound) return;
+		[self removeObjectFromRequestsQueueAtIndex:requestIndex];
+	});
+}
+
+- (void)cancelAllQueuedRequests
+{
+	dispatch_async(self.requestHandlingQueue, ^{
+		self.requestsQueue = [NSMutableArray array];
+	});
+}
+
 #pragma mark - Private Methods
 
 // Must only be called on requestHandlingQueue (ie. wrap call to this method in dispatch())
