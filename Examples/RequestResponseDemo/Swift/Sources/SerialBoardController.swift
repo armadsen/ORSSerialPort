@@ -28,32 +28,32 @@ class SerialBoardController: NSObject, ORSSerialPortDelegate {
 	
 	// Sending Commands
 	private func readTemperature() {
-		let command = "$TEMP?;".dataUsingEncoding(NSASCIIStringEncoding)
+		let command = "$TEMP?;".dataUsingEncoding(NSASCIIStringEncoding)!
 		let request = ORSSerialRequest(dataToSend: command,
 			userInfo: SerialBoardRequestType.ReadTemperature.rawValue,
 			timeoutInterval: kTimeoutDuration) { (data) -> Bool in
-				return self.temperatureFromResponsePacket(data) != nil
+				return self.temperatureFromResponsePacket(data!) != nil
 		}
 		self.serialPort?.sendRequest(request)
 	}
 	
 	private func readLEDState() {
-		let command = "$LED?;".dataUsingEncoding(NSASCIIStringEncoding)
+		let command = "$LED?;".dataUsingEncoding(NSASCIIStringEncoding)!
 		let request = ORSSerialRequest(dataToSend: command,
 			userInfo: SerialBoardRequestType.ReadLED.rawValue,
 			timeoutInterval: kTimeoutDuration) { (data) -> Bool in
-				return self.LEDStateFromResponsePacket(data) != nil
+				return self.LEDStateFromResponsePacket(data!) != nil
 		}
 		self.serialPort?.sendRequest(request)
 	}
 	
 	private func sendCommandToSetLEDToState(state: Bool) {
 		let commandString = NSString(format: "$LED%@;", (state ? "1" : "0"))
-		let command = commandString.dataUsingEncoding(NSASCIIStringEncoding)
+		let command = commandString.dataUsingEncoding(NSASCIIStringEncoding)!
 		let request = ORSSerialRequest(dataToSend: command,
 			userInfo: SerialBoardRequestType.SetLED.rawValue,
 			timeoutInterval: kTimeoutDuration) { (data) -> Bool in
-				return self.LEDStateFromResponsePacket(data) != nil
+				return self.LEDStateFromResponsePacket(data!) != nil
 		}
 		self.serialPort?.sendRequest(request)
 	}
@@ -82,16 +82,16 @@ class SerialBoardController: NSObject, ORSSerialPortDelegate {
 	
 	// MARK: ORSSerialPortDelegate
 	
-	func serialPortWasRemovedFromSystem(serialPort: ORSSerialPort!) {
+	func serialPortWasRemovedFromSystem(serialPort: ORSSerialPort) {
 		self.serialPort = nil
 	}
 	
-	func serialPort(serialPort: ORSSerialPort!, didEncounterError error: NSError!) {
+	func serialPort(serialPort: ORSSerialPort, didEncounterError error: NSError) {
 		println("Serial port \(serialPort) encountered an error: \(error)")
 	}
 	
-	func serialPort(serialPort: ORSSerialPort!, didReceiveResponse responseData: NSData!, toRequest request: ORSSerialRequest!) {
-		let requestType = SerialBoardRequestType(rawValue: request.userInfo as Int)!
+	func serialPort(serialPort: ORSSerialPort, didReceiveResponse responseData: NSData, toRequest request: ORSSerialRequest) {
+		let requestType = SerialBoardRequestType(rawValue: request.userInfo as! Int)!
 		switch requestType {
 		case .ReadTemperature:
 			self.temperature = self.temperatureFromResponsePacket(responseData)!
@@ -100,12 +100,12 @@ class SerialBoardController: NSObject, ORSSerialPortDelegate {
 		}
 	}
 	
-	func serialPortWasOpened(serialPort: ORSSerialPort!) {
+	func serialPortWasOpened(serialPort: ORSSerialPort) {
 		self.pollingTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "pollingTimerFired:", userInfo: nil, repeats: true)
 		self.pollingTimer!.fire()
 	}
 	
-	func serialPortWasClosed(serialPort: ORSSerialPort!) {
+	func serialPortWasClosed(serialPort: ORSSerialPort) {
 		self.pollingTimer = nil
 	}
 	

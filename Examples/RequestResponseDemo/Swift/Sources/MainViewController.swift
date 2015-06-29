@@ -27,7 +27,7 @@ class MainViewController: NSViewController {
 			super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
 		}
 		
-		if object as NSObject == self.boardController && keyPath == "temperature" {
+		if object as! NSObject == self.boardController && keyPath == "temperature" {
 			self.temperaturePlotView.addTemperature(self.boardController.temperature)
 		}
 	}
