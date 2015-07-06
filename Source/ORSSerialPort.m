@@ -73,11 +73,13 @@ static __strong NSMutableArray *allSerialPorts;
 @property (nonatomic, readwrite) BOOL DCD;
 
 #if OS_OBJECT_USE_OBJC
+@property (nonatomic, strong) dispatch_source_t readPollSource;
 @property (nonatomic, strong) dispatch_source_t pinPollTimer;
 @property (nonatomic, strong) dispatch_source_t pendingRequestTimeoutTimer;
 @property (nonatomic, strong) dispatch_queue_t requestHandlingQueue;
 @property (nonatomic, strong) dispatch_semaphore_t selectSemaphore;
 #else
+@property (nonatomic) dispatch_source_t readPollSource;
 @property (nonatomic) dispatch_source_t pinPollTimer;
 @property (nonatomic) dispatch_source_t pendingRequestTimeoutTimer;
 @property (nonatomic) dispatch_queue_t requestHandlingQueue;
@@ -202,6 +204,11 @@ static __strong NSMutableArray *allSerialPorts;
 	[[self class] removeSerialPort:self];
 	self.IOKitDevice = 0;
 	
+	if (_readPollSource) {
+		dispatch_source_cancel(_readPollSource);
+		ORS_GCD_RELEASE(_readPollSource);
+	}
+	
 	if (_pinPollTimer) {
 		dispatch_source_cancel(_pinPollTimer);
 		ORS_GCD_RELEASE(_pinPollTimer);
@@ -284,44 +291,24 @@ static __strong NSMutableArray *allSerialPorts;
 		});
 	}
 	
-	// Start a read poller in the background
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+	// Start a read dispatch source in the background
+	dispatch_source_t readPollSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ, self.fileDescriptor, 0, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0));
+	dispatch_source_set_event_handler(readPollSource, ^{
 		
 		int localPortFD = self.fileDescriptor;
-		struct timeval timeout;
-		int result=0;
+		if (!self.isOpen) return;
 		
-		while (self.isOpen)
+		// Data is available
+		char buf[1024];
+		long lengthRead = read(localPortFD, buf, sizeof(buf));
+		if (lengthRead>0)
 		{
-			fd_set localReadFDSet;
-			FD_ZERO(&localReadFDSet);
-			FD_SET(localPortFD, &localReadFDSet);
-			
-			timeout.tv_sec = 0;
-			timeout.tv_usec = 100000; // Check to see if port closed every 100ms
-			
-			dispatch_semaphore_wait(self.selectSemaphore, DISPATCH_TIME_FOREVER);
-			result = select(localPortFD+1, &localReadFDSet, NULL, NULL, &timeout);
-			dispatch_semaphore_signal(self.selectSemaphore);
-			if (!self.isOpen) break; // Port closed while select call was waiting
-			if (result < 0)
-			{
-				[self notifyDelegateOfPosixError];
-				continue;
-			}
-			
-			if (result == 0 || !FD_ISSET(localPortFD, &localReadFDSet)) continue;
-			
-			// Data is available
-			char buf[1024];
-			long lengthRead = read(localPortFD, buf, sizeof(buf));
-			if (lengthRead>0)
-			{
-				NSData *readData = [NSData dataWithBytes:buf length:lengthRead];
-				if (readData != nil) [self receiveData:readData];
-			}
+			NSData *readData = [NSData dataWithBytes:buf length:lengthRead];
+			if (readData != nil) [self receiveData:readData];
 		}
 	});
+	dispatch_resume(readPollSource);
+	self.readPollSource = readPollSource;
 	
 	// Start another poller to check status of CTS and DSR
 	dispatch_queue_t pollQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
@@ -365,6 +352,7 @@ static __strong NSMutableArray *allSerialPorts;
 {
 	if (!self.isOpen) return YES;
 	
+	self.readPollSource = nil; // Stop and dispose of read dispatch source
 	self.pinPollTimer = nil; // Stop polling CTS/DSR/DCD pins
 	
 	dispatch_semaphore_wait(self.selectSemaphore, DISPATCH_TIME_FOREVER);
@@ -893,6 +881,19 @@ static __strong NSMutableArray *allSerialPorts;
 }
 
 #pragma mark Private Properties
+
+- (void)setReadPollSource:(dispatch_source_t)readPollSource
+{
+	if (readPollSource != _readPollSource) {
+		if (_readPollSource) {
+			dispatch_source_cancel(_readPollSource);
+			ORS_GCD_RELEASE(_readPollSource);
+		}
+		
+		ORS_GCD_RETAIN(readPollSource);
+		_readPollSource = readPollSource;
+	}
+}
 
 - (void)setPinPollTimer:(dispatch_source_t)timer
 {
