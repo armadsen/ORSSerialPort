@@ -19,14 +19,14 @@ class SerialBoardController: NSObject, ORSSerialPortDelegate {
 		case SetLED
 	}
 	
-	// MARK: Private
+	// MARK: - Private
 	
 	func pollingTimerFired(timer: NSTimer) {
 		self.readTemperature()
 		self.readLEDState()
 	}
 	
-	// Sending Commands
+	// MARK: Sending Commands
 	private func readTemperature() {
 		let command = "$TEMP?;".dataUsingEncoding(NSASCIIStringEncoding)!
 		let request = ORSSerialRequest(dataToSend: command,
@@ -58,9 +58,9 @@ class SerialBoardController: NSObject, ORSSerialPortDelegate {
 		self.serialPort?.sendRequest(request)
 	}
 	
-	// Parsing Responses
+	// MARK: Parsing Responses
 	
-	func temperatureFromResponsePacket(data: NSData) -> Int? {
+	private func temperatureFromResponsePacket(data: NSData) -> Int? {
 		let dataAsString = NSString(data: data, encoding: NSASCIIStringEncoding)!
 		if dataAsString.length < 6 || !dataAsString.hasPrefix("!TEMP") || !dataAsString.hasSuffix(";") {
 			return nil
@@ -70,7 +70,7 @@ class SerialBoardController: NSObject, ORSSerialPortDelegate {
 		return temperatureString.toInt()
 	}
 	
-	func LEDStateFromResponsePacket(data: NSData) -> Bool? {
+	private func LEDStateFromResponsePacket(data: NSData) -> Bool? {
 		let dataAsString = NSString(data: data, encoding: NSASCIIStringEncoding)!
 		if dataAsString.length < 6 || !dataAsString.hasPrefix("!LED") || !dataAsString.hasSuffix(";") {
 			return nil
@@ -80,7 +80,7 @@ class SerialBoardController: NSObject, ORSSerialPortDelegate {
 		return LEDStateString.toInt()! != 0
 	}
 	
-	// MARK: ORSSerialPortDelegate
+	// MARK: - ORSSerialPortDelegate
 	
 	func serialPortWasRemovedFromSystem(serialPort: ORSSerialPort) {
 		self.serialPort = nil
@@ -109,7 +109,7 @@ class SerialBoardController: NSObject, ORSSerialPortDelegate {
 		self.pollingTimer = nil
 	}
 	
-	// MARK: Properties
+	// MARK: - Properties
 	
 	private(set) internal var serialPort: ORSSerialPort? {
 		willSet {
