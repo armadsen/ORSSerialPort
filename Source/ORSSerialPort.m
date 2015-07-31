@@ -77,13 +77,11 @@ static __strong NSMutableArray *allSerialPorts;
 @property (nonatomic, strong) dispatch_source_t pinPollTimer;
 @property (nonatomic, strong) dispatch_source_t pendingRequestTimeoutTimer;
 @property (nonatomic, strong) dispatch_queue_t requestHandlingQueue;
-@property (nonatomic, strong) dispatch_semaphore_t selectSemaphore;
 #else
 @property (nonatomic) dispatch_source_t readPollSource;
 @property (nonatomic) dispatch_source_t pinPollTimer;
 @property (nonatomic) dispatch_source_t pendingRequestTimeoutTimer;
 @property (nonatomic) dispatch_queue_t requestHandlingQueue;
-@property (nonatomic) dispatch_semaphore_t selectSemaphore;
 #endif
 
 @end
@@ -174,7 +172,6 @@ static __strong NSMutableArray *allSerialPorts;
 		self.receiveBuffer = [NSMutableData data];
 		self.requestHandlingQueue = dispatch_queue_create("com.openreelsoftware.ORSSerialPort.requestHandlingQueue", 0);
 		self.requestsQueue = [NSMutableArray array];
-		self.selectSemaphore = dispatch_semaphore_create(1);
 		self.baudRate = @B19200;
 		self.allowsNonStandardBaudRates = NO;
 		self.numberOfStopBits = 1;
@@ -215,7 +212,6 @@ static __strong NSMutableArray *allSerialPorts;
 	}
 	
 	self.requestHandlingQueue = nil;
-	self.selectSemaphore = nil;
 }
 
 - (NSString *)description
@@ -355,7 +351,6 @@ static __strong NSMutableArray *allSerialPorts;
 	self.readPollSource = nil; // Stop and dispose of read dispatch source
 	self.pinPollTimer = nil; // Stop polling CTS/DSR/DCD pins
 	
-	dispatch_semaphore_wait(self.selectSemaphore, DISPATCH_TIME_FOREVER);
 	// The next tcsetattr() call can fail if the port is waiting to send data. This is likely to happen
 	// e.g. if flow control is on and the CTS line is low. So, turn off flow control before proceeding
 	struct termios options;
@@ -378,7 +373,6 @@ static __strong NSMutableArray *allSerialPorts;
 		[self notifyDelegateOfPosixError];
 		return NO;
 	}
-	dispatch_semaphore_signal(self.selectSemaphore);
 	
 	if ([self.delegate respondsToSelector:@selector(serialPortWasClosed:)])
 	{
@@ -948,15 +942,6 @@ static __strong NSMutableArray *allSerialPorts;
 		ORS_GCD_RELEASE(_requestHandlingQueue);
 		ORS_GCD_RETAIN(requestHandlingQueue);
 		_requestHandlingQueue = requestHandlingQueue;
-	}
-}
-
-- (void)setSelectSemaphore:(dispatch_semaphore_t)selectSemaphore
-{
-	if (selectSemaphore != _selectSemaphore) {
-		ORS_GCD_RELEASE(_selectSemaphore);
-		ORS_GCD_RETAIN(selectSemaphore);
-		_selectSemaphore = selectSemaphore;
 	}
 }
 
