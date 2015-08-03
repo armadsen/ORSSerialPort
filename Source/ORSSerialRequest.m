@@ -13,7 +13,7 @@
 @property (nonatomic, strong, readwrite) NSData *dataToSend;
 @property (nonatomic, strong, readwrite) id userInfo;
 @property (nonatomic, readwrite) NSTimeInterval timeoutInterval;
-@property (nonatomic, strong) ORSSerialRequestResponseEvaluator responseEvaluator;
+@property (nonatomic, strong) ORSSerialResponseEvaluator responseEvaluator;
 @property (nonatomic, strong, readwrite) NSString *UUIDString;
 
 @end
@@ -23,7 +23,7 @@
 + (instancetype)requestWithDataToSend:(NSData *)dataToSend
 							 userInfo:(id)userInfo
 					  timeoutInterval:(NSTimeInterval)timeout
-					responseEvaluator:(ORSSerialRequestResponseEvaluator)responseEvaluator;
+					responseEvaluator:(ORSSerialResponseEvaluator)responseEvaluator;
 {
 	return [[self alloc] initWithDataToSend:dataToSend
 								   userInfo:userInfo
@@ -34,7 +34,7 @@
 - (instancetype)initWithDataToSend:(NSData *)dataToSend
 						  userInfo:(id)userInfo
 				   timeoutInterval:(NSTimeInterval)timeout
-				 responseEvaluator:(ORSSerialRequestResponseEvaluator)responseEvaluator;
+				 responseEvaluator:(ORSSerialResponseEvaluator)responseEvaluator;
 {
 	self = [super init];
 	if (self) {

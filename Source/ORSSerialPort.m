@@ -64,6 +64,9 @@ static __strong NSMutableArray *allSerialPorts;
 
 @property (strong) NSMutableData *receiveBuffer;
 
+// Packet descriptors
+@property (nonatomic, strong) NSMapTable *packetDescriptorsAndBuffers;
+
 // Request handling
 @property (nonatomic, strong) NSMutableArray *requestsQueue;
 @property (nonatomic, strong, readwrite) ORSSerialRequest *pendingRequest;
@@ -171,6 +174,11 @@ static __strong NSMutableArray *allSerialPorts;
 		self.name = [[self class] modemNameFromDevice:device];
 		self.receiveBuffer = [NSMutableData data];
 		self.requestHandlingQueue = dispatch_queue_create("com.openreelsoftware.ORSSerialPort.requestHandlingQueue", 0);
+#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_8
+		self.packetDescriptorsAndBuffers = [NSMapTable strongToStrongObjectsMapTable];
+#else
+		self.packetDescriptorsAndBuffers = [NSMapTable mapTableWithStrongToStrongObjects]; // Deprecated in 10.8.
+#endif
 		self.requestsQueue = [NSMutableArray array];
 		self.selectSemaphore = dispatch_semaphore_create(1);
 		self.baudRate = @B19200;
@@ -451,7 +459,43 @@ static __strong NSMutableArray *allSerialPorts;
 	return success;
 }
 
+- (void)startListeningForPacketsMatchingDescriptor:(ORSSerialPacketDescriptor *)descriptor;
+{
+	if ([self.packetDescriptorsAndBuffers objectForKey:descriptor]) return; // Already listening
+	
+	[self.packetDescriptorsAndBuffers setObject:[NSMutableData data] forKey:descriptor];
+}
+
+- (void)stopListeningForPacketsMatchingDescriptor:(ORSSerialPacketDescriptor *)descriptor;
+{
+	[self.packetDescriptorsAndBuffers removeObjectForKey:descriptor];
+}
+
 #pragma mark - Private Methods
+
+// Must only be called on requestHandlingQueue (ie. wrap call to this method in dispatch())
+- (void)checkForCompletedPacketsAndNotifyDelegate:(NSData *)receivedByte
+{
+	for (ORSSerialPacketDescriptor *descriptor in self.packetDescriptorsAndBuffers)
+	{
+		NSMutableData *buffer = [self.packetDescriptorsAndBuffers objectForKey:descriptor];
+		[buffer appendData:receivedByte];
+		for (NSUInteger i=1; i<=[buffer length]; i++)
+		{
+			NSData *window = [buffer subdataWithRange:NSMakeRange([buffer length]-i, i)];
+			if ([descriptor dataIsValidPacket:window])
+			{
+				if ([self.delegate respondsToSelector:@selector(serialPort:didReceivePacket:matchingDescriptor:)])
+				{
+					dispatch_async(dispatch_get_main_queue(), ^{
+						[self.delegate serialPort:self didReceivePacket:window matchingDescriptor:descriptor];
+					});
+				}
+				[buffer setData:[NSData data]]; // Clear buffer
+			}
+		}
+	}
+}
 
 // Must only be called on requestHandlingQueue (ie. wrap call to this method in dispatch())
 - (BOOL)reallySendRequest:(ORSSerialRequest *)request
@@ -546,8 +590,13 @@ static __strong NSMutableArray *allSerialPorts;
 	}
 	
 	dispatch_async(self.requestHandlingQueue, ^{
-		[self.receiveBuffer appendData:data];
-		[self checkResponseToPendingRequestAndContinueIfValid];
+		const void *bytes = [data bytes];
+		for (NSUInteger i=0; i<[data length]; i++) {
+			NSData *byte = [NSData dataWithBytesNoCopy:(void *)(bytes+i) length:1 freeWhenDone:NO];
+			[self checkForCompletedPacketsAndNotifyDelegate:byte];
+			[self.receiveBuffer appendData:byte];
+			[self checkResponseToPendingRequestAndContinueIfValid];
+		}
 	});
 }
 

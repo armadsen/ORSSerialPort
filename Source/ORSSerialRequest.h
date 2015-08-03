@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ORSSerialPacketDescriptor.h"
 
 // Keep older versions of the compiler happy
 #ifndef NS_ASSUME_NONNULL_BEGIN
@@ -16,8 +17,6 @@
 #define nonnullable
 #define __nullable
 #endif
-
-typedef BOOL(^ORSSerialRequestResponseEvaluator)(NSData * __nullable inputData);
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -48,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)requestWithDataToSend:(NSData *)dataToSend
 							 userInfo:(nullable id)userInfo
 					  timeoutInterval:(NSTimeInterval)timeout
-					responseEvaluator:(nullable ORSSerialRequestResponseEvaluator)responseEvaluator;
+					responseEvaluator:(nullable ORSSerialResponseEvaluator)responseEvaluator;
 
 /**
  *  Initializes an ORSSerialRequest instance.
@@ -65,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithDataToSend:(NSData *)dataToSend
 						  userInfo:(nullable id)userInfo
 				   timeoutInterval:(NSTimeInterval)timeout
-				 responseEvaluator:(nullable ORSSerialRequestResponseEvaluator)responseEvaluator;
+				 responseEvaluator:(nullable ORSSerialResponseEvaluator)responseEvaluator;
 
 /**
  *  Can be used to determine if a block of data is a valid response to the request encapsulated
