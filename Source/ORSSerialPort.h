@@ -561,7 +561,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  -startListeningForPacketsMatchingDescriptor: is received.
  *
  *  @param serialPort		The `ORSSerialPort` instance representing the port that received `packetData`.
- *  @param responseData		The An `NSData` instance containing the received packet data.
+ *  @param packetData		The An `NSData` instance containing the received packet data.
  *  @param descriptor		The packet descriptor object for which packetData is a match.
  */
 - (void)serialPort:(ORSSerialPort *)serialPort didReceivePacket:(NSData *)packetData matchingDescriptor:(ORSSerialPacketDescriptor *)descriptor;
