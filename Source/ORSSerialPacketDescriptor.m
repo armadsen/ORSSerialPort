@@ -45,6 +45,15 @@
 	return self;
 }
 
+- (instancetype)initWithPrefixString:(nullable NSString *)prefixString
+						suffixString:(nullable NSString *)suffixString
+					  userInfo:(nullable id)userInfo
+{
+	NSData *prefixData = [prefixString dataUsingEncoding:NSASCIIStringEncoding];
+	NSData *suffixData = [suffixString dataUsingEncoding:NSASCIIStringEncoding];
+	return [self initWithPrefix:prefixData suffix:suffixData userInfo:userInfo];
+}
+
 - (instancetype)initWithRegularExpression:(NSRegularExpression *)regex
 								 userInfo:(nullable id)userInfo
 {

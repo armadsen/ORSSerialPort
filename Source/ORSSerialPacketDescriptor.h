@@ -50,6 +50,10 @@ typedef BOOL(^ORSSerialResponseEvaluator)(NSData * __nullable inputData);
 						suffix:(nullable NSData *)suffix
 					  userInfo:(nullable id)userInfo;
 
+- (instancetype)initWithPrefixString:(nullable NSString *)prefixString
+						suffixString:(nullable NSString *)suffixString
+							userInfo:(nullable id)userInfo;
+
 - (instancetype)initWithRegularExpression:(NSRegularExpression *)regex
 								 userInfo:(nullable id)userInfo;
 

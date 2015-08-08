@@ -60,6 +60,22 @@
 	XCTAssertFalse([descriptor dataIsValidPacket:ORSTStringToData_(@"!foo;x")], @"Invalid packet not rejected by descriptor.");
 }
 
+- (void)testPrefixSuffixStrings
+{
+	ORSSerialPacketDescriptor *descriptor = [[ORSSerialPacketDescriptor alloc] initWithPrefixString:@"!" suffixString:@";" userInfo:nil];
+	XCTAssertNotNil(descriptor, @"Creating packet descriptor with prefix and suffix failed.");
+	XCTAssertEqualObjects(descriptor.prefix, [@"!" dataUsingEncoding:NSASCIIStringEncoding], @"Desriptor prefix property incorrect.");
+	XCTAssertEqualObjects(descriptor.suffix, [@";" dataUsingEncoding:NSASCIIStringEncoding], @"Desriptor suffix property incorrect.");
+	
+	XCTAssertTrue([descriptor dataIsValidPacket:ORSTStringToData_(@"!foo;")], @"Valid packet rejected by descriptor.");
+	XCTAssertTrue([descriptor dataIsValidPacket:ORSTStringToData_(@"!;")], @"Valid packet rejected by descriptor.");
+	XCTAssertFalse([descriptor dataIsValidPacket:ORSTStringToData_(@"!foo")], @"Invalid packet not rejected by descriptor.");
+	XCTAssertFalse([descriptor dataIsValidPacket:ORSTStringToData_(@"foo;")], @"Invalid packet not rejected by descriptor.");
+	XCTAssertFalse([descriptor dataIsValidPacket:ORSTStringToData_(@"foo")], @"Invalid packet not rejected by descriptor.");
+	XCTAssertFalse([descriptor dataIsValidPacket:ORSTStringToData_(@"x!foo;")], @"Invalid packet not rejected by descriptor.");
+	XCTAssertFalse([descriptor dataIsValidPacket:ORSTStringToData_(@"!foo;x")], @"Invalid packet not rejected by descriptor.");
+}
+
 - (void)testRegex
 {
 	NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"^!.+;$" options:0 error:NULL];
