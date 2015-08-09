@@ -303,6 +303,7 @@ static __strong NSMutableArray *allSerialPorts;
 			if (readData != nil) [self receiveData:readData];
 		}
 	});
+    dispatch_source_set_cancel_handler(readPollSource, ^{ [self reallyClosePort]; });
 	dispatch_resume(readPollSource);
 	self.readPollSource = readPollSource;
 	
@@ -347,42 +348,43 @@ static __strong NSMutableArray *allSerialPorts;
 - (BOOL)close;
 {
 	if (!self.isOpen) return YES;
-	
-	self.readPollSource = nil; // Stop and dispose of read dispatch source
-	self.pinPollTimer = nil; // Stop polling CTS/DSR/DCD pins
-	
-	// The next tcsetattr() call can fail if the port is waiting to send data. This is likely to happen
-	// e.g. if flow control is on and the CTS line is low. So, turn off flow control before proceeding
-	struct termios options;
-	tcgetattr(self.fileDescriptor, &options);
-	options.c_cflag &= ~CRTSCTS; // RTS/CTS Flow Control
-	options.c_cflag &= ~(CDTR_IFLOW | CDSR_OFLOW); // DTR/DSR Flow Control
-	options.c_cflag &= ~CCAR_OFLOW; // DCD Flow Control
-	tcsetattr(self.fileDescriptor, TCSANOW, &options);
-	
-	// Set port back the way it was before we used it
-	tcsetattr(self.fileDescriptor, TCSADRAIN, &originalPortAttributes);
-	
-	int localFD = self.fileDescriptor;
-	self.fileDescriptor = 0; // So other threads know that the port should be closed and can stop I/O operations
-	
-	if (close(localFD))
-	{
-		self.fileDescriptor = localFD;
-		LOG_SERIAL_PORT_ERROR(@"Error closing serial port with file descriptor %i:%i", self.fileDescriptor, errno);
-		[self notifyDelegateOfPosixError];
-		return NO;
-	}
-	
-	if ([self.delegate respondsToSelector:@selector(serialPortWasClosed:)])
-	{
-		[(id)self.delegate performSelectorOnMainThread:@selector(serialPortWasClosed:) withObject:self waitUntilDone:YES];
-		dispatch_async(self.requestHandlingQueue, ^{
-			self.requestsQueue = [NSMutableArray array]; // Cancel all queued requests
-			self.pendingRequest = nil; // Discard pending request
-		});
-	}
-	return YES;
+	self.readPollSource = nil; // Cancel read dispatch source. Cancel handler will call -reallyClosePort
+    return YES;
+}
+
+- (void)reallyClosePort
+{
+    self.pinPollTimer = nil; // Stop polling CTS/DSR/DCD pins
+    
+    // The next tcsetattr() call can fail if the port is waiting to send data. This is likely to happen
+    // e.g. if flow control is on and the CTS line is low. So, turn off flow control before proceeding
+    struct termios options;
+    tcgetattr(self.fileDescriptor, &options);
+    options.c_cflag &= ~CRTSCTS; // RTS/CTS Flow Control
+    options.c_cflag &= ~(CDTR_IFLOW | CDSR_OFLOW); // DTR/DSR Flow Control
+    options.c_cflag &= ~CCAR_OFLOW; // DCD Flow Control
+    tcsetattr(self.fileDescriptor, TCSANOW, &options);
+    
+    // Set port back the way it was before we used it
+    tcsetattr(self.fileDescriptor, TCSADRAIN, &originalPortAttributes);
+    
+    if (close(self.fileDescriptor))
+    {
+        LOG_SERIAL_PORT_ERROR(@"Error closing serial port with file descriptor %i:%i", self.fileDescriptor, errno);
+        [self notifyDelegateOfPosixError];
+        return;
+    }
+    
+    self.fileDescriptor = 0;
+    
+    if ([self.delegate respondsToSelector:@selector(serialPortWasClosed:)])
+    {
+        [(id)self.delegate performSelectorOnMainThread:@selector(serialPortWasClosed:) withObject:self waitUntilDone:YES];
+        dispatch_async(self.requestHandlingQueue, ^{
+            self.requestsQueue = [NSMutableArray array]; // Cancel all queued requests
+            self.pendingRequest = nil; // Discard pending request
+        });
+    }
 }
 
 - (void)cleanup;
