@@ -211,6 +211,11 @@ static __strong NSMutableArray *allSerialPorts;
 		ORS_GCD_RELEASE(_pinPollTimer);
 	}
 	
+	if (_pendingRequestTimeoutTimer) {
+		dispatch_source_cancel(_pendingRequestTimeoutTimer);
+		ORS_GCD_RELEASE(_pendingRequestTimeoutTimer);
+	}
+	
 	self.requestHandlingQueue = nil;
 }
 
