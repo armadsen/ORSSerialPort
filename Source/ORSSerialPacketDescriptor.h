@@ -58,20 +58,93 @@ typedef BOOL(^ORSSerialResponseEvaluator)(NSData * __nullable inputData);
  *  or in response to real world events, rather than in response to serial requests sent by the computer.
  *  For request/response protocols, see ORSSerialRequest, etc.
  *
+ *  For more information about ORSSerialPort's packet descriptor API, see the ORSSerialPort Packet Parsing
+ *  Programming Guide at 
  */
 @interface ORSSerialPacketDescriptor : NSObject
 
+/**
+ *  Creates an initializes an ORSSerialPacketDescriptor instance using a response evaluator block.
+ *
+ *  This initializer can be used to creat a packet descriptor with complex packet matching
+ *  rules. For most packet formats, the initializers that take prefix and suffix, or regular expression
+ *  are easier to use. However, if the packet format cannot be described using a simple prefix/suffix
+ *  or regular expression, a response evaulator block containing arbitrary validation code can be
+ *  provided instead.
+ *
+ *  @param userInfo          An arbitrary userInfo object.
+ *  @param responseEvaluator A block used to evaluate whether received data constitutes a valid packet.
+ *
+ *  @return An initizliaized ORSSerialPacketDesciptor instance.
+ *
+ *  @see -initWithPrefix:suffix:userInfo:
+ *  @see -initWithPrefixString:suffixString:userInfo:
+ *  @see -initWithRegularExpression:userInfo:
+ */
 - (instancetype)initWithUserInfo:(nullable id)userInfo
 			   responseEvaluator:(ORSSerialResponseEvaluator)responseEvaluator NS_DESIGNATED_INITIALIZER;
 
+/**
+ *  Creates an initializes an ORSSerialPacketDescriptor instance using a prefix and/or suffix.
+ *
+ *  If the packet format uses printable ASCII characters, -initWithPrefixString:suffixString:userInfo:
+ *  may be more suitable.
+ *
+ *  @note Either prefix or suffix may be nil, but not both. If suffix is nil, packets will be considered
+ *  to consist soley of prefix. If prefix is nil, the complete contents of the packet buffer when suffix
+ *  is received will be considered a packet. Usually, well-designed packet protocols will include both
+ *  a prefix and a suffix.
+ *
+ *  @param prefix   An NSData instance containing a fixed packet prefix. May be nil.
+ *  @param suffix   An NSData instance containing a fixed packet suffix. May be nil.
+ *  @param userInfo An arbitrary userInfo object. May be nil.
+ *
+ *  @return An initizliaized ORSSerialPacketDesciptor instance.
+ *
+ *  @see -initWithPrefixString:suffixString:userInfo:
+ */
 - (instancetype)initWithPrefix:(nullable NSData *)prefix
 						suffix:(nullable NSData *)suffix
 					  userInfo:(nullable id)userInfo;
 
+/**
+ *  Creates an initializes an ORSSerialPacketDescriptor instance using a prefix string and/or suffix string.
+ *
+ *  This method assumes that prefixString and suffixString are ASCII or UTF8 strings.
+ *  If the packet format does not use printable ASCII characters, -initWithPrefix:suffix:userInfo:
+ *  may be more suitable.
+ *
+ *  @note Either prefixString or suffixString may be nil, but not both. If the suffix is nil, packets will be considered
+ *  to consist soley of prefix. If the prefix is nil, the complete contents of the packet buffer when a suffix
+ *  is received will be considered a packet. Usually, well-designed packet protocols will include both
+ *  a prefix and a suffix.
+ *
+ *  @param prefixString A fixed packet prefix string. May be nil.
+ *  @param suffixString A fixed packet suffix string. May be nil.
+ *  @param userInfo     An arbitrary userInfo object. May be nil.
+ *
+ *  @return An initizliaized ORSSerialPacketDesciptor instance.
+ *
+ *  @see -initWithPrefix:suffix:userInfo:
+ */
 - (instancetype)initWithPrefixString:(nullable NSString *)prefixString
 						suffixString:(nullable NSString *)suffixString
 							userInfo:(nullable id)userInfo;
 
+/**
+ *  Creates an initializes an ORSSerialPacketDescriptor instance using a regular expression.
+ *
+ *  A packet is considered valid as long as it contains at least one match for the provided
+ *  regular expression. For this reason, the regex should match as conservatively (smallest match) as possible.
+ *
+ *  Packets described by descriptors created using this method are assumed to be ASCII or UTF8 strings.
+ *  If your packets are not naturally represented as strings, consider using -initWithUserInfo:responseEvaluator: instead.
+ *
+ *  @param regex    An NSRegularExpression instance for which valid packets are a match.
+ *  @param userInfo An arbitrary userInfoObject. May be nil.
+ *
+ *  @return An initizliaized ORSSerialPacketDesciptor instance.
+ */
 - (instancetype)initWithRegularExpression:(NSRegularExpression *)regex
 								 userInfo:(nullable id)userInfo;
 
@@ -85,8 +158,22 @@ typedef BOOL(^ORSSerialResponseEvaluator)(NSData * __nullable inputData);
  */
 - (BOOL)dataIsValidPacket:(nullable NSData *)packetData;
 
+/**
+ *  The prefix for packets described by the receiver. Will be nil for packet 
+ *  descriptors not created using one of the prefix/suffix initializer methods.
+ */
 @property (nonatomic, strong, readonly, nullable) NSData *prefix;
+
+/**
+ *  The suffix for packets described by the receiver. Will be nil for packet
+ *  descriptors not created using one of the prefix/suffix initializer methods.
+ */
 @property (nonatomic, strong, readonly, nullable) NSData *suffix;
+
+/**
+ *  A regular expression matching packets described by the receiver. Will be nil
+ *  for packet descriptors not created using -initWithRegularExpression:userInfo:.
+ */
 @property (nonatomic, strong, readonly, nullable) NSRegularExpression *regularExpression;
 
 /**
@@ -95,6 +182,9 @@ typedef BOOL(^ORSSerialResponseEvaluator)(NSData * __nullable inputData);
  */
 @property (nonatomic, strong, readonly, nullable) id userInfo;
 
+/**
+ *  Unique identifier for the descriptor.
+ */
 @property (nonatomic, strong, readonly) NSUUID *uuid;
 
 @end
