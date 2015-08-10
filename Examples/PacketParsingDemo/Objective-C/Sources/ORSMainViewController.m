@@ -7,6 +7,8 @@
 //
 
 #import "ORSMainViewController.h"
+@import ORSSerial;
+#import "ORSSerialCommunicator.h"
 
 @interface ORSMainViewController ()
 
@@ -14,9 +16,15 @@
 
 @implementation ORSMainViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do view setup here.
+#pragma mark - Properties
+
+- (ORSSerialPortManager *)serialPortManager { return [ORSSerialPortManager sharedSerialPortManager]; }
+
+@synthesize serialCommunicator = _serialCommunicator;
+- (ORSSerialCommunicator *)serialCommunicator
+{
+	if (!_serialCommunicator) { _serialCommunicator = [[ORSSerialCommunicator alloc] init]; }
+	return _serialCommunicator;
 }
 
 @end

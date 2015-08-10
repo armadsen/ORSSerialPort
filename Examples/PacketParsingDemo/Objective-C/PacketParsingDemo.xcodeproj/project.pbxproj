@@ -12,7 +12,48 @@
 		9D3948261B792B550066DC1B /* ORSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D39481F1B792B550066DC1B /* ORSAppDelegate.m */; };
 		9D3948271B792B550066DC1B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D3948201B792B550066DC1B /* main.m */; };
 		9D39482E1B792BC30066DC1B /* ORSMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D39482D1B792BC30066DC1B /* ORSMainViewController.m */; };
+		9D39483A1B792C280066DC1B /* ORSSerial.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D3948371B792C1E0066DC1B /* ORSSerial.framework */; };
+		9D39483B1B792C280066DC1B /* ORSSerial.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9D3948371B792C1E0066DC1B /* ORSSerial.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9D3948421B792C900066DC1B /* ORSSerialCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D3948411B792C900066DC1B /* ORSSerialCommunicator.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		9D3948361B792C1E0066DC1B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9D3948311B792C1E0066DC1B /* ORSSerialPort.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9DCA89121A2BB106009285EB;
+			remoteInfo = ORSSerial;
+		};
+		9D3948381B792C1E0066DC1B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9D3948311B792C1E0066DC1B /* ORSSerialPort.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9D7472131B6D7767002D8B10;
+			remoteInfo = "ORSSerialPort Tests";
+		};
+		9D39483C1B792C280066DC1B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9D3948311B792C1E0066DC1B /* ORSSerialPort.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 9DCA89111A2BB106009285EB;
+			remoteInfo = ORSSerial;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		9D39483E1B792C280066DC1B /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				9D39483B1B792C280066DC1B /* ORSSerial.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		9D3947F21B792B1D0066DC1B /* PacketParsingDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PacketParsingDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -24,6 +65,9 @@
 		9D3948201B792B550066DC1B /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9D39482C1B792BC30066DC1B /* ORSMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSMainViewController.h; sourceTree = "<group>"; };
 		9D39482D1B792BC30066DC1B /* ORSMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSMainViewController.m; sourceTree = "<group>"; };
+		9D3948311B792C1E0066DC1B /* ORSSerialPort.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ORSSerialPort.xcodeproj; path = "../../../../Framework Project/ORSSerialPort.xcodeproj"; sourceTree = "<group>"; };
+		9D3948401B792C900066DC1B /* ORSSerialCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSSerialCommunicator.h; sourceTree = "<group>"; };
+		9D3948411B792C900066DC1B /* ORSSerialCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSSerialCommunicator.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +75,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D39483A1B792C280066DC1B /* ORSSerial.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +87,7 @@
 			children = (
 				9D39481D1B792B550066DC1B /* Sources */,
 				9D3948181B792B550066DC1B /* Resources */,
+				9D3948301B792C120066DC1B /* Frameworks */,
 				9D3947F31B792B1D0066DC1B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -71,9 +117,37 @@
 				9D39481F1B792B550066DC1B /* ORSAppDelegate.m */,
 				9D39482C1B792BC30066DC1B /* ORSMainViewController.h */,
 				9D39482D1B792BC30066DC1B /* ORSMainViewController.m */,
-				9D3948201B792B550066DC1B /* main.m */,
+				9D3948401B792C900066DC1B /* ORSSerialCommunicator.h */,
+				9D3948411B792C900066DC1B /* ORSSerialCommunicator.m */,
+				9D3948431B792C990066DC1B /* Supporting Files */,
 			);
 			path = Sources;
+			sourceTree = "<group>";
+		};
+		9D3948301B792C120066DC1B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9D3948311B792C1E0066DC1B /* ORSSerialPort.xcodeproj */,
+			);
+			name = Frameworks;
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		9D3948321B792C1E0066DC1B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9D3948371B792C1E0066DC1B /* ORSSerial.framework */,
+				9D3948391B792C1E0066DC1B /* ORSSerialPort Tests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9D3948431B792C990066DC1B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9D3948201B792B550066DC1B /* main.m */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -86,10 +160,12 @@
 				9D3947EE1B792B1D0066DC1B /* Sources */,
 				9D3947EF1B792B1D0066DC1B /* Frameworks */,
 				9D3947F01B792B1D0066DC1B /* Resources */,
+				9D39483E1B792C280066DC1B /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				9D39483D1B792C280066DC1B /* PBXTargetDependency */,
 			);
 			name = PacketParsingDemo;
 			productName = PacketParsingDemo;
@@ -121,12 +197,35 @@
 			mainGroup = 9D3947E91B792B1D0066DC1B;
 			productRefGroup = 9D3947F31B792B1D0066DC1B /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 9D3948321B792C1E0066DC1B /* Products */;
+					ProjectRef = 9D3948311B792C1E0066DC1B /* ORSSerialPort.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				9D3947F11B792B1D0066DC1B /* PacketParsingDemo */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		9D3948371B792C1E0066DC1B /* ORSSerial.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ORSSerial.framework;
+			remoteRef = 9D3948361B792C1E0066DC1B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9D3948391B792C1E0066DC1B /* ORSSerialPort Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "ORSSerialPort Tests.xctest";
+			remoteRef = 9D3948381B792C1E0066DC1B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		9D3947F01B792B1D0066DC1B /* Resources */ = {
@@ -148,10 +247,19 @@
 				9D3948271B792B550066DC1B /* main.m in Sources */,
 				9D3948261B792B550066DC1B /* ORSAppDelegate.m in Sources */,
 				9D39482E1B792BC30066DC1B /* ORSMainViewController.m in Sources */,
+				9D3948421B792C900066DC1B /* ORSSerialCommunicator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9D39483D1B792C280066DC1B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ORSSerial;
+			targetProxy = 9D39483C1B792C280066DC1B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		9D3948191B792B550066DC1B /* Main.storyboard */ = {

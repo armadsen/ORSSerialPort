@@ -8,6 +8,13 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class ORSSerialPortManager;
+@class ORSSerialCommunicator;
+
 @interface ORSMainViewController : NSViewController
+
+@property (nonatomic, readonly) ORSSerialPortManager *serialPortManager;
+
+@property (nonatomic, readonly) ORSSerialCommunicator *serialCommunicator;
 
 @end
