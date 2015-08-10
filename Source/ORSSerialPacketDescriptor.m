@@ -67,8 +67,8 @@
 						suffixString:(nullable NSString *)suffixString
 					  userInfo:(nullable id)userInfo
 {
-	NSData *prefixData = [prefixString dataUsingEncoding:NSASCIIStringEncoding];
-	NSData *suffixData = [suffixString dataUsingEncoding:NSASCIIStringEncoding];
+	NSData *prefixData = [prefixString dataUsingEncoding:NSUTF8StringEncoding];
+	NSData *suffixData = [suffixString dataUsingEncoding:NSUTF8StringEncoding];
 	return [self initWithPrefix:prefixData suffix:suffixData userInfo:userInfo];
 }
 
