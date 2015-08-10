@@ -62,7 +62,7 @@ static __strong NSMutableArray *allSerialPorts;
 @property int fileDescriptor;
 @property (copy, readwrite) NSString *name;
 
-@property (strong) NSMutableData *receiveBuffer;
+@property (strong) NSMutableData *requestResponseReceiveBuffer;
 
 // Packet descriptors
 @property (nonatomic, strong) NSMapTable *packetDescriptorsAndBuffers;
@@ -172,7 +172,7 @@ static __strong NSMutableArray *allSerialPorts;
 		self.ioKitDevice = device;
 		self.path = bsdPath;
 		self.name = [[self class] modemNameFromDevice:device];
-		self.receiveBuffer = [NSMutableData data];
+		self.requestResponseReceiveBuffer = [NSMutableData data];
 		self.requestHandlingQueue = dispatch_queue_create("com.openreelsoftware.ORSSerialPort.requestHandlingQueue", 0);
 #if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_8
 		self.packetDescriptorsAndBuffers = [NSMapTable strongToStrongObjectsMapTable];
@@ -311,7 +311,7 @@ static __strong NSMutableArray *allSerialPorts;
 			if (readData != nil) [self receiveData:readData];
 		}
 	});
-    dispatch_source_set_cancel_handler(readPollSource, ^{ [self reallyClosePort]; });
+	dispatch_source_set_cancel_handler(readPollSource, ^{ [self reallyClosePort]; });
 	dispatch_resume(readPollSource);
 	self.readPollSource = readPollSource;
 	
@@ -357,42 +357,42 @@ static __strong NSMutableArray *allSerialPorts;
 {
 	if (!self.isOpen) return YES;
 	self.readPollSource = nil; // Cancel read dispatch source. Cancel handler will call -reallyClosePort
-    return YES;
+	return YES;
 }
 
 - (void)reallyClosePort
 {
-    self.pinPollTimer = nil; // Stop polling CTS/DSR/DCD pins
-    
-    // The next tcsetattr() call can fail if the port is waiting to send data. This is likely to happen
-    // e.g. if flow control is on and the CTS line is low. So, turn off flow control before proceeding
-    struct termios options;
-    tcgetattr(self.fileDescriptor, &options);
-    options.c_cflag &= ~CRTSCTS; // RTS/CTS Flow Control
-    options.c_cflag &= ~(CDTR_IFLOW | CDSR_OFLOW); // DTR/DSR Flow Control
-    options.c_cflag &= ~CCAR_OFLOW; // DCD Flow Control
-    tcsetattr(self.fileDescriptor, TCSANOW, &options);
-    
-    // Set port back the way it was before we used it
-    tcsetattr(self.fileDescriptor, TCSADRAIN, &originalPortAttributes);
-    
-    if (close(self.fileDescriptor))
-    {
-        LOG_SERIAL_PORT_ERROR(@"Error closing serial port with file descriptor %i:%i", self.fileDescriptor, errno);
-        [self notifyDelegateOfPosixError];
-        return;
-    }
-    
-    self.fileDescriptor = 0;
-    
-    if ([self.delegate respondsToSelector:@selector(serialPortWasClosed:)])
-    {
-        [(id)self.delegate performSelectorOnMainThread:@selector(serialPortWasClosed:) withObject:self waitUntilDone:YES];
-        dispatch_async(self.requestHandlingQueue, ^{
-            self.requestsQueue = [NSMutableArray array]; // Cancel all queued requests
-            self.pendingRequest = nil; // Discard pending request
-        });
-    }
+	self.pinPollTimer = nil; // Stop polling CTS/DSR/DCD pins
+	
+	// The next tcsetattr() call can fail if the port is waiting to send data. This is likely to happen
+	// e.g. if flow control is on and the CTS line is low. So, turn off flow control before proceeding
+	struct termios options;
+	tcgetattr(self.fileDescriptor, &options);
+	options.c_cflag &= ~CRTSCTS; // RTS/CTS Flow Control
+	options.c_cflag &= ~(CDTR_IFLOW | CDSR_OFLOW); // DTR/DSR Flow Control
+	options.c_cflag &= ~CCAR_OFLOW; // DCD Flow Control
+	tcsetattr(self.fileDescriptor, TCSANOW, &options);
+	
+	// Set port back the way it was before we used it
+	tcsetattr(self.fileDescriptor, TCSADRAIN, &originalPortAttributes);
+	
+	if (close(self.fileDescriptor))
+	{
+		LOG_SERIAL_PORT_ERROR(@"Error closing serial port with file descriptor %i:%i", self.fileDescriptor, errno);
+		[self notifyDelegateOfPosixError];
+		return;
+	}
+	
+	self.fileDescriptor = 0;
+	
+	if ([self.delegate respondsToSelector:@selector(serialPortWasClosed:)])
+	{
+		[(id)self.delegate performSelectorOnMainThread:@selector(serialPortWasClosed:) withObject:self waitUntilDone:YES];
+		dispatch_async(self.requestHandlingQueue, ^{
+			self.requestsQueue = [NSMutableArray array]; // Cancel all queued requests
+			self.pendingRequest = nil; // Discard pending request
+		});
+	}
 }
 
 - (void)cleanup;
@@ -475,28 +475,21 @@ static __strong NSMutableArray *allSerialPorts;
 
 #pragma mark - Private Methods
 
-// Must only be called on requestHandlingQueue (ie. wrap call to this method in dispatch())
-- (void)checkForCompletedPacketsAndNotifyDelegate:(NSData *)receivedByte
+- (void)clearBufferForPacketDescriptor:(ORSSerialPacketDescriptor *)descriptor
 {
-	for (ORSSerialPacketDescriptor *descriptor in self.packetDescriptorsAndBuffers)
+	NSMutableData *buffer = [self.packetDescriptorsAndBuffers objectForKey:descriptor];
+	[buffer setData:[NSData data]]; // Clear buffer
+}
+
+// Must only be called on requestHandlingQueue (ie. wrap call to this method in dispatch())
+- (NSData *)packetMatchingDescriptor:(ORSSerialPacketDescriptor *)descriptor atEndOfBuffer:(NSData *)buffer
+{
+	for (NSUInteger i=1; i<=[buffer length]; i++)
 	{
-		NSMutableData *buffer = [self.packetDescriptorsAndBuffers objectForKey:descriptor];
-		[buffer appendData:receivedByte];
-		for (NSUInteger i=1; i<=[buffer length]; i++)
-		{
-			NSData *window = [buffer subdataWithRange:NSMakeRange([buffer length]-i, i)];
-			if ([descriptor dataIsValidPacket:window])
-			{
-				if ([self.delegate respondsToSelector:@selector(serialPort:didReceivePacket:matchingDescriptor:)])
-				{
-					dispatch_async(dispatch_get_main_queue(), ^{
-						[self.delegate serialPort:self didReceivePacket:window matchingDescriptor:descriptor];
-					});
-				}
-				[buffer setData:[NSData data]]; // Clear buffer
-			}
-		}
+		NSData *window = [buffer subdataWithRange:NSMakeRange([buffer length]-i, i)];
+		if ([descriptor dataIsValidPacket:window]) return window;
 	}
+	return nil;
 }
 
 // Must only be called on requestHandlingQueue (ie. wrap call to this method in dispatch())
@@ -504,9 +497,9 @@ static __strong NSMutableArray *allSerialPorts;
 {
 	if (!self.pendingRequest)
 	{
-		[self.receiveBuffer replaceBytesInRange:NSMakeRange(0, [self.receiveBuffer length])
-									  withBytes:NULL
-										 length:0];
+		[self.requestResponseReceiveBuffer replaceBytesInRange:NSMakeRange(0, [self.requestResponseReceiveBuffer length])
+													 withBytes:NULL
+														length:0];
 		
 		// Send immediately
 		self.pendingRequest = request;
@@ -520,7 +513,7 @@ static __strong NSMutableArray *allSerialPorts;
 		}
 		BOOL success = [self sendData:request.dataToSend];
 		// Immediately send next request if this one doesn't require a response
-		if (success) [self checkResponseToPendingRequestAndContinueIfValid];
+		if (success) [self checkResponseToPendingRequestAndContinueIfValidWithReceivedByte:nil];
 		return success;
 	}
 	
@@ -561,10 +554,18 @@ static __strong NSMutableArray *allSerialPorts;
 }
 
 // Must only be called on requestHandlingQueue
-- (void)checkResponseToPendingRequestAndContinueIfValid
+- (void)checkResponseToPendingRequestAndContinueIfValidWithReceivedByte:(NSData *)byte
 {
-	NSData *responseData = [self.receiveBuffer copy];
-	if (![self.pendingRequest dataIsValidResponse:responseData]) return;
+	ORSSerialPacketDescriptor *packetDescriptor = self.pendingRequest.responseDescriptor;
+	
+	if (!byte) {
+		if (!packetDescriptor) [self sendNextRequest];
+		return;
+	}
+	
+	[self.requestResponseReceiveBuffer appendData:byte];
+	NSData *responseData = [self packetMatchingDescriptor:packetDescriptor atEndOfBuffer:self.requestResponseReceiveBuffer];
+	if (!responseData) return;
 	
 	self.pendingRequestTimeoutTimer = nil;
 	ORSSerialRequest *request = self.pendingRequest;
@@ -594,10 +595,32 @@ static __strong NSMutableArray *allSerialPorts;
 	dispatch_async(self.requestHandlingQueue, ^{
 		const void *bytes = [data bytes];
 		for (NSUInteger i=0; i<[data length]; i++) {
+			
 			NSData *byte = [NSData dataWithBytesNoCopy:(void *)(bytes+i) length:1 freeWhenDone:NO];
-			[self checkForCompletedPacketsAndNotifyDelegate:byte];
-			[self.receiveBuffer appendData:byte];
-		[self checkResponseToPendingRequestAndContinueIfValid];
+			
+			// Check for packets we're listening for
+			for (ORSSerialPacketDescriptor *descriptor in self.packetDescriptorsAndBuffers)
+			{
+				// Append byte to buffer
+				NSMutableData *buffer = [self.packetDescriptorsAndBuffers objectForKey:descriptor];
+				[buffer appendData:byte];
+				
+				// Check for complete packet
+				NSData *completePacket = [self packetMatchingDescriptor:descriptor atEndOfBuffer:buffer];
+				if (![completePacket length]) continue;
+				
+				// Complete packet received, so notify delegate then clear buffer
+				if ([self.delegate respondsToSelector:@selector(serialPort:didReceivePacket:matchingDescriptor:)])
+				{
+					dispatch_async(dispatch_get_main_queue(), ^{
+						[self.delegate serialPort:self didReceivePacket:completePacket matchingDescriptor:descriptor];
+					});
+				}
+				[self clearBufferForPacketDescriptor:descriptor];
+			}
+			
+			// Also check for response to pending request
+			[self checkResponseToPendingRequestAndContinueIfValidWithReceivedByte:byte];
 		}
 	});
 }

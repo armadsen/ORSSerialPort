@@ -119,17 +119,6 @@ NS_ASSUME_NONNULL_BEGIN
 				 responseEvaluator:(nullable ORSSerialPacketEvaluator)responseEvaluator;
 
 /**
- *  Can be used to determine if a block of data is a valid response to the request encapsulated
- *  by the receiver. If the receiver doesn't have a response data evaulator block, this method
- *  always returns YES.
- *
- *  @param responseData Data received from a serial port.
- *
- *  @return YES if the data is a valid response, NO otherwise.
- */
-- (BOOL)dataIsValidResponse:(nullable NSData *)responseData;
-
-/**
  *  Data to be sent on the serial port when the receiver is sent.
  */
 @property (nonatomic, strong, readonly) NSData *dataToSend;
@@ -148,10 +137,37 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSTimeInterval timeoutInterval;
 
 /**
+ *  The descriptor describing the receiver's expected response.
+ */
+@property (nonatomic, strong, readonly) ORSSerialPacketDescriptor *responseDescriptor;
+
+/**
  *  Unique identifier for the request.
  */
 @property (nonatomic, strong, readonly) NSString *UUIDString;
 
 @end
 
+#pragma mark - Deprecated
+
+@interface ORSSerialRequest (Deprecated)
+
+/**
+ *  @deprecated Use the receiver's responseDescriptor object's -dataIsValidPacket: method instead.
+ *  Except in the special case where the response descriptor is nil, this method now simply calls
+ *  through to that.
+ *
+ *  Can be used to determine if a block of data is a valid response to the request encapsulated
+ *  by the receiver. If the receiver doesn't have a response descriptor, this method
+ *  always returns YES.
+ *
+ *  @param responseData Data received from a serial port.
+ *
+ *  @return YES if the data is a valid response, NO otherwise.
+ */
+- (BOOL)dataIsValidResponse:(nullable NSData *)responseData DEPRECATED_ATTRIBUTE;
+
+@end
+
 NS_ASSUME_NONNULL_END
+
