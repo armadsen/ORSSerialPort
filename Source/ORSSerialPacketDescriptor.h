@@ -90,10 +90,9 @@ typedef BOOL(^ORSSerialPacketEvaluator)(NSData * __nullable inputData);
  *  If the packet format uses printable ASCII characters, -initWithPrefixString:suffixString:userInfo:
  *  may be more suitable.
  *
- *  @note Either prefix or suffix may be nil, but not both. If suffix is nil, packets will be considered
- *  to consist soley of prefix. If prefix is nil, the complete contents of the packet buffer when suffix
- *  is received will be considered a packet. Usually, well-designed packet protocols will include both
- *  a prefix and a suffix.
+ *  @note Either prefix or suffix may be nil, but not both. If the suffix is nil,
+ *  packets will be considered to consist solely of prefix. If either value is nil, packets
+ *  will be considred to consist soley of the the non-nil value.
  *
  *  @param prefix   An NSData instance containing a fixed packet prefix. May be nil.
  *  @param suffix   An NSData instance containing a fixed packet suffix. May be nil.
@@ -114,10 +113,9 @@ typedef BOOL(^ORSSerialPacketEvaluator)(NSData * __nullable inputData);
  *  If the packet format does not use printable ASCII characters, -initWithPrefix:suffix:userInfo:
  *  may be more suitable.
  *
- *  @note Either prefixString or suffixString may be nil, but not both. If the suffix is nil, packets will be considered
- *  to consist soley of prefix. If the prefix is nil, the complete contents of the packet buffer when a suffix
- *  is received will be considered a packet. Usually, well-designed packet protocols will include both
- *  a prefix and a suffix.
+ *  @note Either prefixString or suffixString may be nil, but not both. If the suffix is nil, 
+ *  packets will be considered to consist solely of prefix. If either value is nil, packets
+ *  will be considred to consist soley of the the non-nil value.
  *
  *  @param prefixString A fixed packet prefix string. May be nil.
  *  @param suffixString A fixed packet suffix string. May be nil.

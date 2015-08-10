@@ -76,6 +76,60 @@
 	XCTAssertFalse([descriptor dataIsValidPacket:ORSTStringToData_(@"!foo;x")], @"Invalid packet not rejected by descriptor.");
 }
 
+- (void)testMissingPrefix
+{
+	XCTestExpectation *expectation = [self expectationWithDescription:@"Missing suffix packet parsing expectation."];
+	NSDictionary *userInfo = @{[@";" dataUsingEncoding:NSASCIIStringEncoding] : expectation};
+	NSData *suffix = [@";" dataUsingEncoding:NSASCIIStringEncoding];
+	ORSSerialPacketDescriptor *descriptor = [[ORSSerialPacketDescriptor alloc] initWithPrefix:nil suffix:suffix userInfo:userInfo];
+	XCTAssertNotNil(descriptor, @"Creating packet descriptor with prefix and suffix failed.");
+	XCTAssertEqualObjects(descriptor.suffix, suffix, @"Desriptor suffix property incorrect.");
+	XCTAssertNil(descriptor.prefix, @"Desriptor prefix property incorrect.");
+	
+	XCTAssertTrue([descriptor dataIsValidPacket:ORSTStringToData_(@"!foo;")], @"Valid packet rejected by descriptor.");
+	XCTAssertTrue([descriptor dataIsValidPacket:ORSTStringToData_(@"foobar;")], @"Valid packet rejected by descriptor.");
+	XCTAssertFalse([descriptor dataIsValidPacket:ORSTStringToData_(@"!foo")], @"Invalid packet not rejected by descriptor.");
+	XCTAssertFalse([descriptor dataIsValidPacket:ORSTStringToData_(@"foo")], @"Invalid packet not rejected by descriptor.");
+	
+	[self.port startListeningForPacketsMatchingDescriptor:descriptor];
+	
+	NSData *buffer = [@"foobar;" dataUsingEncoding:NSASCIIStringEncoding];
+	[self.port receiveData:buffer];
+	
+	[self waitForExpectationsWithTimeout:0.5 handler:^(NSError *error) {
+		if (error) {
+			NSLog(@"expectation %@ failed: %@", expectation, error);
+		}
+	}];
+}
+
+- (void)testMissingSuffix
+{
+	XCTestExpectation *expectation = [self expectationWithDescription:@"Missing suffix packet parsing expectation."];
+	NSDictionary *userInfo = @{[@"!" dataUsingEncoding:NSASCIIStringEncoding] : expectation};
+	NSData *prefix = [@"!" dataUsingEncoding:NSASCIIStringEncoding];
+	ORSSerialPacketDescriptor *descriptor = [[ORSSerialPacketDescriptor alloc] initWithPrefix:prefix suffix:nil userInfo:userInfo];
+	XCTAssertNotNil(descriptor, @"Creating packet descriptor with prefix and suffix failed.");
+	XCTAssertEqualObjects(descriptor.prefix, prefix, @"Desriptor prefix property incorrect.");
+	XCTAssertNil(descriptor.suffix, @"Desriptor suffix property incorrect.");
+	
+	XCTAssertTrue([descriptor dataIsValidPacket:ORSTStringToData_(@"!foo;")], @"Valid packet rejected by descriptor.");
+	XCTAssertTrue([descriptor dataIsValidPacket:ORSTStringToData_(@"!foobar")], @"Valid packet rejected by descriptor.");
+	XCTAssertFalse([descriptor dataIsValidPacket:ORSTStringToData_(@"foo;")], @"Invalid packet not rejected by descriptor.");
+	XCTAssertFalse([descriptor dataIsValidPacket:ORSTStringToData_(@"foo")], @"Invalid packet not rejected by descriptor.");
+	
+	[self.port startListeningForPacketsMatchingDescriptor:descriptor];
+
+	NSData *buffer = [@"!foobar" dataUsingEncoding:NSASCIIStringEncoding];
+	[self.port receiveData:buffer];
+	
+	[self waitForExpectationsWithTimeout:0.5 handler:^(NSError *error) {
+		if (error) {
+			NSLog(@"expectation %@ failed: %@", expectation, error);
+		}
+	}];
+}
+
 - (void)testRegex
 {
 	NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"^!.+;$" options:0 error:NULL];
