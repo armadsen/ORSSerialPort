@@ -28,13 +28,13 @@
 
 @interface ORSSerialPacketDescriptor ()
 
-@property (nonatomic, copy, readonly) ORSSerialResponseEvaluator responseEvaluator;
+@property (nonatomic, copy, readonly) ORSSerialPacketEvaluator responseEvaluator;
 
 @end
 
 @implementation ORSSerialPacketDescriptor
 
-- (instancetype)initWithUserInfo:(id)userInfo responseEvaluator:(ORSSerialResponseEvaluator)responseEvaluator
+- (instancetype)initWithUserInfo:(id)userInfo responseEvaluator:(ORSSerialPacketEvaluator)responseEvaluator
 {
 	self = [super init];
 	if (self) {

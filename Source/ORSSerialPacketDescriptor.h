@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Block that parses input data and returns a packet extracted from that data, or nil
  * if inputData doesn't contain a valid packet.
  */
-typedef BOOL(^ORSSerialResponseEvaluator)(NSData * __nullable inputData);
+typedef BOOL(^ORSSerialPacketEvaluator)(NSData * __nullable inputData);
 
 /**
  *  An instance of ORSSerialPacketDescriptor is used to describe a packet format. ORSSerialPort

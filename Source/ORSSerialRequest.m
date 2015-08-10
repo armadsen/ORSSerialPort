@@ -50,7 +50,7 @@
 + (instancetype)requestWithDataToSend:(NSData *)dataToSend
 							 userInfo:(id)userInfo
 					  timeoutInterval:(NSTimeInterval)timeout
-					responseEvaluator:(ORSSerialResponseEvaluator)responseEvaluator;
+					responseEvaluator:(ORSSerialPacketEvaluator)responseEvaluator;
 {
 	return [[self alloc] initWithDataToSend:dataToSend userInfo:userInfo timeoutInterval:timeout responseEvaluator:responseEvaluator];
 }
@@ -76,7 +76,7 @@
 - (instancetype)initWithDataToSend:(NSData *)dataToSend
 						  userInfo:(id)userInfo
 				   timeoutInterval:(NSTimeInterval)timeout
-				 responseEvaluator:(ORSSerialResponseEvaluator)responseEvaluator;
+				 responseEvaluator:(ORSSerialPacketEvaluator)responseEvaluator;
 {
 	ORSSerialPacketDescriptor *descriptor = [[ORSSerialPacketDescriptor alloc] initWithUserInfo:nil responseEvaluator:responseEvaluator];
 	return [self initWithDataToSend:dataToSend userInfo:userInfo timeoutInterval:timeout responseDescriptor:descriptor];
