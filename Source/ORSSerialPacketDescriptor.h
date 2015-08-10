@@ -82,7 +82,7 @@ typedef BOOL(^ORSSerialPacketEvaluator)(NSData * __nullable inputData);
  *  @see -initWithRegularExpression:userInfo:
  */
 - (instancetype)initWithUserInfo:(nullable id)userInfo
-			   responseEvaluator:(ORSSerialResponseEvaluator)responseEvaluator NS_DESIGNATED_INITIALIZER;
+			   responseEvaluator:(ORSSerialPacketEvaluator)responseEvaluator NS_DESIGNATED_INITIALIZER;
 
 /**
  *  Creates an initializes an ORSSerialPacketDescriptor instance using a prefix and/or suffix.

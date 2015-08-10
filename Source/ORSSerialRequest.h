@@ -82,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)requestWithDataToSend:(NSData *)dataToSend
 							 userInfo:(nullable id)userInfo
 					  timeoutInterval:(NSTimeInterval)timeout
-					responseEvaluator:(nullable ORSSerialResponseEvaluator)responseEvaluator;
+					responseEvaluator:(nullable ORSSerialPacketEvaluator)responseEvaluator;
 
 /**
  *  Initializes an ORSSerialRequest instance.
@@ -116,7 +116,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithDataToSend:(NSData *)dataToSend
 						  userInfo:(nullable id)userInfo
 				   timeoutInterval:(NSTimeInterval)timeout
-				 responseEvaluator:(nullable ORSSerialResponseEvaluator)responseEvaluator;
+				 responseEvaluator:(nullable ORSSerialPacketEvaluator)responseEvaluator;
 
 /**
  *  Can be used to determine if a block of data is a valid response to the request encapsulated
