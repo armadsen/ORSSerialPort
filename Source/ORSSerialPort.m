@@ -55,6 +55,8 @@ static __strong NSMutableArray *allSerialPorts;
 @interface ORSSerialPort ()
 {
 	struct termios originalPortAttributes;
+	void *_delegateQueueIdentifierKey;
+	void *_serialDelegateQueueIdentifierKey;
 }
 
 @property (copy, readwrite) NSString *path;
@@ -76,11 +78,13 @@ static __strong NSMutableArray *allSerialPorts;
 @property (nonatomic, strong) dispatch_source_t pinPollTimer;
 @property (nonatomic, strong) dispatch_source_t pendingRequestTimeoutTimer;
 @property (nonatomic, strong) dispatch_queue_t requestHandlingQueue;
+@property (nonatomic, strong) dispatch_queue_t serialDelegateQueue;
 @property (nonatomic, strong) dispatch_semaphore_t selectSemaphore;
 #else
 @property (nonatomic) dispatch_source_t pinPollTimer;
 @property (nonatomic) dispatch_source_t pendingRequestTimeoutTimer;
 @property (nonatomic) dispatch_queue_t requestHandlingQueue;
+@property (nonatomic) dispatch_queue_t serialDelegateQueue;
 @property (nonatomic) dispatch_semaphore_t selectSemaphore;
 #endif
 
@@ -170,7 +174,9 @@ static __strong NSMutableArray *allSerialPorts;
 		self.path = bsdPath;
 		self.name = [[self class] modemNameFromDevice:device];
 		self.receiveBuffer = [NSMutableData data];
-		self.requestHandlingQueue = dispatch_queue_create("com.openreelsoftware.ORSSerialPort.requestHandlingQueue", 0);
+		self.requestHandlingQueue = dispatch_queue_create("com.openreelsoftware.ORSSerialPort.requestHandlingQueue", DISPATCH_QUEUE_SERIAL);
+		self.serialDelegateQueue = dispatch_queue_create("com.openreelsoftware.ORSSerialPort.serialDelegateQueue", DISPATCH_QUEUE_SERIAL);
+		self.delegateQueue = dispatch_get_main_queue();
 		self.requestsQueue = [NSMutableArray array];
 		self.selectSemaphore = dispatch_semaphore_create(1);
 		self.baudRate = @B19200;
@@ -208,6 +214,7 @@ static __strong NSMutableArray *allSerialPorts;
 	}
 	
 	self.requestHandlingQueue = nil;
+	self.serialDelegateQueue = nil;
 	self.selectSemaphore = nil;
 }
 
@@ -709,13 +716,42 @@ static __strong NSMutableArray *allSerialPorts;
 		[self.delegate serialPort:self didEncounterError:error];
 	};
 	
-	if ([NSThread isMainThread]) {
+	BOOL onDelegateQueue = (dispatch_get_specific(_delegateQueueIdentifierKey) == (__bridge void *)self);
+	if (onDelegateQueue) {
 		notifyBlock();
 	} else if (shouldWait) {
 		dispatch_sync(dispatch_get_main_queue(), notifyBlock);
 	} else {
 		dispatch_async(dispatch_get_main_queue(), notifyBlock);
 	}
+}
+
+- (void)dispatchToDelegateQueue:(void(^)(void))block waitUntilDone:(BOOL)shouldWait
+{
+	if (!block) return;
+	
+	BOOL onDelegateQueue = (dispatch_get_specific(_delegateQueueIdentifierKey) == (__bridge void *)self);
+	BOOL onSerialDelegateQueue = (dispatch_get_specific(_serialDelegateQueueIdentifierKey) == (__bridge void *)self);
+	
+	if (onSerialDelegateQueue) {
+		block();
+		return;
+	}
+	
+	if (!shouldWait) {
+		dispatch_async(self.serialDelegateQueue, block);
+		return;
+	}
+	
+	if (!onDelegateQueue) { // Wait, but dispatch_sync is safe
+		dispatch_sync(self.serialDelegateQueue, block);
+		return;
+	}
+
+	// Wait until done, but we're on the delegate queue, so dispatch_sync could deadlock, but we don't
+	// want to run simultaneously with blocks on the serial delegate queue.
+	// (its target, the current queue, could be concurrent)
+	// So, instead, 
 }
 
 #pragma mark - Properties
@@ -733,6 +769,22 @@ static __strong NSMutableArray *allSerialPorts;
 	}
 	
 	return keyPaths;
+}
+
+- (void)setDelegateQueue:(dispatch_queue_t __nullable)delegateQueue
+{
+	if (delegateQueue != _delegateQueue)
+	{
+		if (_delegateQueue)
+		{
+			dispatch_queue_set_specific(_delegateQueue, _delegateQueueIdentifierKey, NULL, NULL);
+		}
+		
+		_delegateQueue = delegateQueue ?: dispatch_get_main_queue();
+		
+		dispatch_queue_set_specific(_delegateQueue, _delegateQueueIdentifierKey, (__bridge void *)self, NULL);
+		dispatch_set_target_queue(self.serialDelegateQueue, _delegateQueue);
+	}
 }
 
 #pragma mark Port Properties
@@ -911,8 +963,10 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (void)setPendingRequestTimeoutTimer:(dispatch_source_t)pendingRequestTimeoutTimer
 {
-	if (pendingRequestTimeoutTimer != _pendingRequestTimeoutTimer) {
-		if (_pendingRequestTimeoutTimer) {
+	if (pendingRequestTimeoutTimer != _pendingRequestTimeoutTimer)
+	{
+		if (_pendingRequestTimeoutTimer)
+		{
 			dispatch_source_cancel(_pendingRequestTimeoutTimer);
 			ORS_GCD_RELEASE(_pendingRequestTimeoutTimer);
 		}
@@ -932,9 +986,30 @@ static __strong NSMutableArray *allSerialPorts;
 	}
 }
 
+- (void)setSerialDelegateQueue:(dispatch_queue_t)serialDelegateQueue
+{
+	if (serialDelegateQueue != _serialDelegateQueue)
+	{
+		if (_serialDelegateQueue)
+		{
+			dispatch_queue_set_specific(_serialDelegateQueue, _serialDelegateQueueIdentifierKey, NULL, NULL);
+		}
+		ORS_GCD_RELEASE(_serialDelegateQueue);
+		
+		ORS_GCD_RETAIN(serialDelegateQueue);
+		_serialDelegateQueue = serialDelegateQueue;
+		
+		if (_serialDelegateQueue)
+		{
+			dispatch_queue_set_specific(_serialDelegateQueue, _serialDelegateQueueIdentifierKey, (__bridge void *)self, NULL);
+		}
+	}
+}
+
 - (void)setSelectSemaphore:(dispatch_semaphore_t)selectSemaphore
 {
-	if (selectSemaphore != _selectSemaphore) {
+	if (selectSemaphore != _selectSemaphore)
+	{
 		ORS_GCD_RELEASE(_selectSemaphore);
 		ORS_GCD_RETAIN(selectSemaphore);
 		_selectSemaphore = selectSemaphore;
