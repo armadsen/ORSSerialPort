@@ -269,6 +269,29 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (BOOL)sendRequest:(ORSSerialRequest *)request;
 
+/**
+ *  Requests the cancellation of a queued (not yet sent) request. The request
+ *  is removed from the requests queue and will not be sent.
+ *
+ *  Note that a pending request cannot be cancelled, as it has already been sent and is
+ *  awaiting a response. If a pending request is passed in, this method will simply
+ *  do nothing. Because the requests queue is handled in the background, occasionally
+ *  a request may leave the queue and becoming pending after this method is called, 
+ *  causing cancellation to fail. If you need to absolutely guarantee that a request
+ *  is not sent you should avoid sending it rather than depending on later cancellation.
+ *
+ *  @param request The pending request to be cancelled.
+ */
+- (void)cancelQueuedRequest:(ORSSerialRequest *)request;
+
+/**
+ *  Cancels all queued requests. The requests queue is emptied.
+ *
+ *  Note that if there is a pending request, it is not cancelled, as it has already
+ *  been sent and is awaiting a response.
+ */
+- (void)cancelAllQueuedRequests;
+
 /** ---------------------------------------------------------------------------------------
  * @name Delegate
  *  ---------------------------------------------------------------------------------------
