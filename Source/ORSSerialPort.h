@@ -53,6 +53,7 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
 @protocol ORSSerialPortDelegate;
 
 @class ORSSerialRequest;
+@class ORSSerialPacketDescriptor;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -291,6 +292,15 @@ NS_ASSUME_NONNULL_BEGIN
  *  been sent and is awaiting a response.
  */
 - (void)cancelAllQueuedRequests;
+
+/** ---------------------------------------------------------------------------------------
+ * @name Listening For Packets
+ *  ---------------------------------------------------------------------------------------
+ */
+
+- (void)startListeningForPacketsMatchingDescriptor:(ORSSerialPacketDescriptor *)descriptor;
+
+- (void)stopListeningForPacketsMatchingDescriptor:(ORSSerialPacketDescriptor *)descriptor;
 
 /** ---------------------------------------------------------------------------------------
  * @name Delegate
@@ -562,6 +572,16 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param request      The request to which the responseData is a respone.
  */
 - (void)serialPort:(ORSSerialPort *)serialPort didReceiveResponse:(NSData *)responseData toRequest:(ORSSerialRequest *)request;
+
+/**
+ *  Called when a valid, complete packet matching a descriptor installed with 
+ *  -startListeningForPacketsMatchingDescriptor: is received.
+ *
+ *  @param serialPort		The `ORSSerialPort` instance representing the port that received `packetData`.
+ *  @param packetData		The An `NSData` instance containing the received packet data.
+ *  @param descriptor		The packet descriptor object for which packetData is a match.
+ */
+- (void)serialPort:(ORSSerialPort *)serialPort didReceivePacket:(NSData *)packetData matchingDescriptor:(ORSSerialPacketDescriptor *)descriptor;
 
 /**
  *  Called when a the timeout interval for a previously sent request elapses without a valid
