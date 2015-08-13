@@ -55,7 +55,6 @@ static __strong NSMutableArray *allSerialPorts;
 @interface ORSSerialPort ()
 {
 	struct termios originalPortAttributes;
-	void *_delegateQueueIdentifierKey;
 	void *_serialDelegateQueueIdentifierKey;
 }
 
@@ -303,12 +302,12 @@ static __strong NSMutableArray *allSerialPorts;
 	self.RTS = desiredRTS;
 	self.DTR = desiredDTR;
 	
-	if ([self.delegate respondsToSelector:@selector(serialPortWasOpened:)])
-	{
-		dispatch_async(mainQueue, ^{
+	[self dispatchToDelegateQueue:^{
+		if ([self.delegate respondsToSelector:@selector(serialPortWasOpened:)])
+		{
 			[self.delegate serialPortWasOpened:self];
-		});
-	}
+		}
+	}];
 	
 	// Start a read dispatch source in the background
 	dispatch_source_t readPollSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ, self.fileDescriptor, 0, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0));
@@ -344,11 +343,13 @@ static __strong NSMutableArray *allSerialPorts;
 		int result = ioctl(self.fileDescriptor, TIOCMGET, &modemLines);
 		if (result < 0)
 		{
-			[self notifyDelegateOfPosixErrorWaitingUntilDone:(errno == ENXIO)];
-			if (errno == ENXIO)
-			{
-				[self cleanupAfterSystemRemoval];
-			}
+			[self dispatchToDelegateQueue:^{
+				[self notifyDelegateOfPosixError];
+				if (errno == ENXIO)
+				{
+					[self cleanupAfterSystemRemoval];
+				}
+			}];
 			return;
 		}
 		
@@ -400,14 +401,16 @@ static __strong NSMutableArray *allSerialPorts;
 	
 	self.fileDescriptor = 0;
 	
-	if ([self.delegate respondsToSelector:@selector(serialPortWasClosed:)])
-	{
-		[(id)self.delegate performSelectorOnMainThread:@selector(serialPortWasClosed:) withObject:self waitUntilDone:YES];
-		dispatch_async(self.requestHandlingQueue, ^{
-			self.requestsQueue = [NSMutableArray array]; // Cancel all queued requests
-			self.pendingRequest = nil; // Discard pending request
-		});
-	}
+	[self dispatchToDelegateQueue:^{
+		if ([self.delegate respondsToSelector:@selector(serialPortWasClosed:)])
+		{
+			[self.delegate serialPortWasClosed:self];
+			dispatch_async(self.requestHandlingQueue, ^{
+				self.requestsQueue = [NSMutableArray array]; // Cancel all queued requests
+				self.pendingRequest = nil; // Discard pending request
+			});
+		}
+	}];
 }
 
 - (void)cleanup;
@@ -418,10 +421,13 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (void)cleanupAfterSystemRemoval
 {
-	if ([self.delegate respondsToSelector:@selector(serialPortWasRemovedFromSystem:)])
-	{
-		[(id)self.delegate performSelectorOnMainThread:@selector(serialPortWasRemovedFromSystem:) withObject:self waitUntilDone:YES];
-	}
+	[self dispatchToDelegateQueue:^{
+		if ([self.delegate respondsToSelector:@selector(serialPortWasRemovedFromSystem:)])
+		{
+			[(id)self.delegate performSelectorOnMainThread:@selector(serialPortWasRemovedFromSystem:) withObject:self waitUntilDone:YES];
+		}
+	}];
+	
 	[self close];
 }
 
@@ -560,12 +566,12 @@ static __strong NSMutableArray *allSerialPorts;
 		return;
 	}
 	
-	dispatch_async(dispatch_get_main_queue(), ^{
+	[self dispatchToDelegateQueue:^{
 		[self.delegate serialPort:self requestDidTimeout:request];
 		dispatch_async(self.requestHandlingQueue, ^{
 			[self sendNextRequest];
 		});
-	});
+	}];
 }
 
 // Must only be called on requestHandlingQueue
@@ -585,13 +591,13 @@ static __strong NSMutableArray *allSerialPorts;
 	self.pendingRequestTimeoutTimer = nil;
 	ORSSerialRequest *request = self.pendingRequest;
 	
-	dispatch_async(dispatch_get_main_queue(), ^{
+	[self dispatchToDelegateQueue:^{
 		if ([responseData length] &&
 			[self.delegate respondsToSelector:@selector(serialPort:didReceiveResponse:toRequest:)])
 		{
 			[self.delegate serialPort:self didReceiveResponse:responseData toRequest:request];
 		}
-	});
+	}];
 	
 	[self sendNextRequest];
 }
@@ -600,12 +606,12 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (void)receiveData:(NSData *)data;
 {
-	if ([self.delegate respondsToSelector:@selector(serialPort:didReceiveData:)])
-	{
-		dispatch_async(dispatch_get_main_queue(), ^{
+	[self dispatchToDelegateQueue:^{
+		if ([self.delegate respondsToSelector:@selector(serialPort:didReceiveData:)])
+		{
 			[self.delegate serialPort:self didReceiveData:data];
-		});
-	}
+		}
+	}];
 	
 	dispatch_async(self.requestHandlingQueue, ^{
 		const void *bytes = [data bytes];
@@ -625,12 +631,12 @@ static __strong NSMutableArray *allSerialPorts;
 				if (![completePacket length]) continue;
 				
 				// Complete packet received, so notify delegate then clear buffer
-				if ([self.delegate respondsToSelector:@selector(serialPort:didReceivePacket:matchingDescriptor:)])
-				{
-					dispatch_async(dispatch_get_main_queue(), ^{
+				[self dispatchToDelegateQueue:^{
+					if ([self.delegate respondsToSelector:@selector(serialPort:didReceivePacket:matchingDescriptor:)])
+					{
 						[self.delegate serialPort:self didReceivePacket:completePacket matchingDescriptor:descriptor];
-					});
-				}
+					}
+				}];
 				[self clearBufferForPacketDescriptor:descriptor];
 			}
 			
@@ -781,11 +787,6 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (void)notifyDelegateOfPosixError
 {
-	[self notifyDelegateOfPosixErrorWaitingUntilDone:NO];
-}
-
-- (void)notifyDelegateOfPosixErrorWaitingUntilDone:(BOOL)shouldWait;
-{
 	if (![self.delegate respondsToSelector:@selector(serialPort:didEncounterError:)]) return;
 	
 	NSDictionary *errDict = @{NSLocalizedDescriptionKey: @(strerror(errno)),
@@ -794,46 +795,14 @@ static __strong NSMutableArray *allSerialPorts;
 										 code:errno
 									 userInfo:errDict];
 	
-	void (^notifyBlock)(void) = ^{
-		[self.delegate serialPort:self didEncounterError:error];
-	};
-	
-	BOOL onDelegateQueue = (dispatch_get_specific(_delegateQueueIdentifierKey) == (__bridge void *)self);
-	if (onDelegateQueue) {
-		notifyBlock();
-	} else if (shouldWait) {
-		dispatch_sync(dispatch_get_main_queue(), notifyBlock);
-	} else {
-		dispatch_async(dispatch_get_main_queue(), notifyBlock);
-	}
+	[self dispatchToDelegateQueue:^{ [self.delegate serialPort:self didEncounterError:error]; }];
 }
 
-- (void)dispatchToDelegateQueue:(void(^)(void))block waitUntilDone:(BOOL)shouldWait
+- (void)dispatchToDelegateQueue:(void(^)(void))block
 {
 	if (!block) return;
 	
-	BOOL onDelegateQueue = (dispatch_get_specific(_delegateQueueIdentifierKey) == (__bridge void *)self);
-	BOOL onSerialDelegateQueue = (dispatch_get_specific(_serialDelegateQueueIdentifierKey) == (__bridge void *)self);
-	
-	if (onSerialDelegateQueue) {
-		block();
-		return;
-	}
-	
-	if (!shouldWait) {
-		dispatch_async(self.serialDelegateQueue, block);
-		return;
-	}
-	
-	if (!onDelegateQueue) { // Wait, but dispatch_sync is safe
-		dispatch_sync(self.serialDelegateQueue, block);
-		return;
-	}
-
-	// Wait until done, but we're on the delegate queue, so dispatch_sync could deadlock, but we don't
-	// want to run simultaneously with blocks on the serial delegate queue.
-	// (its target, the current queue, could be concurrent)
-	// So, instead, 
+	dispatch_async(self.serialDelegateQueue, block);
 }
 
 #pragma mark - Properties
@@ -857,14 +826,7 @@ static __strong NSMutableArray *allSerialPorts;
 {
 	if (delegateQueue != _delegateQueue)
 	{
-		if (_delegateQueue)
-		{
-			dispatch_queue_set_specific(_delegateQueue, _delegateQueueIdentifierKey, NULL, NULL);
-		}
-		
 		_delegateQueue = delegateQueue ?: dispatch_get_main_queue();
-		
-		dispatch_queue_set_specific(_delegateQueue, _delegateQueueIdentifierKey, (__bridge void *)self, NULL);
 		dispatch_set_target_queue(self.serialDelegateQueue, _delegateQueue);
 	}
 }
