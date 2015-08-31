@@ -234,6 +234,38 @@
 	}];
 }
 
+- (void)testPacketDescriptorsPropertyAdd
+{
+	XCTAssertNotNil(self.port.packetDescriptors, @"-[ORSSerialPort packetDescriptors] returned nil.");
+	XCTAssert([self.port.packetDescriptors count] == 0, @"-[ORSSerialPort packetDescriptors] returned non-empty array with no descriptors added.");
+	
+	ORSSerialPacketDescriptor *descriptor = [self defaultPacketDescriptorWithUserInfo:nil];
+	[self keyValueObservingExpectationForObject:self.port keyPath:@"packetDescriptors" expectedValue:@[descriptor]];
+	[self.port startListeningForPacketsMatchingDescriptor:descriptor];
+	
+	[self waitForExpectationsWithTimeout:0.1 handler:^(NSError *error) {
+		if (error) {
+			NSLog(@"expectations failed: %@", error);
+		}
+	}];
+}
+
+- (void)testPacketDescriptorsPropertyRemove
+{
+	ORSSerialPacketDescriptor *descriptor = [self defaultPacketDescriptorWithUserInfo:nil];
+	[self.port startListeningForPacketsMatchingDescriptor:descriptor];
+	XCTAssertEqualObjects(@[descriptor], self.port.packetDescriptors, @"-packetDescriptors did not return expected result.");
+	
+	[self keyValueObservingExpectationForObject:self.port keyPath:@"packetDescriptors" expectedValue:@[]];
+	[self.port stopListeningForPacketsMatchingDescriptor:descriptor];
+	
+	[self waitForExpectationsWithTimeout:0.1 handler:^(NSError *error) {
+		if (error) {
+			NSLog(@"expectations failed: %@", error);
+		}
+	}];
+}
+
 #pragma mark - Utilties
 
 - (ORSSerialPacketDescriptor *)defaultPacketDescriptorWithUserInfo:(id)userInfo

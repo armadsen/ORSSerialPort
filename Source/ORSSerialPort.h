@@ -300,8 +300,33 @@ NS_ASSUME_NONNULL_BEGIN
  *  ---------------------------------------------------------------------------------------
  */
 
+/**
+ *  Tells the receiver to begin listening for incoming packets matching the specified
+ *  descriptor.
+ *
+ *  When incoming data that constitutes a packet as described by descriptor is received,
+ *  the delegate method -serialPort:didReceivePacket:matchingDescriptor: will be called.
+ *
+ *  @param descriptor An ORSerialPacketDescriptor instance describing the packets the receiver
+ *  should listen for.
+ *
+ *  @see -stopListeningForPacketsMatchingDescriptor:
+ *  @see -serialPort:didReceivePacket:matchingDescriptor:
+ */
 - (void)startListeningForPacketsMatchingDescriptor:(ORSSerialPacketDescriptor *)descriptor;
 
+/**
+ *  Tells the receiver to stop listening for incoming packets matching the specified
+ *  descriptor. 
+ *
+ *  @note The passed in descriptor must be the exact same instance as was previously
+ *  provided to -startListeningForPacketsMatchingDescriptor:
+ *
+ *  @param descriptor An ORSSerialPacketDescriptor instance previously passed to
+ *  -startListeningForPacketsMatchingDescriptor:
+ *
+ *  @see -startListeningForPacketsMatchingDescriptor:
+ */
 - (void)stopListeningForPacketsMatchingDescriptor:(ORSSerialPacketDescriptor *)descriptor;
 
 /** ---------------------------------------------------------------------------------------
@@ -343,6 +368,18 @@ NS_ASSUME_NONNULL_BEGIN
  *  the port is awaiting a response.
  */
 @property (strong, readonly) ORSArrayOf(ORSSerialRequest *) *queuedRequests;
+
+/** ---------------------------------------------------------------------------------------
+ * @name Packet Parsing Properties
+ *  ---------------------------------------------------------------------------------------
+ */
+
+/**
+ *  An array of packet descriptors for which the port is listening. 
+ *
+ *  Returns an empty array if no packet descriptors are installed.
+ */
+@property (nonatomic, strong, readonly) NSArray *packetDescriptors;
 
 /** ---------------------------------------------------------------------------------------
  * @name Port Properties

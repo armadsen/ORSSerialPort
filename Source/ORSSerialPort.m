@@ -470,12 +470,16 @@ static __strong NSMutableArray *allSerialPorts;
 {
 	if ([self.packetDescriptorsAndBuffers objectForKey:descriptor]) return; // Already listening
 	
+	[self willChangeValueForKey:@"packetDescriptorsAndBuffers"];
 	[self.packetDescriptorsAndBuffers setObject:[NSMutableData data] forKey:descriptor];
+	[self didChangeValueForKey:@"packetDescriptorsAndBuffers"];
 }
 
 - (void)stopListeningForPacketsMatchingDescriptor:(ORSSerialPacketDescriptor *)descriptor;
 {
+	[self willChangeValueForKey:@"packetDescriptorsAndBuffers"];
 	[self.packetDescriptorsAndBuffers removeObjectForKey:descriptor];
+	[self didChangeValueForKey:@"packetDescriptorsAndBuffers"];
 }
 
 #pragma mark - Private Methods
@@ -829,6 +833,17 @@ static __strong NSMutableArray *allSerialPorts;
 - (NSArray *)queuedRequests
 {
 	return [self.requestsQueue copy];
+}
+
++ (NSSet *)keyPathsForValuesAffectingPacketDescriptors
+{
+	return [NSSet setWithObject:@"packetDescriptorsAndBuffers"];
+}
+
+- (NSArray *)packetDescriptors
+{
+	NSArray *result = NSAllMapTableKeys(self.packetDescriptorsAndBuffers);
+	return result ?: @[];
 }
 
 - (BOOL)isOpen { return self.fileDescriptor != 0; }
