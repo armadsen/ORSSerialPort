@@ -10,6 +10,8 @@
 		9D2B58071ADC16B500B08D53 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2B58061ADC16B500B08D53 /* main.swift */; };
 		9D2B58141ADC170C00B08D53 /* ORSSerialPort.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D2B58111ADC170C00B08D53 /* ORSSerialPort.m */; };
 		9D2B58151ADC170C00B08D53 /* ORSSerialPortManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D2B58131ADC170C00B08D53 /* ORSSerialPortManager.m */; };
+		9DFF14861B94E38D004B42B3 /* ORSSerialPacketDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DFF14851B94E38D004B42B3 /* ORSSerialPacketDescriptor.m */; };
+		9DFF14891B94E396004B42B3 /* ORSSerialRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DFF14881B94E396004B42B3 /* ORSSerialRequest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -32,6 +34,10 @@
 		9D2B58111ADC170C00B08D53 /* ORSSerialPort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ORSSerialPort.m; path = ../../../../Source/ORSSerialPort.m; sourceTree = "<group>"; };
 		9D2B58121ADC170C00B08D53 /* ORSSerialPortManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORSSerialPortManager.h; path = ../../../../Source/ORSSerialPortManager.h; sourceTree = "<group>"; };
 		9D2B58131ADC170C00B08D53 /* ORSSerialPortManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ORSSerialPortManager.m; path = ../../../../Source/ORSSerialPortManager.m; sourceTree = "<group>"; };
+		9DFF14841B94E38D004B42B3 /* ORSSerialPacketDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORSSerialPacketDescriptor.h; path = ../../../../Source/ORSSerialPacketDescriptor.h; sourceTree = "<group>"; };
+		9DFF14851B94E38D004B42B3 /* ORSSerialPacketDescriptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ORSSerialPacketDescriptor.m; path = ../../../../Source/ORSSerialPacketDescriptor.m; sourceTree = "<group>"; };
+		9DFF14871B94E396004B42B3 /* ORSSerialRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORSSerialRequest.h; path = ../../../../Source/ORSSerialRequest.h; sourceTree = "<group>"; };
+		9DFF14881B94E396004B42B3 /* ORSSerialRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ORSSerialRequest.m; path = ../../../../Source/ORSSerialRequest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +84,10 @@
 				9D2B58111ADC170C00B08D53 /* ORSSerialPort.m */,
 				9D2B58121ADC170C00B08D53 /* ORSSerialPortManager.h */,
 				9D2B58131ADC170C00B08D53 /* ORSSerialPortManager.m */,
+				9DFF14871B94E396004B42B3 /* ORSSerialRequest.h */,
+				9DFF14881B94E396004B42B3 /* ORSSerialRequest.m */,
+				9DFF14841B94E38D004B42B3 /* ORSSerialPacketDescriptor.h */,
+				9DFF14851B94E38D004B42B3 /* ORSSerialPacketDescriptor.m */,
 			);
 			name = ORSSerialPort;
 			sourceTree = "<group>";
@@ -108,7 +118,7 @@
 		9D2B57F31ADC165D00B08D53 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0630;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Open Reel Software";
 				TargetAttributes = {
 					9D2B57FA1ADC165D00B08D53 = {
@@ -139,8 +149,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				9D2B58151ADC170C00B08D53 /* ORSSerialPortManager.m in Sources */,
+				9DFF14861B94E38D004B42B3 /* ORSSerialPacketDescriptor.m in Sources */,
 				9D2B58071ADC16B500B08D53 /* main.swift in Sources */,
 				9D2B58141ADC170C00B08D53 /* ORSSerialPort.m in Sources */,
+				9DFF14891B94E396004B42B3 /* ORSSerialRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
