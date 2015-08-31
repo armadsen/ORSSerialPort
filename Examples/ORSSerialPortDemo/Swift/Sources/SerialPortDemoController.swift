@@ -69,7 +69,7 @@ class SerialPortDemoController: NSObject, ORSSerialPortDelegate, NSUserNotificat
 	
 	// MARK: - Actions
 	
-	@IBAction func send(AnyObject) {
+	@IBAction func send(_: AnyObject) {
 		var string = self.sendTextField.stringValue
 		if self.shouldAddLineEnding && !string.hasSuffix("\n") {
 			string += self.lineEndingString
@@ -113,7 +113,7 @@ class SerialPortDemoController: NSObject, ORSSerialPortDelegate, NSUserNotificat
 	}
 	
 	func serialPort(serialPort: ORSSerialPort, didEncounterError error: NSError) {
-		println("SerialPort \(serialPort) encountered an error: \(error)")
+		print("SerialPort \(serialPort) encountered an error: \(error)")
 	}
 	
 	// MARK: - NSUserNotifcationCenterDelegate
@@ -134,7 +134,7 @@ class SerialPortDemoController: NSObject, ORSSerialPortDelegate, NSUserNotificat
 	func serialPortsWereConnected(notification: NSNotification) {
 		if let userInfo = notification.userInfo {
 			let connectedPorts = userInfo[ORSConnectedSerialPortsKey] as! [ORSSerialPort]
-			println("Ports were connected: \(connectedPorts)")
+			print("Ports were connected: \(connectedPorts)")
 			self.postUserNotificationForConnectedPorts(connectedPorts)
 		}
 	}
@@ -142,7 +142,7 @@ class SerialPortDemoController: NSObject, ORSSerialPortDelegate, NSUserNotificat
 	func serialPortsWereDisconnected(notification: NSNotification) {
 		if let userInfo = notification.userInfo {
 			let disconnectedPorts: [ORSSerialPort] = userInfo[ORSDisconnectedSerialPortsKey] as! [ORSSerialPort]
-			println("Ports were disconnected: \(disconnectedPorts)")
+			print("Ports were disconnected: \(disconnectedPorts)")
 			self.postUserNotificationForDisconnectedPorts(disconnectedPorts)
 		}
 	}
