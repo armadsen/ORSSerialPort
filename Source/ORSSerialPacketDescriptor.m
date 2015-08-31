@@ -34,6 +34,12 @@
 
 @implementation ORSSerialPacketDescriptor
 
+- (instancetype)init NS_UNAVAILABLE
+{
+	[NSException raise:NSInternalInconsistencyException format:@"You must initialize %@ with its designated initializers, or one of its convenience initializers.", NSStringFromClass([self class])];
+	return nil;
+}
+
 - (instancetype)initWithUserInfo:(id)userInfo responseEvaluator:(ORSSerialPacketEvaluator)responseEvaluator
 {
 	self = [super init];
