@@ -37,27 +37,27 @@ enum ApplicationState {
 
 struct UserPrompter {
 	func printIntroduction() {
-		println("This program demonstrates the use of ORSSerialPort")
-		println("in a Foundation-based command-line tool.")
-		println("Please see http://github.com/armadsen/ORSSerialPort/\nor email andrew@openreelsoftware.com for more information.\n")
+		print("This program demonstrates the use of ORSSerialPort")
+		print("in a Foundation-based command-line tool.")
+		print("Please see http://github.com/armadsen/ORSSerialPort/\nor email andrew@openreelsoftware.com for more information.\n")
 	}
 	
 	func printPrompt() {
-		print("\n> ")
+		print("\n> ", appendNewline: false)
 	}
 	
 	func promptForSerialPort() {
-		println("\nPlease select a serial port: \n")
-		let availablePorts = ORSSerialPortManager.sharedSerialPortManager().availablePorts as! [ORSSerialPort]
+		print("\nPlease select a serial port: \n")
+		let availablePorts = ORSSerialPortManager.sharedSerialPortManager().availablePorts 
 		var i = 0
 		for port in availablePorts {
-			println("\(i++). \(port.name)")
+			print("\(i++). \(port.name)")
 		}
 		printPrompt()
 	}
 	
 	func promptForBaudRate() {
-		print("\nPlease enter a baud rate: ");
+		print("\nPlease enter a baud rate: ", appendNewline: false);
 	}
 }
 
@@ -75,7 +75,7 @@ class StateMachine : NSObject, ORSSerialPortDelegate {
 	
 	func runProcessingInput() {
 		setbuf(stdout, nil)
-		standardInputFileHandle.readabilityHandler = { (fileHandle: NSFileHandle!) in
+		standardInputFileHandle.readabilityHandler = { (fileHandle: NSFileHandle) in
 			let data = fileHandle.availableData
 			dispatch_async(dispatch_get_main_queue(), { () -> Void in
 				self.handleUserInput(data)
@@ -84,9 +84,9 @@ class StateMachine : NSObject, ORSSerialPortDelegate {
 		
 		prompter.printIntroduction()
 		
-		let availablePorts = ORSSerialPortManager.sharedSerialPortManager().availablePorts as! [ORSSerialPort]
+		let availablePorts = ORSSerialPortManager.sharedSerialPortManager().availablePorts 
 		if availablePorts.count == 0 {
-			println("No connected serial ports found. Please connect your USB to serial adapter(s) and run the program again.\n")
+			print("No connected serial ports found. Please connect your USB to serial adapter(s) and run the program again.\n")
 			exit(EXIT_SUCCESS)
 		}
 		prompter.promptForSerialPort()
@@ -98,7 +98,7 @@ class StateMachine : NSObject, ORSSerialPortDelegate {
 	// MARK: Port Settings
 	func setupAndOpenPortWithSelectionString(var selectionString: String, availablePorts: [ORSSerialPort]) -> Bool {
 		selectionString = selectionString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-		if let index = selectionString.toInt() {
+		if let index = Int(selectionString) {
 			let clampedIndex = min(max(index, 0), availablePorts.count-1)
 			self.serialPort = availablePorts[clampedIndex]
 			return true
@@ -109,9 +109,9 @@ class StateMachine : NSObject, ORSSerialPortDelegate {
 	
 	func setBaudRateOnPortWithString(var selectionString: String) -> Bool {
 		selectionString = selectionString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-		if let baudRate = selectionString.toInt() {
+		if let baudRate = Int(selectionString) {
 			self.serialPort?.baudRate = baudRate
-			print("Baud rate set to \(baudRate)")
+			print("Baud rate set to \(baudRate)", appendNewline: false)
 			return true
 		} else {
 			return false
@@ -124,20 +124,20 @@ class StateMachine : NSObject, ORSSerialPortDelegate {
 			
 			if string.lowercaseString.hasPrefix("exit") ||
 				string.lowercaseString.hasPrefix("quit") {
-					println("Quitting...")
+					print("Quitting...")
 					exit(EXIT_SUCCESS)
 			}
 			
 			switch self.currentState {
 			case .WaitingForPortSelectionState(let availablePorts):
 				if !setupAndOpenPortWithSelectionString(string, availablePorts: availablePorts) {
-					print("\nError: Invalid port selection.")
+					print("\nError: Invalid port selection.", appendNewline: false)
 					prompter.promptForSerialPort()
 					return
 				}
 			case .WaitingForBaudRateInputState:
 				if !setBaudRateOnPortWithString(string) {
-					print("\nError: Invalid baud rate. Baud rate should consist only of numeric digits.");
+					print("\nError: Invalid baud rate. Baud rate should consist only of numeric digits.", appendNewline: false);
 					prompter.promptForBaudRate();
 					return;
 				}
@@ -156,7 +156,7 @@ class StateMachine : NSObject, ORSSerialPortDelegate {
 	
 	func serialPort(serialPort: ORSSerialPort, didReceiveData data: NSData) {
 		if let string = NSString(data: data, encoding: NSUTF8StringEncoding) {
-			print("\nReceived: \"\(string)\" \(data)")
+			print("\nReceived: \"\(string)\" \(data)", appendNewline: false)
 		}
 		prompter.printPrompt()
 	}
@@ -166,11 +166,11 @@ class StateMachine : NSObject, ORSSerialPortDelegate {
 	}
 	
 	func serialPort(serialPort: ORSSerialPort, didEncounterError error: NSError) {
-		println("Serial port (\(serialPort)) encountered error: \(error)")
+		print("Serial port (\(serialPort)) encountered error: \(error)")
 	}
 	
 	func serialPortWasOpened(serialPort: ORSSerialPort) {
-		print("Serial port \(serialPort) was opened")
+		print("Serial port \(serialPort) was opened", appendNewline: false)
 		prompter.promptForBaudRate()
 		currentState = .WaitingForBaudRateInputState
 	}

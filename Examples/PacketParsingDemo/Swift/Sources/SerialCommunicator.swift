@@ -22,7 +22,7 @@ class SerialCommunicator: NSObject, ORSSerialPortDelegate {
 	}
 	
 	func serialPort(serialPort: ORSSerialPort, didEncounterError error: NSError) {
-		println("Serial port \(serialPort) encountered an error: \(error)")
+		print("Serial port \(serialPort) encountered an error: \(error)")
 	}
 	
 	func serialPortWasOpened(serialPort: ORSSerialPort) {
@@ -33,7 +33,7 @@ class SerialCommunicator: NSObject, ORSSerialPortDelegate {
 	func serialPort(serialPort: ORSSerialPort, didReceivePacket packetData: NSData, matchingDescriptor descriptor: ORSSerialPacketDescriptor) {
 		if let dataAsString = NSString(data: packetData, encoding: NSASCIIStringEncoding) {
 			let valueString = dataAsString.substringWithRange(NSRange(location: 4, length: dataAsString.length-5))
-			self.sliderPosition = valueString.toInt()!
+			self.sliderPosition = Int(valueString)!
 		}
 	}
 	
