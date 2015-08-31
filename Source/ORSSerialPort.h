@@ -362,6 +362,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, readonly) NSArray *queuedRequests;
 
 /** ---------------------------------------------------------------------------------------
+ * @name Packet Parsing Properties
+ *  ---------------------------------------------------------------------------------------
+ */
+
+/**
+ *  An array of packet descriptors for which the port is listening. 
+ *
+ *  Returns an empty array if no packet descriptors are installed.
+ */
+@property (nonatomic, strong, readonly) NSArray *packetDescriptors;
+
+/** ---------------------------------------------------------------------------------------
  * @name Port Properties
  *  ---------------------------------------------------------------------------------------
  */
