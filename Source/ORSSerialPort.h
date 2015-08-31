@@ -379,7 +379,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  Returns an empty array if no packet descriptors are installed.
  */
-@property (nonatomic, strong, readonly) ORSArrayOf(ORSPacketDescriptor *) *packetDescriptors;
+@property (nonatomic, strong, readonly) ORSArrayOf(ORSSerialPacketDescriptor *) *packetDescriptors;
 
 /** ---------------------------------------------------------------------------------------
  * @name Port Properties
