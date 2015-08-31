@@ -37,6 +37,14 @@
 #define __nullable
 #endif
 
+#ifndef ORSArrayOf
+	#if __has_feature(objc_generics)
+		#define ORSArrayOf(TYPE) NSArray<TYPE>
+	#else
+		#define ORSArrayOf(TYPE) NSArray
+	#endif
+#endif // #ifndef ORSArrayOf
+
 //#define LOG_SERIAL_PORT_ERRORS
 typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
 	ORSSerialPortParityNone = 0,
@@ -359,7 +367,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @note This array does not contain the pending request, a sent request for which
  *  the port is awaiting a response.
  */
-@property (strong, readonly) NSArray *queuedRequests;
+@property (strong, readonly) ORSArrayOf(ORSSerialRequest *) *queuedRequests;
 
 /** ---------------------------------------------------------------------------------------
  * @name Packet Parsing Properties
@@ -371,7 +379,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  Returns an empty array if no packet descriptors are installed.
  */
-@property (nonatomic, strong, readonly) NSArray *packetDescriptors;
+@property (nonatomic, strong, readonly) ORSArrayOf(ORSPacketDescriptor *) *packetDescriptors;
 
 /** ---------------------------------------------------------------------------------------
  * @name Port Properties

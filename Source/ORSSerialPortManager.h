@@ -35,6 +35,14 @@
 #define __nullable
 #endif
 
+#ifndef ORSArrayOf
+	#if __has_feature(objc_generics)
+		#define ORSArrayOf(TYPE) NSArray<TYPE>
+	#else
+		#define ORSArrayOf(TYPE) NSArray
+	#endif
+#endif // #ifndef ORSArrayOf
+
 NS_ASSUME_NONNULL_BEGIN
 
 /// Posted when a serial port is connected to the system
@@ -47,6 +55,8 @@ extern NSString * const ORSSerialPortsWereDisconnectedNotification;
 extern NSString * const ORSConnectedSerialPortsKey;
 /// Key for disconnected port in ORSSerialPortWasDisconnectedNotification userInfo dictionary
 extern NSString * const ORSDisconnectedSerialPortsKey;
+
+@class ORSSerialPort;
 
 /**
  *  `ORSSerialPortManager` is a singleton class (one instance per
@@ -119,7 +129,7 @@ extern NSString * const ORSDisconnectedSerialPortsKey;
  *  to easily give the user a way to select an available port 
  *  on the system.
  */
-@property (nonatomic, copy, readonly) NSArray *availablePorts;
+@property (nonatomic, copy, readonly) ORSArrayOf(ORSSerialPort *) *availablePorts;
 
 @end
 
