@@ -49,8 +49,8 @@ class SerialBoardController: NSObject, ORSSerialPortDelegate {
 		let command = "$TEMP?;".dataUsingEncoding(NSASCIIStringEncoding)!
 		let request = ORSSerialRequest(dataToSend: command,
 			userInfo: SerialBoardRequestType.ReadTemperature.rawValue,
-			timeoutInterval: kTimeoutDuration) { (data) -> Bool in
-				return self.temperatureFromResponsePacket(data!) != nil
+			timeoutInterval: 0.5) { (data) -> ObjCBool in
+				return ObjCBool(self.temperatureFromResponsePacket(data!) != nil)
 		}
 		self.serialPort?.sendRequest(request)
 	}
@@ -59,8 +59,8 @@ class SerialBoardController: NSObject, ORSSerialPortDelegate {
 		let command = "$LED?;".dataUsingEncoding(NSASCIIStringEncoding)!
 		let request = ORSSerialRequest(dataToSend: command,
 			userInfo: SerialBoardRequestType.ReadLED.rawValue,
-			timeoutInterval: kTimeoutDuration) { (data) -> Bool in
-				return self.LEDStateFromResponsePacket(data!) != nil
+			timeoutInterval: kTimeoutDuration) { (data) -> ObjCBool in
+				return ObjCBool(self.LEDStateFromResponsePacket(data!) != nil)
 		}
 		self.serialPort?.sendRequest(request)
 	}
@@ -70,8 +70,8 @@ class SerialBoardController: NSObject, ORSSerialPortDelegate {
 		let command = commandString.dataUsingEncoding(NSASCIIStringEncoding)!
 		let request = ORSSerialRequest(dataToSend: command,
 			userInfo: SerialBoardRequestType.SetLED.rawValue,
-			timeoutInterval: kTimeoutDuration) { (data) -> Bool in
-				return self.LEDStateFromResponsePacket(data!) != nil
+			timeoutInterval: kTimeoutDuration) { (data) -> ObjCBool in
+				return ObjCBool(self.LEDStateFromResponsePacket(data!) != nil)
 		}
 		self.serialPort?.sendRequest(request)
 	}
@@ -85,7 +85,7 @@ class SerialBoardController: NSObject, ORSSerialPortDelegate {
 		}
 		
 		let temperatureString = dataAsString.substringWithRange(NSRange(location: 5, length: dataAsString.length-6))
-		return temperatureString.toInt()
+		return Int(temperatureString)
 	}
 	
 	private func LEDStateFromResponsePacket(data: NSData) -> Bool? {
@@ -95,7 +95,7 @@ class SerialBoardController: NSObject, ORSSerialPortDelegate {
 		}
 		
 		let LEDStateString = dataAsString.substringWithRange(NSRange(location: 4, length: dataAsString.length-5))
-		return LEDStateString.toInt()! != 0
+		return Int(LEDStateString)! != 0
 	}
 	
 	// MARK: - ORSSerialPortDelegate
@@ -105,7 +105,7 @@ class SerialBoardController: NSObject, ORSSerialPortDelegate {
 	}
 	
 	func serialPort(serialPort: ORSSerialPort, didEncounterError error: NSError) {
-		println("Serial port \(serialPort) encountered an error: \(error)")
+		print("Serial port \(serialPort) encountered an error: \(error)")
 	}
 	
 	func serialPort(serialPort: ORSSerialPort, didReceiveResponse responseData: NSData, toRequest request: ORSSerialRequest) {
