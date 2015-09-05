@@ -210,6 +210,27 @@
 	}];
 }
 
+- (void)testMultipleIncomingPacketsInASingleReceive
+{
+	XCTestExpectation *expectation1 = [self expectationWithDescription:@"Multiple packets single receive parsing expectation 1"];
+	XCTestExpectation *expectation2 = [self expectationWithDescription:@"Multiple packets single receive parsing expectation 2"];
+	NSDictionary *userInfo1 = @{[@"!foo;" dataUsingEncoding:NSASCIIStringEncoding]: expectation1};
+	NSDictionary *userInfo2 = @{[@"!bar;" dataUsingEncoding:NSASCIIStringEncoding]: expectation2};
+	ORSSerialPacketDescriptor *descriptor1 = [self defaultPacketDescriptorWithUserInfo:userInfo1];
+	ORSSerialPacketDescriptor *descriptor2 = [self defaultPacketDescriptorWithUserInfo:userInfo2];
+	
+	[self.port startListeningForPacketsMatchingDescriptor:descriptor1];
+	[self.port startListeningForPacketsMatchingDescriptor:descriptor2];
+	
+	[self.port receiveData:[@"!foo;!bar;" dataUsingEncoding:NSASCIIStringEncoding]];
+	
+	[self waitForExpectationsWithTimeout:0.5 handler:^(NSError *error) {
+		if (error) {
+			NSLog(@"expectations failed: %@", error);
+		}
+	}];
+}
+
 - (void)testParsingNestedPackets
 {
 	XCTestExpectation *expectation1 = [self expectationWithDescription:@"Nested packets parsing expectation 1"];
