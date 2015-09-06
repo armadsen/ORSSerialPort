@@ -54,13 +54,23 @@
 - (instancetype)initWithPrefix:(NSData *)prefix suffix:(NSData *)suffix userInfo:(id)userInfo
 {
 	self = [self initWithUserInfo:userInfo responseEvaluator:^BOOL(NSData *data) {
-		NSRange fullRange = NSMakeRange(0, [data length]);
-		NSRange prefixRange = NSMakeRange(0, 0);
-		if (prefix) prefixRange = [data rangeOfData:prefix options:NSDataSearchAnchored range:fullRange];
-		NSRange suffixRange = NSMakeRange([data length]-1, 0);
-		if (suffix) suffixRange = [data rangeOfData:suffix options:NSDataSearchAnchored | NSDataSearchBackwards range:fullRange];
+		if (prefix == nil && suffix == nil) { return NO; }
+		if (prefix && [prefix length] > [data length]) { return NO; }
+		if (suffix && [suffix length] > [data length]) { return NO; }
 		
-		return prefixRange.location != NSNotFound && suffixRange.location != NSNotFound;
+		for (NSUInteger i=0; i<[prefix length]; i++) {
+			uint8_t prefixByte = ((uint8_t *)[prefix bytes])[i];
+			uint8_t dataByte = ((uint8_t *)[data bytes])[i];
+			if (prefixByte != dataByte) { return NO; }
+		}
+		
+		for (NSUInteger i=0; i<[suffix length]; i++) {
+			uint8_t suffixByte = ((uint8_t *)[suffix bytes])[([suffix length]-1-i)];
+			uint8_t dataByte = ((uint8_t *)[data bytes])[([data length]-1-i)];
+			if (suffixByte != dataByte) { return NO; }
+		}
+		
+		return YES;
 	}];
 	if (self) {
 		_prefix = prefix;
