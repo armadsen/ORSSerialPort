@@ -40,10 +40,13 @@
 	return nil;
 }
 
-- (instancetype)initWithUserInfo:(id)userInfo responseEvaluator:(ORSSerialPacketEvaluator)responseEvaluator
+- (instancetype)initWithMaximumPacketLength:(NSUInteger)maxPacketLength
+								   userInfo:(id)userInfo
+						  responseEvaluator:(ORSSerialPacketEvaluator)responseEvaluator
 {
 	self = [super init];
 	if (self) {
+		_maximumPacketLength = maxPacketLength;
 		_userInfo = userInfo;
 		_responseEvaluator = [responseEvaluator ?: ^BOOL(NSData *d){ return [d length] > 0; } copy];
 		_uuid = [NSUUID UUID];
@@ -51,16 +54,29 @@
 	return self;
 }
 
-- (instancetype)initWithPrefix:(NSData *)prefix suffix:(NSData *)suffix userInfo:(id)userInfo
+- (instancetype)initWithPrefix:(NSData *)prefix
+						suffix:(NSData *)suffix
+		   maximumPacketLength:(NSUInteger)maxPacketLength
+					  userInfo:(id)userInfo
 {
-	self = [self initWithUserInfo:userInfo responseEvaluator:^BOOL(NSData *data) {
-		NSRange fullRange = NSMakeRange(0, [data length]);
-		NSRange prefixRange = NSMakeRange(0, 0);
-		if (prefix) prefixRange = [data rangeOfData:prefix options:NSDataSearchAnchored range:fullRange];
-		NSRange suffixRange = NSMakeRange([data length]-1, 0);
-		if (suffix) suffixRange = [data rangeOfData:suffix options:NSDataSearchAnchored | NSDataSearchBackwards range:fullRange];
+	self = [self initWithMaximumPacketLength:maxPacketLength userInfo:userInfo responseEvaluator:^BOOL(NSData *data) {
+		if (prefix == nil && suffix == nil) { return NO; }
+		if (prefix && [prefix length] > [data length]) { return NO; }
+		if (suffix && [suffix length] > [data length]) { return NO; }
 		
-		return prefixRange.location != NSNotFound && suffixRange.location != NSNotFound;
+		for (NSUInteger i=0; i<[prefix length]; i++) {
+			uint8_t prefixByte = ((uint8_t *)[prefix bytes])[i];
+			uint8_t dataByte = ((uint8_t *)[data bytes])[i];
+			if (prefixByte != dataByte) { return NO; }
+		}
+		
+		for (NSUInteger i=0; i<[suffix length]; i++) {
+			uint8_t suffixByte = ((uint8_t *)[suffix bytes])[([suffix length]-1-i)];
+			uint8_t dataByte = ((uint8_t *)[data bytes])[([data length]-1-i)];
+			if (suffixByte != dataByte) { return NO; }
+		}
+		
+		return YES;
 	}];
 	if (self) {
 		_prefix = prefix;
@@ -69,19 +85,21 @@
 	return self;
 }
 
-- (instancetype)initWithPrefixString:(nullable NSString *)prefixString
-						suffixString:(nullable NSString *)suffixString
-					  userInfo:(nullable id)userInfo
+- (instancetype)initWithPrefixString:(NSString *)prefixString
+						suffixString:(NSString *)suffixString
+				 maximumPacketLength:(NSUInteger)maxPacketLength
+							userInfo:(id)userInfo;
 {
 	NSData *prefixData = [prefixString dataUsingEncoding:NSUTF8StringEncoding];
 	NSData *suffixData = [suffixString dataUsingEncoding:NSUTF8StringEncoding];
-	return [self initWithPrefix:prefixData suffix:suffixData userInfo:userInfo];
+	return [self initWithPrefix:prefixData suffix:suffixData maximumPacketLength:maxPacketLength userInfo:userInfo];
 }
 
 - (instancetype)initWithRegularExpression:(NSRegularExpression *)regex
-								 userInfo:(nullable id)userInfo
+					  maximumPacketLength:(NSUInteger)maxPacketLength
+								 userInfo:(id)userInfo;
 {
-	self = [self initWithUserInfo:userInfo responseEvaluator:^BOOL(NSData *data) {
+	self = [self initWithMaximumPacketLength:maxPacketLength userInfo:userInfo responseEvaluator:^BOOL(NSData *data) {
 		NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 		if (!string) return NO;
 		
@@ -102,7 +120,7 @@
 
 - (NSUInteger)hash { return [self.uuid hash]; }
 
-- (BOOL)dataIsValidPacket:(nullable NSData *)packetData
+- (BOOL)dataIsValidPacket:(NSData *)packetData
 {
 	if (!self.responseEvaluator) return YES;
 	return self.responseEvaluator(packetData);

@@ -38,7 +38,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * Block that parses input data and returns a packet extracted from that data, or nil
+ * Block that parses input data and returns YES if inputData consists of a valid packet, or NO
  * if inputData doesn't contain a valid packet.
  */
 typedef BOOL(^ORSSerialPacketEvaluator)(NSData * __nullable inputData);
@@ -59,7 +59,7 @@ typedef BOOL(^ORSSerialPacketEvaluator)(NSData * __nullable inputData);
  *  For request/response protocols, see ORSSerialRequest, etc.
  *
  *  For more information about ORSSerialPort's packet descriptor API, see the ORSSerialPort Packet Parsing
- *  Programming Guide at 
+ *  Programming Guide at
  */
 @interface ORSSerialPacketDescriptor : NSObject
 
@@ -72,23 +72,25 @@ typedef BOOL(^ORSSerialPacketEvaluator)(NSData * __nullable inputData);
  *  or regular expression, a response evaulator block containing arbitrary validation code can be
  *  provided instead.
  *
+ *  @param maxPacketLength The maximum length of a valid packet. This value _must_ be correctly specified.
  *  @param userInfo          An arbitrary userInfo object.
  *  @param responseEvaluator A block used to evaluate whether received data constitutes a valid packet.
  *
  *  @return An initizliaized ORSSerialPacketDesciptor instance.
  *
- *  @see -initWithPrefix:suffix:userInfo:
- *  @see -initWithPrefixString:suffixString:userInfo:
- *  @see -initWithRegularExpression:userInfo:
+ *  @see -initWithPrefix:suffix:maximumPacketLength:userInfo:
+ *  @see -initWithPrefixString:suffixString:maximumPacketLength:userInfo:
+ *  @see -initWithRegularExpression:maximumPacketLength:userInfo:
  */
-- (instancetype)initWithUserInfo:(nullable id)userInfo
-			   responseEvaluator:(ORSSerialPacketEvaluator)responseEvaluator NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithMaximumPacketLength:(NSUInteger)maxPacketLength
+								   userInfo:(nullable id)userInfo
+						  responseEvaluator:(ORSSerialPacketEvaluator)responseEvaluator NS_DESIGNATED_INITIALIZER;
 
 /**
  *  Creates an initializes an ORSSerialPacketDescriptor instance using a prefix and/or suffix.
  *
- *  If the packet format uses printable ASCII characters, -initWithPrefixString:suffixString:userInfo:
- *  may be more suitable.
+ *  If the packet format uses printable ASCII characters,
+ *  -initWithPrefixString:suffixString:maximumPacketLength:userInfo: may be more suitable.
  *
  *  @note Either prefix or suffix may be nil, but not both. If the suffix is nil,
  *  packets will be considered to consist solely of prefix. If either value is nil, packets
@@ -96,6 +98,7 @@ typedef BOOL(^ORSSerialPacketEvaluator)(NSData * __nullable inputData);
  *
  *  @param prefix   An NSData instance containing a fixed packet prefix. May be nil.
  *  @param suffix   An NSData instance containing a fixed packet suffix. May be nil.
+ *  @param maxPacketLength The maximum length of a valid packet. This value _must_ be correctly specified.
  *  @param userInfo An arbitrary userInfo object. May be nil.
  *
  *  @return An initizliaized ORSSerialPacketDesciptor instance.
@@ -104,29 +107,32 @@ typedef BOOL(^ORSSerialPacketEvaluator)(NSData * __nullable inputData);
  */
 - (instancetype)initWithPrefix:(nullable NSData *)prefix
 						suffix:(nullable NSData *)suffix
+		   maximumPacketLength:(NSUInteger)maxPacketLength
 					  userInfo:(nullable id)userInfo;
 
 /**
  *  Creates an initializes an ORSSerialPacketDescriptor instance using a prefix string and/or suffix string.
  *
  *  This method assumes that prefixString and suffixString are ASCII or UTF8 strings.
- *  If the packet format does not use printable ASCII characters, -initWithPrefix:suffix:userInfo:
+ *  If the packet format does not use printable ASCII characters, -initWithPrefix:suffix:maximumPacketLength:userInfo:
  *  may be more suitable.
  *
- *  @note Either prefixString or suffixString may be nil, but not both. If the suffix is nil, 
+ *  @note Either prefixString or suffixString may be nil, but not both. If the suffix is nil,
  *  packets will be considered to consist solely of prefix. If either value is nil, packets
  *  will be considred to consist soley of the the non-nil value.
  *
  *  @param prefixString A fixed packet prefix string. May be nil.
  *  @param suffixString A fixed packet suffix string. May be nil.
+ *  @param maxPacketLength The maximum length of a valid packet. This value _must_ be correctly specified.
  *  @param userInfo     An arbitrary userInfo object. May be nil.
  *
  *  @return An initizliaized ORSSerialPacketDesciptor instance.
  *
- *  @see -initWithPrefix:suffix:userInfo:
+ *  @see -initWithPrefix:suffix:maximumPacketLength:userInfo:
  */
 - (instancetype)initWithPrefixString:(nullable NSString *)prefixString
 						suffixString:(nullable NSString *)suffixString
+				 maximumPacketLength:(NSUInteger)maxPacketLength
 							userInfo:(nullable id)userInfo;
 
 /**
@@ -136,14 +142,17 @@ typedef BOOL(^ORSSerialPacketEvaluator)(NSData * __nullable inputData);
  *  regular expression. For this reason, the regex should match as conservatively (smallest match) as possible.
  *
  *  Packets described by descriptors created using this method are assumed to be ASCII or UTF8 strings.
- *  If your packets are not naturally represented as strings, consider using -initWithUserInfo:responseEvaluator: instead.
+ *  If your packets are not naturally represented as strings, consider using
+ *  -initWithMaximumPacketLength:userInfo:responseEvaluator: instead.
  *
  *  @param regex    An NSRegularExpression instance for which valid packets are a match.
+ *  @param maxPacketLength The maximum length of a valid packet. This value _must_ be correctly specified.
  *  @param userInfo An arbitrary userInfoObject. May be nil.
  *
  *  @return An initizliaized ORSSerialPacketDesciptor instance.
  */
 - (instancetype)initWithRegularExpression:(NSRegularExpression *)regex
+					  maximumPacketLength:(NSUInteger)maxPacketLength
 								 userInfo:(nullable id)userInfo;
 
 /**
@@ -157,7 +166,7 @@ typedef BOOL(^ORSSerialPacketEvaluator)(NSData * __nullable inputData);
 - (BOOL)dataIsValidPacket:(nullable NSData *)packetData;
 
 /**
- *  The prefix for packets described by the receiver. Will be nil for packet 
+ *  The prefix for packets described by the receiver. Will be nil for packet
  *  descriptors not created using one of the prefix/suffix initializer methods.
  */
 @property (nonatomic, strong, readonly, nullable) NSData *prefix;
@@ -173,6 +182,11 @@ typedef BOOL(^ORSSerialPacketEvaluator)(NSData * __nullable inputData);
  *  for packet descriptors not created using -initWithRegularExpression:userInfo:.
  */
 @property (nonatomic, strong, readonly, nullable) NSRegularExpression *regularExpression;
+
+/**
+ *  The maximum lenght of a packet described by the receiver.
+ */
+@property (nonatomic, readonly) NSUInteger maximumPacketLength;
 
 /**
  *  Arbitrary object (e.g. NSDictionary) used to store additional data
