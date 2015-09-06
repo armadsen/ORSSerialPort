@@ -86,7 +86,7 @@
 				   timeoutInterval:(NSTimeInterval)timeout
 				 responseEvaluator:(ORSSerialPacketEvaluator)responseEvaluator;
 {
-	ORSSerialPacketDescriptor *descriptor = [[ORSSerialPacketDescriptor alloc] initWithMaximumPacketLength:NSUIntegerMax
+	ORSSerialPacketDescriptor *descriptor = [[ORSSerialPacketDescriptor alloc] initWithMaximumPacketLength:NSIntegerMax
 																								  userInfo:nil
 																						 responseEvaluator:responseEvaluator];
 	return [self initWithDataToSend:dataToSend userInfo:userInfo timeoutInterval:timeout responseDescriptor:descriptor];

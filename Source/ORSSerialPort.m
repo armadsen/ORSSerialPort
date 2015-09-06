@@ -26,6 +26,7 @@
 
 #import "ORSSerialPort.h"
 #import "ORSSerialRequest.h"
+#import "ORSSerialBuffer.h"
 #import <IOKit/serial/IOSerialKeys.h>
 #import <IOKit/serial/ioss.h>
 #import <sys/param.h>
@@ -62,7 +63,7 @@ static __strong NSMutableArray *allSerialPorts;
 @property int fileDescriptor;
 @property (copy, readwrite) NSString *name;
 
-@property (strong) NSMutableData *requestResponseReceiveBuffer;
+@property (strong) ORSSerialBuffer *requestResponseReceiveBuffer;
 
 // Packet descriptors
 @property (nonatomic, strong) NSMapTable *packetDescriptorsAndBuffers;
@@ -172,7 +173,6 @@ static __strong NSMutableArray *allSerialPorts;
 		self.ioKitDevice = device;
 		self.path = bsdPath;
 		self.name = [[self class] modemNameFromDevice:device];
-		self.requestResponseReceiveBuffer = [NSMutableData data];
 		self.requestHandlingQueue = dispatch_queue_create("com.openreelsoftware.ORSSerialPort.requestHandlingQueue", 0);
 #if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_8
 		self.packetDescriptorsAndBuffers = [NSMapTable strongToStrongObjectsMapTable];
@@ -471,7 +471,8 @@ static __strong NSMutableArray *allSerialPorts;
 	if ([self.packetDescriptorsAndBuffers objectForKey:descriptor]) return; // Already listening
 	
 	[self willChangeValueForKey:@"packetDescriptorsAndBuffers"];
-	[self.packetDescriptorsAndBuffers setObject:[NSMutableData data] forKey:descriptor];
+	ORSSerialBuffer *buffer = [[ORSSerialBuffer alloc] initWithMaximumLength:descriptor.maximumPacketLength];
+	[self.packetDescriptorsAndBuffers setObject:buffer forKey:descriptor];
 	[self didChangeValueForKey:@"packetDescriptorsAndBuffers"];
 }
 
@@ -486,8 +487,8 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (void)clearBufferForPacketDescriptor:(ORSSerialPacketDescriptor *)descriptor
 {
-	NSMutableData *buffer = [self.packetDescriptorsAndBuffers objectForKey:descriptor];
-	[buffer setData:[NSData data]]; // Clear buffer
+	ORSSerialBuffer *buffer = [self.packetDescriptorsAndBuffers objectForKey:descriptor];
+	[buffer clearBuffer];
 }
 
 // Must only be called on requestHandlingQueue (ie. wrap call to this method in dispatch())
@@ -506,9 +507,8 @@ static __strong NSMutableArray *allSerialPorts;
 {
 	if (!self.pendingRequest)
 	{
-		[self.requestResponseReceiveBuffer replaceBytesInRange:NSMakeRange(0, [self.requestResponseReceiveBuffer length])
-													 withBytes:NULL
-														length:0];
+		NSUInteger bufferLength = request.responseDescriptor.maximumPacketLength;
+		self.requestResponseReceiveBuffer = [[ORSSerialBuffer alloc] initWithMaximumLength:bufferLength];
 		
 		// Send immediately
 		self.pendingRequest = request;
@@ -575,7 +575,7 @@ static __strong NSMutableArray *allSerialPorts;
 	}
 	
 	[self.requestResponseReceiveBuffer appendData:byte];
-	NSData *responseData = [self packetMatchingDescriptor:packetDescriptor atEndOfBuffer:self.requestResponseReceiveBuffer];
+	NSData *responseData = [self packetMatchingDescriptor:packetDescriptor atEndOfBuffer:self.requestResponseReceiveBuffer.data];
 	if (!responseData) return;
 	
 	self.pendingRequestTimeoutTimer = nil;
@@ -613,11 +613,11 @@ static __strong NSMutableArray *allSerialPorts;
 			for (ORSSerialPacketDescriptor *descriptor in self.packetDescriptorsAndBuffers)
 			{
 				// Append byte to buffer
-				NSMutableData *buffer = [self.packetDescriptorsAndBuffers objectForKey:descriptor];
+				ORSSerialBuffer *buffer = [self.packetDescriptorsAndBuffers objectForKey:descriptor];
 				[buffer appendData:byte];
 				
 				// Check for complete packet
-				NSData *completePacket = [self packetMatchingDescriptor:descriptor atEndOfBuffer:buffer];
+				NSData *completePacket = [self packetMatchingDescriptor:descriptor atEndOfBuffer:buffer.data];
 				if (![completePacket length]) continue;
 				
 				// Complete packet received, so notify delegate then clear buffer
