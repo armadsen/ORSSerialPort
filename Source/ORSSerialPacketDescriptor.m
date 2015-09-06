@@ -40,10 +40,13 @@
 	return nil;
 }
 
-- (instancetype)initWithUserInfo:(id)userInfo responseEvaluator:(ORSSerialPacketEvaluator)responseEvaluator
+- (instancetype)initWithMaximumPacketLength:(NSUInteger)maxPacketLength
+								   userInfo:(id)userInfo
+						  responseEvaluator:(ORSSerialPacketEvaluator)responseEvaluator
 {
 	self = [super init];
 	if (self) {
+		_maximumPacketLength = maxPacketLength;
 		_userInfo = userInfo;
 		_responseEvaluator = [responseEvaluator ?: ^BOOL(NSData *d){ return [d length] > 0; } copy];
 		_uuid = [NSUUID UUID];
@@ -51,9 +54,12 @@
 	return self;
 }
 
-- (instancetype)initWithPrefix:(NSData *)prefix suffix:(NSData *)suffix userInfo:(id)userInfo
+- (instancetype)initWithPrefix:(NSData *)prefix
+						suffix:(NSData *)suffix
+		   maximumPacketLength:(NSUInteger)maxPacketLength
+					  userInfo:(id)userInfo
 {
-	self = [self initWithUserInfo:userInfo responseEvaluator:^BOOL(NSData *data) {
+	self = [self initWithMaximumPacketLength:maxPacketLength userInfo:userInfo responseEvaluator:^BOOL(NSData *data) {
 		if (prefix == nil && suffix == nil) { return NO; }
 		if (prefix && [prefix length] > [data length]) { return NO; }
 		if (suffix && [suffix length] > [data length]) { return NO; }
@@ -79,19 +85,21 @@
 	return self;
 }
 
-- (instancetype)initWithPrefixString:(nullable NSString *)prefixString
-						suffixString:(nullable NSString *)suffixString
-					  userInfo:(nullable id)userInfo
+- (instancetype)initWithPrefixString:(NSString *)prefixString
+						suffixString:(NSString *)suffixString
+				 maximumPacketLength:(NSUInteger)maxPacketLength
+							userInfo:(id)userInfo;
 {
 	NSData *prefixData = [prefixString dataUsingEncoding:NSUTF8StringEncoding];
 	NSData *suffixData = [suffixString dataUsingEncoding:NSUTF8StringEncoding];
-	return [self initWithPrefix:prefixData suffix:suffixData userInfo:userInfo];
+	return [self initWithPrefix:prefixData suffix:suffixData maximumPacketLength:maxPacketLength userInfo:userInfo];
 }
 
 - (instancetype)initWithRegularExpression:(NSRegularExpression *)regex
-								 userInfo:(nullable id)userInfo
+					  maximumPacketLength:(NSUInteger)maxPacketLength
+								 userInfo:(id)userInfo;
 {
-	self = [self initWithUserInfo:userInfo responseEvaluator:^BOOL(NSData *data) {
+	self = [self initWithMaximumPacketLength:maxPacketLength userInfo:userInfo responseEvaluator:^BOOL(NSData *data) {
 		NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 		if (!string) return NO;
 		
@@ -112,7 +120,7 @@
 
 - (NSUInteger)hash { return [self.uuid hash]; }
 
-- (BOOL)dataIsValidPacket:(nullable NSData *)packetData
+- (BOOL)dataIsValidPacket:(NSData *)packetData
 {
 	if (!self.responseEvaluator) return YES;
 	return self.responseEvaluator(packetData);

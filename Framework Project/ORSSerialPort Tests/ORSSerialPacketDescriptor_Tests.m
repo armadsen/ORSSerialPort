@@ -46,7 +46,10 @@
 {
 	NSData *prefix = [@"!" dataUsingEncoding:NSASCIIStringEncoding];
 	NSData *suffix = [@";" dataUsingEncoding:NSASCIIStringEncoding];
-	ORSSerialPacketDescriptor *descriptor = [[ORSSerialPacketDescriptor alloc] initWithPrefix:prefix suffix:suffix userInfo:nil];
+	ORSSerialPacketDescriptor *descriptor = [[ORSSerialPacketDescriptor alloc] initWithPrefix:prefix
+																					   suffix:suffix
+											 maximumPacketLength:5
+																					 userInfo:nil];
 	XCTAssertNotNil(descriptor, @"Creating packet descriptor with prefix and suffix failed.");
 	XCTAssertEqualObjects(descriptor.prefix, prefix, @"Desriptor prefix property incorrect.");
 	XCTAssertEqualObjects(descriptor.suffix, suffix, @"Desriptor suffix property incorrect.");
@@ -62,7 +65,10 @@
 
 - (void)testPrefixSuffixStrings
 {
-	ORSSerialPacketDescriptor *descriptor = [[ORSSerialPacketDescriptor alloc] initWithPrefixString:@"!" suffixString:@";" userInfo:nil];
+	ORSSerialPacketDescriptor *descriptor = [[ORSSerialPacketDescriptor alloc] initWithPrefixString:@"!"
+																					   suffixString:@";"
+																				maximumPacketLength:5
+																						   userInfo:nil];
 	XCTAssertNotNil(descriptor, @"Creating packet descriptor with prefix and suffix failed.");
 	XCTAssertEqualObjects(descriptor.prefix, [@"!" dataUsingEncoding:NSASCIIStringEncoding], @"Desriptor prefix property incorrect.");
 	XCTAssertEqualObjects(descriptor.suffix, [@";" dataUsingEncoding:NSASCIIStringEncoding], @"Desriptor suffix property incorrect.");
@@ -81,7 +87,10 @@
 	XCTestExpectation *expectation = [self expectationWithDescription:@"Missing suffix packet parsing expectation."];
 	NSDictionary *userInfo = @{[@";" dataUsingEncoding:NSASCIIStringEncoding] : expectation};
 	NSData *suffix = [@";" dataUsingEncoding:NSASCIIStringEncoding];
-	ORSSerialPacketDescriptor *descriptor = [[ORSSerialPacketDescriptor alloc] initWithPrefix:nil suffix:suffix userInfo:userInfo];
+	ORSSerialPacketDescriptor *descriptor = [[ORSSerialPacketDescriptor alloc] initWithPrefix:nil
+																					   suffix:suffix
+																		  maximumPacketLength:5
+																					 userInfo:userInfo];
 	XCTAssertNotNil(descriptor, @"Creating packet descriptor with prefix and suffix failed.");
 	XCTAssertEqualObjects(descriptor.suffix, suffix, @"Desriptor suffix property incorrect.");
 	XCTAssertNil(descriptor.prefix, @"Desriptor prefix property incorrect.");
@@ -108,7 +117,10 @@
 	XCTestExpectation *expectation = [self expectationWithDescription:@"Missing suffix packet parsing expectation."];
 	NSDictionary *userInfo = @{[@"!" dataUsingEncoding:NSASCIIStringEncoding] : expectation};
 	NSData *prefix = [@"!" dataUsingEncoding:NSASCIIStringEncoding];
-	ORSSerialPacketDescriptor *descriptor = [[ORSSerialPacketDescriptor alloc] initWithPrefix:prefix suffix:nil userInfo:userInfo];
+	ORSSerialPacketDescriptor *descriptor = [[ORSSerialPacketDescriptor alloc] initWithPrefix:prefix
+																					   suffix:nil
+																		  maximumPacketLength:5
+																					 userInfo:userInfo];
 	XCTAssertNotNil(descriptor, @"Creating packet descriptor with prefix and suffix failed.");
 	XCTAssertEqualObjects(descriptor.prefix, prefix, @"Desriptor prefix property incorrect.");
 	XCTAssertNil(descriptor.suffix, @"Desriptor suffix property incorrect.");
@@ -133,7 +145,9 @@
 - (void)testRegex
 {
 	NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"^!.+;$" options:0 error:NULL];
-	ORSSerialPacketDescriptor *descriptor = [[ORSSerialPacketDescriptor alloc] initWithRegularExpression:regex userInfo:nil];
+	ORSSerialPacketDescriptor *descriptor = [[ORSSerialPacketDescriptor alloc] initWithRegularExpression:regex
+																					 maximumPacketLength:5
+																								userInfo:nil];
 	XCTAssertNotNil(descriptor, @"Creating packet descriptor with regular expression failed.");
 	XCTAssertEqualObjects(descriptor.regularExpression, regex, @"Descriptor regex property incorrect.");
 	
@@ -173,6 +187,7 @@
 	ORSSerialPacketDescriptor *descriptor1 = [self defaultPacketDescriptorWithUserInfo:userInfo1];
 	ORSSerialPacketDescriptor *descriptor2 = [[ORSSerialPacketDescriptor alloc] initWithPrefix:[@"$" dataUsingEncoding:NSASCIIStringEncoding]
 																						suffix:[@";" dataUsingEncoding:NSASCIIStringEncoding]
+																		   maximumPacketLength:5
 																					  userInfo:userInfo2];
 	[self.port startListeningForPacketsMatchingDescriptor:descriptor1];
 	[self.port startListeningForPacketsMatchingDescriptor:descriptor2];
@@ -240,6 +255,7 @@
 	ORSSerialPacketDescriptor *descriptor1 = [self defaultPacketDescriptorWithUserInfo:userInfo1];
 	ORSSerialPacketDescriptor *descriptor2 = [[ORSSerialPacketDescriptor alloc] initWithPrefix:[@"$" dataUsingEncoding:NSASCIIStringEncoding]
 																						suffix:[@"%" dataUsingEncoding:NSASCIIStringEncoding]
+																		   maximumPacketLength:5
 																					  userInfo:userInfo2];
 	[self.port startListeningForPacketsMatchingDescriptor:descriptor1];
 	[self.port startListeningForPacketsMatchingDescriptor:descriptor2];
@@ -298,6 +314,7 @@
 		ORSSerialPacketDescriptor *descriptor1 = [self defaultPacketDescriptorWithUserInfo:userInfo1];
 		ORSSerialPacketDescriptor *descriptor2 = [[ORSSerialPacketDescriptor alloc] initWithPrefix:[@"$ba" dataUsingEncoding:NSASCIIStringEncoding]
 																							suffix:[@";" dataUsingEncoding:NSASCIIStringEncoding]
+																			   maximumPacketLength:5
 																						  userInfo:nil];
 		
 		[self.port startListeningForPacketsMatchingDescriptor:descriptor1];
@@ -328,7 +345,7 @@
 {
 	NSData *prefix = [@"!" dataUsingEncoding:NSASCIIStringEncoding];
 	NSData *suffix = [@";" dataUsingEncoding:NSASCIIStringEncoding];
-	return [[ORSSerialPacketDescriptor alloc] initWithPrefix:prefix suffix:suffix userInfo:userInfo];
+	return [[ORSSerialPacketDescriptor alloc] initWithPrefix:prefix suffix:suffix maximumPacketLength:20 userInfo:userInfo];
 }
 
 #pragma mark - ORSSerialPortDelegate
