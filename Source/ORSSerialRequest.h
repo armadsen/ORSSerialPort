@@ -68,23 +68,6 @@ NS_ASSUME_NONNULL_BEGIN
 					responseDescriptor:(nullable ORSSerialPacketDescriptor *)responseDescriptor;
 
 /**
- *  Creates and initializes an ORSSerialRequest instance.
- *
- *  @param dataToSend        The data to be sent on the serial port.
- *  @param userInfo          An arbitrary userInfo object.
- *  @param timeout			 The maximum amount of time in seconds to wait for a response. Pass -1.0 to wait indefinitely.
- *  @param responseEvaluator A block used to evaluate whether received data constitutes a valid response to the request.
- *  May be nil. If responseEvaluator is nil, the request is assumed not to require a response, and the next request in the queue will
- *  be sent immediately.
- *
- *  @return An initialized ORSSerialRequest instance.
- */
-+ (instancetype)requestWithDataToSend:(NSData *)dataToSend
-							 userInfo:(nullable id)userInfo
-					  timeoutInterval:(NSTimeInterval)timeout
-					responseEvaluator:(nullable ORSSerialPacketEvaluator)responseEvaluator;
-
-/**
  *  Initializes an ORSSerialRequest instance.
  *
  *  @param dataToSend			The data to be sent on the serial port.
@@ -100,23 +83,6 @@ NS_ASSUME_NONNULL_BEGIN
 						  userInfo:(nullable id)userInfo
 				   timeoutInterval:(NSTimeInterval)timeout
 				 responseDescriptor:(nullable ORSSerialPacketDescriptor *)responseDescriptor;
-
-/**
- *  Initializes an ORSSerialRequest instance.
- *
- *  @param dataToSend        The data to be sent on the serial port.
- *  @param userInfo          An arbitrary userInfo object.
- *  @param timeout			 The maximum amount of time in seconds to wait for a response. Pass -1.0 to wait indefinitely.
- *  @param responseEvaluator A block used to evaluate whether received data constitutes a valid response to the request.
- *  May be nil. If responseEvaluator is nil, the request is assumed not to require a response, and the next request in the queue will
- *  be sent immediately.
- *
- *  @return An initialized ORSSerialRequest instance.
- */
-- (instancetype)initWithDataToSend:(NSData *)dataToSend
-						  userInfo:(nullable id)userInfo
-				   timeoutInterval:(NSTimeInterval)timeout
-				 responseEvaluator:(nullable ORSSerialPacketEvaluator)responseEvaluator;
 
 /**
  *  Data to be sent on the serial port when the receiver is sent.
@@ -151,6 +117,43 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Deprecated
 
 @interface ORSSerialRequest (Deprecated)
+
+/**
+ *  @deprecated Use +requestWithDataToSend:userInfo:timeoutInterval:responseDescriptor: instead.
+ *
+ *  Creates and initializes an ORSSerialRequest instance.
+ *
+ *  @param dataToSend        The data to be sent on the serial port.
+ *  @param userInfo          An arbitrary userInfo object.
+ *  @param timeout			 The maximum amount of time in seconds to wait for a response. Pass -1.0 to wait indefinitely.
+ *  @param responseEvaluator A block used to evaluate whether received data constitutes a valid response to the request.
+ *  May be nil. If responseEvaluator is nil, the request is assumed not to require a response, and the next request in the queue will
+ *  be sent immediately.
+ *
+ *  @return An initialized ORSSerialRequest instance.
+ */
++ (instancetype)requestWithDataToSend:(NSData *)dataToSend
+							 userInfo:(nullable id)userInfo
+					  timeoutInterval:(NSTimeInterval)timeout
+					responseEvaluator:(nullable ORSSerialPacketEvaluator)responseEvaluator DEPRECATED_ATTRIBUTE;
+
+/**
+ *  @deprecated Use -initWithDataToSend:userInfo:timeoutInterval:responseDescriptor: instead.
+ *  Initializes an ORSSerialRequest instance.
+ *
+ *  @param dataToSend        The data to be sent on the serial port.
+ *  @param userInfo          An arbitrary userInfo object.
+ *  @param timeout			 The maximum amount of time in seconds to wait for a response. Pass -1.0 to wait indefinitely.
+ *  @param responseEvaluator A block used to evaluate whether received data constitutes a valid response to the request.
+ *  May be nil. If responseEvaluator is nil, the request is assumed not to require a response, and the next request in the queue will
+ *  be sent immediately.
+ *
+ *  @return An initialized ORSSerialRequest instance.
+ */
+- (instancetype)initWithDataToSend:(NSData *)dataToSend
+						  userInfo:(nullable id)userInfo
+				   timeoutInterval:(NSTimeInterval)timeout
+				 responseEvaluator:(nullable ORSSerialPacketEvaluator)responseEvaluator DEPRECATED_ATTRIBUTE;
 
 /**
  *  @deprecated Use the receiver's responseDescriptor object's -dataIsValidPacket: method instead.
