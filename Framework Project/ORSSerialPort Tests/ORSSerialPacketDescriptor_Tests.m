@@ -119,7 +119,7 @@
 	XCTAssertFalse([descriptor dataIsValidPacket:ORSTStringToData_(@"foo")], @"Invalid packet not rejected by descriptor.");
 	
 	[self.port startListeningForPacketsMatchingDescriptor:descriptor];
-
+	
 	NSData *buffer = [@"!foobar" dataUsingEncoding:NSASCIIStringEncoding];
 	[self.port receiveData:buffer];
 	
@@ -285,6 +285,41 @@
 			NSLog(@"expectations failed: %@", error);
 		}
 	}];
+}
+
+#pragma mark - Performance
+
+- (void)testPerformanceWithMultipleInstalledDescriptors
+{
+	[self measureMetrics:@[XCTPerformanceMetric_WallClockTime] automaticallyStartMeasuring:YES forBlock:^{
+		XCTestExpectation *expectation1 = [self expectationWithDescription:@"Multiple packets type 1 parsing expectation"];
+		
+		NSDictionary *userInfo1 = @{[@"!foo;" dataUsingEncoding:NSASCIIStringEncoding]: expectation1};
+		ORSSerialPacketDescriptor *descriptor1 = [self defaultPacketDescriptorWithUserInfo:userInfo1];
+		ORSSerialPacketDescriptor *descriptor2 = [[ORSSerialPacketDescriptor alloc] initWithPrefix:[@"$ba" dataUsingEncoding:NSASCIIStringEncoding]
+																							suffix:[@";" dataUsingEncoding:NSASCIIStringEncoding]
+																						  userInfo:nil];
+		
+		[self.port startListeningForPacketsMatchingDescriptor:descriptor1];
+		[self.port startListeningForPacketsMatchingDescriptor:descriptor2];
+		
+		for (NSUInteger i=0; i<320; i++) {
+			[self.port receiveData:[@"$bar" dataUsingEncoding:NSASCIIStringEncoding]];
+			[self.port receiveData:[@";" dataUsingEncoding:NSASCIIStringEncoding]];
+		}
+		[self.port receiveData:[@"!foo;" dataUsingEncoding:NSASCIIStringEncoding]];
+		
+		[self waitForExpectationsWithTimeout:100 handler:^(NSError *error) {
+			if (error) {
+				NSLog(@"expectations failed: %@", error);
+			}
+			
+			[self.port stopListeningForPacketsMatchingDescriptor:descriptor1];
+			[self.port stopListeningForPacketsMatchingDescriptor:descriptor2];
+		}];
+		
+	}];
+	
 }
 
 #pragma mark - Utilties
