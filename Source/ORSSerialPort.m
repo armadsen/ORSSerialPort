@@ -565,6 +565,8 @@ static __strong NSMutableArray *allSerialPorts;
 // Must only be called on requestHandlingQueue
 - (void)checkResponseToPendingRequestAndContinueIfValidWithReceivedByte:(NSData *)byte
 {
+	if (!self.pendingRequest) return; // Nothing to do
+	
 	ORSSerialPacketDescriptor *packetDescriptor = self.pendingRequest.responseDescriptor;
 	
 	if (!byte) {
