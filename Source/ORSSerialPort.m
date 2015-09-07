@@ -471,25 +471,21 @@ static __strong NSMutableArray *allSerialPorts;
 	if ([self.packetDescriptorsAndBuffers objectForKey:descriptor]) return; // Already listening
 	
 	[self willChangeValueForKey:@"packetDescriptorsAndBuffers"];
-	ORSSerialBuffer *buffer = [[ORSSerialBuffer alloc] initWithMaximumLength:descriptor.maximumPacketLength];
-	[self.packetDescriptorsAndBuffers setObject:buffer forKey:descriptor];
+	dispatch_sync(self.requestHandlingQueue, ^{
+		ORSSerialBuffer *buffer = [[ORSSerialBuffer alloc] initWithMaximumLength:descriptor.maximumPacketLength];
+		[self.packetDescriptorsAndBuffers setObject:buffer forKey:descriptor];
+	});
 	[self didChangeValueForKey:@"packetDescriptorsAndBuffers"];
 }
 
 - (void)stopListeningForPacketsMatchingDescriptor:(ORSSerialPacketDescriptor *)descriptor;
 {
 	[self willChangeValueForKey:@"packetDescriptorsAndBuffers"];
-	[self.packetDescriptorsAndBuffers removeObjectForKey:descriptor];
+	dispatch_sync(self.requestHandlingQueue, ^{ [self.packetDescriptorsAndBuffers removeObjectForKey:descriptor]; });
 	[self didChangeValueForKey:@"packetDescriptorsAndBuffers"];
 }
 
 #pragma mark - Private Methods
-
-- (void)clearBufferForPacketDescriptor:(ORSSerialPacketDescriptor *)descriptor
-{
-	ORSSerialBuffer *buffer = [self.packetDescriptorsAndBuffers objectForKey:descriptor];
-	[buffer clearBuffer];
-}
 
 // Must only be called on requestHandlingQueue (ie. wrap call to this method in dispatch())
 - (NSData *)packetMatchingDescriptor:(ORSSerialPacketDescriptor *)descriptor atEndOfBuffer:(NSData *)buffer
@@ -627,7 +623,7 @@ static __strong NSMutableArray *allSerialPorts;
 						[self.delegate serialPort:self didReceivePacket:completePacket matchingDescriptor:descriptor];
 					});
 				}
-				[self clearBufferForPacketDescriptor:descriptor];
+				[buffer clearBuffer];
 			}
 			
 			// Also check for response to pending request
