@@ -47,32 +47,32 @@ class SerialBoardController: NSObject, ORSSerialPortDelegate {
 	// MARK: Sending Commands
 	private func readTemperature() {
 		let command = "$TEMP?;".dataUsingEncoding(NSASCIIStringEncoding)!
+		let responseDescriptor = ORSSerialPacketDescriptor(prefixString: "!TEMP", suffixString: ";", maximumPacketLength: 10, userInfo: nil)
 		let request = ORSSerialRequest(dataToSend: command,
 			userInfo: SerialBoardRequestType.ReadTemperature.rawValue,
-			timeoutInterval: 0.5) { (data) -> ObjCBool in
-				return ObjCBool(self.temperatureFromResponsePacket(data!) != nil)
-		}
+			timeoutInterval: 0.5,
+			responseDescriptor: responseDescriptor)
 		self.serialPort?.sendRequest(request)
 	}
 	
 	private func readLEDState() {
 		let command = "$LED?;".dataUsingEncoding(NSASCIIStringEncoding)!
+		let responseDescriptor = ORSSerialPacketDescriptor(prefixString: "!LED", suffixString: ";", maximumPacketLength: 10, userInfo: nil)
 		let request = ORSSerialRequest(dataToSend: command,
 			userInfo: SerialBoardRequestType.ReadLED.rawValue,
-			timeoutInterval: kTimeoutDuration) { (data) -> ObjCBool in
-				return ObjCBool(self.LEDStateFromResponsePacket(data!) != nil)
-		}
+			timeoutInterval: kTimeoutDuration,
+			responseDescriptor: responseDescriptor)
 		self.serialPort?.sendRequest(request)
 	}
 	
 	private func sendCommandToSetLEDToState(state: Bool) {
 		let commandString = NSString(format: "$LED%@;", (state ? "1" : "0"))
 		let command = commandString.dataUsingEncoding(NSASCIIStringEncoding)!
+		let responseDescriptor = ORSSerialPacketDescriptor(prefixString: "!LED", suffixString: ";", maximumPacketLength: 10, userInfo: nil)
 		let request = ORSSerialRequest(dataToSend: command,
 			userInfo: SerialBoardRequestType.SetLED.rawValue,
-			timeoutInterval: kTimeoutDuration) { (data) -> ObjCBool in
-				return ObjCBool(self.LEDStateFromResponsePacket(data!) != nil)
-		}
+			timeoutInterval: kTimeoutDuration,
+			responseDescriptor: responseDescriptor)
 		self.serialPort?.sendRequest(request)
 	}
 	
