@@ -164,7 +164,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = ORS;
-				LastUpgradeCheck = 0640;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Open Reel Software";
 			};
 			buildConfigurationList = 9D66D808159BCAB800EE6D09 /* Build configuration list for PBXProject "ORSSerialPortDemo" */;
@@ -244,9 +244,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_MODULES = YES;
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -272,7 +272,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_MODULES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -296,6 +295,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INFOPLIST_FILE = "Resources/ORSSerialPortDemo-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.openreelsoftware.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = ORSSerialPortDemo;
 				WRAPPER_EXTENSION = app;
 			};
@@ -308,6 +308,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INFOPLIST_FILE = "Resources/ORSSerialPortDemo-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.openreelsoftware.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = ORSSerialPortDemo;
 				WRAPPER_EXTENSION = app;
 			};

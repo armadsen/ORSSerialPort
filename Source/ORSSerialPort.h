@@ -37,6 +37,14 @@
 #define __nullable
 #endif
 
+#ifndef ORSArrayOf
+	#if __has_feature(objc_generics)
+		#define ORSArrayOf(TYPE) NSArray<TYPE>
+	#else
+		#define ORSArrayOf(TYPE) NSArray
+	#endif
+#endif // #ifndef ORSArrayOf
+
 //#define LOG_SERIAL_PORT_ERRORS
 typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
 	ORSSerialPortParityNone = 0,
@@ -47,6 +55,7 @@ typedef NS_ENUM(NSUInteger, ORSSerialPortParity) {
 @protocol ORSSerialPortDelegate;
 
 @class ORSSerialRequest;
+@class ORSSerialPacketDescriptor;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -263,6 +272,63 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (BOOL)sendRequest:(ORSSerialRequest *)request;
 
+/**
+ *  Requests the cancellation of a queued (not yet sent) request. The request
+ *  is removed from the requests queue and will not be sent.
+ *
+ *  Note that a pending request cannot be cancelled, as it has already been sent and is
+ *  awaiting a response. If a pending request is passed in, this method will simply
+ *  do nothing. Because the requests queue is handled in the background, occasionally
+ *  a request may leave the queue and becoming pending after this method is called, 
+ *  causing cancellation to fail. If you need to absolutely guarantee that a request
+ *  is not sent you should avoid sending it rather than depending on later cancellation.
+ *
+ *  @param request The pending request to be cancelled.
+ */
+- (void)cancelQueuedRequest:(ORSSerialRequest *)request;
+
+/**
+ *  Cancels all queued requests. The requests queue is emptied.
+ *
+ *  Note that if there is a pending request, it is not cancelled, as it has already
+ *  been sent and is awaiting a response.
+ */
+- (void)cancelAllQueuedRequests;
+
+/** ---------------------------------------------------------------------------------------
+ * @name Listening For Packets
+ *  ---------------------------------------------------------------------------------------
+ */
+
+/**
+ *  Tells the receiver to begin listening for incoming packets matching the specified
+ *  descriptor.
+ *
+ *  When incoming data that constitutes a packet as described by descriptor is received,
+ *  the delegate method -serialPort:didReceivePacket:matchingDescriptor: will be called.
+ *
+ *  @param descriptor An ORSerialPacketDescriptor instance describing the packets the receiver
+ *  should listen for.
+ *
+ *  @see -stopListeningForPacketsMatchingDescriptor:
+ *  @see -serialPort:didReceivePacket:matchingDescriptor:
+ */
+- (void)startListeningForPacketsMatchingDescriptor:(ORSSerialPacketDescriptor *)descriptor;
+
+/**
+ *  Tells the receiver to stop listening for incoming packets matching the specified
+ *  descriptor. 
+ *
+ *  @note The passed in descriptor must be the exact same instance as was previously
+ *  provided to -startListeningForPacketsMatchingDescriptor:
+ *
+ *  @param descriptor An ORSSerialPacketDescriptor instance previously passed to
+ *  -startListeningForPacketsMatchingDescriptor:
+ *
+ *  @see -startListeningForPacketsMatchingDescriptor:
+ */
+- (void)stopListeningForPacketsMatchingDescriptor:(ORSSerialPacketDescriptor *)descriptor;
+
 /** ---------------------------------------------------------------------------------------
  * @name Delegate
  *  ---------------------------------------------------------------------------------------
@@ -301,7 +367,19 @@ NS_ASSUME_NONNULL_BEGIN
  *  @note This array does not contain the pending request, a sent request for which
  *  the port is awaiting a response.
  */
-@property (strong, readonly) NSArray *queuedRequests;
+@property (strong, readonly) ORSArrayOf(ORSSerialRequest *) *queuedRequests;
+
+/** ---------------------------------------------------------------------------------------
+ * @name Packet Parsing Properties
+ *  ---------------------------------------------------------------------------------------
+ */
+
+/**
+ *  An array of packet descriptors for which the port is listening. 
+ *
+ *  Returns an empty array if no packet descriptors are installed.
+ */
+@property (nonatomic, strong, readonly) ORSArrayOf(ORSSerialPacketDescriptor *) *packetDescriptors;
 
 /** ---------------------------------------------------------------------------------------
  * @name Port Properties
@@ -522,6 +600,16 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param request      The request to which the responseData is a respone.
  */
 - (void)serialPort:(ORSSerialPort *)serialPort didReceiveResponse:(NSData *)responseData toRequest:(ORSSerialRequest *)request;
+
+/**
+ *  Called when a valid, complete packet matching a descriptor installed with 
+ *  -startListeningForPacketsMatchingDescriptor: is received.
+ *
+ *  @param serialPort		The `ORSSerialPort` instance representing the port that received `packetData`.
+ *  @param packetData		The An `NSData` instance containing the received packet data.
+ *  @param descriptor		The packet descriptor object for which packetData is a match.
+ */
+- (void)serialPort:(ORSSerialPort *)serialPort didReceivePacket:(NSData *)packetData matchingDescriptor:(ORSSerialPacketDescriptor *)descriptor;
 
 /**
  *  Called when a the timeout interval for a previously sent request elapses without a valid
