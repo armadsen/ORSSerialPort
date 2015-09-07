@@ -40,6 +40,7 @@
 {
 	ORSSerialPacketDescriptor *descriptor = [[ORSSerialPacketDescriptor alloc] initWithPrefixString:@"!pos"
 																					   suffixString:@";"
+																				maximumPacketLength:8
 																						   userInfo:nil];
 	[serialPort startListeningForPacketsMatchingDescriptor:descriptor];
 }

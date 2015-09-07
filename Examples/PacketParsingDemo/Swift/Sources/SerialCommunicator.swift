@@ -26,7 +26,7 @@ class SerialCommunicator: NSObject, ORSSerialPortDelegate {
 	}
 	
 	func serialPortWasOpened(serialPort: ORSSerialPort) {
-		let descriptor = ORSSerialPacketDescriptor(prefixString: "!pos", suffixString: ";", userInfo: nil)
+		let descriptor = ORSSerialPacketDescriptor(prefixString: "!pos", suffixString: ";", maximumPacketLength: 8, userInfo: nil)
 		serialPort.startListeningForPacketsMatchingDescriptor(descriptor)
 	}
 	
