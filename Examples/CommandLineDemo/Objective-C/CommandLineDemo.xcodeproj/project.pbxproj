@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2788B8061BA05FFD0018C0E7 /* ORSSerialBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2788B8051BA05FFD0018C0E7 /* ORSSerialBuffer.m */; settings = {ASSET_TAGS = (); }; };
 		9D2B580C1ADC16E200B08D53 /* ORSSerialPort.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D2B58091ADC16E200B08D53 /* ORSSerialPort.m */; };
 		9D2B580D1ADC16E200B08D53 /* ORSSerialPortManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D2B580B1ADC16E200B08D53 /* ORSSerialPortManager.m */; };
 		9D2D68F71AC8524E00779F24 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D2D68F61AC8524E00779F24 /* IOKit.framework */; };
@@ -26,6 +27,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2788B8041BA05FFD0018C0E7 /* ORSSerialBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORSSerialBuffer.h; path = ../../../../Source/ORSSerialBuffer.h; sourceTree = "<group>"; };
+		2788B8051BA05FFD0018C0E7 /* ORSSerialBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ORSSerialBuffer.m; path = ../../../../Source/ORSSerialBuffer.m; sourceTree = "<group>"; };
 		9D2B58081ADC16E200B08D53 /* ORSSerialPort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORSSerialPort.h; path = ../../../../Source/ORSSerialPort.h; sourceTree = "<group>"; };
 		9D2B58091ADC16E200B08D53 /* ORSSerialPort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ORSSerialPort.m; path = ../../../../Source/ORSSerialPort.m; sourceTree = "<group>"; };
 		9D2B580A1ADC16E200B08D53 /* ORSSerialPortManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORSSerialPortManager.h; path = ../../../../Source/ORSSerialPortManager.h; sourceTree = "<group>"; };
@@ -55,6 +58,8 @@
 				9D2B58091ADC16E200B08D53 /* ORSSerialPort.m */,
 				9D2B580A1ADC16E200B08D53 /* ORSSerialPortManager.h */,
 				9D2B580B1ADC16E200B08D53 /* ORSSerialPortManager.m */,
+				2788B8041BA05FFD0018C0E7 /* ORSSerialBuffer.h */,
+				2788B8051BA05FFD0018C0E7 /* ORSSerialBuffer.m */,
 			);
 			name = ORSSerialPort;
 			sourceTree = "<group>";
@@ -155,6 +160,7 @@
 			files = (
 				9D2B580D1ADC16E200B08D53 /* ORSSerialPortManager.m in Sources */,
 				9DF0453E1678336E00DA0CDA /* main.m in Sources */,
+				2788B8061BA05FFD0018C0E7 /* ORSSerialBuffer.m in Sources */,
 				9D2B580C1ADC16E200B08D53 /* ORSSerialPort.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
