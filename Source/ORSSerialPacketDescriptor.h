@@ -87,6 +87,18 @@ typedef BOOL(^ORSSerialPacketEvaluator)(NSData * __nullable inputData);
 						  responseEvaluator:(ORSSerialPacketEvaluator)responseEvaluator NS_DESIGNATED_INITIALIZER;
 
 /**
+ *	Creates an initializes an ORSSerialPacketDescriptor instance using fixed packet data.
+ *
+ *  This can be used to create a packet descriptor for packets which consist of a fixed sequence of data.
+ *
+ *  @param packetData	An NSData instance containing a fixed sequence of bytes making up a packet.
+ *  @param userInfo		An arbitrary userInfo object. May be nil.
+ *
+ *  @return An initizliaized ORSSerialPacketDesciptor instance.
+ */
+- (instancetype)initWithPacketData:(NSData *)packetData userInfo:(nullable id)userInfo;
+
+/**
  *  Creates an initializes an ORSSerialPacketDescriptor instance using a prefix and/or suffix.
  *
  *  If the packet format uses printable ASCII characters,
@@ -164,6 +176,12 @@ typedef BOOL(^ORSSerialPacketEvaluator)(NSData * __nullable inputData);
  *  @return YES if the data is a valid packet, NO otherwise.
  */
 - (BOOL)dataIsValidPacket:(nullable NSData *)packetData;
+
+/**
+ *  The fixed packetData for packets described by the receiver. Will be nil for packet
+ *  descriptors not created using -initWithPacketData:userInfo:
+ */
+@property (nonatomic, strong, readonly, nullable) NSData *packetData;
 
 /**
  *  The prefix for packets described by the receiver. Will be nil for packet

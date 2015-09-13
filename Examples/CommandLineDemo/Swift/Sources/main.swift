@@ -43,7 +43,7 @@ struct UserPrompter {
 	}
 	
 	func printPrompt() {
-		print("\n> ", appendNewline: false)
+		print("\n> ", terminator: "")
 	}
 	
 	func promptForSerialPort() {
@@ -57,7 +57,7 @@ struct UserPrompter {
 	}
 	
 	func promptForBaudRate() {
-		print("\nPlease enter a baud rate: ", appendNewline: false);
+		print("\nPlease enter a baud rate: ", terminator: "");
 	}
 }
 
@@ -111,7 +111,7 @@ class StateMachine : NSObject, ORSSerialPortDelegate {
 		selectionString = selectionString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
 		if let baudRate = Int(selectionString) {
 			self.serialPort?.baudRate = baudRate
-			print("Baud rate set to \(baudRate)", appendNewline: false)
+			print("Baud rate set to \(baudRate)", terminator: "")
 			return true
 		} else {
 			return false
@@ -131,13 +131,13 @@ class StateMachine : NSObject, ORSSerialPortDelegate {
 			switch self.currentState {
 			case .WaitingForPortSelectionState(let availablePorts):
 				if !setupAndOpenPortWithSelectionString(string, availablePorts: availablePorts) {
-					print("\nError: Invalid port selection.", appendNewline: false)
+					print("\nError: Invalid port selection.", terminator: "")
 					prompter.promptForSerialPort()
 					return
 				}
 			case .WaitingForBaudRateInputState:
 				if !setBaudRateOnPortWithString(string) {
-					print("\nError: Invalid baud rate. Baud rate should consist only of numeric digits.", appendNewline: false);
+					print("\nError: Invalid baud rate. Baud rate should consist only of numeric digits.", terminator: "")
 					prompter.promptForBaudRate();
 					return;
 				}
@@ -156,7 +156,7 @@ class StateMachine : NSObject, ORSSerialPortDelegate {
 	
 	func serialPort(serialPort: ORSSerialPort, didReceiveData data: NSData) {
 		if let string = NSString(data: data, encoding: NSUTF8StringEncoding) {
-			print("\nReceived: \"\(string)\" \(data)", appendNewline: false)
+			print("\nReceived: \"\(string)\" \(data)", terminator: "")
 		}
 		prompter.printPrompt()
 	}
@@ -170,7 +170,7 @@ class StateMachine : NSObject, ORSSerialPortDelegate {
 	}
 	
 	func serialPortWasOpened(serialPort: ORSSerialPort) {
-		print("Serial port \(serialPort) was opened", appendNewline: false)
+		print("Serial port \(serialPort) was opened", terminator: "")
 		prompter.promptForBaudRate()
 		currentState = .WaitingForBaudRateInputState
 	}

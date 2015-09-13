@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2720C0F11BA0612D00CC2BE3 /* ORSSerialBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2720C0F01BA0612D00CC2BE3 /* ORSSerialBuffer.m */; settings = {ASSET_TAGS = (); }; };
 		9D2B58071ADC16B500B08D53 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2B58061ADC16B500B08D53 /* main.swift */; };
 		9D2B58141ADC170C00B08D53 /* ORSSerialPort.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D2B58111ADC170C00B08D53 /* ORSSerialPort.m */; };
 		9D2B58151ADC170C00B08D53 /* ORSSerialPortManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D2B58131ADC170C00B08D53 /* ORSSerialPortManager.m */; };
@@ -27,6 +28,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2720C0EF1BA0612D00CC2BE3 /* ORSSerialBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORSSerialBuffer.h; path = ../../../../Source/ORSSerialBuffer.h; sourceTree = "<group>"; };
+		2720C0F01BA0612D00CC2BE3 /* ORSSerialBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ORSSerialBuffer.m; path = ../../../../Source/ORSSerialBuffer.m; sourceTree = "<group>"; };
 		9D2B57FB1ADC165D00B08D53 /* CommandLineDemo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CommandLineDemo; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D2B58061ADC16B500B08D53 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		9D2B580F1ADC170C00B08D53 /* CommandLineDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CommandLineDemo-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -84,6 +87,8 @@
 				9D2B58111ADC170C00B08D53 /* ORSSerialPort.m */,
 				9D2B58121ADC170C00B08D53 /* ORSSerialPortManager.h */,
 				9D2B58131ADC170C00B08D53 /* ORSSerialPortManager.m */,
+				2720C0EF1BA0612D00CC2BE3 /* ORSSerialBuffer.h */,
+				2720C0F01BA0612D00CC2BE3 /* ORSSerialBuffer.m */,
 				9DFF14871B94E396004B42B3 /* ORSSerialRequest.h */,
 				9DFF14881B94E396004B42B3 /* ORSSerialRequest.m */,
 				9DFF14841B94E38D004B42B3 /* ORSSerialPacketDescriptor.h */,
@@ -152,6 +157,7 @@
 			files = (
 				9D2B58151ADC170C00B08D53 /* ORSSerialPortManager.m in Sources */,
 				9DFF14861B94E38D004B42B3 /* ORSSerialPacketDescriptor.m in Sources */,
+				2720C0F11BA0612D00CC2BE3 /* ORSSerialBuffer.m in Sources */,
 				9D2B58071ADC16B500B08D53 /* main.swift in Sources */,
 				9D2B58141ADC170C00B08D53 /* ORSSerialPort.m in Sources */,
 				9DFF14891B94E396004B42B3 /* ORSSerialRequest.m in Sources */,
