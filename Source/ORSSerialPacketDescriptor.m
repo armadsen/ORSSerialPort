@@ -54,6 +54,17 @@
 	return self;
 }
 
+- (instancetype)initWithPacketData:(NSData *)packetData userInfo:(nullable id)userInfo
+{
+	self = [self initWithMaximumPacketLength:[packetData length] userInfo:userInfo responseEvaluator:^BOOL(NSData *inputData) {
+		return [inputData isEqualToData:packetData];
+	}];
+	if (self) {
+		_packetData = packetData;
+	}
+	return self;
+}
+
 - (instancetype)initWithPrefix:(NSData *)prefix
 						suffix:(NSData *)suffix
 		   maximumPacketLength:(NSUInteger)maxPacketLength
