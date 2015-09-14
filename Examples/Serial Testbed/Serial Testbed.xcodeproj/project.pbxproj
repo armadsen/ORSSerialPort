@@ -1,0 +1,385 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9D693BE11B9E0A9000543DFF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D693BDA1B9E0A9000543DFF /* Assets.xcassets */; settings = {ASSET_TAGS = (); }; };
+		9D693BE21B9E0A9000543DFF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D693BDB1B9E0A9000543DFF /* Main.storyboard */; settings = {ASSET_TAGS = (); }; };
+		9D693BE41B9E0A9000543DFF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D693BDF1B9E0A9000543DFF /* AppDelegate.swift */; settings = {ASSET_TAGS = (); }; };
+		9D693BE51B9E0A9000543DFF /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D693BE01B9E0A9000543DFF /* MainViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		9D81599E1B9E0D8A0056AB68 /* SerialController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D81599D1B9E0D8A0056AB68 /* SerialController.swift */; settings = {ASSET_TAGS = (); }; };
+		9D8159AD1B9E0E260056AB68 /* ORSSerial.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D8159A61B9E0E140056AB68 /* ORSSerial.framework */; };
+		9D8159AE1B9E0E260056AB68 /* ORSSerial.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9D8159A61B9E0E140056AB68 /* ORSSerial.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		9D8159A51B9E0E140056AB68 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9D8159A01B9E0E140056AB68 /* ORSSerialPort.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9DCA89121A2BB106009285EB;
+			remoteInfo = ORSSerial;
+		};
+		9D8159A71B9E0E140056AB68 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9D8159A01B9E0E140056AB68 /* ORSSerialPort.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9D7472131B6D7767002D8B10;
+			remoteInfo = "ORSSerialPort Tests";
+		};
+		9D8159AF1B9E0E260056AB68 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9D8159A01B9E0E140056AB68 /* ORSSerialPort.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 9DCA89111A2BB106009285EB;
+			remoteInfo = ORSSerial;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		9D8159B11B9E0E260056AB68 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				9D8159AE1B9E0E260056AB68 /* ORSSerial.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		9D693BC31B9E0A5500543DFF /* Serial Testbed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Serial Testbed.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D693BDA1B9E0A9000543DFF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9D693BDC1B9E0A9000543DFF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		9D693BDD1B9E0A9000543DFF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9D693BDF1B9E0A9000543DFF /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		9D693BE01B9E0A9000543DFF /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		9D81599D1B9E0D8A0056AB68 /* SerialController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerialController.swift; sourceTree = "<group>"; };
+		9D8159A01B9E0E140056AB68 /* ORSSerialPort.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ORSSerialPort.xcodeproj; path = "../../Framework Project/ORSSerialPort.xcodeproj"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9D693BC01B9E0A5500543DFF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D8159AD1B9E0E260056AB68 /* ORSSerial.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9D693BBA1B9E0A5500543DFF = {
+			isa = PBXGroup;
+			children = (
+				9D693BDE1B9E0A9000543DFF /* Sources */,
+				9D693BD91B9E0A9000543DFF /* Resources */,
+				9D8159A91B9E0E170056AB68 /* Frameworks */,
+				9D693BC41B9E0A5500543DFF /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		9D693BC41B9E0A5500543DFF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9D693BC31B9E0A5500543DFF /* Serial Testbed.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9D693BD91B9E0A9000543DFF /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9D693BDB1B9E0A9000543DFF /* Main.storyboard */,
+				9D693BDA1B9E0A9000543DFF /* Assets.xcassets */,
+				9D693BDD1B9E0A9000543DFF /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		9D693BDE1B9E0A9000543DFF /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				9D693BDF1B9E0A9000543DFF /* AppDelegate.swift */,
+				9D693BE01B9E0A9000543DFF /* MainViewController.swift */,
+				9D81599D1B9E0D8A0056AB68 /* SerialController.swift */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		9D8159A11B9E0E140056AB68 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9D8159A61B9E0E140056AB68 /* ORSSerial.framework */,
+				9D8159A81B9E0E140056AB68 /* ORSSerialPort Tests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9D8159A91B9E0E170056AB68 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9D8159A01B9E0E140056AB68 /* ORSSerialPort.xcodeproj */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9D693BC21B9E0A5500543DFF /* Serial Testbed */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9D693BD21B9E0A5500543DFF /* Build configuration list for PBXNativeTarget "Serial Testbed" */;
+			buildPhases = (
+				9D693BBF1B9E0A5500543DFF /* Sources */,
+				9D693BC01B9E0A5500543DFF /* Frameworks */,
+				9D693BC11B9E0A5500543DFF /* Resources */,
+				9D8159B11B9E0E260056AB68 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9D8159B01B9E0E260056AB68 /* PBXTargetDependency */,
+			);
+			name = "Serial Testbed";
+			productName = "Serial Testbed";
+			productReference = 9D693BC31B9E0A5500543DFF /* Serial Testbed.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9D693BBB1B9E0A5500543DFF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = "Open Reel Software";
+				TargetAttributes = {
+					9D693BC21B9E0A5500543DFF = {
+						CreatedOnToolsVersion = 7.0;
+					};
+				};
+			};
+			buildConfigurationList = 9D693BBE1B9E0A5500543DFF /* Build configuration list for PBXProject "Serial Testbed" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 9D693BBA1B9E0A5500543DFF;
+			productRefGroup = 9D693BC41B9E0A5500543DFF /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 9D8159A11B9E0E140056AB68 /* Products */;
+					ProjectRef = 9D8159A01B9E0E140056AB68 /* ORSSerialPort.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				9D693BC21B9E0A5500543DFF /* Serial Testbed */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		9D8159A61B9E0E140056AB68 /* ORSSerial.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ORSSerial.framework;
+			remoteRef = 9D8159A51B9E0E140056AB68 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9D8159A81B9E0E140056AB68 /* ORSSerialPort Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "ORSSerialPort Tests.xctest";
+			remoteRef = 9D8159A71B9E0E140056AB68 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9D693BC11B9E0A5500543DFF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D693BE11B9E0A9000543DFF /* Assets.xcassets in Resources */,
+				9D693BE21B9E0A9000543DFF /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9D693BBF1B9E0A5500543DFF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D81599E1B9E0D8A0056AB68 /* SerialController.swift in Sources */,
+				9D693BE51B9E0A9000543DFF /* MainViewController.swift in Sources */,
+				9D693BE41B9E0A9000543DFF /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9D8159B01B9E0E260056AB68 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ORSSerial;
+			targetProxy = 9D8159AF1B9E0E260056AB68 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		9D693BDB1B9E0A9000543DFF /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9D693BDC1B9E0A9000543DFF /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		9D693BD01B9E0A5500543DFF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		9D693BD11B9E0A5500543DFF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		9D693BD31B9E0A5500543DFF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Resources/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.openreelsoftware.Serial-Testbed";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		9D693BD41B9E0A5500543DFF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Resources/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.openreelsoftware.Serial-Testbed";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9D693BBE1B9E0A5500543DFF /* Build configuration list for PBXProject "Serial Testbed" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9D693BD01B9E0A5500543DFF /* Debug */,
+				9D693BD11B9E0A5500543DFF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9D693BD21B9E0A5500543DFF /* Build configuration list for PBXNativeTarget "Serial Testbed" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9D693BD31B9E0A5500543DFF /* Debug */,
+				9D693BD41B9E0A5500543DFF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9D693BBB1B9E0A5500543DFF /* Project object */;
+}
