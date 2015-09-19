@@ -593,15 +593,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)serialPort:(ORSSerialPort *)serialPort didReceiveData:(NSData *)data;
 
 /**
- *  Called when a valid, complete response is received for a previously sent request.
- *
- *  @param serialPort   The `ORSSerialPort` instance representing the port that received `responseData`.
- *  @param responseData The An `NSData` instance containing the received response data.
- *  @param request      The request to which the responseData is a respone.
- */
-- (void)serialPort:(ORSSerialPort *)serialPort didReceiveResponse:(NSData *)responseData toRequest:(ORSSerialRequest *)request;
-
-/**
  *  Called when a valid, complete packet matching a descriptor installed with 
  *  -startListeningForPacketsMatchingDescriptor: is received.
  *
@@ -610,6 +601,15 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param descriptor		The packet descriptor object for which packetData is a match.
  */
 - (void)serialPort:(ORSSerialPort *)serialPort didReceivePacket:(NSData *)packetData matchingDescriptor:(ORSSerialPacketDescriptor *)descriptor;
+
+/**
+ *  Called when a valid, complete response is received for a previously sent request.
+ *
+ *  @param serialPort   The `ORSSerialPort` instance representing the port that received `responseData`.
+ *  @param responseData The An `NSData` instance containing the received response data.
+ *  @param request      The request to which the responseData is a respone.
+ */
+- (void)serialPort:(ORSSerialPort *)serialPort didReceiveResponse:(NSData *)responseData toRequest:(ORSSerialRequest *)request;
 
 /**
  *  Called when a the timeout interval for a previously sent request elapses without a valid
