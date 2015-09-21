@@ -27,3 +27,4 @@
 #import <ORSSerial/ORSSerialPort.h>
 #import <ORSSerial/ORSSerialPortManager.h>
 #import <ORSSerial/ORSSerialRequest.h>
+#import <ORSSerial/ORSSerialPacketDescriptor.h>

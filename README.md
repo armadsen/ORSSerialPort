@@ -1,7 +1,7 @@
 # ORSSerialPort
 
 
-ORSSerialPort is a modern, easy-to-use Objective-C serial port library for OS X. It is useful for programmers writing Objective-C or Swift Mac apps that must communicate with external devices through a serial port (most commonly RS-232). Using ORSSerialPort to open a port and send data can be as simple as this:
+ORSSerialPort is an easy-to-use Objective-C serial port library for OS X. It is useful for programmers writing Objective-C or Swift Mac apps that communicate with external devices through a serial port (most commonly RS-232). Using ORSSerialPort to open a port and send data can be as simple as this:
 
 ```objective-c
 ORSSerialPort *serialPort = [ORSSerialPort serialPortWithPath:@"/dev/cu.KeySerial1"];
@@ -25,9 +25,9 @@ ORSSerialPort is released under an MIT license, meaning you're free to use it in
 
 If you have any questions about, suggestions for, or contributions to ORSSerialPort, please [contact me](mailto:andrew@openreelsoftware.com). I'd also love to hear about any cool projects you're using it in.
 
-This readme provides an overview of the ORSSerialPort library and is meant to provide enough information to get up and running quickly. You can read complete technical documentation for ORSSerialPort on [http://cocoadocs.org/docsets/ORSSerialPort/](http://cocoadocs.org/docsets/ORSSerialPort/).
+This readme provides an overview of the ORSSerialPort library and is meant to provide enough information to get up and running quickly. You can read complete technical documentation for ORSSerialPort on [http://cocoadocs.org/docsets/ORSSerialPort/](http://cocoadocs.org/docsets/ORSSerialPort/). The [ORSSerialPort wiki](https://github.com/armadsen/ORSSerialPort/wiki) also contains detailed documentation.
 
-The example code in this readme is in Objective-C. However, ORSSerialPort can also easily be used from Swift code. The Examples folder contains Swift versions of all three example projects. See the Example Projects section below for more information.
+The example code in this readme is in Objective-C. However, ORSSerialPort can also easily be used from Swift code. The Examples folder contains Swift versions of all four example projects. See the Example Projects section below for more information.
 
 # How to Use ORSSerialPort
 
@@ -81,9 +81,15 @@ To receive data, you can implement the `ORSSerialPortDelegate` protocol's `-seri
 
 For more information about ORSSerialPortManager, see the [Getting Started Guide](https://github.com/armadsen/ORSSerialPort/wiki/Getting-Started#orsserialportmanager), or read the documentation in [ORSSerialPortManager.h](https://github.com/armadsen/ORSSerialPort/blob/master/Source/ORSSerialPortManager.h).
 
+### ORSSerialPacketDescriptor
+
+Incoming serial data is delivered to your application as it is received. A low level library like ORSSerialPort has no way of knowing anything about the structure and format of the data you're sending and receiving. For example, you may be expecting a complete packet of data, but receive callbacks for each byte. Normally, this requires you to maintain a buffer which you fill up with incoming data, only processing it when a complete packet has been received. In order to eliminate the need for manual management and buffering of incoming data, ORSSerialPort includes a packet parsing API. This is implemented by `ORSSerialPacketDescriptor` and associated methods on `ORSSerialPort`.
+
+For more information about ORSSerialPort's packet parsing API, see the [Packet Parsing API Guide](https://github.com/armadsen/ORSSerialPort/wiki/Packet-Parsing-API), read the documentation in [ORSSerialPacketDescriptor.h](https://github.com/armadsen/ORSSerialPort/blob/master/Source/ORSSerialPacketDescriptor.h), and see the [PacketParsingDemo](https://github.com/armadsen/ORSSerialPort/tree/master/Examples/PacketParsingDemo) example app.
+
 ### ORSSerialRequest
 
-Incoming serial data is delivered to your application as it is received. A low level library like ORSSerialPort has no way of knowing anything about the structure and format of the data you're sending and receiving. For example, you may be expecting a complete packet of data, but receive callbacks for each byte. Normally, this requires you to maintain a buffer which you fill up with incoming data, only processing it when a complete packet has been received. In order to eliminate the need for manual management and buffering of incoming data, ORSSerialPort includes a request/response API. This is implemented by ORSSerialRequest.
+Often, applications will want to send a command to a device, then wait to receive a specific response before continuing. To ease implementing this kind of scenario, ORSSerialPort includes a request/response API. This is implemented by `ORSSerialRequest` and associated methods on `ORSSerialPort`.
 
 For more information about ORSSerialPort's request/response API, see the [Request/Response API Guide](https://github.com/armadsen/ORSSerialPort/wiki/Request-Response-API), read the documentation in [ORSSerialRequest.h](https://github.com/armadsen/ORSSerialPort/blob/master/Source/ORSSerialRequest.h), and see the [RequestResponseDemo](https://github.com/armadsen/ORSSerialPort/tree/master/Examples/RequestResponseDemo) example app.
 
@@ -93,6 +99,7 @@ Included with ORSSerialPort is a folder called Examples, containing Xcode projec
 
 - [ORSSerialPortDemo](https://github.com/armadsen/ORSSerialPort/wiki/ORSSerialPortDemo) - Simple graphical serial terminal example app. This is the main ORSSerialPort example.
 - [CommandLineDemo](https://github.com/armadsen/ORSSerialPort/wiki/Command-Line-Demo) - Command line app example.
+- [PacketParsingDemo](https://github.com/armadsen/ORSSerialPort/wiki/Packet-Parsing-API) - GUI app demonstrating the use of ORSSerialPacketDescriptor.
 - [RequestResponseDemo](https://github.com/armadsen/ORSSerialPort/wiki/Request-Response-API) - GUI app demonstrating the use of ORSSerialRequest.
 
 You can read more about these examples on the [ORSSerialPort wiki](https://github.com/armadsen/ORSSerialPort/wiki).

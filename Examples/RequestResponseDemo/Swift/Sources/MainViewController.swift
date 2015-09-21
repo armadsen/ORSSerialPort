@@ -34,13 +34,13 @@ class MainViewController: NSViewController {
 	let boardController = SerialBoardController()
 	
 	override func viewDidLoad() {
-		self.boardController.addObserver(self, forKeyPath: "temperature", options: NSKeyValueObservingOptions.allZeros, context: MainViewControllerKVOContext)
+		self.boardController.addObserver(self, forKeyPath: "temperature", options: NSKeyValueObservingOptions(), context: MainViewControllerKVOContext)
 	}
 	
 	// MARK: KVO
 	
 	let MainViewControllerKVOContext = UnsafeMutablePointer<()>()
-	override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
+	override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
 		if context != MainViewControllerKVOContext {
 			super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
 		}
