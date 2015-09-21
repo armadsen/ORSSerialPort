@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "ORSSerialPort"
-  s.version      = "2.0"
+  s.version      = "2.0.0"
   s.summary      = "Easy to use serial port library for Objective-C and Swift Mac apps."
 
   s.description  = <<-DESC
@@ -62,7 +62,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/armadsen/ORSSerialPort.git", :tag => "2.0" }
+  s.source       = { :git => "https://github.com/armadsen/ORSSerialPort.git", :tag => s.version.to_s }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -74,6 +74,7 @@ Pod::Spec.new do |s|
   #
 
   s.source_files  = "Source/**/*.{h,m}"
+  s.private_header_files = "Source/ORSSerialBuffer.h"
 
   # ――― Resources ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
@@ -95,7 +96,7 @@ Pod::Spec.new do |s|
   #  the lib prefix of their name.
   #
 
-  # s.framework  = "IOKit"
+  s.framework  = 'IOKit'
 
   # ――― Project Settings ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
@@ -104,5 +105,6 @@ Pod::Spec.new do |s|
   #  you can include multiple dependencies to ensure it works.
 
   s.requires_arc = true
+  s.module_name = 'ORSSerial'
 
 end
