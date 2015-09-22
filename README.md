@@ -45,7 +45,14 @@ Note that you must give `+serialPortWithPath:` the full path to the device, as s
 
 After you've got a port instance, you can open it with the `-open` method. When you're done using the port, close it using the `-close` method.
 
-Port settings such as baud rate, number of stop bits, parity, and flow control settings can be set using the various properties `ORSSerialPort` provides.
+Port settings such as baud rate, number of stop bits, parity, and flow control settings can be set using the various properties `ORSSerialPort` provides:
+
+```objective-c
+port.baudRate = @9600;
+port.parity = ORSSerialPortParityNone;
+port.numberOfStopBits = 1;
+port.usesRTSCTSFlowControl = YES;
+```
 
 For more information, see the [Getting Started Guide](https://github.com/armadsen/ORSSerialPort/wiki/Getting-Started#opening-a-port-and-setting-it-up).
 
@@ -77,7 +84,13 @@ To receive data, you can implement the `ORSSerialPortDelegate` protocol's `-seri
 
 ### ORSSerialPortManager
 
-`ORSSerialPortManager` is a singleton class (one instance per application) that can be used to get a list of available serial ports. It will also handle closing open serial ports when the Mac goes to sleep, and reopening them automatically on wake. This prevents problems I've seen with serial port drivers that can hang if the port is left open when putting the machine to sleep. Note that using `ORSSerialPortManager` is optional. It provides some nice functionality, but only `ORSSerialPort` is necessary to simply send and receive data.
+`ORSSerialPortManager` is a singleton class (one instance per application) that can be used to get a list of available serial ports. Use the manager's `availablePorts` property to get a list of ports:
+
+```objective-c
+NSArray *ports = [[ORSSerialPortManager sharedSerialPortManager] availablePorts];
+```
+
+ORSSerialPortManager's `availablePorts` can be observed with Key Value Observing to be notified when a USB to serial adapter is plugged in or removed. Additionally, it posts NSNotifications when these events occur. It will also handle closing open serial ports when the Mac goes to sleep, and reopening them automatically on wake. This prevents problems I've seen with serial port drivers that can hang if the port is left open when putting the machine to sleep. Note that using `ORSSerialPortManager` is optional. It provides some nice functionality, but only `ORSSerialPort` is necessary to simply send and receive data.
 
 For more information about ORSSerialPortManager, see the [Getting Started Guide](https://github.com/armadsen/ORSSerialPort/wiki/Getting-Started#orsserialportmanager), or read the documentation in [ORSSerialPortManager.h](https://github.com/armadsen/ORSSerialPort/blob/master/Source/ORSSerialPortManager.h).
 
@@ -90,6 +103,39 @@ For more information about ORSSerialPort's packet parsing API, see the [Packet P
 ### ORSSerialRequest
 
 Often, applications will want to send a command to a device, then wait to receive a specific response before continuing. To ease implementing this kind of scenario, ORSSerialPort includes a request/response API. This is implemented by `ORSSerialRequest` and associated methods on `ORSSerialPort`.
+
+For example, a program that read the temperature from a connected device might do the following:
+
+```objective-c
+- (void)readTemperature
+{
+    NSData *command = [@"$TEMP?;" dataUsingEncoding:NSASCIIStringEncoding];
+    ORSSerialPacketDescriptor *responseDescriptor = 
+    [[ORSSerialPacketDescriptor alloc] initWithMaximumPacketLength:9
+                                                          userInfo:nil
+                                                 responseEvaluator:^BOOL(NSData *data) {
+        return [self temperatureFromResponsePacket:data] != nil;
+    }];
+    ORSSerialRequest *request = 
+        [ORSSerialRequest requestWithDataToSend:command
+                                       userInfo:nil
+                                timeoutInterval:kTimeoutDuration
+                             responseDescriptor:responseDescriptor];
+    [self.serialPort sendRequest:request];
+} 
+
+- (void)serialPort:(ORSSerialPort *)port didReceiveResponse:(NSData *)data toRequest:(ORSSerialRequest *)request
+{
+    NSString *response = [[NSString alloc] initWithData:data usingEncoding:NSASCIIStringEncoding];
+    NSLog(@"response = %@", response);
+    self.temperature = [self temperatureFromResponsePacket:data];
+}
+
+- (void)serialPort:(ORSSerialPort *)port requestDidTimeout:(ORSSerialRequest *)request
+{
+    NSLog(@"command timed out!);
+}
+```
 
 For more information about ORSSerialPort's request/response API, see the [Request/Response API Guide](https://github.com/armadsen/ORSSerialPort/wiki/Request-Response-API), read the documentation in [ORSSerialRequest.h](https://github.com/armadsen/ORSSerialPort/blob/master/Source/ORSSerialRequest.h), and see the [RequestResponseDemo](https://github.com/armadsen/ORSSerialPort/tree/master/Examples/RequestResponseDemo) example app.
 
