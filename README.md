@@ -1,5 +1,4 @@
-# ORSSerialPort
-
+# ORSSerialPort 
 
 ORSSerialPort is an easy-to-use Objective-C serial port library for OS X. It is useful for programmers writing Objective-C or Swift Mac apps that communicate with external devices through a serial port (most commonly RS-232). Using ORSSerialPort to open a port and send data can be as simple as this:
 
@@ -153,3 +152,7 @@ You can read more about these examples on the [ORSSerialPort wiki](https://githu
 # Contributing
 
 Contributions to ORSSerialPort are very welcome. However, contributors are encouraged to read the [contribution guidelines](CONTRIBUTING.md) before starting work on any contributions. Please also feel free to open a GitHub issue or [email](mailto:andrew@openreelsoftware.com) with questions about specific contributions.
+
+[![GitHub License Badge](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/armadsen/ORSSerialPort/master/LICENSE)
+[![Build Status Badge](https://travis-ci.org/armadsen/ORSSerialPort.svg?branch=master)](https://travis-ci.org/armadsen/ORSSerialPort)
+[![CocoaPods Badge](https://img.shields.io/cocoapods/v/ORSSerialPort.svg)]()
