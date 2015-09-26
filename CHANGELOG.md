@@ -4,8 +4,11 @@ All notable changes to ORSSerialPort are documented in this file. This project a
 ##[Unreleased]
 This section is for changes commited to the ORSSerialPort repository, but not yet included in an official release.
 
+##[2.0.1] - 2015-09-26
+
 ###ADDED
 - Added CHANGELOG.md file
+- Travis CI now builds and tests changes to ORSSerialPort's public repository
 
 ###FIXED
 - Fixed error when building framework project (tests target specifically) in versions of Xcode before support for nullability annotations were introduced.
