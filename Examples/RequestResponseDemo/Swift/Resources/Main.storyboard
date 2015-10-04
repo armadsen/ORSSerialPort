@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8191"/>
     </dependencies>
@@ -674,11 +674,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QIu-lt-rOg">
+                            <popUpButton verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QIu-lt-rOg">
                                 <rect key="frame" x="91" y="226" width="155" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="bsc-hi-XSB"/>
                                 </constraints>
+                                <animations/>
                                 <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="y69-My-U0Y" id="rb0-kx-cda">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
@@ -696,16 +697,18 @@
                                     <binding destination="XfG-lQ-9wD" name="contentValues" keyPath="serialPortManager.availablePorts.name" previousBinding="qYj-eB-a0S" id="DgL-Vy-PGX"/>
                                 </connections>
                             </popUpButton>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uRe-8u-lyD">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uRe-8u-lyD">
                                 <rect key="frame" x="18" y="231" width="69" height="17"/>
+                                <animations/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Serial Port" id="7PY-Oz-O2D">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button translatesAutoresizingMaskIntoConstraints="NO" id="BRs-R2-1DH">
+                            <button misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BRs-R2-1DH">
                                 <rect key="frame" x="249" y="230" width="48" height="18"/>
+                                <animations/>
                                 <buttonCell key="cell" type="check" title="LED" bezelStyle="regularSquare" imagePosition="left" alignment="center" state="on" inset="2" id="WhO-34-muz">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -716,6 +719,7 @@
                             </button>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="mBF-cM-c1F" customClass="TemperaturePlotView" customModule="RequestResponseDemo" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="480" height="209"/>
+                                <animations/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="minTemperatureValue">
                                         <integer key="value" value="15"/>
@@ -743,6 +747,7 @@
                             <constraint firstItem="uRe-8u-lyD" firstAttribute="centerY" secondItem="QIu-lt-rOg" secondAttribute="centerY" id="vrC-Zj-s3c"/>
                             <constraint firstAttribute="bottom" secondItem="mBF-cM-c1F" secondAttribute="bottom" id="zmk-fQ-ZkO"/>
                         </constraints>
+                        <animations/>
                     </view>
                     <connections>
                         <outlet property="temperaturePlotView" destination="mBF-cM-c1F" id="otC-lD-NJP"/>

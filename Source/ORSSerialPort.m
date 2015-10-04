@@ -282,7 +282,7 @@ static __strong NSMutableArray *allSerialPorts;
 	
 	if ([self.delegate respondsToSelector:@selector(serialPortWasOpened:)])
 	{
-		dispatch_async(mainQueue, ^{
+		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 			[self.delegate serialPortWasOpened:self];
 		});
 	}
@@ -423,6 +423,8 @@ static __strong NSMutableArray *allSerialPorts;
 		}
 	}
 	
+	NSLog(@"Sent: %@ (%@)", [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding], data);
+	
 	return YES;
 }
 
@@ -537,7 +539,7 @@ static __strong NSMutableArray *allSerialPorts;
 		return;
 	}
 	
-	dispatch_async(dispatch_get_main_queue(), ^{
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 		[self.delegate serialPort:self requestDidTimeout:request];
 		dispatch_async(self.requestHandlingQueue, ^{
 			[self sendNextRequest];
@@ -564,7 +566,7 @@ static __strong NSMutableArray *allSerialPorts;
 	self.pendingRequestTimeoutTimer = nil;
 	ORSSerialRequest *request = self.pendingRequest;
 	
-	dispatch_async(dispatch_get_main_queue(), ^{
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 		if ([responseData length] &&
 			[self.delegate respondsToSelector:@selector(serialPort:didReceiveResponse:toRequest:)])
 		{
@@ -581,7 +583,7 @@ static __strong NSMutableArray *allSerialPorts;
 {
 	if ([self.delegate respondsToSelector:@selector(serialPort:didReceiveData:)])
 	{
-		dispatch_async(dispatch_get_main_queue(), ^{
+		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 			[self.delegate serialPort:self didReceiveData:data];
 		});
 	}
@@ -606,7 +608,7 @@ static __strong NSMutableArray *allSerialPorts;
 				// Complete packet received, so notify delegate then clear buffer
 				if ([self.delegate respondsToSelector:@selector(serialPort:didReceivePacket:matchingDescriptor:)])
 				{
-					dispatch_async(dispatch_get_main_queue(), ^{
+					dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 						[self.delegate serialPort:self didReceivePacket:completePacket matchingDescriptor:descriptor];
 					});
 				}
@@ -664,6 +666,8 @@ static __strong NSMutableArray *allSerialPorts;
 	options.c_cflag |= CLOCAL; // Set local mode on
 	options.c_cflag |= CREAD; // Enable receiver
 	options.c_lflag &= ~(ICANON /*| ECHO*/ | ISIG); // Turn off canonical mode and signals
+	
+	options = originalPortAttributes;
 	
 	// Set baud rate
 	cfsetspeed(&options, [[self baudRate] unsignedLongValue]);
@@ -777,13 +781,7 @@ static __strong NSMutableArray *allSerialPorts;
 		[self.delegate serialPort:self didEncounterError:error];
 	};
 	
-	if ([NSThread isMainThread]) {
-		notifyBlock();
-	} else if (shouldWait) {
-		dispatch_sync(dispatch_get_main_queue(), notifyBlock);
-	} else {
-		dispatch_async(dispatch_get_main_queue(), notifyBlock);
-	}
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), notifyBlock);
 }
 
 #pragma mark - Properties

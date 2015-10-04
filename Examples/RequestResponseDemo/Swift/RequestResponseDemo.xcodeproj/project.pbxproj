@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9D0C04781BC0524B00AB36FC /* SynchronousSerialPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0C04771BC0524B00AB36FC /* SynchronousSerialPort.swift */; settings = {ASSET_TAGS = (); }; };
 		9D0F6B641AB50343006BF3F0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D0F6B5E1AB50343006BF3F0 /* Images.xcassets */; };
 		9D0F6B661AB50343006BF3F0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0F6B611AB50343006BF3F0 /* AppDelegate.swift */; };
 		9D0F6B671AB50343006BF3F0 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0F6B621AB50343006BF3F0 /* MainViewController.swift */; };
@@ -49,6 +50,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9D0C04771BC0524B00AB36FC /* SynchronousSerialPort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynchronousSerialPort.swift; sourceTree = "<group>"; };
 		9D0F6B391AB502F7006BF3F0 /* RequestResponseDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RequestResponseDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D0F6B5E1AB50343006BF3F0 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		9D0F6B5F1AB50343006BF3F0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 				9D0F6B621AB50343006BF3F0 /* MainViewController.swift */,
 				9D0F6B6A1AB50398006BF3F0 /* TemperaturePlotView.swift */,
 				9D0F6B6C1AB503A8006BF3F0 /* SerialBoardController.swift */,
+				9D0C04771BC0524B00AB36FC /* SynchronousSerialPort.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -225,6 +228,7 @@
 			files = (
 				9D0F6B671AB50343006BF3F0 /* MainViewController.swift in Sources */,
 				9D0F6B6B1AB50398006BF3F0 /* TemperaturePlotView.swift in Sources */,
+				9D0C04781BC0524B00AB36FC /* SynchronousSerialPort.swift in Sources */,
 				9D0F6B6D1AB503A8006BF3F0 /* SerialBoardController.swift in Sources */,
 				9D0F6B661AB50343006BF3F0 /* AppDelegate.swift in Sources */,
 			);

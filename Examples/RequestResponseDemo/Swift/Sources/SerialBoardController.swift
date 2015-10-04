@@ -12,10 +12,10 @@
 //	distribute, sublicense, and/or sell copies of the Software, and to
 //	permit persons to whom the Software is furnished to do so, subject to
 //	the following conditions:
-//	
+//
 //	The above copyright notice and this permission notice shall be included
 //	in all copies or substantial portions of the Software.
-//	
+//
 //	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 //	OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 //	MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
@@ -46,26 +46,39 @@ class SerialBoardController: NSObject, ORSSerialPortDelegate {
 	
 	// MARK: Sending Commands
 	private func readTemperature() {
+		guard let serialPort = syncSerialPort else { return }
 		let command = "$TEMP?;".dataUsingEncoding(NSASCIIStringEncoding)!
 		let responseDescriptor = ORSSerialPacketDescriptor(prefixString: "!TEMP", suffixString: ";", maximumPacketLength: 10, userInfo: nil)
 		let request = ORSSerialRequest(dataToSend: command,
 			userInfo: SerialBoardRequestType.ReadTemperature.rawValue,
 			timeoutInterval: 0.5,
 			responseDescriptor: responseDescriptor)
-		self.serialPort?.sendRequest(request)
+		do {
+			let response = try serialPort.sendRequestToPort(request)
+			self.temperature = self.temperatureFromResponsePacket(response)!
+		} catch let error {
+			print("Error with request \(request): \(error)")
+		}
 	}
 	
 	private func readLEDState() {
+		guard let serialPort = syncSerialPort else { return }
 		let command = "$LED?;".dataUsingEncoding(NSASCIIStringEncoding)!
 		let responseDescriptor = ORSSerialPacketDescriptor(prefixString: "!LED", suffixString: ";", maximumPacketLength: 10, userInfo: nil)
 		let request = ORSSerialRequest(dataToSend: command,
 			userInfo: SerialBoardRequestType.ReadLED.rawValue,
 			timeoutInterval: kTimeoutDuration,
 			responseDescriptor: responseDescriptor)
-		self.serialPort?.sendRequest(request)
+		do {
+			let response = try serialPort.sendRequestToPort(request)
+			self.internalLEDOn = self.LEDStateFromResponsePacket(response)!
+		} catch let error {
+			print("Error with request \(request): \(error)")
+		}
 	}
 	
 	private func sendCommandToSetLEDToState(state: Bool) {
+		guard let serialPort = syncSerialPort else { return }
 		let commandString = NSString(format: "$LED%@;", (state ? "1" : "0"))
 		let command = commandString.dataUsingEncoding(NSASCIIStringEncoding)!
 		let responseDescriptor = ORSSerialPacketDescriptor(prefixString: "!LED", suffixString: ";", maximumPacketLength: 10, userInfo: nil)
@@ -73,7 +86,12 @@ class SerialBoardController: NSObject, ORSSerialPortDelegate {
 			userInfo: SerialBoardRequestType.SetLED.rawValue,
 			timeoutInterval: kTimeoutDuration,
 			responseDescriptor: responseDescriptor)
-		self.serialPort?.sendRequest(request)
+		do {
+			let response = try serialPort.sendRequestToPort(request)
+			self.internalLEDOn = self.LEDStateFromResponsePacket(response)!
+		} catch let error {
+			print("Error with request \(request): \(error)")
+		}
 	}
 	
 	// MARK: Parsing Responses
@@ -104,23 +122,12 @@ class SerialBoardController: NSObject, ORSSerialPortDelegate {
 		self.serialPort = nil
 	}
 	
-	func serialPort(serialPort: ORSSerialPort, didEncounterError error: NSError) {
-		print("Serial port \(serialPort) encountered an error: \(error)")
-	}
-	
-	func serialPort(serialPort: ORSSerialPort, didReceiveResponse responseData: NSData, toRequest request: ORSSerialRequest) {
-		let requestType = SerialBoardRequestType(rawValue: request.userInfo as! Int)!
-		switch requestType {
-		case .ReadTemperature:
-			self.temperature = self.temperatureFromResponsePacket(responseData)!
-		case .ReadLED, .SetLED:
-			self.internalLEDOn = self.LEDStateFromResponsePacket(responseData)!
-		}
-	}
-	
 	func serialPortWasOpened(serialPort: ORSSerialPort) {
-		self.pollingTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "pollingTimerFired:", userInfo: nil, repeats: true)
-		self.pollingTimer!.fire()
+		dispatch_async(dispatch_get_main_queue()) { () -> Void in
+			self.pollingTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "pollingTimerFired:", userInfo: nil, repeats: true)
+			self.pollingTimer!.fire()
+			self.syncSerialPort = SynchronousSerialPort(port: serialPort)
+		}
 	}
 	
 	func serialPortWasClosed(serialPort: ORSSerialPort) {
@@ -129,11 +136,14 @@ class SerialBoardController: NSObject, ORSSerialPortDelegate {
 	
 	// MARK: - Properties
 	
+	private var syncSerialPort: SynchronousSerialPort?
+	
 	private(set) internal var serialPort: ORSSerialPort? {
 		willSet {
 			if let port = serialPort {
 				port.close()
 				port.delegate = nil
+				syncSerialPort = nil
 			}
 		}
 		didSet {
