@@ -1,0 +1,404 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9D3948231B792B550066DC1B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D3948191B792B550066DC1B /* Main.storyboard */; };
+		9D3948241B792B550066DC1B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D39481B1B792B550066DC1B /* Images.xcassets */; };
+		9D3948261B792B550066DC1B /* ORSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D39481F1B792B550066DC1B /* ORSAppDelegate.m */; };
+		9D3948271B792B550066DC1B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D3948201B792B550066DC1B /* main.m */; };
+		9D39482E1B792BC30066DC1B /* ORSMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D39482D1B792BC30066DC1B /* ORSMainViewController.m */; };
+		9D39483A1B792C280066DC1B /* ORSSerial.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D3948371B792C1E0066DC1B /* ORSSerial.framework */; };
+		9D39483B1B792C280066DC1B /* ORSSerial.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9D3948371B792C1E0066DC1B /* ORSSerial.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9D3948421B792C900066DC1B /* ORSSerialCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D3948411B792C900066DC1B /* ORSSerialCommunicator.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		9D3948361B792C1E0066DC1B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9D3948311B792C1E0066DC1B /* ORSSerialPort.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9DCA89121A2BB106009285EB;
+			remoteInfo = ORSSerial;
+		};
+		9D3948381B792C1E0066DC1B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9D3948311B792C1E0066DC1B /* ORSSerialPort.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9D7472131B6D7767002D8B10;
+			remoteInfo = "ORSSerialPort Tests";
+		};
+		9D39483C1B792C280066DC1B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9D3948311B792C1E0066DC1B /* ORSSerialPort.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 9DCA89111A2BB106009285EB;
+			remoteInfo = ORSSerial;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		9D39483E1B792C280066DC1B /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				9D39483B1B792C280066DC1B /* ORSSerial.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		9D3947F21B792B1D0066DC1B /* PacketParsingDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PacketParsingDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D39481A1B792B550066DC1B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		9D39481B1B792B550066DC1B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		9D39481C1B792B550066DC1B /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9D39481E1B792B550066DC1B /* ORSAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSAppDelegate.h; sourceTree = "<group>"; };
+		9D39481F1B792B550066DC1B /* ORSAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSAppDelegate.m; sourceTree = "<group>"; };
+		9D3948201B792B550066DC1B /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		9D39482C1B792BC30066DC1B /* ORSMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSMainViewController.h; sourceTree = "<group>"; };
+		9D39482D1B792BC30066DC1B /* ORSMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSMainViewController.m; sourceTree = "<group>"; };
+		9D3948311B792C1E0066DC1B /* ORSSerialPort.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ORSSerialPort.xcodeproj; path = "../../../../Framework Project/ORSSerialPort.xcodeproj"; sourceTree = "<group>"; };
+		9D3948401B792C900066DC1B /* ORSSerialCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSSerialCommunicator.h; sourceTree = "<group>"; };
+		9D3948411B792C900066DC1B /* ORSSerialCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSSerialCommunicator.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9D3947EF1B792B1D0066DC1B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D39483A1B792C280066DC1B /* ORSSerial.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9D3947E91B792B1D0066DC1B = {
+			isa = PBXGroup;
+			children = (
+				9D39481D1B792B550066DC1B /* Sources */,
+				9D3948181B792B550066DC1B /* Resources */,
+				9D3948301B792C120066DC1B /* Frameworks */,
+				9D3947F31B792B1D0066DC1B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		9D3947F31B792B1D0066DC1B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9D3947F21B792B1D0066DC1B /* PacketParsingDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9D3948181B792B550066DC1B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9D3948191B792B550066DC1B /* Main.storyboard */,
+				9D39481B1B792B550066DC1B /* Images.xcassets */,
+				9D39481C1B792B550066DC1B /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		9D39481D1B792B550066DC1B /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				9D39481E1B792B550066DC1B /* ORSAppDelegate.h */,
+				9D39481F1B792B550066DC1B /* ORSAppDelegate.m */,
+				9D39482C1B792BC30066DC1B /* ORSMainViewController.h */,
+				9D39482D1B792BC30066DC1B /* ORSMainViewController.m */,
+				9D3948401B792C900066DC1B /* ORSSerialCommunicator.h */,
+				9D3948411B792C900066DC1B /* ORSSerialCommunicator.m */,
+				9D3948431B792C990066DC1B /* Supporting Files */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		9D3948301B792C120066DC1B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9D3948311B792C1E0066DC1B /* ORSSerialPort.xcodeproj */,
+			);
+			name = Frameworks;
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		9D3948321B792C1E0066DC1B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9D3948371B792C1E0066DC1B /* ORSSerial.framework */,
+				9D3948391B792C1E0066DC1B /* ORSSerialPort Tests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9D3948431B792C990066DC1B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9D3948201B792B550066DC1B /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9D3947F11B792B1D0066DC1B /* PacketParsingDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9D3948121B792B1D0066DC1B /* Build configuration list for PBXNativeTarget "PacketParsingDemo" */;
+			buildPhases = (
+				9D3947EE1B792B1D0066DC1B /* Sources */,
+				9D3947EF1B792B1D0066DC1B /* Frameworks */,
+				9D3947F01B792B1D0066DC1B /* Resources */,
+				9D39483E1B792C280066DC1B /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9D39483D1B792C280066DC1B /* PBXTargetDependency */,
+			);
+			name = PacketParsingDemo;
+			productName = PacketParsingDemo;
+			productReference = 9D3947F21B792B1D0066DC1B /* PacketParsingDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9D3947EA1B792B1D0066DC1B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = "Open Reel Software";
+				TargetAttributes = {
+					9D3947F11B792B1D0066DC1B = {
+						CreatedOnToolsVersion = 6.4;
+					};
+				};
+			};
+			buildConfigurationList = 9D3947ED1B792B1D0066DC1B /* Build configuration list for PBXProject "PacketParsingDemo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 9D3947E91B792B1D0066DC1B;
+			productRefGroup = 9D3947F31B792B1D0066DC1B /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 9D3948321B792C1E0066DC1B /* Products */;
+					ProjectRef = 9D3948311B792C1E0066DC1B /* ORSSerialPort.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				9D3947F11B792B1D0066DC1B /* PacketParsingDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		9D3948371B792C1E0066DC1B /* ORSSerial.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ORSSerial.framework;
+			remoteRef = 9D3948361B792C1E0066DC1B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9D3948391B792C1E0066DC1B /* ORSSerialPort Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "ORSSerialPort Tests.xctest";
+			remoteRef = 9D3948381B792C1E0066DC1B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9D3947F01B792B1D0066DC1B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D3948231B792B550066DC1B /* Main.storyboard in Resources */,
+				9D3948241B792B550066DC1B /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9D3947EE1B792B1D0066DC1B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D3948271B792B550066DC1B /* main.m in Sources */,
+				9D3948261B792B550066DC1B /* ORSAppDelegate.m in Sources */,
+				9D39482E1B792BC30066DC1B /* ORSMainViewController.m in Sources */,
+				9D3948421B792C900066DC1B /* ORSSerialCommunicator.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9D39483D1B792C280066DC1B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ORSSerial;
+			targetProxy = 9D39483C1B792C280066DC1B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		9D3948191B792B550066DC1B /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9D39481A1B792B550066DC1B /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		9D3948101B792B1D0066DC1B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		9D3948111B792B1D0066DC1B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		9D3948131B792B1D0066DC1B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Resources/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.openreelsoftware.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		9D3948141B792B1D0066DC1B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Resources/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.openreelsoftware.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9D3947ED1B792B1D0066DC1B /* Build configuration list for PBXProject "PacketParsingDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9D3948101B792B1D0066DC1B /* Debug */,
+				9D3948111B792B1D0066DC1B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9D3948121B792B1D0066DC1B /* Build configuration list for PBXNativeTarget "PacketParsingDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9D3948131B792B1D0066DC1B /* Debug */,
+				9D3948141B792B1D0066DC1B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9D3947EA1B792B1D0066DC1B /* Project object */;
+}
