@@ -113,8 +113,7 @@ static __strong NSMutableArray *allSerialPorts;
 	NSValue *valueToRemove = nil;
 	for (NSValue *value in allSerialPorts)
 	{
-		if ([value nonretainedObjectValue] == port)
-		{
+		if ([value nonretainedObjectValue] == port) {
 			valueToRemove = value;
 			break;
 		}
@@ -128,8 +127,7 @@ static __strong NSMutableArray *allSerialPorts;
 	for (NSValue *value in allSerialPorts)
 	{
 		ORSSerialPort *port = [value nonretainedObjectValue];
-		if ([port.path isEqualToString:path])
-		{
+		if ([port.path isEqualToString:path]) {
 			existingPort = port;
 			break;
 		}
@@ -163,16 +161,14 @@ static __strong NSMutableArray *allSerialPorts;
 	NSString *bsdPath = [[self class] bsdCalloutPathFromDevice:device];
 	ORSSerialPort *existingPort = [[self class] existingPortWithPath:bsdPath];
 	
-	if (existingPort != nil)
-	{
+	if (existingPort != nil) {
 		self = nil;
 		return existingPort;
 	}
 	
 	self = [super init];
 	
-	if (self != nil)
-	{
+	if (self != nil) {
 		self.ioKitDevice = device;
 		self.path = bsdPath;
 		self.name = [[self class] modemNameFromDevice:device];
@@ -263,8 +259,7 @@ static __strong NSMutableArray *allSerialPorts;
 	
 	int descriptor=0;
 	descriptor = open([self.path cStringUsingEncoding:NSASCIIStringEncoding], O_RDWR | O_NOCTTY | O_EXLOCK | O_NONBLOCK);
-	if (descriptor < 1)
-	{
+	if (descriptor < 1) {
 		// Error
 		[self notifyDelegateOfPosixError];
 		return;
@@ -273,8 +268,7 @@ static __strong NSMutableArray *allSerialPorts;
 	// Now that the device is open, clear the O_NONBLOCK flag so subsequent I/O will block.
 	// See fcntl(2) ("man 2 fcntl") for details.
 	
-	if (fcntl(descriptor, F_SETFL, 0) == -1)
-	{
+	if (fcntl(descriptor, F_SETFL, 0) == -1) {
 		LOG_SERIAL_PORT_ERROR(@"Error clearing O_NONBLOCK %@ - %s(%d).\n", self.path, strerror(errno), errno);
 	}
 	
@@ -287,8 +281,7 @@ static __strong NSMutableArray *allSerialPorts;
 	[self updateModemLines];
 	
 	[self dispatchToDelegateQueue:^{
-		if ([self.delegate respondsToSelector:@selector(serialPortWasOpened:)])
-		{
+		if ([self.delegate respondsToSelector:@selector(serialPortWasOpened:)]) {
 			[self.delegate serialPortWasOpened:self];
 		}
 	}];
@@ -303,8 +296,7 @@ static __strong NSMutableArray *allSerialPorts;
 		// Data is available
 		char buf[1024];
 		long lengthRead = read(localPortFD, buf, sizeof(buf));
-		if (lengthRead>0)
-		{
+		if (lengthRead>0) {
 			NSData *readData = [NSData dataWithBytes:buf length:lengthRead];
 			if (readData != nil) [self receiveData:readData];
 		}
@@ -328,8 +320,8 @@ static __strong NSMutableArray *allSerialPorts;
 			int localErrno = errno;
 			[self notifyDelegateOfPosixErrorThen:^{
 				if (localErrno == ENXIO) {
-					[self cleanupAfterSystemRemoval];
-				}
+				[self cleanupAfterSystemRemoval];
+			}
 			}];
 			return;
 		}
@@ -338,12 +330,9 @@ static __strong NSMutableArray *allSerialPorts;
 		BOOL DSRPin = (modemLines & TIOCM_DSR) != 0;
 		BOOL DCDPin = (modemLines & TIOCM_CAR) != 0;
 		
-		if (CTSPin != self.CTS)
-			dispatch_sync(mainQueue, ^{self.CTS = CTSPin;});
-		if (DSRPin != self.DSR)
-			dispatch_sync(mainQueue, ^{self.DSR = DSRPin;});
-		if (DCDPin != self.DCD)
-			dispatch_sync(mainQueue, ^{self.DCD = DCDPin;});
+		if (CTSPin != self.CTS) { dispatch_sync(mainQueue, ^{self.CTS = CTSPin; }); }
+		if (DSRPin != self.DSR) { dispatch_sync(mainQueue, ^{self.DSR = DSRPin; }); }
+		if (DCDPin != self.DCD) { dispatch_sync(mainQueue, ^{self.DCD = DCDPin; }); }
 	});
 	self.pinPollTimer = timer;
 	dispatch_resume(self.pinPollTimer);
@@ -373,8 +362,7 @@ static __strong NSMutableArray *allSerialPorts;
 	// Set port back the way it was before we used it
 	tcsetattr(self.fileDescriptor, TCSADRAIN, &originalPortAttributes);
 	
-	if (close(self.fileDescriptor))
-	{
+	if (close(self.fileDescriptor)) {
 		LOG_SERIAL_PORT_ERROR(@"Error closing serial port with file descriptor %i:%i", self.fileDescriptor, errno);
 		[self notifyDelegateOfPosixError];
 		return;
@@ -383,8 +371,7 @@ static __strong NSMutableArray *allSerialPorts;
 	self.fileDescriptor = 0;
 	
 	[self dispatchToDelegateQueue:^{
-		if ([self.delegate respondsToSelector:@selector(serialPortWasClosed:)])
-		{
+		if ([self.delegate respondsToSelector:@selector(serialPortWasClosed:)]) {
 			[self.delegate serialPortWasClosed:self];
 			dispatch_async(self.requestHandlingQueue, ^{
 				self.requestsQueue = [NSMutableArray array]; // Cancel all queued requests
@@ -403,8 +390,7 @@ static __strong NSMutableArray *allSerialPorts;
 - (void)cleanupAfterSystemRemoval
 {
 	[self dispatchToDelegateQueue:^{
-		if ([self.delegate respondsToSelector:@selector(serialPortWasRemovedFromSystem:)])
-		{
+		if ([self.delegate respondsToSelector:@selector(serialPortWasRemovedFromSystem:)]) {
 			[(id)self.delegate performSelectorOnMainThread:@selector(serialPortWasRemovedFromSystem:) withObject:self waitUntilDone:YES];
 		}
 	}];
@@ -421,14 +407,11 @@ static __strong NSMutableArray *allSerialPorts;
 	while ([writeBuffer length] > 0)
 	{
 		long numBytesWritten = write(self.fileDescriptor, [writeBuffer bytes], [writeBuffer length]);
-		if (numBytesWritten < 0)
-		{
+		if (numBytesWritten < 0) {
 			LOG_SERIAL_PORT_ERROR(@"Error writing to serial port:%d", errno);
 			[self notifyDelegateOfPosixError];
 			return NO;
-		}
-		else if (numBytesWritten > 0)
-		{
+		} else if (numBytesWritten > 0) {
 			[writeBuffer replaceBytesInRange:NSMakeRange(0, numBytesWritten) withBytes:NULL length:0];
 		}
 	}
@@ -498,8 +481,7 @@ static __strong NSMutableArray *allSerialPorts;
 // Must only be called on requestHandlingQueue (ie. wrap call to this method in dispatch())
 - (BOOL)reallySendRequest:(ORSSerialRequest *)request
 {
-	if (!self.pendingRequest)
-	{
+	if (!self.pendingRequest) {
 		NSUInteger bufferLength = request.responseDescriptor.maximumPacketLength;
 		self.requestResponseReceiveBuffer = [[ORSSerialBuffer alloc] initWithMaximumLength:bufferLength];
 		
@@ -541,8 +523,7 @@ static __strong NSMutableArray *allSerialPorts;
 	
 	ORSSerialRequest *request = self.pendingRequest;
 	
-	if (![self.delegate respondsToSelector:@selector(serialPort:requestDidTimeout:)])
-	{
+	if (![self.delegate respondsToSelector:@selector(serialPort:requestDidTimeout:)]) {
 		[self sendNextRequest];
 		return;
 	}
@@ -576,8 +557,7 @@ static __strong NSMutableArray *allSerialPorts;
 	
 	[self dispatchToDelegateQueue:^{
 		if ([responseData length] &&
-			[self.delegate respondsToSelector:@selector(serialPort:didReceiveResponse:toRequest:)])
-		{
+			[self.delegate respondsToSelector:@selector(serialPort:didReceiveResponse:toRequest:)]) {
 			[self.delegate serialPort:self didReceiveResponse:responseData toRequest:request];
 		}
 	}];
@@ -590,8 +570,7 @@ static __strong NSMutableArray *allSerialPorts;
 - (void)receiveData:(NSData *)data;
 {
 	[self dispatchToDelegateQueue:^{
-		if ([self.delegate respondsToSelector:@selector(serialPort:didReceiveData:)])
-		{
+		if ([self.delegate respondsToSelector:@selector(serialPort:didReceiveData:)]) {
 			[self.delegate serialPort:self didReceiveData:data];
 		}
 	}];
@@ -615,8 +594,7 @@ static __strong NSMutableArray *allSerialPorts;
 				
 				// Complete packet received, so notify delegate then clear buffer
 				[self dispatchToDelegateQueue:^{
-					if ([self.delegate respondsToSelector:@selector(serialPort:didReceivePacket:matchingDescriptor:)])
-					{
+					if ([self.delegate respondsToSelector:@selector(serialPort:didReceivePacket:matchingDescriptor:)]) {
 						[self.delegate serialPort:self didReceivePacket:completePacket matchingDescriptor:descriptor];
 					}
 				}];
@@ -715,8 +693,7 @@ static __strong NSMutableArray *allSerialPorts;
 		NSString *calloutPath = [self bsdCalloutPathFromDevice:eachPort];
 		NSString *dialinPath = [self bsdDialinPathFromDevice:eachPort];
 		if ([bsdPath isEqualToString:calloutPath] ||
-			[bsdPath isEqualToString:dialinPath])
-		{
+			[bsdPath isEqualToString:dialinPath]) {
 			result = eachPort;
 			break;
 		}
@@ -773,30 +750,29 @@ static __strong NSMutableArray *allSerialPorts;
 - (void)notifyDelegateOfPosixErrorThen:(void(^)(void))continuationBlock
 {
 	if ([self.delegate respondsToSelector:@selector(serialPort:didEncounterError:)]) {
-		NSDictionary *errDict = @{NSLocalizedDescriptionKey: @(strerror(errno)),
-								  NSFilePathErrorKey: self.path};
-		NSError *error = [NSError errorWithDomain:NSPOSIXErrorDomain
-											 code:errno
-										 userInfo:errDict];
+	NSDictionary *errDict = @{NSLocalizedDescriptionKey : @(strerror(errno)),
+							  NSFilePathErrorKey : self.path};
+	NSError *error = [NSError errorWithDomain:NSPOSIXErrorDomain
+										 code:errno
+									 userInfo:errDict];
 		[self dispatchToDelegateQueue:^{ [self.delegate serialPort:self didEncounterError:error]; }];
 	}
 	[self dispatchToDelegateQueue:continuationBlock];
 }
-
+	
 - (void)dispatchToDelegateQueue:(void(^)(void))block
 {
 	if (!block) return;
 	
 	dispatch_async(self.serialDelegateQueue, block);
-}
+	}
 
 #pragma mark - Properties
 
 + (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key
 {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
-	if ([key isEqualToString:@"isOpen"])
-	{
+	if ([key isEqualToString:@"isOpen"]) {
 		keyPaths = [keyPaths setByAddingObject:@"fileDescriptor"];
 	}
 	
@@ -857,8 +833,7 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (void)setBaudRate:(NSNumber *)rate
 {
-	if (rate != _baudRate)
-	{
+	if (rate != _baudRate) {
 		_baudRate = [rate copy];
 		
 		[self setPortOptions];
@@ -867,8 +842,7 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (void)setNumberOfStopBits:(NSUInteger)num
 {
-	if (num != _numberOfStopBits)
-	{
+	if (num != _numberOfStopBits) {
 		_numberOfStopBits = num;
 		[self setPortOptions];
 	}
@@ -876,8 +850,7 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (void)setShouldEchoReceivedData:(BOOL)flag
 {
-	if (flag != _shouldEchoReceivedData)
-	{
+	if (flag != _shouldEchoReceivedData) {
 		_shouldEchoReceivedData = flag;
 		[self setPortOptions];
 	}
@@ -885,12 +858,10 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (void)setParity:(ORSSerialPortParity)aParity
 {
-	if (aParity != _parity)
-	{
+	if (aParity != _parity) {
 		if (aParity != ORSSerialPortParityNone &&
 			aParity != ORSSerialPortParityOdd &&
-			aParity != ORSSerialPortParityEven)
-		{
+			aParity != ORSSerialPortParityEven) {
 			aParity = ORSSerialPortParityNone;
 		}
 		
@@ -901,8 +872,7 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (void)setUsesRTSCTSFlowControl:(BOOL)flag
 {
-	if (flag != _usesRTSCTSFlowControl)
-	{
+	if (flag != _usesRTSCTSFlowControl) {
 		// Turning flow control one while the port is open doesn't seem to work right,
 		// at least with some drivers, so close it then reopen it if needed
 		BOOL shouldReopen = self.isOpen;
@@ -917,8 +887,7 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (void)setUsesDTRDSRFlowControl:(BOOL)flag
 {
-	if (flag != _usesDTRDSRFlowControl)
-	{
+	if (flag != _usesDTRDSRFlowControl) {
 		// Turning flow control one while the port is open doesn't seem to work right,
 		// at least with some drivers, so close it then reopen it if needed
 		BOOL shouldReopen = self.isOpen;
@@ -932,8 +901,7 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (void)setUsesDCDOutputFlowControl:(BOOL)flag
 {
-	if (flag != _usesDCDOutputFlowControl)
-	{
+	if (flag != _usesDCDOutputFlowControl) {
 		// Turning flow control one while the port is open doesn't seem to work right,
 		// at least with some drivers, so close it then reopen it if needed
 		BOOL shouldReopen = self.isOpen;
@@ -948,8 +916,8 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (void)updateModemLines
 {
-	if (![self isOpen]) return;
-	
+		if (![self isOpen]) return;
+		
 	int modemLines;
 	if (ioctl(self.fileDescriptor, TIOCMGET, &modemLines) < 0) {
 		int localErrno = errno;
@@ -962,8 +930,7 @@ static __strong NSMutableArray *allSerialPorts;
 	}
 	modemLines = self.RTS ? modemLines | TIOCM_RTS : modemLines & ~TIOCM_RTS;
 	modemLines = self.DTR ? modemLines | TIOCM_DTR : modemLines & ~TIOCM_DTR;
-	if (ioctl(self.fileDescriptor, TIOCMSET, &modemLines) < 0)
-	{
+	if (ioctl(self.fileDescriptor, TIOCMSET, &modemLines) < 0) {
 		LOG_SERIAL_PORT_ERROR(@"Error in %s", __PRETTY_FUNCTION__);
 		[self notifyDelegateOfPosixError];
 	}
@@ -975,13 +942,12 @@ static __strong NSMutableArray *allSerialPorts;
 	{
 		_RTS = flag;
 		[self updateModemLines];
-	}
+}
 }
 
 - (void)setDTR:(BOOL)flag
 {
-	if (flag != _DTR)
-	{
+	if (flag != _DTR) {
 		_DTR = flag;
 		[self updateModemLines];
 	}
@@ -1004,10 +970,8 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (void)setPinPollTimer:(dispatch_source_t)timer
 {
-	if (timer != _pinPollTimer)
-	{
-		if (_pinPollTimer)
-		{
+	if (timer != _pinPollTimer) {
+		if (_pinPollTimer) {
 			dispatch_source_cancel(_pinPollTimer);
 			ORS_GCD_RELEASE(_pinPollTimer);
 		}
@@ -1034,8 +998,7 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (void)setRequestHandlingQueue:(dispatch_queue_t)requestHandlingQueue
 {
-	if (requestHandlingQueue != _requestHandlingQueue)
-	{
+	if (requestHandlingQueue != _requestHandlingQueue) {
 		ORS_GCD_RELEASE(_requestHandlingQueue);
 		ORS_GCD_RETAIN(requestHandlingQueue);
 		_requestHandlingQueue = requestHandlingQueue;
