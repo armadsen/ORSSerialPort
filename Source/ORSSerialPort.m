@@ -416,8 +416,6 @@ static __strong NSMutableArray *allSerialPorts;
 		}
 	}
 	
-	NSLog(@"Sent: %@ (%@)", [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding], data);
-	
 	return YES;
 }
 
