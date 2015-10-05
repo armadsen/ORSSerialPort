@@ -33,6 +33,7 @@
 #define nullable
 #define nonnullable
 #define __nullable
+#define null_resettable
 #endif
 
 #ifndef ORSArrayOf
