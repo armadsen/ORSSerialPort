@@ -56,6 +56,7 @@
 		_serialPort = serialPort;
 		
 		_serialPort.baudRate = @57600;
+		_serialPort.RTS = YES;
 		_serialPort.delegate = self;
 		[_serialPort open];
 	}
