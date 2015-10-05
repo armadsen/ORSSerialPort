@@ -260,7 +260,7 @@ static __strong NSMutableArray *allSerialPorts;
 	if (self.isOpen) return;
 	
 	dispatch_queue_t mainQueue = dispatch_get_main_queue();
-
+	
 	int descriptor=0;
 	descriptor = open([self.path cStringUsingEncoding:NSASCIIStringEncoding], O_RDWR | O_NOCTTY | O_EXLOCK | O_NONBLOCK);
 	if (descriptor < 1)
@@ -280,7 +280,7 @@ static __strong NSMutableArray *allSerialPorts;
 	
 	self.fileDescriptor = descriptor;
 	
-
+	
 	// Port opened successfully, set options
 	tcgetattr(descriptor, &originalPortAttributes); // Get original options so they can be reset later
 	[self setPortOptions];
@@ -324,13 +324,10 @@ static __strong NSMutableArray *allSerialPorts;
 		}
 		
 		int32_t modemLines=0;
-		int result = ioctl(self.fileDescriptor, TIOCMGET, &modemLines);
-		if (result < 0)
-		{
-			[self dispatchToDelegateQueue:^{
-				[self notifyDelegateOfPosixError];
-				if (errno == ENXIO)
-				{
+		if (ioctl(self.fileDescriptor, TIOCMGET, &modemLines) < 0) {
+			int localErrno = errno;
+			[self notifyDelegateOfPosixErrorThen:^{
+				if (localErrno == ENXIO) {
 					[self cleanupAfterSystemRemoval];
 				}
 			}];
@@ -771,17 +768,19 @@ static __strong NSMutableArray *allSerialPorts;
 
 #pragma mark Helper Methods
 
-- (void)notifyDelegateOfPosixError
+- (void)notifyDelegateOfPosixError { [self notifyDelegateOfPosixErrorThen:nil]; }
+
+- (void)notifyDelegateOfPosixErrorThen:(void(^)(void))continuationBlock
 {
-	if (![self.delegate respondsToSelector:@selector(serialPort:didEncounterError:)]) return;
-	
-	NSDictionary *errDict = @{NSLocalizedDescriptionKey: @(strerror(errno)),
-							  NSFilePathErrorKey: self.path};
-	NSError *error = [NSError errorWithDomain:NSPOSIXErrorDomain
-										 code:errno
-									 userInfo:errDict];
-	
-	[self dispatchToDelegateQueue:^{ [self.delegate serialPort:self didEncounterError:error]; }];
+	if ([self.delegate respondsToSelector:@selector(serialPort:didEncounterError:)]) {
+		NSDictionary *errDict = @{NSLocalizedDescriptionKey: @(strerror(errno)),
+								  NSFilePathErrorKey: self.path};
+		NSError *error = [NSError errorWithDomain:NSPOSIXErrorDomain
+											 code:errno
+										 userInfo:errDict];
+		[self dispatchToDelegateQueue:^{ [self.delegate serialPort:self didEncounterError:error]; }];
+	}
+	[self dispatchToDelegateQueue:continuationBlock];
 }
 
 - (void)dispatchToDelegateQueue:(void(^)(void))block
@@ -950,12 +949,20 @@ static __strong NSMutableArray *allSerialPorts;
 - (void)updateModemLines
 {
 	if (![self isOpen]) return;
-
-	int bits;
-	ioctl( self.fileDescriptor, TIOCMGET, &bits ) ;
-	bits = self.RTS ? bits | TIOCM_RTS : bits & ~TIOCM_RTS;
-	bits = self.DTR ? bits | TIOCM_DTR : bits & ~TIOCM_DTR;
-	if (ioctl( self.fileDescriptor, TIOCMSET, &bits ) < 0)
+	
+	int modemLines;
+	if (ioctl(self.fileDescriptor, TIOCMGET, &modemLines) < 0) {
+		int localErrno = errno;
+		[self notifyDelegateOfPosixErrorThen:^{
+			if (localErrno == ENXIO) {
+				[self cleanupAfterSystemRemoval];
+			}
+		}];
+		return;
+	}
+	modemLines = self.RTS ? modemLines | TIOCM_RTS : modemLines & ~TIOCM_RTS;
+	modemLines = self.DTR ? modemLines | TIOCM_DTR : modemLines & ~TIOCM_DTR;
+	if (ioctl(self.fileDescriptor, TIOCMSET, &modemLines) < 0)
 	{
 		LOG_SERIAL_PORT_ERROR(@"Error in %s", __PRETTY_FUNCTION__);
 		[self notifyDelegateOfPosixError];
