@@ -35,6 +35,7 @@
 #define nullable
 #define nonnullable
 #define __nullable
+#define null_resettable
 #endif
 
 #if OS_OBJECT_USE_OBJC
