@@ -51,6 +51,7 @@ class SerialCommunicator: NSObject, ORSSerialPortDelegate {
 		didSet {
 			if let port = serialPort {
 				port.baudRate = 57600
+				port.RTS = true
 				port.delegate = self
 				port.open()
 			}
