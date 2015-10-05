@@ -391,11 +391,11 @@ static __strong NSMutableArray *allSerialPorts;
 {
 	[self dispatchToDelegateQueue:^{
 		if ([self.delegate respondsToSelector:@selector(serialPortWasRemovedFromSystem:)]) {
-			[(id)self.delegate performSelectorOnMainThread:@selector(serialPortWasRemovedFromSystem:) withObject:self waitUntilDone:YES];
+			[self.delegate serialPortWasRemovedFromSystem:self];
 		}
+		
+		[self close];
 	}];
-	
-	[self close];
 }
 
 - (BOOL)sendData:(NSData *)data;
