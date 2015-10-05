@@ -35,6 +35,13 @@
 #define nullable
 #define nonnullable
 #define __nullable
+#define null_resettable
+#endif
+
+#if OS_OBJECT_USE_OBJC
+	#define ORS_GCD_STRONG strong
+#else
+	#define ORS_GCD_STRONG assign
 #endif
 
 #ifndef ORSArrayOf
@@ -343,6 +350,17 @@ NS_ASSUME_NONNULL_BEGIN
 #else
 @property (nonatomic, unsafe_unretained, nullable) id<ORSSerialPortDelegate> delegate;
 #endif
+
+/**
+ *  The queue upon which delegate methods should be called. The default is the main
+ *  queue. Setting this property to nil will also cause the main queue to be used.
+ *
+ *  If you wish to receive incoming data, along with the other messages ORSSerialPort
+ *  sends to its delegate on a queue other than the main queue, you can use this property
+ *  to configure that. Behind the scenes, ORSSerialPort ensures that its delegate never
+ *  receives messages simultaneously, even when this property is set to a concurrent queue.
+ */
+@property (nonatomic, ORS_GCD_STRONG, null_resettable) dispatch_queue_t delegateQueue;
 
 /** ---------------------------------------------------------------------------------------
  * @name Request/Response Properties
