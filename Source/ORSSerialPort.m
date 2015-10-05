@@ -280,14 +280,8 @@ static __strong NSMutableArray *allSerialPorts;
 	[self setPortOptions];
 	[self updateModemLines];
 	
-<<<<<<< HEAD
-	if ([self.delegate respondsToSelector:@selector(serialPortWasOpened:)])
-	{
-		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-=======
 	[self dispatchToDelegateQueue:^{
 		if ([self.delegate respondsToSelector:@selector(serialPortWasOpened:)]) {
->>>>>>> Issue35
 			[self.delegate serialPortWasOpened:self];
 		}
 	}];
@@ -536,11 +530,7 @@ static __strong NSMutableArray *allSerialPorts;
 		return;
 	}
 	
-<<<<<<< HEAD
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-=======
 	[self dispatchToDelegateQueue:^{
->>>>>>> Issue35
 		[self.delegate serialPort:self requestDidTimeout:request];
 		dispatch_async(self.requestHandlingQueue, ^{
 			[self sendNextRequest];
@@ -567,11 +557,7 @@ static __strong NSMutableArray *allSerialPorts;
 	self.pendingRequestTimeoutTimer = nil;
 	ORSSerialRequest *request = self.pendingRequest;
 	
-<<<<<<< HEAD
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-=======
 	[self dispatchToDelegateQueue:^{
->>>>>>> Issue35
 		if ([responseData length] &&
 			[self.delegate respondsToSelector:@selector(serialPort:didReceiveResponse:toRequest:)]) {
 			[self.delegate serialPort:self didReceiveResponse:responseData toRequest:request];
@@ -585,14 +571,8 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (void)receiveData:(NSData *)data;
 {
-<<<<<<< HEAD
-	if ([self.delegate respondsToSelector:@selector(serialPort:didReceiveData:)])
-	{
-		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-=======
 	[self dispatchToDelegateQueue:^{
 		if ([self.delegate respondsToSelector:@selector(serialPort:didReceiveData:)]) {
->>>>>>> Issue35
 			[self.delegate serialPort:self didReceiveData:data];
 		}
 	}];
@@ -615,14 +595,8 @@ static __strong NSMutableArray *allSerialPorts;
 				if (![completePacket length]) continue;
 				
 				// Complete packet received, so notify delegate then clear buffer
-<<<<<<< HEAD
-				if ([self.delegate respondsToSelector:@selector(serialPort:didReceivePacket:matchingDescriptor:)])
-				{
-					dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-=======
 				[self dispatchToDelegateQueue:^{
 					if ([self.delegate respondsToSelector:@selector(serialPort:didReceivePacket:matchingDescriptor:)]) {
->>>>>>> Issue35
 						[self.delegate serialPort:self didReceivePacket:completePacket matchingDescriptor:descriptor];
 					}
 				}];
@@ -794,13 +768,8 @@ static __strong NSMutableArray *allSerialPorts;
 {
 	if (!block) return;
 	
-<<<<<<< HEAD
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), notifyBlock);
-}
-=======
 	dispatch_async(self.serialDelegateQueue, block);
-	}
->>>>>>> Issue35
+}
 
 #pragma mark - Properties
 
