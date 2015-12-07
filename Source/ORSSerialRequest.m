@@ -25,7 +25,7 @@
 //	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import "ORSSerialRequest.h"
-#import "ORSSerialPacketDescriptor.h"
+#import <ORSSerial/ORSSerial-Swift.h>
 
 @interface ORSSerialRequest ()
 
@@ -68,35 +68,6 @@
 - (NSString *)description
 {
 	return [NSString stringWithFormat:@"%@ data: %@ userInfo: %@ timeout interval: %f", [super description], self.dataToSend, self.userInfo, self.timeoutInterval];
-}
-
-@end
-
-@implementation ORSSerialRequest (Deprecated)
-
-+ (instancetype)requestWithDataToSend:(NSData *)dataToSend
-							 userInfo:(id)userInfo
-					  timeoutInterval:(NSTimeInterval)timeout
-					responseEvaluator:(ORSSerialPacketEvaluator)responseEvaluator;
-{
-	return [[self alloc] initWithDataToSend:dataToSend userInfo:userInfo timeoutInterval:timeout responseEvaluator:responseEvaluator];
-}
-- (instancetype)initWithDataToSend:(NSData *)dataToSend
-						  userInfo:(id)userInfo
-				   timeoutInterval:(NSTimeInterval)timeout
-				 responseEvaluator:(ORSSerialPacketEvaluator)responseEvaluator;
-{
-	ORSSerialPacketDescriptor *descriptor = [[ORSSerialPacketDescriptor alloc] initWithMaximumPacketLength:NSIntegerMax
-																								  userInfo:nil
-																						 responseEvaluator:responseEvaluator];
-	return [self initWithDataToSend:dataToSend userInfo:userInfo timeoutInterval:timeout responseDescriptor:descriptor];
-}
-
-- (BOOL)dataIsValidResponse:(NSData *)responseData
-{
-	if (!self.responseDescriptor) return YES;
-	
-	return [self.responseDescriptor dataIsValidPacket:responseData];
 }
 
 @end

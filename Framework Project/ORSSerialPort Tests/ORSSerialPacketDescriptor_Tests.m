@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <XCTest/XCTest.h>
-#import <ORSSerial/ORSSerial.h>
+@import ORSSerial;
 
 #define ORSTStringToData_(x) [x dataUsingEncoding:NSASCIIStringEncoding]
 

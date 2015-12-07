@@ -27,6 +27,7 @@
 #import "ORSSerialPort.h"
 #import "ORSSerialRequest.h"
 #import "ORSSerialBuffer.h"
+#import <ORSSerial/ORSSerial-Swift.h>
 #import <IOKit/serial/IOSerialKeys.h>
 #import <IOKit/serial/ioss.h>
 #import <sys/param.h>
