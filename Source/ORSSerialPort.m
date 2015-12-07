@@ -25,7 +25,6 @@
 //	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import "ORSSerialPort.h"
-#import "ORSSerialBuffer.h"
 #import <ORSSerial/ORSSerial-Swift.h>
 #import <IOKit/serial/IOSerialKeys.h>
 #import <IOKit/serial/ioss.h>
