@@ -26,11 +26,11 @@ class SerialCommunicator: NSObject, ORSSerialPortDelegate {
 	}
 	
 	func serialPortWasOpened(serialPort: ORSSerialPort) {
-		let descriptor = ORSSerialPacketDescriptor(prefixString: "!pos", suffixString: ";", maximumPacketLength: 8, userInfo: nil)
+		let descriptor = SerialPacketDescriptor(prefixString: "!pos", suffixString: ";", maximumPacketLength: 8, userInfo: nil)
 		serialPort.startListeningForPacketsMatchingDescriptor(descriptor)
 	}
 	
-	func serialPort(serialPort: ORSSerialPort, didReceivePacket packetData: NSData, matchingDescriptor descriptor: ORSSerialPacketDescriptor) {
+	func serialPort(serialPort: ORSSerialPort, didReceivePacket packetData: NSData, matchingDescriptor descriptor: SerialPacketDescriptor) {
 		if let dataAsString = NSString(data: packetData, encoding: NSASCIIStringEncoding) {
 			let valueString = dataAsString.substringWithRange(NSRange(location: 4, length: dataAsString.length-5))
 			self.sliderPosition = Int(valueString)!

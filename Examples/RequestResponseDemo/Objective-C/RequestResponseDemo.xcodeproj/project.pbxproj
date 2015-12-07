@@ -20,6 +20,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		9D04005B1C164867006D763F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9DCDDBC61AB4906100F8347E /* ORSSerialPort.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9D0400171C1634E2006D763F;
+			remoteInfo = "ORSSerialPort Tests";
+		};
 		9DCDDBCA1AB4906100F8347E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9DCDDBC61AB4906100F8347E /* ORSSerialPort.xcodeproj */;
@@ -140,6 +147,7 @@
 			isa = PBXGroup;
 			children = (
 				9DCDDBCB1AB4906100F8347E /* ORSSerial.framework */,
+				9D04005C1C164867006D763F /* ORSSerialPort Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -205,6 +213,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		9D04005C1C164867006D763F /* ORSSerialPort Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "ORSSerialPort Tests.xctest";
+			remoteRef = 9D04005B1C164867006D763F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		9DCDDBCB1AB4906100F8347E /* ORSSerial.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -325,6 +340,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.openreelsoftware.$(PRODUCT_NAME:rfc1034identifier)";
@@ -337,6 +353,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.openreelsoftware.$(PRODUCT_NAME:rfc1034identifier)";

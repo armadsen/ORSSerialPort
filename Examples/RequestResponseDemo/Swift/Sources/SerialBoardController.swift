@@ -47,8 +47,8 @@ class SerialBoardController: NSObject, ORSSerialPortDelegate {
 	// MARK: Sending Commands
 	private func readTemperature() {
 		let command = "$TEMP?;".dataUsingEncoding(NSASCIIStringEncoding)!
-		let responseDescriptor = ORSSerialPacketDescriptor(prefixString: "!TEMP", suffixString: ";", maximumPacketLength: 10, userInfo: nil)
-		let request = ORSSerialRequest(dataToSend: command,
+		let responseDescriptor = SerialPacketDescriptor(prefixString: "!TEMP", suffixString: ";", maximumPacketLength: 10, userInfo: nil)
+		let request = SerialRequest(dataToSend: command,
 			userInfo: SerialBoardRequestType.ReadTemperature.rawValue,
 			timeoutInterval: 0.5,
 			responseDescriptor: responseDescriptor)
@@ -57,8 +57,8 @@ class SerialBoardController: NSObject, ORSSerialPortDelegate {
 	
 	private func readLEDState() {
 		let command = "$LED?;".dataUsingEncoding(NSASCIIStringEncoding)!
-		let responseDescriptor = ORSSerialPacketDescriptor(prefixString: "!LED", suffixString: ";", maximumPacketLength: 10, userInfo: nil)
-		let request = ORSSerialRequest(dataToSend: command,
+		let responseDescriptor = SerialPacketDescriptor(prefixString: "!LED", suffixString: ";", maximumPacketLength: 10, userInfo: nil)
+		let request = SerialRequest(dataToSend: command,
 			userInfo: SerialBoardRequestType.ReadLED.rawValue,
 			timeoutInterval: kTimeoutDuration,
 			responseDescriptor: responseDescriptor)
@@ -68,8 +68,8 @@ class SerialBoardController: NSObject, ORSSerialPortDelegate {
 	private func sendCommandToSetLEDToState(state: Bool) {
 		let commandString = NSString(format: "$LED%@;", (state ? "1" : "0"))
 		let command = commandString.dataUsingEncoding(NSASCIIStringEncoding)!
-		let responseDescriptor = ORSSerialPacketDescriptor(prefixString: "!LED", suffixString: ";", maximumPacketLength: 10, userInfo: nil)
-		let request = ORSSerialRequest(dataToSend: command,
+		let responseDescriptor = SerialPacketDescriptor(prefixString: "!LED", suffixString: ";", maximumPacketLength: 10, userInfo: nil)
+		let request = SerialRequest(dataToSend: command,
 			userInfo: SerialBoardRequestType.SetLED.rawValue,
 			timeoutInterval: kTimeoutDuration,
 			responseDescriptor: responseDescriptor)
@@ -108,7 +108,7 @@ class SerialBoardController: NSObject, ORSSerialPortDelegate {
 		print("Serial port \(serialPort) encountered an error: \(error)")
 	}
 	
-	func serialPort(serialPort: ORSSerialPort, didReceiveResponse responseData: NSData, toRequest request: ORSSerialRequest) {
+	func serialPort(serialPort: ORSSerialPort, didReceiveResponse responseData: NSData, toRequest request: SerialRequest) {
 		let requestType = SerialBoardRequestType(rawValue: request.userInfo as! Int)!
 		switch requestType {
 		case .ReadTemperature:
