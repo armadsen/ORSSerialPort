@@ -14,6 +14,7 @@
 		9D0400261C16369A006D763F /* Dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0400251C16369A006D763F /* Dummy.swift */; };
 		9D0400551C163F41006D763F /* SerialRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0400541C163F41006D763F /* SerialRequest.swift */; };
 		9D04006A1C165339006D763F /* SerialBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0400691C165339006D763F /* SerialBuffer.swift */; };
+		9D04006C1C166E37006D763F /* SerialPortManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D04006B1C166E37006D763F /* SerialPortManager.swift */; };
 		9DCA89321A2BB15A009285EB /* ORSSerial.h in Headers */ = {isa = PBXBuildFile; fileRef = 9DCA89311A2BB15A009285EB /* ORSSerial.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9DCA893A1A2BB1E2009285EB /* ORSSerialPort.h in Headers */ = {isa = PBXBuildFile; fileRef = 9DCA89341A2BB1E2009285EB /* ORSSerialPort.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9DCA893B1A2BB1E2009285EB /* ORSSerialPort.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA89351A2BB1E2009285EB /* ORSSerialPort.m */; };
@@ -42,6 +43,7 @@
 		9D0400251C16369A006D763F /* Dummy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dummy.swift; sourceTree = "<group>"; };
 		9D0400541C163F41006D763F /* SerialRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerialRequest.swift; sourceTree = "<group>"; };
 		9D0400691C165339006D763F /* SerialBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerialBuffer.swift; sourceTree = "<group>"; };
+		9D04006B1C166E37006D763F /* SerialPortManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerialPortManager.swift; sourceTree = "<group>"; };
 		9D7472161B6D7767002D8B10 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9D7472171B6D7767002D8B10 /* ORSSerialPort_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORSSerialPort_Tests.m; sourceTree = "<group>"; };
 		9D74721F1B6D7787002D8B10 /* ORSSerialPacketDescriptor_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSSerialPacketDescriptor_Tests.m; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 				9DCA89351A2BB1E2009285EB /* ORSSerialPort.m */,
 				9DCA89361A2BB1E2009285EB /* ORSSerialPortManager.h */,
 				9DCA89371A2BB1E2009285EB /* ORSSerialPortManager.m */,
+				9D04006B1C166E37006D763F /* SerialPortManager.swift */,
 				9D0400541C163F41006D763F /* SerialRequest.swift */,
 				9D0400111C1607CE006D763F /* SerialPacketDescriptor.swift */,
 				9D0400681C16532E006D763F /* Private */,
@@ -288,6 +291,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D04006C1C166E37006D763F /* SerialPortManager.swift in Sources */,
 				9D0400551C163F41006D763F /* SerialRequest.swift in Sources */,
 				9DCA893B1A2BB1E2009285EB /* ORSSerialPort.m in Sources */,
 				9DCA893D1A2BB1E2009285EB /* ORSSerialPortManager.m in Sources */,

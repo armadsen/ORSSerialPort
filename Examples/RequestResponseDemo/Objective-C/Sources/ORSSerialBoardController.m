@@ -88,7 +88,7 @@ typedef NS_ENUM(NSInteger, ORSSerialBoardRequestType) {
 }
 
 - (void)sendCommandToSetLEDToState:(BOOL)LEDState
-{
+{	
 	NSString *commandString = [NSString stringWithFormat:@"$LED%@;", (LEDState ? @"1" : @"0")];
 	NSData *command = [commandString dataUsingEncoding:NSASCIIStringEncoding];
 	ORSSerialPacketDescriptor *responseDescriptor =
