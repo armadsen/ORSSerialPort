@@ -8,7 +8,11 @@
 
 import Foundation
 import IOKit
+import IOKit.serial
 import Cocoa
+
+/// Set to true to enable error logging
+public var SerialPortErrorLoggingEnabled = false
 
 /// Posted when a serial port is connected to the system
 public let SerialPortsWereConnectedNotification = "SerialPortWasConnectedNotification"
@@ -16,28 +20,28 @@ public let SerialPortsWereConnectedNotification = "SerialPortWasConnectedNotific
 /// Posted when a serial port is disconnected from the system
 public let SerialPortsWereDisconnectedNotification = "SerialPortsWereDisconnectedNotification"
 
-/// Key for connected port in ORSSerialPortWasConnectedNotification userInfo dictionary
+/// Key for connected port in SerialPortWasConnectedNotification userInfo dictionary
 public let ConnectedSerialPortsKey = "ConnectedSerialPortsKey"
-/// Key for disconnected port in ORSSerialPortWasDisconnectedNotification userInfo dictionary
+/// Key for disconnected port in SerialPortWasDisconnectedNotification userInfo dictionary
 public let DisconnectedSerialPortsKey = "DisconnectedSerialPortsKey"
 
 /**
-*  `ORSSerialPortManager` is a singleton class (one instance per
+*  `SerialPortManager` is a singleton class (one instance per
 *  application) that can be used to get a list of available serial ports.
 *  It will also handle closing open serial ports when the Mac goes to
 *  sleep, and reopening them automatically on wake. This prevents problems
 *  I've seen with serial port drivers that can hang if the port is left
 *  open when putting the machine to sleep. Note that using
-*  `ORSSerialPortManager` is optional. It provides some nice functionality,
+*  `SerialPortManager` is optional. It provides some nice functionality,
 *  but only `ORSSerialPort` is necessary to simply send and received data.
 *
-*  Using ORSSerialPortManager
+*  Using SerialPortManager
 *  --------------------------
 *
 *  To get the shared serial port
 *  manager:
 *
-*      ORSSerialPortManager *portManager = [ORSSerialPortManager sharedSerialPortManager];
+*      SerialPortManager *portManager = [SerialPortManager sharedSerialPortManager];
 *
 *  To get a list of available ports:
 *
@@ -46,17 +50,17 @@ public let DisconnectedSerialPortsKey = "DisconnectedSerialPortsKey"
 *  Notifications
 *  -------------
 *
-*  `ORSSerialPort` posts notifications when a port is added to or removed from the system.
-*  `ORSSerialPortsWereConnectedNotification` is posted when one or more ports
-*  are added to the system. `ORSSerialPortsWereDisconnectedNotification` is posted when
+*  `SerialPortManager` posts notifications when a port is added to or removed from the system.
+*  `SerialPortsWereConnectedNotification` is posted when one or more ports
+*  are added to the system. `SerialPortsWereDisconnectedNotification` is posted when
 *  one ore more ports are removed from the system. The user info dictionary for each
 *  notification contains the list of ports added or removed. The keys to access these array
-*  are `ORSConnectedSerialPortsKey`, and `ORSDisconnectedSerialPortsKey` respectively.
+*  are `ConnectedSerialPortsKey`, and `DisconnectedSerialPortsKey` respectively.
 *
-*  KVO Compliance
+*  KVO Compliance (OS X Only)
 *  --------------
 *
-*  `ORSSerialPortManager` is Key-Value Observing (KVO) compliant for its
+*  `SerialPortManager` is Key-Value Observing (KVO) compliant for its
 *  `availablePorts` property. This means that you can observe
 *  `availablePorts` to be notified when ports are added to or removed from
 *  the system. This also means that you can easily bind UI elements to the
@@ -64,17 +68,17 @@ public let DisconnectedSerialPortsKey = "DisconnectedSerialPortsKey"
 *  This makes it easy to create a popup menu that displays available serial
 *  ports and updates automatically, for example.
 *
-*  Close-On-Sleep
+*  Close-On-Sleep (OS X Only)
 *  --------------
 *
-*  `ORSSerialPortManager`'s close-on-sleep, reopen-on-wake functionality is
+*  `SerialPortManager`'s close-on-sleep, reopen-on-wake functionality is
 *  automatic. The only thing necessary to enable it is to make sure that
-*  the singleton instance of `ORSSerialPortManager` has been created by
+*  the singleton instance of `SerialPortManager` has been created by
 *  calling `+sharedSerialPortManager` at least once. Note that this
 *  behavior is only available in Cocoa apps, and is disabled when
 *  ORSSerialPort is used in a command-line only app.
 */
-public class SerialPortManager : NSObject {
+@objc(ORSSerialPortManager) public class SerialPortManager : NSObject {
 	
 	/**
 	*  The shared (singleton) serial port manager object.
@@ -84,6 +88,7 @@ public class SerialPortManager : NSObject {
 	public override init() {
 		super.init()
 		
+		self.retrieveAvailablePortsAndRegisterForChangeNotifications()
 		self.registerForNotifications()
 	}
 	
@@ -97,6 +102,9 @@ public class SerialPortManager : NSObject {
 			let wsnc = NSWorkspace.sharedWorkspace().notificationCenter
 			wsnc.removeObserver(self)
 		#endif
+		
+		if portPublishedNotificationIterator != 0 { IOObjectRelease(portPublishedNotificationIterator) }
+		if portTerminatedNotificationIterator != 0 { IOObjectRelease(portTerminatedNotificationIterator) }
 	}
 	
 	// MARK: - Public
@@ -127,13 +135,13 @@ public class SerialPortManager : NSObject {
 	
 	// MARK: Sleep/Wake Management
 	
-	func systemWillSleep(notification: NSNotification) {
+	private dynamic func systemWillSleep(notification: NSNotification) {
 		for port in self.availablePorts where port.open {
 			if port.close() { self.portsToReopenAfterSleep.append(port) }
 		}
 	}
 	
-	func systemWillWake(notification: NSNotification) {
+	private dynamic func systemWillWake(notification: NSNotification) {
 		for port in self.portsToReopenAfterSleep {
 			port.open()
 		}
@@ -143,9 +151,104 @@ public class SerialPortManager : NSObject {
 	// MARK: Port Notifications
 	
 	private func retrieveAvailablePortsAndRegisterForChangeNotifications() {
-		let notificationPort = IONotificationPortCreate(kIOMasterPortDefault)
-		let source = IONotificationPortGetRunLoopSource(notificationPort)
-		CFRunLoopAddSource(CFRunLoopGetCurrent(), source, kCFRunLoopDefaultMode)
+		let publicationNotificationPort = IONotificationPortCreate(kIOMasterPortDefault)
+		let publicationSource = IONotificationPortGetRunLoopSource(publicationNotificationPort).takeUnretainedValue()
+		CFRunLoopAddSource(CFRunLoopGetCurrent(), publicationSource, kCFRunLoopDefaultMode)
+		
+		let matchingDict = IOServiceMatching(kIOSerialBSDServiceValue) as NSMutableDictionary
+		matchingDict[kIOSerialBSDTypeKey] = kIOSerialBSDAllTypes
+		
+		var publicationPortIterator: io_iterator_t = 0
+		let pResult = IOServiceAddMatchingNotification(publicationNotificationPort,
+			kIOPublishNotification,
+			matchingDict,
+			{ (pointer: UnsafeMutablePointer<Void>, iterator: io_iterator_t) -> Void in
+				let localSelf: SerialPortManager = objectFromPointer(pointer)
+				localSelf.serialPortsWerePublished(iterator)
+			},
+			pointerFromObject(self),
+			&publicationPortIterator)
+		defer {
+			if publicationPortIterator != 0 { IOObjectRelease(publicationPortIterator) }
+		}
+		guard pResult == 0 else {
+			LOG_SERIAL_PORT_ERROR("Error getting serial port list: \(pResult)")
+			return
+		}
+		self.portPublishedNotificationIterator = publicationPortIterator
+		
+		self.availablePorts = portsFromIterator(publicationPortIterator)
+		
+		// Register for removal
+		let terminationNotificationPort = IONotificationPortCreate(kIOMasterPortDefault)
+		let terminationSource = IONotificationPortGetRunLoopSource(terminationNotificationPort).takeUnretainedValue()
+		CFRunLoopAddSource(CFRunLoopGetCurrent(), terminationSource, kCFRunLoopDefaultMode)
+		
+		var terminationPortIterator: io_iterator_t = 0
+		let tResult = IOServiceAddMatchingNotification(terminationNotificationPort,
+			kIOTerminatedNotification,
+			matchingDict,
+			{ (pointer: UnsafeMutablePointer<Void>, iterator: io_iterator_t) -> Void in
+				let localSelf: SerialPortManager = objectFromPointer(pointer)
+				localSelf.serialPortsWereTerminated(iterator)
+			},
+			pointerFromObject(self),
+			&terminationPortIterator)
+		defer {
+			if terminationPortIterator != 0 { IOObjectRelease(terminationPortIterator) }
+		}
+		guard tResult == 0 else {
+			LOG_SERIAL_PORT_ERROR("Error registering for serial port termination notification: \(tResult).")
+			return
+		}
+		self.portTerminatedNotificationIterator = terminationPortIterator
+
+		while (IOIteratorNext(terminationPortIterator) != 0) {} // Run out the iterator to start notifications
+	}
+	
+	private func portsFromIterator(iterator: io_iterator_t) -> [ORSSerialPort] {
+		var result = [ORSSerialPort]()
+		var device: io_object_t = IOIteratorNext(iterator)
+		repeat {
+			if let port = ORSSerialPort(device: device) {
+				result.append(port)
+			}
+			IOObjectRelease(device)
+			device = IOIteratorNext(iterator)
+		} while device != 0
+		return result
+	}
+	
+	private func serialPortsWerePublished(iterator: io_iterator_t) {
+		let newlyConnectedPorts = portsFromIterator(iterator)
+		for port in newlyConnectedPorts {
+			print("new port: \(port.path)")
+		}
+		
+		var ports = self.availablePorts
+		ports.appendContentsOf(newlyConnectedPorts)
+		self.availablePorts = ports
+		
+		let nc = NSNotificationCenter.defaultCenter()
+		let userInfo = [ConnectedSerialPortsKey : newlyConnectedPorts]
+		nc.postNotificationName(SerialPortsWereConnectedNotification, object: self, userInfo: userInfo)
+	}
+	
+	private func serialPortsWereTerminated(iterator: io_iterator_t) {
+		let newlyDisconnectedPorts = portsFromIterator(iterator)
+		
+		var ports = self.availablePorts
+		for port in newlyDisconnectedPorts {
+			print("removed port: \(port.path)")
+			if let index = ports.indexOf(port) {
+				ports.removeAtIndex(index)
+			}
+		}
+		self.availablePorts = ports
+		
+		let nc = NSNotificationCenter.defaultCenter()
+		let userInfo = [DisconnectedSerialPortsKey : newlyDisconnectedPorts]
+		nc.postNotificationName(SerialPortsWereDisconnectedNotification, object: self, userInfo: userInfo)
 	}
 	
 	// MARK: - Properties
@@ -154,18 +257,43 @@ public class SerialPortManager : NSObject {
 	*  An array containing ORSSerialPort instances representing the
 	*  serial ports available on the system. (read-only)
 	*
-	*  As explained above, this property is Key Value Observing
+	*  As explained above, on OS X, this property is Key Value Observing
 	*  compliant, and can be bound to for example an NSPopUpMenu
 	*  to easily give the user a way to select an available port
 	*  on the system.
 	*/
-	public private(set) var availablePorts = [ORSSerialPort]()
+	public private(set) dynamic var availablePorts = [ORSSerialPort]()
 	
 	// Private Properties
 	
 	private var portsToReopenAfterSleep = [ORSSerialPort]()
 	private var terminationObserver: AnyObject?
 	
-	private var portPublishedNotificationIterator: io_iterator_t?
-	private var portTerminatedNotificationIterator: io_iterator_t?
+	private var portPublishedNotificationIterator: io_iterator_t = 0 {
+		didSet {
+			if portPublishedNotificationIterator != 0 { IOObjectRetain(portPublishedNotificationIterator) }
+			if oldValue != 0 { IOObjectRelease(oldValue) }
+		}
+	}
+	private var portTerminatedNotificationIterator: io_iterator_t = 0 {
+		didSet {
+			if portTerminatedNotificationIterator != 0 { IOObjectRetain(portTerminatedNotificationIterator) }
+			if oldValue != 0 { IOObjectRelease(oldValue) }
+		}
+		
+	}
+}
+
+private func pointerFromObject<T: AnyObject>(object: T) -> UnsafeMutablePointer<Void> {
+	return UnsafeMutablePointer(Unmanaged.passUnretained(object).toOpaque())
+}
+
+private func objectFromPointer<T: AnyObject>(pointer: UnsafePointer<Void>) -> T {
+	return Unmanaged<T>.fromOpaque(COpaquePointer(pointer)).takeUnretainedValue()
+}
+
+func LOG_SERIAL_PORT_ERROR(string: String) {
+	if SerialPortErrorLoggingEnabled {
+		NSLog(string)
+	}
 }
