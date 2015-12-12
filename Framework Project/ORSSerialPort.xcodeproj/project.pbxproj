@@ -11,7 +11,6 @@
 		9D04001A1C1634E2006D763F /* ORSSerialPort_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D0400191C1634E2006D763F /* ORSSerialPort_Tests.m */; };
 		9D04001C1C1634E2006D763F /* ORSSerial.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DCA89121A2BB106009285EB /* ORSSerial.framework */; };
 		9D0400221C163500006D763F /* ORSSerialPacketDescriptor_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D74721F1B6D7787002D8B10 /* ORSSerialPacketDescriptor_Tests.m */; };
-		9D0400261C16369A006D763F /* Dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0400251C16369A006D763F /* Dummy.swift */; };
 		9D0400551C163F41006D763F /* SerialRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0400541C163F41006D763F /* SerialRequest.swift */; };
 		9D04006A1C165339006D763F /* SerialBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0400691C165339006D763F /* SerialBuffer.swift */; };
 		9D04006C1C166E37006D763F /* SerialPortManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D04006B1C166E37006D763F /* SerialPortManager.swift */; };
@@ -37,8 +36,6 @@
 		9D0400171C1634E2006D763F /* ORSSerialPort Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ORSSerialPort Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D0400191C1634E2006D763F /* ORSSerialPort_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORSSerialPort_Tests.m; sourceTree = "<group>"; };
 		9D04001B1C1634E2006D763F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9D0400241C163699006D763F /* ORSSerialPort Tests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ORSSerialPort Tests-Bridging-Header.h"; sourceTree = "<group>"; };
-		9D0400251C16369A006D763F /* Dummy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dummy.swift; sourceTree = "<group>"; };
 		9D0400541C163F41006D763F /* SerialRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerialRequest.swift; sourceTree = "<group>"; };
 		9D0400691C165339006D763F /* SerialBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerialBuffer.swift; sourceTree = "<group>"; };
 		9D04006B1C166E37006D763F /* SerialPortManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerialPortManager.swift; sourceTree = "<group>"; };
@@ -98,8 +95,6 @@
 				9D7472171B6D7767002D8B10 /* ORSSerialPort_Tests.m */,
 				9D74721F1B6D7787002D8B10 /* ORSSerialPacketDescriptor_Tests.m */,
 				9D7472151B6D7767002D8B10 /* Supporting Files */,
-				9D0400251C16369A006D763F /* Dummy.swift */,
-				9D0400241C163699006D763F /* ORSSerialPort Tests-Bridging-Header.h */,
 			);
 			path = "ORSSerialPort Tests";
 			sourceTree = "<group>";
@@ -275,7 +270,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9D04001A1C1634E2006D763F /* ORSSerialPort_Tests.m in Sources */,
-				9D0400261C16369A006D763F /* Dummy.swift in Sources */,
 				9D0400221C163500006D763F /* ORSSerialPacketDescriptor_Tests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -310,13 +304,14 @@
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "ORSSerialPort Tests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.openreelsoftware.ORSSerialPort-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "ORSSerialPort Tests/ORSSerialPort Tests-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -328,13 +323,14 @@
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "ORSSerialPort Tests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.openreelsoftware.ORSSerialPort-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "ORSSerialPort Tests/ORSSerialPort Tests-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 			};
 			name = Release;
 		};
