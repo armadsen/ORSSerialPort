@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		9D0400121C1607CE006D763F /* SerialPacketDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0400111C1607CE006D763F /* SerialPacketDescriptor.swift */; };
-		9D04001A1C1634E2006D763F /* ORSSerialPort_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D0400191C1634E2006D763F /* ORSSerialPort_Tests.m */; };
 		9D04001C1C1634E2006D763F /* ORSSerial.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DCA89121A2BB106009285EB /* ORSSerial.framework */; };
 		9D0400221C163500006D763F /* ORSSerialPacketDescriptor_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D74721F1B6D7787002D8B10 /* ORSSerialPacketDescriptor_Tests.m */; };
 		9D0400551C163F41006D763F /* SerialRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0400541C163F41006D763F /* SerialRequest.swift */; };
@@ -34,8 +33,6 @@
 /* Begin PBXFileReference section */
 		9D0400111C1607CE006D763F /* SerialPacketDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerialPacketDescriptor.swift; sourceTree = "<group>"; };
 		9D0400171C1634E2006D763F /* ORSSerialPort Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ORSSerialPort Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		9D0400191C1634E2006D763F /* ORSSerialPort_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORSSerialPort_Tests.m; sourceTree = "<group>"; };
-		9D04001B1C1634E2006D763F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9D0400541C163F41006D763F /* SerialRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerialRequest.swift; sourceTree = "<group>"; };
 		9D0400691C165339006D763F /* SerialBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerialBuffer.swift; sourceTree = "<group>"; };
 		9D04006B1C166E37006D763F /* SerialPortManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerialPortManager.swift; sourceTree = "<group>"; };
@@ -72,15 +69,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		9D0400181C1634E2006D763F /* ORSSerialPort Tests */ = {
-			isa = PBXGroup;
-			children = (
-				9D0400191C1634E2006D763F /* ORSSerialPort_Tests.m */,
-				9D04001B1C1634E2006D763F /* Info.plist */,
-			);
-			path = "ORSSerialPort Tests";
-			sourceTree = "<group>";
-		};
 		9D0400681C16532E006D763F /* Private */ = {
 			isa = PBXGroup;
 			children = (
@@ -115,7 +103,6 @@
 				9DCA89301A2BB14E009285EB /* Resources */,
 				9DCCC2531AD1D289003E21FC /* Linked Frameworks */,
 				9D7472141B6D7767002D8B10 /* ORSSerialPort Tests */,
-				9D0400181C1634E2006D763F /* ORSSerialPort Tests */,
 				9DCA89131A2BB106009285EB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -269,7 +256,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D04001A1C1634E2006D763F /* ORSSerialPort_Tests.m in Sources */,
 				9D0400221C163500006D763F /* ORSSerialPacketDescriptor_Tests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
