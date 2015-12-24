@@ -25,8 +25,7 @@
 //	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
-#import "ORSSerialPort.h"
-#import "ORSSerialPortManager.h"
+#import "CommandLineDemo-Swift.h"
 
 @interface ORSSerialPortHelper : NSObject <ORSSerialPortDelegate>
 
@@ -100,7 +99,7 @@ BOOL setBaudRateOnPortWithString(NSString *string)
 	if ([string rangeOfCharacterFromSet:invalidChars].location != NSNotFound) return NO;
 
 	NSInteger baudRate = [string integerValue];
-	serialPortHelper.serialPort.baudRate = @(baudRate);
+	serialPortHelper.serialPort.baudRate = baudRate;
 	printf("Baud rate set to %li", (long)baudRate);
 	return YES;
 }
@@ -197,6 +196,7 @@ int main(int argc, const char * argv[])
 
 - (void)serialPortWasOpened:(ORSSerialPort *)serialPort
 {
+	serialPort.RTS = YES;
 	printf("Serial port %s was opened", [serialPort.name UTF8String]);
 	printPrompt();
 }

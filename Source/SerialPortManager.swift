@@ -43,6 +43,13 @@ public let ConnectedSerialPortsKey = "ConnectedSerialPortsKey"
 /// Key for disconnected port in SerialPortWasDisconnectedNotification userInfo dictionary
 public let DisconnectedSerialPortsKey = "DisconnectedSerialPortsKey"
 
+public extension SerialPort {
+	public class var ORSSerialPortsWereConnectedNotification: String { return SerialPortsWereConnectedNotification }
+	public class var ORSSerialPortsWereDisconnectedNotification: String { return SerialPortsWereDisconnectedNotification }
+	public class var ORSConnectedSerialPortsKey: String { return ConnectedSerialPortsKey }
+	public class var ORSDisconnectedSerialPortsKey: String { return DisconnectedSerialPortsKey }
+}
+
 /**
 *  `SerialPortManager` is a singleton class (one instance per
 *  application) that can be used to get a list of available serial ports.
@@ -154,8 +161,8 @@ public let DisconnectedSerialPortsKey = "DisconnectedSerialPortsKey"
 	// MARK: Sleep/Wake Management
 	
 	private dynamic func systemWillSleep(notification: NSNotification) {
-		for port in self.availablePorts where port.open {
-			if port.close() { self.portsToReopenAfterSleep.append(port) }
+		for port in self.availablePorts where port.isOpen {
+			self.portsToReopenAfterSleep.append(port)
 		}
 	}
 	
@@ -220,15 +227,15 @@ public let DisconnectedSerialPortsKey = "DisconnectedSerialPortsKey"
 			return
 		}
 		self.portTerminatedNotificationIterator = terminationPortIterator
-
+		
 		while (IOIteratorNext(terminationPortIterator) != 0) {} // Run out the iterator to start notifications
 	}
 	
-	private func portsFromIterator(iterator: io_iterator_t) -> [ORSSerialPort] {
-		var result = [ORSSerialPort]()
+	private func portsFromIterator(iterator: io_iterator_t) -> [SerialPort] {
+		var result = [SerialPort]()
 		var device: io_object_t = IOIteratorNext(iterator)
 		repeat {
-			if let port = ORSSerialPort(device: device) {
+			if let port = SerialPort(device: device) {
 				result.append(port)
 			}
 			IOObjectRelease(device)
@@ -272,7 +279,7 @@ public let DisconnectedSerialPortsKey = "DisconnectedSerialPortsKey"
 	// MARK: - Properties
 	
 	/**
-	*  An array containing ORSSerialPort instances representing the
+	*  An array containing SerialPort instances representing the
 	*  serial ports available on the system. (read-only)
 	*
 	*  As explained above, on OS X, this property is Key Value Observing
@@ -280,11 +287,11 @@ public let DisconnectedSerialPortsKey = "DisconnectedSerialPortsKey"
 	*  to easily give the user a way to select an available port
 	*  on the system.
 	*/
-	public private(set) dynamic var availablePorts = [ORSSerialPort]()
+	public private(set) dynamic var availablePorts = [SerialPort]()
 	
 	// Private Properties
 	
-	private var portsToReopenAfterSleep = [ORSSerialPort]()
+	private var portsToReopenAfterSleep = [SerialPort]()
 	private var terminationObserver: AnyObject?
 	
 	private var portPublishedNotificationIterator: io_iterator_t = 0 {

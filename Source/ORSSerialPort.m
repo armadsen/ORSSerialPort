@@ -669,6 +669,8 @@ static __strong NSMutableArray *allSerialPorts;
 	}
 }
 
+
+
 + (io_object_t)deviceFromBSDPath:(NSString *)bsdPath;
 {
 	if ([bsdPath length] < 1) return 0;

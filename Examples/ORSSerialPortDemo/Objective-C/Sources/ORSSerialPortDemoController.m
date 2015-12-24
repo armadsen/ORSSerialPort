@@ -25,7 +25,7 @@
 //	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import "ORSSerialPortDemoController.h"
-#import "ORSSerialPortManager.h"
+@import ORSSerial;
 
 @implementation ORSSerialPortDemoController
 
@@ -38,8 +38,8 @@
 		self.availableBaudRates = @[@300, @1200, @2400, @4800, @9600, @14400, @19200, @28800, @38400, @57600, @115200, @230400];
 		
 		NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-		[nc addObserver:self selector:@selector(serialPortsWereConnected:) name:ORSSerialPortsWereConnectedNotification object:nil];
-		[nc addObserver:self selector:@selector(serialPortsWereDisconnected:) name:ORSSerialPortsWereDisconnectedNotification object:nil];
+		[nc addObserver:self selector:@selector(serialPortsWereConnected:) name:ORSSerialPort.ORSSerialPortsWereConnectedNotification object:nil];
+		[nc addObserver:self selector:@selector(serialPortsWereDisconnected:) name:ORSSerialPort.ORSSerialPortsWereDisconnectedNotification object:nil];
 		
 #if (MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_7)
 		[[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
@@ -133,14 +133,14 @@
 
 - (void)serialPortsWereConnected:(NSNotification *)notification
 {
-	NSArray *connectedPorts = [notification userInfo][ORSConnectedSerialPortsKey];
+	NSArray *connectedPorts = [notification userInfo][ORSSerialPort.ORSConnectedSerialPortsKey];
 	NSLog(@"Ports were connected: %@", connectedPorts);
 	[self postUserNotificationForConnectedPorts:connectedPorts];
 }
 
 - (void)serialPortsWereDisconnected:(NSNotification *)notification
 {
-	NSArray *disconnectedPorts = [notification userInfo][ORSDisconnectedSerialPortsKey];
+	NSArray *disconnectedPorts = [notification userInfo][ORSSerialPort.ORSDisconnectedSerialPortsKey];
 	NSLog(@"Ports were disconnected: %@", disconnectedPorts);
 	[self postUserNotificationForDisconnectedPorts:disconnectedPorts];
 	
