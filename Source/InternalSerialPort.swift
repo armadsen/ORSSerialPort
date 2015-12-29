@@ -215,7 +215,40 @@ class _SerialPort: NSObject {
 		return true
 	}
 	
+	// MARK: Packet Parsing
+	
+	func startListeningForPacketsMatchingDescriptor(descriptor: SerialPacketDescriptor) {
+		if self.packetDescriptorsAndBuffers.objectForKey(descriptor) != nil { return } // Already listening
+		
+		#if os(OSX)
+			self.willChangeValueForKey("packetDescriptorsAndBuffers")
+		#endif
+		dispatch_sync(self.requestHandlingQueue) {
+			let buffer = SerialBuffer(maximumLength: descriptor.maximumPacketLength)
+			self.packetDescriptorsAndBuffers.setObject(buffer, forKey: descriptor)
+		}
+		#if os(OSX)
+			self.didChangeValueForKey("packetDescriptorsAndBuffers")
+		#endif
+	}
+	
+	func stopListeningForPacketsMatchingDescriptor(descriptor: SerialPacketDescriptor) {
+		#if os(OSX)
+			self.willChangeValueForKey("packetDescriptorsAndBuffers")
+		#endif
+		dispatch_sync(self.requestHandlingQueue) {
+			self.packetDescriptorsAndBuffers.removeObjectForKey(descriptor)
+		}
+		#if os(OSX)
+			self.didChangeValueForKey("packetDescriptorsAndBuffers")
+		#endif
+	}
+	
+	// MARK: Request / Response
+	
 	// MARK: - Private Methods
+	
+	// MARK: Port Closure
 	
 	private func reallyClosePort() {
 		self.pinPollTimer = nil // Stop polling CTS/DSR/DCD pins
@@ -265,15 +298,53 @@ class _SerialPort: NSObject {
 	
 	// MARK: Port Read/Write
 	
-	private func receiveData(data: NSData) {
+	private dynamic func receiveData(data: NSData) {
 		if let host = self.host {
 			dispatch_async(dispatch_get_main_queue(), {
 				host.delegate?.serialPort?(host, didReceiveData: data)
 			})
 		}
 		
-		// TODO: Check request queue
+		dispatch_async(self.requestHandlingQueue) {
+			let bytes = UnsafePointer<UInt8>(data.bytes)
+			for i in 0..<data.length {
+				let ptr = UnsafeMutablePointer<UInt8>(bytes.advancedBy(i))
+				let byte = NSData(bytesNoCopy: ptr, length: 1, freeWhenDone: false)
+				for descriptor in self.packetDescriptors {
+					guard let buffer = self.packetDescriptorsAndBuffers.objectForKey(descriptor) as? SerialBuffer else { continue }
+
+					// Append byte to buffer
+					buffer.appendData(byte)
+					
+					// Check for complete packet
+					guard let completePacket = self.packetMatchingDescriptor(descriptor, atEndOfBuffer: buffer.data)
+						where completePacket.length > 0 else { continue }
+					
+					// Complete packet received, so notify delegate then clear buffer
+					if let host = self.host {
+						dispatch_async(dispatch_get_main_queue()) {
+							host.delegate?.serialPort?(host, didReceivePacket: completePacket, matchingDescriptor: descriptor)
+						}
+					}
+					buffer.clearBuffer()
+				}
+				
+				// TODO: Also check for response to pending request
+			}
+		}
 	}
+	
+	// MARK: Packet Parsing
+	
+	private func packetMatchingDescriptor(descriptor: SerialPacketDescriptor, atEndOfBuffer buffer: NSData) -> NSData? {
+		for i in 1...buffer.length {
+			let window = buffer.subdataWithRange(NSRange(location: buffer.length-i, length: i))
+			if descriptor.dataIsValidPacket(window) { return window }
+		}
+		return nil
+	}
+	
+	// MARK: Request / Response
 	
 	// MARK: Port Properties Methods
 	
@@ -392,6 +463,14 @@ class _SerialPort: NSObject {
 	
 	// Packet Handling
 	private let packetDescriptorsAndBuffers = NSMapTable.strongToStrongObjectsMapTable()
+	#if os(OSX)
+	dynamic class func keyPathsForValuesAffectingPacketDescriptors() -> Set<String> {
+		return ["packetDescriptorsAndBuffers"]
+	}
+	#endif
+	var packetDescriptors: [SerialPacketDescriptor] {
+		return self.packetDescriptorsAndBuffers.keyEnumerator().allObjects as? [SerialPacketDescriptor] ?? []
+	}
 	
 	// Request Response
 	private var requestsQueue = [SerialRequest]()
@@ -406,6 +485,7 @@ func ==(lhs: _SerialPort, rhs: _SerialPort) -> Bool {
 
 extension io_object_t {
 	init(bsdPath: String) {
+		if bsdPath == "TestDummy" { self = io_object_t.max; return }
 		self = 0
 		let matchingDict = IOServiceMatching(kIOSerialBSDServiceValue) as NSMutableDictionary
 		matchingDict[kIOSerialBSDTypeKey] = kIOSerialBSDAllTypes
@@ -432,7 +512,9 @@ extension io_object_t {
 
 extension io_object_t {
 	func stringPropertyForSerialKey(key: String) -> String? {
-		return IORegistryEntryCreateCFProperty(self, key, kCFAllocatorDefault, 0).takeRetainedValue() as? String
+		guard self >= 0 else { return nil }
+		if self == io_object_t.max { return "TestDummy" } // For 'dummy' testing port
+		return IORegistryEntryCreateCFProperty(self, key, kCFAllocatorDefault, 0)?.takeRetainedValue() as? String
 	}
 	
 	var bsdCalloutPath: String? { return stringPropertyForSerialKey(kIOCalloutDeviceKey) }

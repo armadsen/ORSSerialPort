@@ -317,7 +317,9 @@ import Foundation
 	*  @see -stopListeningForPacketsMatchingDescriptor:
 	*  @see -serialPort:didReceivePacket:matchingDescriptor:
 	*/
-	//    public func startListeningForPacketsMatchingDescriptor(descriptor: ORSSerialPacketDescriptor)
+	public func startListeningForPacketsMatchingDescriptor(descriptor: SerialPacketDescriptor) {
+		self._port.startListeningForPacketsMatchingDescriptor(descriptor)
+	}
 	
 	/**
 	*  Tells the receiver to stop listening for incoming packets matching the specified
@@ -331,7 +333,9 @@ import Foundation
 	*
 	*  @see -startListeningForPacketsMatchingDescriptor:
 	*/
-	//    public func stopListeningForPacketsMatchingDescriptor(descriptor: ORSSerialPacketDescriptor)
+	public func stopListeningForPacketsMatchingDescriptor(descriptor: SerialPacketDescriptor) {
+		self._port.stopListeningForPacketsMatchingDescriptor(descriptor)
+	}
 	
 	// MARK: - Private Methods
 	
@@ -389,7 +393,9 @@ import Foundation
 	*
 	*  Returns an empty array if no packet descriptors are installed.
 	*/
-	//    public var packetDescriptors: [ORSSerialPacketDescriptor] { get }
+	public var packetDescriptors: [SerialPacketDescriptor] {
+		return self._port.packetDescriptors
+	}
 	
 	/** ---------------------------------------------------------------------------------------
 	* @name Port Properties
