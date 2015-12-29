@@ -13,8 +13,19 @@
 #define ORSTStringToData_(x) [x dataUsingEncoding:NSASCIIStringEncoding]
 
 @interface ORSSerialPort (Private)
-
 - (void)receiveData:(NSData *)data;
+@end
+
+@interface ORSSerialPort (Internal)
+- (id)_port;
+@end
+
+@implementation ORSSerialPort (Private)
+
+- (void)receiveData:(NSData *)data
+{
+	[[self _port] receiveData:data];
+}
 
 @end
 
@@ -29,7 +40,7 @@
 - (void)setUp
 {
 	[super setUp];
-	self.port = [[ORSSerialPort alloc] initWithDevice:-1];
+	self.port = [[ORSSerialPort alloc] initWithDevice:UINT32_MAX];
 	self.port.delegate = self;
 }
 

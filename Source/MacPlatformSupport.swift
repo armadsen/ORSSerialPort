@@ -16,10 +16,10 @@ extension SerialPort {
 	public override class func keyPathsForValuesAffectingValueForKey(key: String) -> Set<String> {
 		var result = super.keyPathsForValuesAffectingValueForKey(key)
 		
-		let internalKeys: Set<String> = ["isOpen", "path", "IOKitDevice", "name", "baudRate", "allowsNonStandardBaudRates", "numberOfStopBits", "shouldEchoReceivedData", "parity", "usesRTSCTSFlowControl", "usesDTRDSRFlowControl", "usesDCDOutputFlowControl", "RTS", "DTR", "CTS", "DSR", "DCD"]
+		let internalKeys: Set<String> = ["isOpen", "path", "IOKitDevice", "name", "baudRate", "allowsNonStandardBaudRates", "numberOfStopBits", "shouldEchoReceivedData", "parity", "usesRTSCTSFlowControl", "usesDTRDSRFlowControl", "usesDCDOutputFlowControl", "RTS", "DTR", "CTS", "DSR", "DCD", "packetDescriptors"]
 		
 		if internalKeys.contains(key) {
-			result.insert("_port" + key)
+			result.insert("_port" + "." + key)
 		}
 		
 		return result
