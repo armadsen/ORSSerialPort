@@ -52,8 +52,6 @@
 		9DCA89121A2BB106009285EB /* ORSSerial.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ORSSerial.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DCA892E1A2BB14B009285EB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9DCA89311A2BB15A009285EB /* ORSSerial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSSerial.h; sourceTree = "<group>"; };
-		9DCA89341A2BB1E2009285EB /* ORSSerialPort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSSerialPort.h; sourceTree = "<group>"; };
-		9DCA89351A2BB1E2009285EB /* ORSSerialPort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSSerialPort.m; sourceTree = "<group>"; };
 		A933F5981AC33D1700461525 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		A933F59A1AC33D2700461525 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -142,8 +140,6 @@
 		9DCA89331A2BB1E2009285EB /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				9DCA89341A2BB1E2009285EB /* ORSSerialPort.h */,
-				9DCA89351A2BB1E2009285EB /* ORSSerialPort.m */,
 				9D143FC61C287092004416A0 /* SerialPort.swift */,
 				9D04006B1C166E37006D763F /* SerialPortManager.swift */,
 				9D0400541C163F41006D763F /* SerialRequest.swift */,
