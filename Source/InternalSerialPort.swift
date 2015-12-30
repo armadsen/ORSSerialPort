@@ -246,6 +246,35 @@ class _SerialPort: NSObject {
 	
 	// MARK: Request / Response
 	
+	func sendRequest(request: SerialRequest) -> Bool {
+		var success = false
+		dispatch_sync(self.requestHandlingQueue) {
+			success = self.reallySendRequest(request)
+		}
+		return success
+	}
+	
+	func cancelQueuedRequest(request: SerialRequest) {
+		dispatch_async(self.requestHandlingQueue) {
+			if request == self.pendingRequest { return } // Too late to cancel
+			if let requestIndex = self.requestsQueue.indexOf(request) {
+				#if os(OSX)
+					self.willChangeValueForKey("queuedRequests")
+				#endif
+				self.queuedRequests.removeAtIndex(requestIndex)
+				#if os(OSX)
+					self.didChangeValueForKey("queuedRequests")
+				#endif
+			}
+		}
+	}
+	
+	func cancelAllQueuedRequests() {
+		dispatch_async(self.requestHandlingQueue) {
+			self.requestsQueue = [SerialRequest]()
+		}
+	}
+	
 	// MARK: - Private Methods
 	
 	// MARK: Port Closure
@@ -312,7 +341,7 @@ class _SerialPort: NSObject {
 				let byte = NSData(bytesNoCopy: ptr, length: 1, freeWhenDone: false)
 				for descriptor in self.packetDescriptors {
 					guard let buffer = self.packetDescriptorsAndBuffers.objectForKey(descriptor) as? SerialBuffer else { continue }
-
+					
 					// Append byte to buffer
 					buffer.appendData(byte)
 					
@@ -329,7 +358,8 @@ class _SerialPort: NSObject {
 					buffer.clearBuffer()
 				}
 				
-				// TODO: Also check for response to pending request
+				// Also check for response to pending request
+				self.checkResponseToPendingRequestAndContinueIfValidWithReceivedByte(byte)
 			}
 		}
 	}
@@ -345,6 +375,89 @@ class _SerialPort: NSObject {
 	}
 	
 	// MARK: Request / Response
+	
+	// Must only be called on requestHandlingQueue (ie. wrap call to this method in dispatch())
+	private func reallySendRequest(request: SerialRequest) -> Bool {
+		if self.pendingRequest != nil {
+			// Queue it up to be sent after the pending request is responded to, or times out.
+			#if os(OSX)
+				self.willChangeValueForKey("requestsQueue")
+			#endif
+			self.requestsQueue.append(request)
+			#if os(OSX)
+				self.didChangeValueForKey("requestsQueue")
+			#endif
+			return true
+		}
+		
+		// Send immediately
+		if let responseDescriptor = request.responseDescriptor {
+			let bufferLength = responseDescriptor.maximumPacketLength
+			self.requestResponseReceiveBuffer = SerialBuffer(maximumLength: bufferLength)
+		}
+		
+		self.pendingRequest = request
+		if request.timeoutInterval > 0 {
+			let timeoutInterval = request.timeoutInterval
+			let timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, self.requestHandlingQueue)
+			let timerInterval = timeoutInterval * NSTimeInterval(NSEC_PER_SEC)
+			dispatch_source_set_timer(timer, dispatch_time(DISPATCH_TIME_NOW, Int64(timerInterval)), UInt64(timerInterval), 10*NSEC_PER_MSEC)
+			dispatch_source_set_event_handler(timer, self.pendingRequestDidTimeout)
+			self.pendingRequestTimeoutTimer = timer
+			dispatch_resume(timer)
+		}
+		let success = self.sendData(request.dataToSend)
+		if success { self.checkResponseToPendingRequestAndContinueIfValidWithReceivedByte(nil) }
+		return success
+	}
+	
+	// Must only be called on requestHandlingQueue
+	private func sendNextRequest() {
+		self.pendingRequest = nil
+		guard let nextRequest = self.requestsQueue.first else { return }
+		self.requestsQueue.removeAtIndex(0)
+		self.reallySendRequest(nextRequest)
+	}
+	
+	// Will only be called on requestHandlingQueue
+	private func pendingRequestDidTimeout() {
+		self.pendingRequestTimeoutTimer = nil
+		
+		guard let request = self.pendingRequest else { return }
+		if let host = self.host, delegateCall: (SerialPort, SerialRequest) -> () = host.delegate?.serialPort {
+			dispatch_async(dispatch_get_main_queue()) {
+				delegateCall(host, request)
+				dispatch_async(self.requestHandlingQueue, self.sendNextRequest)
+			}
+			delegateCall(host, request)
+		} else {
+			self.sendNextRequest()
+		}
+	}
+	
+	// Must only be called on requestHandlingQueue
+	private func checkResponseToPendingRequestAndContinueIfValidWithReceivedByte(byte: NSData?) {
+		guard let pendingRequest = self.pendingRequest else { return } // Nothing to do
+		guard let packetDescriptor = pendingRequest.responseDescriptor else {
+			self.sendNextRequest()
+			return
+		}
+		guard let byte = byte, buffer = self.requestResponseReceiveBuffer else { return }
+		
+		buffer.appendData(byte)
+		guard let responseData = self.packetMatchingDescriptor(packetDescriptor, atEndOfBuffer: buffer.data) else {
+			return
+		}
+		
+		self.pendingRequestTimeoutTimer = nil
+		if let host = self.host, delegateCall: ((SerialPort, NSData, SerialRequest) -> Void) = host.delegate?.serialPort
+			where responseData.length != 0 {
+				dispatch_async(dispatch_get_main_queue()) {
+					delegateCall(host, responseData, pendingRequest)
+				}
+		}
+		self.sendNextRequest()
+	}
 	
 	// MARK: Port Properties Methods
 	
@@ -436,10 +549,11 @@ class _SerialPort: NSObject {
 	// Request Response
 	
 	private(set) var pendingRequest: SerialRequest?
+	private(set) var queuedRequests = [SerialRequest]()
 	
 	weak var host: SerialPort?
 	
-	// MARK: "Private
+	// MARK: Private
 	
 	private var fileDescriptor: CInt = 0
 	
@@ -475,6 +589,14 @@ class _SerialPort: NSObject {
 	// Request Response
 	private var requestsQueue = [SerialRequest]()
 	private let requestHandlingQueue = dispatch_queue_create("com.openreelsoftware.ORSSerialPort.requestHandlingQueue", DISPATCH_QUEUE_SERIAL)
+	private var requestResponseReceiveBuffer: SerialBuffer?
+	private var pendingRequestTimeoutTimer: dispatch_source_t? {
+		willSet {
+			if let timer = pendingRequestTimeoutTimer {
+				dispatch_source_cancel(timer)
+			}
+		}
+	}
 }
 
 // MARK: -

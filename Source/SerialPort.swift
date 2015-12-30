@@ -272,9 +272,9 @@ import Foundation
 	*
 	*  @return YES if sending the request's data succeeded, NO if an error occurred.
 	*/
-	//	public func sendRequest(request: SerialRequest) -> Bool {
-	//		return self._port.sendRequest(request)
-	//	}
+	public func sendRequest(request: SerialRequest) -> Bool {
+		return self._port.sendRequest(request)
+	}
 	
 	/**
 	*  Requests the cancellation of a queued (not yet sent) request. The request
@@ -289,7 +289,9 @@ import Foundation
 	*
 	*  @param request The pending request to be cancelled.
 	*/
-	//    public func cancelQueuedRequest(request: SerialRequest)
+	public func cancelQueuedRequest(request: SerialRequest) {
+		self._port.cancelQueuedRequest(request)
+	}
 	
 	/**
 	*  Cancels all queued requests. The requests queue is emptied.
@@ -297,7 +299,9 @@ import Foundation
 	*  Note that if there is a pending request, it is not cancelled, as it has already
 	*  been sent and is awaiting a response.
 	*/
-	//    public func cancelAllQueuedRequests()
+	public func cancelAllQueuedRequests() {
+		self._port.cancelAllQueuedRequests()
+	}
 	
 	/** ---------------------------------------------------------------------------------------
 	* @name Listening For Packets
@@ -337,10 +341,6 @@ import Foundation
 		self._port.stopListeningForPacketsMatchingDescriptor(descriptor)
 	}
 	
-	// MARK: - Private Methods
-	
-	
-	
 	// MARK: - Properties
 	
 	/** ---------------------------------------------------------------------------------------
@@ -379,9 +379,9 @@ import Foundation
 	*  @note This array does not contain the pending request, a sent request for which
 	*  the port is awaiting a response.
 	*/
-	//	public var queuedRequests: [ORSSerialRequest] {
-	//		return self._port.queuedRequests
-	//	}
+	public var queuedRequests: [SerialRequest] {
+		return self._port.queuedRequests
+	}
 	
 	/** ---------------------------------------------------------------------------------------
 	* @name Packet Parsing Properties
