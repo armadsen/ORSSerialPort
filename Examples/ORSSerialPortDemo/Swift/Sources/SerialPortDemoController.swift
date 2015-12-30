@@ -1,6 +1,6 @@
 //
 //  SerialPortDemoController.swift
-//  ORSSerialPortSwiftDemo
+//  SerialPortSwiftDemo
 //
 //  Created by Andrew Madsen on 10/31/14.
 //  Copyright (c) 2014 Open Reel Software. All rights reserved.
@@ -25,14 +25,15 @@
 //	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 import Cocoa
+import ORSSerial
 
-class SerialPortDemoController: NSObject, ORSSerialPortDelegate, NSUserNotificationCenterDelegate {
+class SerialPortDemoController: NSObject, SerialPortDelegate, NSUserNotificationCenterDelegate {
 	
-	let serialPortManager = ORSSerialPortManager.sharedSerialPortManager()
+	let serialPortManager = SerialPortManager.sharedSerialPortManager
 	let availableBaudRates = [300, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 38400, 57600, 115200, 230400]
 	var shouldAddLineEnding = false
 	
-	var serialPort: ORSSerialPort? {
+	var serialPort: SerialPort? {
 		didSet {
 			oldValue?.close()
 			oldValue?.delegate = nil
@@ -57,8 +58,8 @@ class SerialPortDemoController: NSObject, ORSSerialPortDelegate, NSUserNotificat
 		super.init()
 		
 		let nc = NSNotificationCenter.defaultCenter()
-		nc.addObserver(self, selector: "serialPortsWereConnected:", name: ORSSerialPortsWereConnectedNotification, object: nil)
-		nc.addObserver(self, selector: "serialPortsWereDisconnected:", name: ORSSerialPortsWereDisconnectedNotification, object: nil)
+		nc.addObserver(self, selector: "serialPortsWereConnected:", name: SerialPortsWereConnectedNotification, object: nil)
+		nc.addObserver(self, selector: "serialPortsWereDisconnected:", name: SerialPortsWereDisconnectedNotification, object: nil)
 		
 		NSUserNotificationCenter.defaultUserNotificationCenter().delegate = self
 	}
@@ -81,7 +82,7 @@ class SerialPortDemoController: NSObject, ORSSerialPortDelegate, NSUserNotificat
 	
 	@IBAction func openOrClosePort(sender: AnyObject) {
 		if let port = self.serialPort {
-			if (port.open) {
+			if (port.isOpen) {
 				port.close()
 			} else {
 				port.open()
@@ -90,29 +91,29 @@ class SerialPortDemoController: NSObject, ORSSerialPortDelegate, NSUserNotificat
 		}
 	}
 	
-	// MARK: - ORSSerialPortDelegate
+	// MARK: - SerialPortDelegate
 	
-	func serialPortWasOpened(serialPort: ORSSerialPort) {
+	func serialPortWasOpened(serialPort: SerialPort) {
 		self.openCloseButton.title = "Close"
 	}
 	
-	func serialPortWasClosed(serialPort: ORSSerialPort) {
+	func serialPortWasClosed(serialPort: SerialPort) {
 		self.openCloseButton.title = "Open"
 	}
 	
-	func serialPort(serialPort: ORSSerialPort, didReceiveData data: NSData) {
+	func serialPort(serialPort: SerialPort, didReceiveData data: NSData) {
 		if let string = NSString(data: data, encoding: NSUTF8StringEncoding) {
 			self.receivedDataTextView.textStorage?.mutableString.appendString(string as String)
 			self.receivedDataTextView.needsDisplay = true
 		}
 	}
 	
-	func serialPortWasRemovedFromSystem(serialPort: ORSSerialPort) {
+	func serialPortWasRemovedFromSystem(serialPort: SerialPort) {
 		self.serialPort = nil
 		self.openCloseButton.title = "Open"
 	}
 	
-	func serialPort(serialPort: ORSSerialPort, didEncounterError error: NSError) {
+	func serialPort(serialPort: SerialPort, didEncounterError error: NSError) {
 		print("SerialPort \(serialPort) encountered an error: \(error)")
 	}
 	
@@ -133,7 +134,7 @@ class SerialPortDemoController: NSObject, ORSSerialPortDelegate, NSUserNotificat
 	
 	func serialPortsWereConnected(notification: NSNotification) {
 		if let userInfo = notification.userInfo {
-			let connectedPorts = userInfo[ORSConnectedSerialPortsKey] as! [ORSSerialPort]
+			let connectedPorts = userInfo[ConnectedSerialPortsKey] as! [SerialPort]
 			print("Ports were connected: \(connectedPorts)")
 			self.postUserNotificationForConnectedPorts(connectedPorts)
 		}
@@ -141,13 +142,13 @@ class SerialPortDemoController: NSObject, ORSSerialPortDelegate, NSUserNotificat
 	
 	func serialPortsWereDisconnected(notification: NSNotification) {
 		if let userInfo = notification.userInfo {
-			let disconnectedPorts: [ORSSerialPort] = userInfo[ORSDisconnectedSerialPortsKey] as! [ORSSerialPort]
+			let disconnectedPorts: [SerialPort] = userInfo[DisconnectedSerialPortsKey] as! [SerialPort]
 			print("Ports were disconnected: \(disconnectedPorts)")
 			self.postUserNotificationForDisconnectedPorts(disconnectedPorts)
 		}
 	}
 	
-	func postUserNotificationForConnectedPorts(connectedPorts: [ORSSerialPort]) {
+	func postUserNotificationForConnectedPorts(connectedPorts: [SerialPort]) {
 		let unc = NSUserNotificationCenter.defaultUserNotificationCenter()
 		for port in connectedPorts {
 			let userNote = NSUserNotification()
@@ -158,7 +159,7 @@ class SerialPortDemoController: NSObject, ORSSerialPortDelegate, NSUserNotificat
 		}
 	}
 	
-	func postUserNotificationForDisconnectedPorts(disconnectedPorts: [ORSSerialPort]) {
+	func postUserNotificationForDisconnectedPorts(disconnectedPorts: [SerialPort]) {
 		let unc = NSUserNotificationCenter.defaultUserNotificationCenter()
 		for port in disconnectedPorts {
 			let userNote = NSUserNotification()

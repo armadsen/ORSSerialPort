@@ -7,12 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2720C0F11BA0612D00CC2BE3 /* ORSSerialBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2720C0F01BA0612D00CC2BE3 /* ORSSerialBuffer.m */; settings = {ASSET_TAGS = (); }; };
 		9D2B58071ADC16B500B08D53 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2B58061ADC16B500B08D53 /* main.swift */; };
-		9D2B58141ADC170C00B08D53 /* ORSSerialPort.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D2B58111ADC170C00B08D53 /* ORSSerialPort.m */; };
-		9D2B58151ADC170C00B08D53 /* ORSSerialPortManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D2B58131ADC170C00B08D53 /* ORSSerialPortManager.m */; };
-		9DFF14861B94E38D004B42B3 /* ORSSerialPacketDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DFF14851B94E38D004B42B3 /* ORSSerialPacketDescriptor.m */; };
-		9DFF14891B94E396004B42B3 /* ORSSerialRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DFF14881B94E396004B42B3 /* ORSSerialRequest.m */; };
+		9D5BD5C81C348CF400EAB58B /* InternalSerialPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5BD5BE1C348CF400EAB58B /* InternalSerialPort.swift */; };
+		9D5BD5C91C348CF400EAB58B /* MacPlatformSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5BD5BF1C348CF400EAB58B /* MacPlatformSupport.swift */; };
+		9D5BD5CA1C348CF400EAB58B /* ORSIOKitWrappers.c in Sources */ = {isa = PBXBuildFile; fileRef = 9D5BD5C01C348CF400EAB58B /* ORSIOKitWrappers.c */; };
+		9D5BD5CB1C348CF400EAB58B /* SerialBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5BD5C21C348CF400EAB58B /* SerialBuffer.swift */; };
+		9D5BD5CC1C348CF400EAB58B /* SerialPacketDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5BD5C31C348CF400EAB58B /* SerialPacketDescriptor.swift */; };
+		9D5BD5CD1C348CF400EAB58B /* SerialPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5BD5C41C348CF400EAB58B /* SerialPort.swift */; };
+		9D5BD5CE1C348CF400EAB58B /* SerialPortManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5BD5C51C348CF400EAB58B /* SerialPortManager.swift */; };
+		9D5BD5CF1C348CF400EAB58B /* SerialRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5BD5C61C348CF400EAB58B /* SerialRequest.swift */; };
+		9D5BD5D01C348CF400EAB58B /* Termios.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5BD5C71C348CF400EAB58B /* Termios.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,19 +32,19 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		2720C0EF1BA0612D00CC2BE3 /* ORSSerialBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORSSerialBuffer.h; path = ../../../../Source/ORSSerialBuffer.h; sourceTree = "<group>"; };
-		2720C0F01BA0612D00CC2BE3 /* ORSSerialBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ORSSerialBuffer.m; path = ../../../../Source/ORSSerialBuffer.m; sourceTree = "<group>"; };
 		9D2B57FB1ADC165D00B08D53 /* CommandLineDemo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CommandLineDemo; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D2B58061ADC16B500B08D53 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		9D2B580F1ADC170C00B08D53 /* CommandLineDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CommandLineDemo-Bridging-Header.h"; sourceTree = "<group>"; };
-		9D2B58101ADC170C00B08D53 /* ORSSerialPort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORSSerialPort.h; path = ../../../../Source/ORSSerialPort.h; sourceTree = "<group>"; };
-		9D2B58111ADC170C00B08D53 /* ORSSerialPort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ORSSerialPort.m; path = ../../../../Source/ORSSerialPort.m; sourceTree = "<group>"; };
-		9D2B58121ADC170C00B08D53 /* ORSSerialPortManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORSSerialPortManager.h; path = ../../../../Source/ORSSerialPortManager.h; sourceTree = "<group>"; };
-		9D2B58131ADC170C00B08D53 /* ORSSerialPortManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ORSSerialPortManager.m; path = ../../../../Source/ORSSerialPortManager.m; sourceTree = "<group>"; };
-		9DFF14841B94E38D004B42B3 /* ORSSerialPacketDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORSSerialPacketDescriptor.h; path = ../../../../Source/ORSSerialPacketDescriptor.h; sourceTree = "<group>"; };
-		9DFF14851B94E38D004B42B3 /* ORSSerialPacketDescriptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ORSSerialPacketDescriptor.m; path = ../../../../Source/ORSSerialPacketDescriptor.m; sourceTree = "<group>"; };
-		9DFF14871B94E396004B42B3 /* ORSSerialRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORSSerialRequest.h; path = ../../../../Source/ORSSerialRequest.h; sourceTree = "<group>"; };
-		9DFF14881B94E396004B42B3 /* ORSSerialRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ORSSerialRequest.m; path = ../../../../Source/ORSSerialRequest.m; sourceTree = "<group>"; };
+		9D5BD5BE1C348CF400EAB58B /* InternalSerialPort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InternalSerialPort.swift; path = ../../../../Source/InternalSerialPort.swift; sourceTree = "<group>"; };
+		9D5BD5BF1C348CF400EAB58B /* MacPlatformSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MacPlatformSupport.swift; path = ../../../../Source/MacPlatformSupport.swift; sourceTree = "<group>"; };
+		9D5BD5C01C348CF400EAB58B /* ORSIOKitWrappers.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ORSIOKitWrappers.c; path = ../../../../Source/ORSIOKitWrappers.c; sourceTree = "<group>"; };
+		9D5BD5C11C348CF400EAB58B /* ORSIOKitWrappers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORSIOKitWrappers.h; path = ../../../../Source/ORSIOKitWrappers.h; sourceTree = "<group>"; };
+		9D5BD5C21C348CF400EAB58B /* SerialBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SerialBuffer.swift; path = ../../../../Source/SerialBuffer.swift; sourceTree = "<group>"; };
+		9D5BD5C31C348CF400EAB58B /* SerialPacketDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SerialPacketDescriptor.swift; path = ../../../../Source/SerialPacketDescriptor.swift; sourceTree = "<group>"; };
+		9D5BD5C41C348CF400EAB58B /* SerialPort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SerialPort.swift; path = ../../../../Source/SerialPort.swift; sourceTree = "<group>"; };
+		9D5BD5C51C348CF400EAB58B /* SerialPortManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SerialPortManager.swift; path = ../../../../Source/SerialPortManager.swift; sourceTree = "<group>"; };
+		9D5BD5C61C348CF400EAB58B /* SerialRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SerialRequest.swift; path = ../../../../Source/SerialRequest.swift; sourceTree = "<group>"; };
+		9D5BD5C71C348CF400EAB58B /* Termios.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Termios.swift; path = ../../../../Source/Termios.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,16 +87,16 @@
 		9D2B58161ADC171100B08D53 /* ORSSerialPort */ = {
 			isa = PBXGroup;
 			children = (
-				9D2B58101ADC170C00B08D53 /* ORSSerialPort.h */,
-				9D2B58111ADC170C00B08D53 /* ORSSerialPort.m */,
-				9D2B58121ADC170C00B08D53 /* ORSSerialPortManager.h */,
-				9D2B58131ADC170C00B08D53 /* ORSSerialPortManager.m */,
-				2720C0EF1BA0612D00CC2BE3 /* ORSSerialBuffer.h */,
-				2720C0F01BA0612D00CC2BE3 /* ORSSerialBuffer.m */,
-				9DFF14871B94E396004B42B3 /* ORSSerialRequest.h */,
-				9DFF14881B94E396004B42B3 /* ORSSerialRequest.m */,
-				9DFF14841B94E38D004B42B3 /* ORSSerialPacketDescriptor.h */,
-				9DFF14851B94E38D004B42B3 /* ORSSerialPacketDescriptor.m */,
+				9D5BD5BE1C348CF400EAB58B /* InternalSerialPort.swift */,
+				9D5BD5BF1C348CF400EAB58B /* MacPlatformSupport.swift */,
+				9D5BD5C01C348CF400EAB58B /* ORSIOKitWrappers.c */,
+				9D5BD5C11C348CF400EAB58B /* ORSIOKitWrappers.h */,
+				9D5BD5C21C348CF400EAB58B /* SerialBuffer.swift */,
+				9D5BD5C31C348CF400EAB58B /* SerialPacketDescriptor.swift */,
+				9D5BD5C41C348CF400EAB58B /* SerialPort.swift */,
+				9D5BD5C51C348CF400EAB58B /* SerialPortManager.swift */,
+				9D5BD5C61C348CF400EAB58B /* SerialRequest.swift */,
+				9D5BD5C71C348CF400EAB58B /* Termios.swift */,
 			);
 			name = ORSSerialPort;
 			sourceTree = "<group>";
@@ -125,7 +129,7 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "Open Reel Software";
 				TargetAttributes = {
 					9D2B57FA1ADC165D00B08D53 = {
@@ -155,12 +159,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D2B58151ADC170C00B08D53 /* ORSSerialPortManager.m in Sources */,
-				9DFF14861B94E38D004B42B3 /* ORSSerialPacketDescriptor.m in Sources */,
-				2720C0F11BA0612D00CC2BE3 /* ORSSerialBuffer.m in Sources */,
+				9D5BD5CC1C348CF400EAB58B /* SerialPacketDescriptor.swift in Sources */,
 				9D2B58071ADC16B500B08D53 /* main.swift in Sources */,
-				9D2B58141ADC170C00B08D53 /* ORSSerialPort.m in Sources */,
-				9DFF14891B94E396004B42B3 /* ORSSerialRequest.m in Sources */,
+				9D5BD5CE1C348CF400EAB58B /* SerialPortManager.swift in Sources */,
+				9D5BD5D01C348CF400EAB58B /* Termios.swift in Sources */,
+				9D5BD5CD1C348CF400EAB58B /* SerialPort.swift in Sources */,
+				9D5BD5C91C348CF400EAB58B /* MacPlatformSupport.swift in Sources */,
+				9D5BD5C81C348CF400EAB58B /* InternalSerialPort.swift in Sources */,
+				9D5BD5CA1C348CF400EAB58B /* ORSIOKitWrappers.c in Sources */,
+				9D5BD5CF1C348CF400EAB58B /* SerialRequest.swift in Sources */,
+				9D5BD5CB1C348CF400EAB58B /* SerialBuffer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -187,6 +195,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -202,7 +211,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -239,7 +248,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 			};

@@ -28,7 +28,7 @@ import Foundation
 
 enum ApplicationState {
 	case InitializationState
-	case WaitingForPortSelectionState([ORSSerialPort])
+	case WaitingForPortSelectionState([SerialPort])
 	case WaitingForBaudRateInputState
 	case WaitingForUserInputState
 }
@@ -37,7 +37,7 @@ enum ApplicationState {
 
 struct UserPrompter {
 	func printIntroduction() {
-		print("This program demonstrates the use of ORSSerialPort")
+		print("This program demonstrates the use of SerialPort")
 		print("in a Foundation-based command-line tool.")
 		print("Please see http://github.com/armadsen/ORSSerialPort/\nor email andrew@openreelsoftware.com for more information.\n")
 	}
@@ -48,7 +48,7 @@ struct UserPrompter {
 	
 	func promptForSerialPort() {
 		print("\nPlease select a serial port: \n")
-		let availablePorts = ORSSerialPortManager.sharedSerialPortManager().availablePorts 
+		let availablePorts = SerialPortManager.sharedSerialPortManager.availablePorts
 		var i = 0
 		for port in availablePorts {
 			print("\(i++). \(port.name)")
@@ -61,12 +61,12 @@ struct UserPrompter {
 	}
 }
 
-class StateMachine : NSObject, ORSSerialPortDelegate {
+class StateMachine : NSObject, SerialPortDelegate {
 	var currentState = ApplicationState.InitializationState
 	let standardInputFileHandle = NSFileHandle.fileHandleWithStandardInput()
 	let prompter = UserPrompter()
 	
-	var serialPort: ORSSerialPort? {
+	var serialPort: SerialPort? {
 		didSet {
 			serialPort?.delegate = self;
 			serialPort?.open()
@@ -84,7 +84,7 @@ class StateMachine : NSObject, ORSSerialPortDelegate {
 		
 		prompter.printIntroduction()
 		
-		let availablePorts = ORSSerialPortManager.sharedSerialPortManager().availablePorts 
+		let availablePorts = SerialPortManager.sharedSerialPortManager.availablePorts
 		if availablePorts.count == 0 {
 			print("No connected serial ports found. Please connect your USB to serial adapter(s) and run the program again.\n")
 			exit(EXIT_SUCCESS)
@@ -92,11 +92,11 @@ class StateMachine : NSObject, ORSSerialPortDelegate {
 		prompter.promptForSerialPort()
 		currentState = .WaitingForPortSelectionState(availablePorts)
 
-		NSRunLoop.currentRunLoop().run() // Required to receive data from ORSSerialPort and to process user input
+		NSRunLoop.currentRunLoop().run() // Required to receive data from SerialPort and to process user input
 	}
 	
 	// MARK: Port Settings
-	func setupAndOpenPortWithSelectionString(var selectionString: String, availablePorts: [ORSSerialPort]) -> Bool {
+	func setupAndOpenPortWithSelectionString(var selectionString: String, availablePorts: [SerialPort]) -> Bool {
 		selectionString = selectionString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
 		if let index = Int(selectionString) {
 			let clampedIndex = min(max(index, 0), availablePorts.count-1)
@@ -152,24 +152,24 @@ class StateMachine : NSObject, ORSSerialPortDelegate {
 		}
 	}
 	
-	// ORSSerialPortDelegate
+	// SerialPortDelegate
 	
-	func serialPort(serialPort: ORSSerialPort, didReceiveData data: NSData) {
+	func serialPort(serialPort: SerialPort, didReceiveData data: NSData) {
 		if let string = NSString(data: data, encoding: NSUTF8StringEncoding) {
 			print("\nReceived: \"\(string)\" \(data)", terminator: "")
 		}
 		prompter.printPrompt()
 	}
 	
-	func serialPortWasRemovedFromSystem(serialPort: ORSSerialPort) {
+	func serialPortWasRemovedFromSystem(serialPort: SerialPort) {
 		self.serialPort = nil
 	}
 	
-	func serialPort(serialPort: ORSSerialPort, didEncounterError error: NSError) {
+	func serialPort(serialPort: SerialPort, didEncounterError error: NSError) {
 		print("Serial port (\(serialPort)) encountered error: \(error)")
 	}
 	
-	func serialPortWasOpened(serialPort: ORSSerialPort) {
+	func serialPortWasOpened(serialPort: SerialPort) {
 		print("Serial port \(serialPort) was opened", terminator: "")
 		prompter.promptForBaudRate()
 		currentState = .WaitingForBaudRateInputState
