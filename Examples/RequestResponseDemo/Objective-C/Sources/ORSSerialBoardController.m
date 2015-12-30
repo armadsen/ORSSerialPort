@@ -186,7 +186,7 @@ typedef NS_ENUM(NSInteger, ORSSerialBoardRequestType) {
 		
 		_serialPort = serialPort;
 		
-		_serialPort.baudRate = @57600;
+		_serialPort.baudRate = 57600;
 		_serialPort.delegate = self;
 		_serialPort.RTS = YES;
 		[_serialPort open];
