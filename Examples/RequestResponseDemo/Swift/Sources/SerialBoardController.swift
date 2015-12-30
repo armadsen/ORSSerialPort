@@ -29,7 +29,7 @@ import ORSSerial
 
 let kTimeoutDuration = 0.5
 
-class SerialBoardController: NSObject, ORSSerialPortDelegate {
+class SerialBoardController: NSObject, SerialPortDelegate {
 	
 	enum SerialBoardRequestType: Int {
 		case ReadTemperature = 1
@@ -98,17 +98,17 @@ class SerialBoardController: NSObject, ORSSerialPortDelegate {
 		return Int(LEDStateString)! != 0
 	}
 	
-	// MARK: - ORSSerialPortDelegate
+	// MARK: - SerialPortDelegate
 	
-	func serialPortWasRemovedFromSystem(serialPort: ORSSerialPort) {
+	func serialPortWasRemovedFromSystem(serialPort: SerialPort) {
 		self.serialPort = nil
 	}
 	
-	func serialPort(serialPort: ORSSerialPort, didEncounterError error: NSError) {
+	func serialPort(serialPort: SerialPort, didEncounterError error: NSError) {
 		print("Serial port \(serialPort) encountered an error: \(error)")
 	}
 	
-	func serialPort(serialPort: ORSSerialPort, didReceiveResponse responseData: NSData, toRequest request: SerialRequest) {
+	func serialPort(serialPort: SerialPort, didReceiveResponse responseData: NSData, toRequest request: SerialRequest) {
 		let requestType = SerialBoardRequestType(rawValue: request.userInfo as! Int)!
 		switch requestType {
 		case .ReadTemperature:
@@ -118,18 +118,18 @@ class SerialBoardController: NSObject, ORSSerialPortDelegate {
 		}
 	}
 	
-	func serialPortWasOpened(serialPort: ORSSerialPort) {
+	func serialPortWasOpened(serialPort: SerialPort) {
 		self.pollingTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "pollingTimerFired:", userInfo: nil, repeats: true)
 		self.pollingTimer!.fire()
 	}
 	
-	func serialPortWasClosed(serialPort: ORSSerialPort) {
+	func serialPortWasClosed(serialPort: SerialPort) {
 		self.pollingTimer = nil
 	}
 	
 	// MARK: - Properties
 	
-	private(set) internal var serialPort: ORSSerialPort? {
+	private(set) internal var serialPort: SerialPort? {
 		willSet {
 			if let port = serialPort {
 				port.close()

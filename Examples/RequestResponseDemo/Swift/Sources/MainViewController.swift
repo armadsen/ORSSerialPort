@@ -30,7 +30,7 @@ import ORSSerial
 class MainViewController: NSViewController {
 
 	@IBOutlet weak var temperaturePlotView: TemperaturePlotView!
-	let serialPortManager = ORSSerialPortManager.sharedSerialPortManager()
+	let serialPortManager = SerialPortManager.sharedSerialPortManager
 	let boardController = SerialBoardController()
 	
 	override func viewDidLoad() {
