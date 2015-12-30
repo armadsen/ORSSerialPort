@@ -9,28 +9,28 @@
 import Cocoa
 import ORSSerial
 
-class SerialCommunicator: NSObject, ORSSerialPortDelegate {
+class SerialCommunicator: NSObject, SerialPortDelegate {
 	
 	deinit {
 		self.serialPort = nil
 	}
 	
-	// MARK - ORSSerialPortDelegate
+	// MARK - SerialPortDelegate
 	
-	func serialPortWasRemovedFromSystem(serialPort: ORSSerialPort) {
+	func serialPortWasRemovedFromSystem(serialPort: SerialPort) {
 		self.serialPort = nil
 	}
 	
-	func serialPort(serialPort: ORSSerialPort, didEncounterError error: NSError) {
+	func serialPort(serialPort: SerialPort, didEncounterError error: NSError) {
 		print("Serial port \(serialPort) encountered an error: \(error)")
 	}
 	
-	func serialPortWasOpened(serialPort: ORSSerialPort) {
+	func serialPortWasOpened(serialPort: SerialPort) {
 		let descriptor = SerialPacketDescriptor(prefixString: "!pos", suffixString: ";", maximumPacketLength: 8, userInfo: nil)
 		serialPort.startListeningForPacketsMatchingDescriptor(descriptor)
 	}
 	
-	func serialPort(serialPort: ORSSerialPort, didReceivePacket packetData: NSData, matchingDescriptor descriptor: SerialPacketDescriptor) {
+	func serialPort(serialPort: SerialPort, didReceivePacket packetData: NSData, matchingDescriptor descriptor: SerialPacketDescriptor) {
 		if let dataAsString = NSString(data: packetData, encoding: NSASCIIStringEncoding) {
 			let valueString = dataAsString.substringWithRange(NSRange(location: 4, length: dataAsString.length-5))
 			self.sliderPosition = Int(valueString)!
@@ -41,7 +41,7 @@ class SerialCommunicator: NSObject, ORSSerialPortDelegate {
 	
 	dynamic private(set) var sliderPosition: Int = 0
 	
-	dynamic var serialPort: ORSSerialPort? {
+	dynamic var serialPort: SerialPort? {
 		willSet {
 			if let port = serialPort {
 				port.close()
