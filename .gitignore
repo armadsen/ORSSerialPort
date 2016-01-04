@@ -17,4 +17,8 @@ profile
 *.moved-aside
 
 build
+.build
 .DS_Store
+
+#Swift stuff
+Packages
