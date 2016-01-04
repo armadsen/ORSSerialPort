@@ -9,6 +9,7 @@
 import Foundation
 import IOKit
 import Darwin.POSIX.termios
+import SwiftIOKitBridge
 
 // FIXME: This isn't really viable long term. For one thing NSThread.isMainThread() doesn't existing in OS Swift's Foundation.
 private func doOnMainThreadAndWait(closure: (Void) -> Void) {

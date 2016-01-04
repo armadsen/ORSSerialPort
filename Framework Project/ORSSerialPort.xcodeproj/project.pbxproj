@@ -14,11 +14,13 @@
 		9D04006A1C165339006D763F /* SerialBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0400691C165339006D763F /* SerialBuffer.swift */; };
 		9D04006C1C166E37006D763F /* SerialPortManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D04006B1C166E37006D763F /* SerialPortManager.swift */; };
 		9D143FC11C286F7D004416A0 /* InternalSerialPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D143FC01C286F7D004416A0 /* InternalSerialPort.swift */; };
-		9D143FC41C287065004416A0 /* ORSIOKitWrappers.c in Sources */ = {isa = PBXBuildFile; fileRef = 9D143FC21C287065004416A0 /* ORSIOKitWrappers.c */; };
-		9D143FC51C287065004416A0 /* ORSIOKitWrappers.h in Headers */ = {isa = PBXBuildFile; fileRef = 9D143FC31C287065004416A0 /* ORSIOKitWrappers.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9D143FC71C287092004416A0 /* SerialPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D143FC61C287092004416A0 /* SerialPort.swift */; };
 		9D143FC91C2870C7004416A0 /* Termios.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D143FC81C2870C7004416A0 /* Termios.swift */; };
 		9D5BD5A71C2C634600EAB58B /* MacPlatformSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5BD5A61C2C634600EAB58B /* MacPlatformSupport.swift */; };
+		9D5BD5ED1C3AEFC500EAB58B /* SwiftIOKitBridge.c in Sources */ = {isa = PBXBuildFile; fileRef = 9D5BD5D91C3AEF4200EAB58B /* SwiftIOKitBridge.c */; };
+		9D5BD5EE1C3AEFC800EAB58B /* SwiftIOKitBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 9D5BD5DA1C3AEF4200EAB58B /* SwiftIOKitBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9D5BD5EF1C3AEFD500EAB58B /* SwiftIOKitBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D5BD5E31C3AEFA200EAB58B /* SwiftIOKitBridge.framework */; };
+		9D5BD5F11C3AEFE900EAB58B /* SwiftIOKitBridge.framework in Copy SubFramework */ = {isa = PBXBuildFile; fileRef = 9D5BD5E31C3AEFA200EAB58B /* SwiftIOKitBridge.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9DCA89321A2BB15A009285EB /* ORSSerial.h in Headers */ = {isa = PBXBuildFile; fileRef = 9DCA89311A2BB15A009285EB /* ORSSerial.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A933F5991AC33D1700461525 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A933F5981AC33D1700461525 /* IOKit.framework */; };
 		A933F59B1AC33D2700461525 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A933F59A1AC33D2700461525 /* Cocoa.framework */; };
@@ -32,7 +34,28 @@
 			remoteGlobalIDString = 9DCA89111A2BB106009285EB;
 			remoteInfo = ORSSerial;
 		};
+		9D5BD5EB1C3AEFC000EAB58B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9DCA89091A2BB106009285EB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9D5BD5E21C3AEFA200EAB58B;
+			remoteInfo = SwiftIOKitBridge;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		9D5BD5F01C3AEFDE00EAB58B /* Copy SubFramework */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				9D5BD5F11C3AEFE900EAB58B /* SwiftIOKitBridge.framework in Copy SubFramework */,
+			);
+			name = "Copy SubFramework";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		9D0400111C1607CE006D763F /* SerialPacketDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerialPacketDescriptor.swift; sourceTree = "<group>"; };
@@ -41,11 +64,13 @@
 		9D0400691C165339006D763F /* SerialBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerialBuffer.swift; sourceTree = "<group>"; };
 		9D04006B1C166E37006D763F /* SerialPortManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerialPortManager.swift; sourceTree = "<group>"; };
 		9D143FC01C286F7D004416A0 /* InternalSerialPort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternalSerialPort.swift; sourceTree = "<group>"; };
-		9D143FC21C287065004416A0 /* ORSIOKitWrappers.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ORSIOKitWrappers.c; sourceTree = "<group>"; };
-		9D143FC31C287065004416A0 /* ORSIOKitWrappers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSIOKitWrappers.h; sourceTree = "<group>"; };
 		9D143FC61C287092004416A0 /* SerialPort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerialPort.swift; sourceTree = "<group>"; };
 		9D143FC81C2870C7004416A0 /* Termios.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Termios.swift; sourceTree = "<group>"; };
 		9D5BD5A61C2C634600EAB58B /* MacPlatformSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MacPlatformSupport.swift; sourceTree = "<group>"; };
+		9D5BD5D91C3AEF4200EAB58B /* SwiftIOKitBridge.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = SwiftIOKitBridge.c; path = ../../Source/IOKitWrapper/SwiftIOKitBridge.c; sourceTree = "<group>"; };
+		9D5BD5DA1C3AEF4200EAB58B /* SwiftIOKitBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwiftIOKitBridge.h; path = ../../Source/IOKitWrapper/SwiftIOKitBridge.h; sourceTree = "<group>"; };
+		9D5BD5E31C3AEFA200EAB58B /* SwiftIOKitBridge.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftIOKitBridge.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D5BD5E71C3AEFA200EAB58B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9D7472161B6D7767002D8B10 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9D7472171B6D7767002D8B10 /* ORSSerialPort_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORSSerialPort_Tests.m; sourceTree = "<group>"; };
 		9D74721F1B6D7787002D8B10 /* ORSSerialPacketDescriptor_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSSerialPacketDescriptor_Tests.m; sourceTree = "<group>"; };
@@ -65,10 +90,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9D5BD5DF1C3AEFA200EAB58B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9DCA890E1A2BB106009285EB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D5BD5EF1C3AEFD500EAB58B /* SwiftIOKitBridge.framework in Frameworks */,
 				A933F59B1AC33D2700461525 /* Cocoa.framework in Frameworks */,
 				A933F5991AC33D1700461525 /* IOKit.framework in Frameworks */,
 			);
@@ -84,10 +117,18 @@
 				9D0400691C165339006D763F /* SerialBuffer.swift */,
 				9D143FC81C2870C7004416A0 /* Termios.swift */,
 				9D5BD5A61C2C634600EAB58B /* MacPlatformSupport.swift */,
-				9D143FC31C287065004416A0 /* ORSIOKitWrappers.h */,
-				9D143FC21C287065004416A0 /* ORSIOKitWrappers.c */,
 			);
 			name = Private;
+			sourceTree = "<group>";
+		};
+		9D5BD5E41C3AEFA200EAB58B /* SwiftIOKitBridge */ = {
+			isa = PBXGroup;
+			children = (
+				9D5BD5DA1C3AEF4200EAB58B /* SwiftIOKitBridge.h */,
+				9D5BD5D91C3AEF4200EAB58B /* SwiftIOKitBridge.c */,
+				9D5BD5E71C3AEFA200EAB58B /* Info.plist */,
+			);
+			path = SwiftIOKitBridge;
 			sourceTree = "<group>";
 		};
 		9D7472141B6D7767002D8B10 /* ORSSerialPort Tests */ = {
@@ -116,6 +157,7 @@
 				9DCA89301A2BB14E009285EB /* Resources */,
 				9DCCC2531AD1D289003E21FC /* Linked Frameworks */,
 				9D7472141B6D7767002D8B10 /* ORSSerialPort Tests */,
+				9D5BD5E41C3AEFA200EAB58B /* SwiftIOKitBridge */,
 				9DCA89131A2BB106009285EB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -125,6 +167,7 @@
 			children = (
 				9DCA89121A2BB106009285EB /* ORSSerial.framework */,
 				9D0400171C1634E2006D763F /* ORSSerialPort Tests.xctest */,
+				9D5BD5E31C3AEFA200EAB58B /* SwiftIOKitBridge.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -162,11 +205,18 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		9D5BD5E01C3AEFA200EAB58B /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D5BD5EE1C3AEFC800EAB58B /* SwiftIOKitBridge.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9DCA890F1A2BB106009285EB /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D143FC51C287065004416A0 /* ORSIOKitWrappers.h in Headers */,
 				9DCA89321A2BB15A009285EB /* ORSSerial.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -192,6 +242,24 @@
 			productReference = 9D0400171C1634E2006D763F /* ORSSerialPort Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		9D5BD5E21C3AEFA200EAB58B /* SwiftIOKitBridge */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9D5BD5E81C3AEFA200EAB58B /* Build configuration list for PBXNativeTarget "SwiftIOKitBridge" */;
+			buildPhases = (
+				9D5BD5DE1C3AEFA200EAB58B /* Sources */,
+				9D5BD5DF1C3AEFA200EAB58B /* Frameworks */,
+				9D5BD5E01C3AEFA200EAB58B /* Headers */,
+				9D5BD5E11C3AEFA200EAB58B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SwiftIOKitBridge;
+			productName = SwiftIOKitBridge;
+			productReference = 9D5BD5E31C3AEFA200EAB58B /* SwiftIOKitBridge.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		9DCA89111A2BB106009285EB /* ORSSerial */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9DCA89281A2BB106009285EB /* Build configuration list for PBXNativeTarget "ORSSerial" */;
@@ -199,11 +267,13 @@
 				9DCA890D1A2BB106009285EB /* Sources */,
 				9DCA890E1A2BB106009285EB /* Frameworks */,
 				9DCA890F1A2BB106009285EB /* Headers */,
+				9D5BD5F01C3AEFDE00EAB58B /* Copy SubFramework */,
 				9DCA89101A2BB106009285EB /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				9D5BD5EC1C3AEFC000EAB58B /* PBXTargetDependency */,
 			);
 			name = ORSSerial;
 			productName = ORSSerialPort;
@@ -216,12 +286,15 @@
 		9DCA89091A2BB106009285EB /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0710;
+				LastSwiftUpdateCheck = 0720;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Open Reel Software";
 				TargetAttributes = {
 					9D0400161C1634E2006D763F = {
 						CreatedOnToolsVersion = 7.1.1;
+					};
+					9D5BD5E21C3AEFA200EAB58B = {
+						CreatedOnToolsVersion = 7.2;
 					};
 					9DCA89111A2BB106009285EB = {
 						CreatedOnToolsVersion = 6.1;
@@ -242,12 +315,20 @@
 			targets = (
 				9DCA89111A2BB106009285EB /* ORSSerial */,
 				9D0400161C1634E2006D763F /* ORSSerialPort Tests */,
+				9D5BD5E21C3AEFA200EAB58B /* SwiftIOKitBridge */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		9D0400151C1634E2006D763F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9D5BD5E11C3AEFA200EAB58B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -272,6 +353,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9D5BD5DE1C3AEFA200EAB58B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D5BD5ED1C3AEFC500EAB58B /* SwiftIOKitBridge.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9DCA890D1A2BB106009285EB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -281,7 +370,6 @@
 				9D5BD5A71C2C634600EAB58B /* MacPlatformSupport.swift in Sources */,
 				9D0400551C163F41006D763F /* SerialRequest.swift in Sources */,
 				9D143FC11C286F7D004416A0 /* InternalSerialPort.swift in Sources */,
-				9D143FC41C287065004416A0 /* ORSIOKitWrappers.c in Sources */,
 				9D0400121C1607CE006D763F /* SerialPacketDescriptor.swift in Sources */,
 				9D143FC91C2870C7004416A0 /* Termios.swift in Sources */,
 				9D04006A1C165339006D763F /* SerialBuffer.swift in Sources */,
@@ -295,6 +383,11 @@
 			isa = PBXTargetDependency;
 			target = 9DCA89111A2BB106009285EB /* ORSSerial */;
 			targetProxy = 9D04001D1C1634E2006D763F /* PBXContainerItemProxy */;
+		};
+		9D5BD5EC1C3AEFC000EAB58B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9D5BD5E21C3AEFA200EAB58B /* SwiftIOKitBridge */;
+			targetProxy = 9D5BD5EB1C3AEFC000EAB58B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -333,6 +426,50 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.openreelsoftware.ORSSerialPort-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
+			};
+			name = Release;
+		};
+		9D5BD5E91C3AEFA200EAB58B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = SwiftIOKitBridge/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = com.openreelsoftware.SwiftIOKitBridge;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		9D5BD5EA1C3AEFA200EAB58B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = SwiftIOKitBridge/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = com.openreelsoftware.SwiftIOKitBridge;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
@@ -472,6 +609,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		9D5BD5E81C3AEFA200EAB58B /* Build configuration list for PBXNativeTarget "SwiftIOKitBridge" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9D5BD5E91C3AEFA200EAB58B /* Debug */,
+				9D5BD5EA1C3AEFA200EAB58B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		9DCA890C1A2BB106009285EB /* Build configuration list for PBXProject "ORSSerialPort" */ = {
 			isa = XCConfigurationList;
