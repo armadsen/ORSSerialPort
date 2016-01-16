@@ -54,9 +54,10 @@ typedef BOOL(^ORSSerialPacketEvaluator)(NSData * __nullable inputData);
  *  can be installed on the port, and the port will call the -serialPort:didReceivePacket:matchingDescriptor:
  *  method on its delegate when a complete packet is received.
  *
- *  Note that this API is intended to be used with data that is sent by a serial device periodically,
+ *  Note that this packet listener API is intended to be used with data that is sent by a serial device periodically,
  *  or in response to real world events, rather than in response to serial requests sent by the computer.
- *  For request/response protocols, see ORSSerialRequest, etc.
+ *  For systems where a request is sent out, then a response is received, see the higher-level request/response API
+ *  (ORSSerialRequest, etc.) which is built on top of the packet parsing API.
  *
  *  For more information about ORSSerialPort's packet descriptor API, see the ORSSerialPort Packet Parsing
  *  Programming Guide at
