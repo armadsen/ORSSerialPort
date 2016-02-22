@@ -35,6 +35,10 @@
 #define __nullable
 #endif
 
+#ifndef NS_DESIGNATED_INITIALIZER
+#define NS_DESIGNATED_INITIALIZER
+#endif
+
 NS_ASSUME_NONNULL_BEGIN
 
 /**
