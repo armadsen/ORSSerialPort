@@ -547,7 +547,7 @@ static __strong NSMutableArray *allSerialPorts;
 	}
 	
 	[self.requestResponseReceiveBuffer appendData:byte];
-    NSData *responseData = [packetDescriptor packetMatchingAtEndOfBuffer:self.requestResponseReceiveBuffer.data];
+	NSData *responseData = [packetDescriptor packetMatchingAtEndOfBuffer:self.requestResponseReceiveBuffer.data];
 	if (!responseData) return;
 	
 	self.pendingRequestTimeoutTimer = nil;
