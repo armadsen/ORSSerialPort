@@ -183,6 +183,15 @@ typedef BOOL(^ORSSerialPacketEvaluator)(NSData * __nullable inputData);
 - (BOOL)dataIsValidPacket:(nullable NSData *)packetData;
 
 /**
+ *  Can be used to determine and extract a packet from a buffer, matching up to the end of the buffer.
+ *
+ *  @param buffer Data received from serial port.
+ *
+ *  @return Data corresponding to valid packet, or nil.
+ */
+- (nullable NSData *)packetMatchingAtEndOfBuffer:(nullable NSData *)buffer;
+
+/**
  *  The fixed packetData for packets described by the receiver. Will be nil for packet
  *  descriptors not created using -initWithPacketData:userInfo:
  */

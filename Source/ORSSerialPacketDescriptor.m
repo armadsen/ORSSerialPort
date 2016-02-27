@@ -137,4 +137,14 @@
 	return self.responseEvaluator(packetData);
 }
 
+- (NSData *)packetMatchingAtEndOfBuffer:(NSData *)buffer
+{
+    for (NSUInteger i=1; i<=[buffer length]; i++)
+    {
+        NSData *window = [buffer subdataWithRange:NSMakeRange([buffer length]-i, i)];
+        if ([self dataIsValidPacket:window]) return window;
+    }
+    return nil;
+}
+
 @end
