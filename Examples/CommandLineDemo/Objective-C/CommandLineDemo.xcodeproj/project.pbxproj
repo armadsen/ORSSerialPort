@@ -14,18 +14,6 @@
 		9DF0453E1678336E00DA0CDA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF0453C1678336E00DA0CDA /* main.m */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		9DF045281678333000DA0CDA /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		2788B8041BA05FFD0018C0E7 /* ORSSerialBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORSSerialBuffer.h; path = ../../../../Source/ORSSerialBuffer.h; sourceTree = "<group>"; };
 		2788B8051BA05FFD0018C0E7 /* ORSSerialBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ORSSerialBuffer.m; path = ../../../../Source/ORSSerialBuffer.m; sourceTree = "<group>"; };
@@ -36,7 +24,6 @@
 		9D2D68F61AC8524E00779F24 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		9DF0452A1678333000DA0CDA /* CommandLineDemo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CommandLineDemo; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DF0453C1678336E00DA0CDA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		9DF045401678337900DA0CDA /* ORSSerialPortCommandLineDemo.1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.man; path = ORSSerialPortCommandLineDemo.1; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,7 +55,6 @@
 			isa = PBXGroup;
 			children = (
 				9DF0453B1678336E00DA0CDA /* Sources */,
-				9DF0453F1678337900DA0CDA /* Resources */,
 				9DF0452C1678333000DA0CDA /* Frameworks */,
 				9DF0452B1678333000DA0CDA /* Products */,
 			);
@@ -99,14 +85,6 @@
 			path = Sources;
 			sourceTree = "<group>";
 		};
-		9DF0453F1678337900DA0CDA /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				9DF045401678337900DA0CDA /* ORSSerialPortCommandLineDemo.1 */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -116,7 +94,6 @@
 			buildPhases = (
 				9DF045261678333000DA0CDA /* Sources */,
 				9D2D68F51AC8524200779F24 /* Frameworks */,
-				9DF045281678333000DA0CDA /* CopyFiles */,
 			);
 			buildRules = (
 			);

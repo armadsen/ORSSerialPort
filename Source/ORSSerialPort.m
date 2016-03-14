@@ -250,7 +250,7 @@ static __strong NSMutableArray *allSerialPorts;
 	if (self.isOpen) return;
 	
 	dispatch_queue_t mainQueue = dispatch_get_main_queue();
-	
+
 	int descriptor=0;
 	descriptor = open([self.path cStringUsingEncoding:NSASCIIStringEncoding], O_RDWR | O_NOCTTY | O_EXLOCK | O_NONBLOCK);
 	if (descriptor < 1) {
@@ -268,25 +268,14 @@ static __strong NSMutableArray *allSerialPorts;
 	
 	self.fileDescriptor = descriptor;
 	
+
 	// Port opened successfully, set options
 	tcgetattr(descriptor, &originalPortAttributes); // Get original options so they can be reset later
 	[self setPortOptions];
+	[self updateModemLines];
 	
-	// Get status of RTS and DTR lines
-	int modemLines=0;
-	if (ioctl(self.fileDescriptor, TIOCMGET, &modemLines) < 0) {
-		LOG_SERIAL_PORT_ERROR(@"Error reading modem lines status");
-		[self notifyDelegateOfPosixError];
-	}
-	
-	BOOL desiredRTS = self.RTS;
-	BOOL desiredDTR = self.DTR;
-	self.RTS = modemLines & TIOCM_RTS;
-	self.DTR = modemLines & TIOCM_DTR;
-	self.RTS = desiredRTS;
-	self.DTR = desiredDTR;
-	
-	if ([self.delegate respondsToSelector:@selector(serialPortWasOpened:)]) {
+	if ([self.delegate respondsToSelector:@selector(serialPortWasOpened:)])
+	{
 		dispatch_async(mainQueue, ^{
 			[self.delegate serialPortWasOpened:self];
 		});
@@ -754,8 +743,8 @@ static __strong NSMutableArray *allSerialPorts;
 {
 	if (![self.delegate respondsToSelector:@selector(serialPort:didEncounterError:)]) return;
 	
-	NSDictionary *errDict = @{NSLocalizedDescriptionKey : @(strerror(errno)),
-							  NSFilePathErrorKey : self.path};
+	NSDictionary *errDict = @{NSLocalizedDescriptionKey: @(strerror(errno)),
+							  NSFilePathErrorKey: self.path};
 	NSError *error = [NSError errorWithDomain:NSPOSIXErrorDomain
 										 code:errno
 									 userInfo:errDict];
@@ -911,20 +900,27 @@ static __strong NSMutableArray *allSerialPorts;
 	}
 }
 
+- (void)updateModemLines
+{
+	if (![self isOpen]) return;
+
+	int bits;
+	ioctl( self.fileDescriptor, TIOCMGET, &bits ) ;
+	bits = self.RTS ? bits | TIOCM_RTS : bits & ~TIOCM_RTS;
+	bits = self.DTR ? bits | TIOCM_DTR : bits & ~TIOCM_DTR;
+	if (ioctl( self.fileDescriptor, TIOCMSET, &bits ) < 0)
+	{
+		LOG_SERIAL_PORT_ERROR(@"Error in %s", __PRETTY_FUNCTION__);
+		[self notifyDelegateOfPosixError];
+	}
+}
+
 - (void)setRTS:(BOOL)flag
 {
-	if (flag != _RTS) {
+	if (flag != _RTS)
+	{
 		_RTS = flag;
-		
-		if (![self isOpen]) return;
-		
-		int bits;
-		ioctl( self.fileDescriptor, TIOCMGET, &bits );
-		bits = _RTS ? bits | TIOCM_RTS : bits & ~TIOCM_RTS;
-		if (ioctl( self.fileDescriptor, TIOCMSET, &bits ) < 0) {
-			LOG_SERIAL_PORT_ERROR(@"Error in %s", __PRETTY_FUNCTION__);
-			[self notifyDelegateOfPosixError];
-		}
+		[self updateModemLines];
 	}
 }
 
@@ -932,16 +928,7 @@ static __strong NSMutableArray *allSerialPorts;
 {
 	if (flag != _DTR) {
 		_DTR = flag;
-		
-		if (![self isOpen]) return;
-		
-		int bits;
-		ioctl( self.fileDescriptor, TIOCMGET, &bits );
-		bits = _DTR ? bits | TIOCM_DTR : bits & ~TIOCM_DTR;
-		if (ioctl( self.fileDescriptor, TIOCMSET, &bits ) < 0) {
-			LOG_SERIAL_PORT_ERROR(@"Error in %s", __PRETTY_FUNCTION__);
-			[self notifyDelegateOfPosixError];
-		}
+		[self updateModemLines];
 	}
 }
 

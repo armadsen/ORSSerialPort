@@ -105,7 +105,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The descriptor describing the receiver's expected response.
  */
-@property (nonatomic, strong, readonly) ORSSerialPacketDescriptor *responseDescriptor;
+@property (nonatomic, strong, readonly, nullable) ORSSerialPacketDescriptor *responseDescriptor;
 
 /**
  *  Unique identifier for the request.

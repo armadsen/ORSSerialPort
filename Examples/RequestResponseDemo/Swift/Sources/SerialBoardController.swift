@@ -140,6 +140,7 @@ class SerialBoardController: NSObject, ORSSerialPortDelegate {
 			if let port = serialPort {
 				port.baudRate = 57600
 				port.delegate = self
+				port.RTS = true
 				port.open()
 			}
 		}
