@@ -280,8 +280,14 @@ static __strong NSMutableArray *allSerialPorts;
 	[self setPortOptions];
 	[self updateModemLines];
 	
+<<<<<<< HEAD
 	[self dispatchToDelegateQueue:^{
 		if ([self.delegate respondsToSelector:@selector(serialPortWasOpened:)]) {
+=======
+	if ([self.delegate respondsToSelector:@selector(serialPortWasOpened:)])
+	{
+		dispatch_async(mainQueue, ^{
+>>>>>>> 2.1
 			[self.delegate serialPortWasOpened:self];
 		}
 	}];
@@ -468,17 +474,6 @@ static __strong NSMutableArray *allSerialPorts;
 #pragma mark - Private Methods
 
 // Must only be called on requestHandlingQueue (ie. wrap call to this method in dispatch())
-- (NSData *)packetMatchingDescriptor:(ORSSerialPacketDescriptor *)descriptor atEndOfBuffer:(NSData *)buffer
-{
-	for (NSUInteger i=1; i<=[buffer length]; i++)
-	{
-		NSData *window = [buffer subdataWithRange:NSMakeRange([buffer length]-i, i)];
-		if ([descriptor dataIsValidPacket:window]) return window;
-	}
-	return nil;
-}
-
-// Must only be called on requestHandlingQueue (ie. wrap call to this method in dispatch())
 - (BOOL)reallySendRequest:(ORSSerialRequest *)request
 {
 	if (!self.pendingRequest) {
@@ -549,7 +544,7 @@ static __strong NSMutableArray *allSerialPorts;
 	}
 	
 	[self.requestResponseReceiveBuffer appendData:byte];
-	NSData *responseData = [self packetMatchingDescriptor:packetDescriptor atEndOfBuffer:self.requestResponseReceiveBuffer.data];
+	NSData *responseData = [packetDescriptor packetMatchingAtEndOfBuffer:self.requestResponseReceiveBuffer.data];
 	if (!responseData) return;
 	
 	self.pendingRequestTimeoutTimer = nil;
@@ -589,7 +584,7 @@ static __strong NSMutableArray *allSerialPorts;
 				[buffer appendData:byte];
 				
 				// Check for complete packet
-				NSData *completePacket = [self packetMatchingDescriptor:descriptor atEndOfBuffer:buffer.data];
+				NSData *completePacket = [descriptor packetMatchingAtEndOfBuffer:buffer.data];
 				if (![completePacket length]) continue;
 				
 				// Complete packet received, so notify delegate then clear buffer
@@ -749,9 +744,16 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (void)notifyDelegateOfPosixErrorThen:(void(^)(void))continuationBlock
 {
+<<<<<<< HEAD
 	if ([self.delegate respondsToSelector:@selector(serialPort:didEncounterError:)]) {
 	NSDictionary *errDict = @{NSLocalizedDescriptionKey : @(strerror(errno)),
 							  NSFilePathErrorKey : self.path};
+=======
+	if (![self.delegate respondsToSelector:@selector(serialPort:didEncounterError:)]) return;
+	
+	NSDictionary *errDict = @{NSLocalizedDescriptionKey: @(strerror(errno)),
+							  NSFilePathErrorKey: self.path};
+>>>>>>> 2.1
 	NSError *error = [NSError errorWithDomain:NSPOSIXErrorDomain
 										 code:errno
 									 userInfo:errDict];
@@ -942,7 +944,11 @@ static __strong NSMutableArray *allSerialPorts;
 	{
 		_RTS = flag;
 		[self updateModemLines];
+<<<<<<< HEAD
 }
+=======
+	}
+>>>>>>> 2.1
 }
 
 - (void)setDTR:(BOOL)flag

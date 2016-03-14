@@ -36,6 +36,10 @@
 #define __nullable
 #endif
 
+#ifndef NS_DESIGNATED_INITIALIZER
+#define NS_DESIGNATED_INITIALIZER
+#endif
+
 NS_ASSUME_NONNULL_BEGIN
 
 /**
@@ -105,7 +109,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The descriptor describing the receiver's expected response.
  */
-@property (nonatomic, strong, readonly) ORSSerialPacketDescriptor *responseDescriptor;
+@property (nonatomic, strong, readonly, nullable) ORSSerialPacketDescriptor *responseDescriptor;
 
 /**
  *  Unique identifier for the request.
