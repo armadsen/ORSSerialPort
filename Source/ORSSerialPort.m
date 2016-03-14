@@ -475,17 +475,6 @@ static __strong NSMutableArray *allSerialPorts;
 #pragma mark - Private Methods
 
 // Must only be called on requestHandlingQueue (ie. wrap call to this method in dispatch())
-- (NSData *)packetMatchingDescriptor:(ORSSerialPacketDescriptor *)descriptor atEndOfBuffer:(NSData *)buffer
-{
-	for (NSUInteger i=1; i<=[buffer length]; i++)
-	{
-		NSData *window = [buffer subdataWithRange:NSMakeRange([buffer length]-i, i)];
-		if ([descriptor dataIsValidPacket:window]) return window;
-	}
-	return nil;
-}
-
-// Must only be called on requestHandlingQueue (ie. wrap call to this method in dispatch())
 - (BOOL)reallySendRequest:(ORSSerialRequest *)request
 {
 	if (!self.pendingRequest)
@@ -558,7 +547,7 @@ static __strong NSMutableArray *allSerialPorts;
 	}
 	
 	[self.requestResponseReceiveBuffer appendData:byte];
-	NSData *responseData = [self packetMatchingDescriptor:packetDescriptor atEndOfBuffer:self.requestResponseReceiveBuffer.data];
+	NSData *responseData = [packetDescriptor packetMatchingAtEndOfBuffer:self.requestResponseReceiveBuffer.data];
 	if (!responseData) return;
 	
 	self.pendingRequestTimeoutTimer = nil;
@@ -600,7 +589,7 @@ static __strong NSMutableArray *allSerialPorts;
 				[buffer appendData:byte];
 				
 				// Check for complete packet
-				NSData *completePacket = [self packetMatchingDescriptor:descriptor atEndOfBuffer:buffer.data];
+				NSData *completePacket = [descriptor packetMatchingAtEndOfBuffer:buffer.data];
 				if (![completePacket length]) continue;
 				
 				// Complete packet received, so notify delegate then clear buffer
