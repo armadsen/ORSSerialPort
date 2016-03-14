@@ -4,6 +4,18 @@ All notable changes to ORSSerialPort are documented in this file. This project a
 ##[Unreleased]
 This section is for changes commited to the ORSSerialPort repository, but not yet included in an official release.
 
+##[2.0.2] - 2016-03-14
+
+###CHANGED
+- Refactored packet descriptor buffer parsing to pave the way for future improvements (thanks @nathanntg!)
+- Clarified distinction between packet parsing API and request/response API in documentation for `ORSSerialPacketDescriptor`.
+- Refactored modem line control code (see Issue #86 and commit 6fc0c9e)
+
+###FIXED
+- Fixed error building framework project in Xcode 4.6 on 10.7.5
+- Fixed bug where PacketParsingDemo and RequestResponseDemo apps didn't work on 10.11
+- Fixed incorrect nullability annotation on `ORSSerialRequest`'s `responseDescriptor` property
+
 ##[2.0.1] - 2015-09-26
 
 ###ADDED
