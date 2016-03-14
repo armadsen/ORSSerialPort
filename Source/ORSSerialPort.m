@@ -280,14 +280,8 @@ static __strong NSMutableArray *allSerialPorts;
 	[self setPortOptions];
 	[self updateModemLines];
 	
-<<<<<<< HEAD
 	[self dispatchToDelegateQueue:^{
 		if ([self.delegate respondsToSelector:@selector(serialPortWasOpened:)]) {
-=======
-	if ([self.delegate respondsToSelector:@selector(serialPortWasOpened:)])
-	{
-		dispatch_async(mainQueue, ^{
->>>>>>> 2.1
 			[self.delegate serialPortWasOpened:self];
 		}
 	}];
@@ -326,8 +320,8 @@ static __strong NSMutableArray *allSerialPorts;
 			int localErrno = errno;
 			[self notifyDelegateOfPosixErrorThen:^{
 				if (localErrno == ENXIO) {
-				[self cleanupAfterSystemRemoval];
-			}
+					[self cleanupAfterSystemRemoval];
+				}
 			}];
 			return;
 		}
@@ -744,30 +738,23 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (void)notifyDelegateOfPosixErrorThen:(void(^)(void))continuationBlock
 {
-<<<<<<< HEAD
 	if ([self.delegate respondsToSelector:@selector(serialPort:didEncounterError:)]) {
-	NSDictionary *errDict = @{NSLocalizedDescriptionKey : @(strerror(errno)),
-							  NSFilePathErrorKey : self.path};
-=======
-	if (![self.delegate respondsToSelector:@selector(serialPort:didEncounterError:)]) return;
-	
-	NSDictionary *errDict = @{NSLocalizedDescriptionKey: @(strerror(errno)),
-							  NSFilePathErrorKey: self.path};
->>>>>>> 2.1
-	NSError *error = [NSError errorWithDomain:NSPOSIXErrorDomain
-										 code:errno
-									 userInfo:errDict];
+		NSDictionary *errDict = @{NSLocalizedDescriptionKey : @(strerror(errno)),
+								  NSFilePathErrorKey : self.path};
+		NSError *error = [NSError errorWithDomain:NSPOSIXErrorDomain
+											 code:errno
+										 userInfo:errDict];
 		[self dispatchToDelegateQueue:^{ [self.delegate serialPort:self didEncounterError:error]; }];
 	}
 	[self dispatchToDelegateQueue:continuationBlock];
 }
-	
+
 - (void)dispatchToDelegateQueue:(void(^)(void))block
 {
 	if (!block) return;
 	
 	dispatch_async(self.serialDelegateQueue, block);
-	}
+}
 
 #pragma mark - Properties
 
@@ -918,8 +905,8 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (void)updateModemLines
 {
-		if (![self isOpen]) return;
-		
+	if (![self isOpen]) return;
+	
 	int modemLines;
 	if (ioctl(self.fileDescriptor, TIOCMGET, &modemLines) < 0) {
 		int localErrno = errno;
@@ -944,11 +931,7 @@ static __strong NSMutableArray *allSerialPorts;
 	{
 		_RTS = flag;
 		[self updateModemLines];
-<<<<<<< HEAD
-}
-=======
 	}
->>>>>>> 2.1
 }
 
 - (void)setDTR:(BOOL)flag
