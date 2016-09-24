@@ -107,7 +107,7 @@ class SerialPortDemoController: NSObject, ORSSerialPortDelegate, NSUserNotificat
 		}
 	}
 	
-	func serialPortWasRemovedFromSystem(serialPort: ORSSerialPort) {
+	func serialPortWasRemovedFromSystem(_ serialPort: ORSSerialPort) {
 		self.serialPort = nil
 		self.openCloseButton.title = "Open"
 	}
