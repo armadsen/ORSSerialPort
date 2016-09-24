@@ -17,29 +17,29 @@ class SerialCommunicator: NSObject, ORSSerialPortDelegate {
 	
 	// MARK - ORSSerialPortDelegate
 	
-	func serialPortWasRemovedFromSystem(serialPort: ORSSerialPort) {
+	func serialPortWasRemovedFromSystem(_ serialPort: ORSSerialPort) {
 		self.serialPort = nil
 	}
 	
-	func serialPort(serialPort: ORSSerialPort, didEncounterError error: NSError) {
+	func serialPort(_ serialPort: ORSSerialPort, didEncounterError error: Error) {
 		print("Serial port \(serialPort) encountered an error: \(error)")
 	}
 	
-	func serialPortWasOpened(serialPort: ORSSerialPort) {
+	func serialPortWasOpened(_ serialPort: ORSSerialPort) {
 		let descriptor = ORSSerialPacketDescriptor(prefixString: "!pos", suffixString: ";", maximumPacketLength: 8, userInfo: nil)
-		serialPort.startListeningForPacketsMatchingDescriptor(descriptor)
+		serialPort.startListeningForPackets(matching: descriptor)
 	}
 	
-	func serialPort(serialPort: ORSSerialPort, didReceivePacket packetData: NSData, matchingDescriptor descriptor: ORSSerialPacketDescriptor) {
-		if let dataAsString = NSString(data: packetData, encoding: NSASCIIStringEncoding) {
-			let valueString = dataAsString.substringWithRange(NSRange(location: 4, length: dataAsString.length-5))
+	func serialPort(_ serialPort: ORSSerialPort, didReceivePacket packetData: Data, matching descriptor: ORSSerialPacketDescriptor) {
+		if let dataAsString = NSString(data: packetData, encoding: String.Encoding.ascii.rawValue) {
+			let valueString = dataAsString.substring(with: NSRange(location: 4, length: dataAsString.length-5))
 			self.sliderPosition = Int(valueString)!
 		}
 	}
 	
 	// MARK: - Properties
 	
-	dynamic private(set) var sliderPosition: Int = 0
+	dynamic fileprivate(set) var sliderPosition: Int = 0
 	
 	dynamic var serialPort: ORSSerialPort? {
 		willSet {
@@ -51,7 +51,7 @@ class SerialCommunicator: NSObject, ORSSerialPortDelegate {
 		didSet {
 			if let port = serialPort {
 				port.baudRate = 57600
-				port.RTS = true
+				port.rts = true
 				port.delegate = self
 				port.open()
 			}
