@@ -32,104 +32,104 @@ let kTimeoutDuration = 0.5
 class SerialBoardController: NSObject, ORSSerialPortDelegate {
 	
 	enum SerialBoardRequestType: Int {
-		case ReadTemperature = 1
-		case ReadLED
-		case SetLED
+		case readTemperature = 1
+		case readLED
+		case setLED
 	}
 	
 	// MARK: - Private
 	
-	func pollingTimerFired(timer: NSTimer) {
+	func pollingTimerFired(_ timer: Timer) {
 		self.readTemperature()
 		self.readLEDState()
 	}
 	
 	// MARK: Sending Commands
-	private func readTemperature() {
-		let command = "$TEMP?;".dataUsingEncoding(NSASCIIStringEncoding)!
+	fileprivate func readTemperature() {
+		let command = "$TEMP?;".data(using: String.Encoding.ascii)!
 		let responseDescriptor = ORSSerialPacketDescriptor(prefixString: "!TEMP", suffixString: ";", maximumPacketLength: 10, userInfo: nil)
 		let request = ORSSerialRequest(dataToSend: command,
-			userInfo: SerialBoardRequestType.ReadTemperature.rawValue,
+			userInfo: SerialBoardRequestType.readTemperature.rawValue,
 			timeoutInterval: 0.5,
 			responseDescriptor: responseDescriptor)
-		self.serialPort?.sendRequest(request)
+		self.serialPort?.send(request)
 	}
 	
-	private func readLEDState() {
-		let command = "$LED?;".dataUsingEncoding(NSASCIIStringEncoding)!
+	fileprivate func readLEDState() {
+		let command = "$LED?;".data(using: String.Encoding.ascii)!
 		let responseDescriptor = ORSSerialPacketDescriptor(prefixString: "!LED", suffixString: ";", maximumPacketLength: 10, userInfo: nil)
 		let request = ORSSerialRequest(dataToSend: command,
-			userInfo: SerialBoardRequestType.ReadLED.rawValue,
+			userInfo: SerialBoardRequestType.readLED.rawValue,
 			timeoutInterval: kTimeoutDuration,
 			responseDescriptor: responseDescriptor)
-		self.serialPort?.sendRequest(request)
+		self.serialPort?.send(request)
 	}
 	
-	private func sendCommandToSetLEDToState(state: Bool) {
+	fileprivate func sendCommandToSetLEDToState(_ state: Bool) {
 		let commandString = NSString(format: "$LED%@;", (state ? "1" : "0"))
-		let command = commandString.dataUsingEncoding(NSASCIIStringEncoding)!
+		let command = commandString.data(using: String.Encoding.ascii.rawValue)!
 		let responseDescriptor = ORSSerialPacketDescriptor(prefixString: "!LED", suffixString: ";", maximumPacketLength: 10, userInfo: nil)
 		let request = ORSSerialRequest(dataToSend: command,
-			userInfo: SerialBoardRequestType.SetLED.rawValue,
+			userInfo: SerialBoardRequestType.setLED.rawValue,
 			timeoutInterval: kTimeoutDuration,
 			responseDescriptor: responseDescriptor)
-		self.serialPort?.sendRequest(request)
+		self.serialPort?.send(request)
 	}
 	
 	// MARK: Parsing Responses
 	
-	private func temperatureFromResponsePacket(data: NSData) -> Int? {
-		let dataAsString = NSString(data: data, encoding: NSASCIIStringEncoding)!
+	fileprivate func temperatureFromResponsePacket(_ data: Data) -> Int? {
+		let dataAsString = NSString(data: data, encoding: String.Encoding.ascii.rawValue)!
 		if dataAsString.length < 6 || !dataAsString.hasPrefix("!TEMP") || !dataAsString.hasSuffix(";") {
 			return nil
 		}
 		
-		let temperatureString = dataAsString.substringWithRange(NSRange(location: 5, length: dataAsString.length-6))
+		let temperatureString = dataAsString.substring(with: NSRange(location: 5, length: dataAsString.length-6))
 		return Int(temperatureString)
 	}
 	
-	private func LEDStateFromResponsePacket(data: NSData) -> Bool? {
-		let dataAsString = NSString(data: data, encoding: NSASCIIStringEncoding)!
+	fileprivate func LEDStateFromResponsePacket(_ data: Data) -> Bool? {
+		let dataAsString = NSString(data: data, encoding: String.Encoding.ascii.rawValue)!
 		if dataAsString.length < 6 || !dataAsString.hasPrefix("!LED") || !dataAsString.hasSuffix(";") {
 			return nil
 		}
 		
-		let LEDStateString = dataAsString.substringWithRange(NSRange(location: 4, length: dataAsString.length-5))
+		let LEDStateString = dataAsString.substring(with: NSRange(location: 4, length: dataAsString.length-5))
 		return Int(LEDStateString)! != 0
 	}
 	
 	// MARK: - ORSSerialPortDelegate
 	
-	func serialPortWasRemovedFromSystem(serialPort: ORSSerialPort) {
+	func serialPortWasRemovedFromSystem(_ serialPort: ORSSerialPort) {
 		self.serialPort = nil
 	}
 	
-	func serialPort(serialPort: ORSSerialPort, didEncounterError error: NSError) {
+	func serialPort(_ serialPort: ORSSerialPort, didEncounterError error: Error) {
 		print("Serial port \(serialPort) encountered an error: \(error)")
 	}
 	
-	func serialPort(serialPort: ORSSerialPort, didReceiveResponse responseData: NSData, toRequest request: ORSSerialRequest) {
+	func serialPort(_ serialPort: ORSSerialPort, didReceiveResponse responseData: Data, to request: ORSSerialRequest) {
 		let requestType = SerialBoardRequestType(rawValue: request.userInfo as! Int)!
 		switch requestType {
-		case .ReadTemperature:
+		case .readTemperature:
 			self.temperature = self.temperatureFromResponsePacket(responseData)!
-		case .ReadLED, .SetLED:
+		case .readLED, .setLED:
 			self.internalLEDOn = self.LEDStateFromResponsePacket(responseData)!
 		}
 	}
 	
-	func serialPortWasOpened(serialPort: ORSSerialPort) {
-		self.pollingTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "pollingTimerFired:", userInfo: nil, repeats: true)
+	func serialPortWasOpened(_ serialPort: ORSSerialPort) {
+		self.pollingTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(SerialBoardController.pollingTimerFired(_:)), userInfo: nil, repeats: true)
 		self.pollingTimer!.fire()
 	}
 	
-	func serialPortWasClosed(serialPort: ORSSerialPort) {
+	func serialPortWasClosed(_ serialPort: ORSSerialPort) {
 		self.pollingTimer = nil
 	}
 	
 	// MARK: - Properties
 	
-	private(set) internal var serialPort: ORSSerialPort? {
+	fileprivate(set) internal var serialPort: ORSSerialPort? {
 		willSet {
 			if let port = serialPort {
 				port.close()
@@ -140,15 +140,15 @@ class SerialBoardController: NSObject, ORSSerialPortDelegate {
 			if let port = serialPort {
 				port.baudRate = 57600
 				port.delegate = self
-				port.RTS = true
+				port.rts = true
 				port.open()
 			}
 		}
 	}
 	
-	dynamic private(set) internal var temperature: Int = 0
+	dynamic fileprivate(set) internal var temperature: Int = 0
 	
-	dynamic private var internalLEDOn = false
+	dynamic fileprivate var internalLEDOn = false
 	
 	class func keyPathsForValuesAffectingLEDOn() -> NSSet { return NSSet(object: "internalLEDOn") }
 	dynamic var LEDOn: Bool {
@@ -161,7 +161,7 @@ class SerialBoardController: NSObject, ORSSerialPortDelegate {
 		}
 	}
 	
-	private var pollingTimer: NSTimer? {
+	fileprivate var pollingTimer: Timer? {
 		willSet {
 			if let timer = pollingTimer {
 				timer.invalidate()
