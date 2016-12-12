@@ -584,7 +584,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param serialPort The `ORSSerialPort` instance representing the port that was removed.
  */
-- (void)serialPortWasRemovedFromSystem:(ORSSerialPort *)serialPort;
+- (void)serialPortWasRemovedFromSystem:(ORSSerialPort *)serialPort NS_SWIFT_NAME(serialPortWasRemovedFromSystem(_:));
 
 @optional
 
