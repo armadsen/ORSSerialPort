@@ -279,14 +279,14 @@ static __strong NSMutableArray *allSerialPorts;
 	tcgetattr(descriptor, &originalPortAttributes); // Get original options so they can be reset later
 	[self setPortOptions];
 	[self updateModemLines];
-	
-	if ([self.delegate respondsToSelector:@selector(serialPortWasOpened:)])
-	{
-		dispatch_async(mainQueue, ^{
+
+	dispatch_async(mainQueue, ^{
+		if ([self.delegate respondsToSelector:@selector(serialPortWasOpened:)])
+		{
 			[self.delegate serialPortWasOpened:self];
-		});
-	}
-	
+		}
+	});
+
 	// Start a read dispatch source in the background
 	dispatch_source_t readPollSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ, self.fileDescriptor, 0, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0));
 	dispatch_source_set_event_handler(readPollSource, ^{
@@ -568,12 +568,12 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (void)receiveData:(NSData *)data;
 {
-	if ([self.delegate respondsToSelector:@selector(serialPort:didReceiveData:)])
-	{
-		dispatch_async(dispatch_get_main_queue(), ^{
+	dispatch_async(dispatch_get_main_queue(), ^{
+		if ([self.delegate respondsToSelector:@selector(serialPort:didReceiveData:)])
+		{
 			[self.delegate serialPort:self didReceiveData:data];
-		});
-	}
+		}
+	});
 	
 	dispatch_async(self.requestHandlingQueue, ^{
 		const void *bytes = [data bytes];
@@ -593,12 +593,12 @@ static __strong NSMutableArray *allSerialPorts;
 				if (![completePacket length]) continue;
 				
 				// Complete packet received, so notify delegate then clear buffer
-				if ([self.delegate respondsToSelector:@selector(serialPort:didReceivePacket:matchingDescriptor:)])
-				{
-					dispatch_async(dispatch_get_main_queue(), ^{
+				dispatch_async(dispatch_get_main_queue(), ^{
+					if ([self.delegate respondsToSelector:@selector(serialPort:didReceivePacket:matchingDescriptor:)])
+					{
 						[self.delegate serialPort:self didReceivePacket:completePacket matchingDescriptor:descriptor];
-					});
-				}
+					}
+				});
 				[buffer clearBuffer];
 			}
 			
