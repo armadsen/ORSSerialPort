@@ -472,6 +472,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) NSUInteger numberOfStopBits;
 
 /**
+ *  The number of data bits. Values other than 5, 6, 7, or 8 are ignored.
+ */
+@property (nonatomic) NSUInteger numberOfDataBits;
+
+/**
  *
  */
 @property (nonatomic) BOOL shouldEchoReceivedData;

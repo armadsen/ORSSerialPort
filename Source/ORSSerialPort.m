@@ -183,6 +183,7 @@ static __strong NSMutableArray *allSerialPorts;
 		self.baudRate = @B19200;
 		self.allowsNonStandardBaudRates = NO;
 		self.numberOfStopBits = 1;
+        self.numberOfDataBits = 8;
 		self.parity = ORSSerialPortParityNone;
 		self.shouldEchoReceivedData = NO;
 		self.usesRTSCTSFlowControl = NO;
@@ -624,8 +625,23 @@ static __strong NSMutableArray *allSerialPorts;
 	
 	// Set 8 data bits
 	options.c_cflag &= ~CSIZE;
-	options.c_cflag |= CS8;
-	
+    switch (self.numberOfDataBits) {
+        case 5:
+            options.c_cflag |= CS5;
+            break;
+        case 6:
+            options.c_cflag |= CS5;
+            break;
+        case 7:
+            options.c_cflag |= CS7;
+            break;
+        case 8:
+            options.c_cflag |= CS8;
+            break;
+        default:
+            break;
+    }
+    
 	// Set parity
 	switch (self.parity) {
 		case ORSSerialPortParityNone:
@@ -643,7 +659,7 @@ static __strong NSMutableArray *allSerialPorts;
 			break;
 	}
 	
-	options.c_cflag = [self numberOfStopBits] > 1 ? options.c_cflag | CSTOPB : options.c_cflag & ~CSTOPB; // number of stop bits
+    options.c_cflag = [self numberOfStopBits] > 1 ? options.c_cflag | CSTOPB : options.c_cflag & ~CSTOPB; // number of stop bits
 	options.c_lflag = [self shouldEchoReceivedData] ? options.c_lflag | ECHO : options.c_lflag & ~ECHO; // echo
 	options.c_cflag = [self usesRTSCTSFlowControl] ? options.c_cflag | CRTSCTS : options.c_cflag & ~CRTSCTS; // RTS/CTS Flow Control
 	options.c_cflag = [self usesDTRDSRFlowControl] ? options.c_cflag | (CDTR_IFLOW | CDSR_OFLOW) : options.c_cflag & ~(CDTR_IFLOW | CDSR_OFLOW); // DTR/DSR Flow Control
@@ -848,6 +864,15 @@ static __strong NSMutableArray *allSerialPorts;
 		_numberOfStopBits = num;
 		[self setPortOptions];
 	}
+}
+
+- (void)setNumberOfDataBits:(NSUInteger)num
+{
+    if (num != _numberOfDataBits)
+    {
+        _numberOfDataBits = num;
+        [self setPortOptions];
+    }
 }
 
 - (void)setShouldEchoReceivedData:(BOOL)flag
