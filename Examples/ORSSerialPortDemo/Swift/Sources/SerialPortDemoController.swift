@@ -131,7 +131,7 @@ class SerialPortDemoController: NSObject, ORSSerialPortDelegate, NSUserNotificat
 	
 	// MARK: - Notifications
 	
-	func serialPortsWereConnected(_ notification: Notification) {
+	@objc func serialPortsWereConnected(_ notification: Notification) {
 		if let userInfo = notification.userInfo {
 			let connectedPorts = userInfo[ORSConnectedSerialPortsKey] as! [ORSSerialPort]
 			print("Ports were connected: \(connectedPorts)")
@@ -139,7 +139,7 @@ class SerialPortDemoController: NSObject, ORSSerialPortDelegate, NSUserNotificat
 		}
 	}
 	
-	func serialPortsWereDisconnected(_ notification: Notification) {
+	@objc func serialPortsWereDisconnected(_ notification: Notification) {
 		if let userInfo = notification.userInfo {
 			let disconnectedPorts: [ORSSerialPort] = userInfo[ORSDisconnectedSerialPortsKey] as! [ORSSerialPort]
 			print("Ports were disconnected: \(disconnectedPorts)")
