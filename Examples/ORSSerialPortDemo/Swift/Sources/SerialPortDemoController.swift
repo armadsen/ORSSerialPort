@@ -41,9 +41,11 @@ class SerialPortDemoController: NSObject, ORSSerialPortDelegate, NSUserNotificat
 	}
 	
 	@IBOutlet weak var sendTextField: NSTextField!
+	@IBOutlet weak var sendButton: NSButton!
 	@IBOutlet var receivedDataTextView: NSTextView!
 	@IBOutlet weak var openCloseButton: NSButton!
 	@IBOutlet weak var lineEndingPopUpButton: NSPopUpButton!
+	
 	var lineEndingString: String {
 		let map = [0: "\r", 1: "\n", 2: "\r\n"]
 		if let result = map[self.lineEndingPopUpButton.selectedTag()] {
@@ -69,7 +71,7 @@ class SerialPortDemoController: NSObject, ORSSerialPortDelegate, NSUserNotificat
 	
 	// MARK: - Actions
 	
-	@IBAction func send(_: AnyObject) {
+	@IBAction func send(_: Any) {
 		var string = self.sendTextField.stringValue
 		if self.shouldAddLineEnding && !string.hasSuffix("\n") {
 			string += self.lineEndingString
@@ -79,7 +81,11 @@ class SerialPortDemoController: NSObject, ORSSerialPortDelegate, NSUserNotificat
 		}
 	}
 	
-	@IBAction func openOrClosePort(_ sender: AnyObject) {
+	@IBAction func returnPressedInTextField(_ sender: Any) {
+		sendButton.performClick(sender)
+	}
+	
+	@IBAction func openOrClosePort(_ sender: Any) {
 		if let port = self.serialPort {
 			if (port.isOpen) {
 				port.close()
@@ -88,6 +94,10 @@ class SerialPortDemoController: NSObject, ORSSerialPortDelegate, NSUserNotificat
 				self.receivedDataTextView.textStorage?.mutableString.setString("");
 			}
 		}
+	}
+	
+	@IBAction func clear(_ sender: Any) {
+		self.receivedDataTextView.string = ""
 	}
 	
 	// MARK: - ORSSerialPortDelegate
