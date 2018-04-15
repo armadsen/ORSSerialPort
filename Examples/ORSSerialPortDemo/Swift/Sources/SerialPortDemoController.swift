@@ -28,11 +28,11 @@ import Cocoa
 
 class SerialPortDemoController: NSObject, ORSSerialPortDelegate, NSUserNotificationCenterDelegate {
 	
-	let serialPortManager = ORSSerialPortManager.shared()
-	let availableBaudRates = [300, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 38400, 57600, 115200, 230400]
-	var shouldAddLineEnding = false
+	@objc let serialPortManager = ORSSerialPortManager.shared()
+	@objc let availableBaudRates = [300, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 38400, 57600, 115200, 230400]
+	@objc dynamic var shouldAddLineEnding = false
 	
-	var serialPort: ORSSerialPort? {
+	@objc dynamic var serialPort: ORSSerialPort? {
 		didSet {
 			oldValue?.close()
 			oldValue?.delegate = nil

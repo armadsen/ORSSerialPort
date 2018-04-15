@@ -762,7 +762,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" id="4EM-9w-P8G">
                             <rect key="frame" x="1" y="1" width="438" height="154"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textView editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" findStyle="panel" id="585">
                                     <rect key="frame" x="0.0" y="0.0" width="438" height="154"/>
@@ -1084,7 +1084,7 @@
                     </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="590" y="372.5"/>
+            <point key="canvasLocation" x="720" y="351"/>
         </window>
         <customObject id="494" customClass="AppDelegate" customModule="ORSSerialPortDemo" customModuleProvider="target">
             <connections>
