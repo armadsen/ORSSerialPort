@@ -7,29 +7,60 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2788B8031BA05F3E0018C0E7 /* ORSSerialBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2788B8021BA05F3E0018C0E7 /* ORSSerialBuffer.m */; };
+		9D0C31BF212743DC00338F97 /* ORSSerial.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D0C31BC212743D600338F97 /* ORSSerial.framework */; };
+		9D0C31C0212743DC00338F97 /* ORSSerial.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9D0C31BC212743D600338F97 /* ORSSerial.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9D0E21661A0441F500051960 /* SerialPortDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0E21651A0441F500051960 /* SerialPortDemoController.swift */; };
 		9D0E21681A04460000051960 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D0E21671A04460000051960 /* MainMenu.xib */; };
 		9DFD06401A043BF300CE0294 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9DFD063B1A043BF300CE0294 /* Images.xcassets */; };
 		9DFD06421A043BF300CE0294 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFD063E1A043BF300CE0294 /* AppDelegate.swift */; };
-		9DFD064F1A043D3600CE0294 /* ORSSerialPort.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DFD064E1A043D3600CE0294 /* ORSSerialPort.m */; };
-		9DFD06521A043D5500CE0294 /* ORSSerialPortManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DFD06511A043D5500CE0294 /* ORSSerialPortManager.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		9D0C31BB212743D600338F97 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9D0C31AC212743C600338F97 /* ORSSerialPort.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9DCA89121A2BB106009285EB;
+			remoteInfo = ORSSerial;
+		};
+		9D0C31BD212743D600338F97 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9D0C31AC212743C600338F97 /* ORSSerialPort.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9D7472131B6D7767002D8B10;
+			remoteInfo = "ORSSerialPort Tests";
+		};
+		9D0C31C1212743DC00338F97 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9D0C31AC212743C600338F97 /* ORSSerialPort.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 9DCA89111A2BB106009285EB;
+			remoteInfo = ORSSerial;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		9D0C31C3212743DC00338F97 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				9D0C31C0212743DC00338F97 /* ORSSerial.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		2788B8011BA05F3E0018C0E7 /* ORSSerialBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSSerialBuffer.h; sourceTree = "<group>"; };
-		2788B8021BA05F3E0018C0E7 /* ORSSerialBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSSerialBuffer.m; sourceTree = "<group>"; };
+		9D0C31AC212743C600338F97 /* ORSSerialPort.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ORSSerialPort.xcodeproj; path = "../../../../Framework Project/ORSSerialPort.xcodeproj"; sourceTree = "<group>"; };
 		9D0E21651A0441F500051960 /* SerialPortDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerialPortDemoController.swift; sourceTree = "<group>"; };
 		9D0E21671A04460000051960 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		9DFD06181A043BA400CE0294 /* ORSSerialPortDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ORSSerialPortDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DFD063B1A043BF300CE0294 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		9DFD063C1A043BF300CE0294 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9DFD063E1A043BF300CE0294 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		9DFD064D1A043D3600CE0294 /* ORSSerialPort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSSerialPort.h; sourceTree = "<group>"; };
-		9DFD064E1A043D3600CE0294 /* ORSSerialPort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSSerialPort.m; sourceTree = "<group>"; };
-		9DFD06501A043D5500CE0294 /* ORSSerialPortManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSSerialPortManager.h; sourceTree = "<group>"; };
-		9DFD06511A043D5500CE0294 /* ORSSerialPortManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSSerialPortManager.m; sourceTree = "<group>"; };
-		9DFD06531A043DB900CE0294 /* ORSSerialPortDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ORSSerialPortDemo-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,17 +68,35 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D0C31BF212743DC00338F97 /* ORSSerial.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9D0C31B6212743CF00338F97 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9D0C31AC212743C600338F97 /* ORSSerialPort.xcodeproj */,
+			);
+			path = Frameworks;
+			sourceTree = "<group>";
+		};
+		9D0C31B7212743D600338F97 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9D0C31BC212743D600338F97 /* ORSSerial.framework */,
+				9D0C31BE212743D600338F97 /* ORSSerialPort Tests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		9DFD060F1A043BA400CE0294 = {
 			isa = PBXGroup;
 			children = (
 				9DFD063D1A043BF300CE0294 /* Sources */,
-				9DFD06431A043C8000CE0294 /* ORSSerialPort */,
+				9D0C31B6212743CF00338F97 /* Frameworks */,
 				9DFD06381A043BF300CE0294 /* Resources */,
 				9DFD06191A043BA400CE0294 /* Products */,
 			);
@@ -74,25 +123,10 @@
 		9DFD063D1A043BF300CE0294 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				9DFD06531A043DB900CE0294 /* ORSSerialPortDemo-Bridging-Header.h */,
 				9DFD063E1A043BF300CE0294 /* AppDelegate.swift */,
 				9D0E21651A0441F500051960 /* SerialPortDemoController.swift */,
 			);
 			path = Sources;
-			sourceTree = "<group>";
-		};
-		9DFD06431A043C8000CE0294 /* ORSSerialPort */ = {
-			isa = PBXGroup;
-			children = (
-				9DFD064D1A043D3600CE0294 /* ORSSerialPort.h */,
-				9DFD064E1A043D3600CE0294 /* ORSSerialPort.m */,
-				9DFD06501A043D5500CE0294 /* ORSSerialPortManager.h */,
-				9DFD06511A043D5500CE0294 /* ORSSerialPortManager.m */,
-				2788B8011BA05F3E0018C0E7 /* ORSSerialBuffer.h */,
-				2788B8021BA05F3E0018C0E7 /* ORSSerialBuffer.m */,
-			);
-			name = ORSSerialPort;
-			path = ../../../Source;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -105,10 +139,12 @@
 				9DFD06141A043BA400CE0294 /* Sources */,
 				9DFD06151A043BA400CE0294 /* Frameworks */,
 				9DFD06161A043BA400CE0294 /* Resources */,
+				9D0C31C3212743DC00338F97 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				9D0C31C2212743DC00338F97 /* PBXTargetDependency */,
 			);
 			name = ORSSerialPortDemo;
 			productName = ORSSerialPortSwiftDemo;
@@ -143,12 +179,35 @@
 			mainGroup = 9DFD060F1A043BA400CE0294;
 			productRefGroup = 9DFD06191A043BA400CE0294 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 9D0C31B7212743D600338F97 /* Products */;
+					ProjectRef = 9D0C31AC212743C600338F97 /* ORSSerialPort.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				9DFD06171A043BA400CE0294 /* ORSSerialPortDemo */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		9D0C31BC212743D600338F97 /* ORSSerial.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ORSSerial.framework;
+			remoteRef = 9D0C31BB212743D600338F97 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9D0C31BE212743D600338F97 /* ORSSerialPort Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "ORSSerialPort Tests.xctest";
+			remoteRef = 9D0C31BD212743D600338F97 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		9DFD06161A043BA400CE0294 /* Resources */ = {
@@ -167,15 +226,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9DFD06521A043D5500CE0294 /* ORSSerialPortManager.m in Sources */,
 				9DFD06421A043BF300CE0294 /* AppDelegate.swift in Sources */,
-				9DFD064F1A043D3600CE0294 /* ORSSerialPort.m in Sources */,
 				9D0E21661A0441F500051960 /* SerialPortDemoController.swift in Sources */,
-				2788B8031BA05F3E0018C0E7 /* ORSSerialBuffer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9D0C31C2212743DC00338F97 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ORSSerial;
+			targetProxy = 9D0C31C1212743DC00338F97 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		9DFD06301A043BA400CE0294 /* Debug */ = {
@@ -286,7 +350,6 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.openreelsoftware.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Sources/ORSSerialPortDemo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 			};
@@ -303,7 +366,6 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.openreelsoftware.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Sources/ORSSerialPortDemo-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
