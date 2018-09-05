@@ -34,21 +34,15 @@ class MainViewController: NSViewController {
 	let boardController = SerialBoardController()
 	
 	override func viewDidLoad() {
-		self.boardController.addObserver(self, forKeyPath: "temperature", options: NSKeyValueObservingOptions(), context: &MainViewControllerKVOContext)
+        super.viewDidLoad()
+        
+        temperatureObserver = boardController.observe(\.temperature) { [weak self] (controller, change) in
+            self?.temperaturePlotView.addTemperature(controller.temperature)
+        }
 	}
 	
 	// MARK: KVO
 	
-	private var MainViewControllerKVOContext = 0
-	override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-		if context != &MainViewControllerKVOContext {
-			super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-		}
-		
-		if object as! NSObject == self.boardController && keyPath == "temperature" {
-			self.temperaturePlotView.addTemperature(self.boardController.temperature)
-		}
-	}
-
+    private var temperatureObserver: NSKeyValueObservation?
 }
 
