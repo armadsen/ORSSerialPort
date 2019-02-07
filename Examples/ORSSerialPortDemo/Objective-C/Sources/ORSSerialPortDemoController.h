@@ -38,8 +38,10 @@
 
 - (IBAction)send:(id)sender;
 - (IBAction)openOrClosePort:(id)sender;
+- (IBAction)clear:(id)sender;
 
 @property (unsafe_unretained) IBOutlet NSTextField *sendTextField;
+@property (unsafe_unretained) IBOutlet NSButton *sendButton;
 @property (unsafe_unretained) IBOutlet NSTextView *receivedDataTextView;
 @property (unsafe_unretained) IBOutlet NSButton *openCloseButton;
 @property (unsafe_unretained) IBOutlet NSPopUpButton *lineEndingPopUpButton;

@@ -490,6 +490,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) NSUInteger numberOfStopBits;
 
 /**
+ *  The number of data bits. Values other than 5, 6, 7, or 8 are ignored.
+ */
+@property (nonatomic) NSUInteger numberOfDataBits;
+
+/**
  *
  */
 @property (nonatomic) BOOL shouldEchoReceivedData;
@@ -602,7 +607,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param serialPort The `ORSSerialPort` instance representing the port that was removed.
  */
-- (void)serialPortWasRemovedFromSystem:(ORSSerialPort *)serialPort;
+- (void)serialPortWasRemovedFromSystem:(ORSSerialPort *)serialPort NS_SWIFT_NAME(serialPortWasRemovedFromSystem(_:));
 
 @optional
 

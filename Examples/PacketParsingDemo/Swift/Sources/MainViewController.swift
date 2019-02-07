@@ -11,7 +11,7 @@ import ORSSerial
 
 class MainViewController: NSViewController {
 
-	let serialPortManager = ORSSerialPortManager.sharedSerialPortManager()
+	let serialPortManager = ORSSerialPortManager.shared()
 	let serialCommunicator = SerialCommunicator()
 
 }

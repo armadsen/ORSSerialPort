@@ -30,25 +30,19 @@ import ORSSerial
 class MainViewController: NSViewController {
 
 	@IBOutlet weak var temperaturePlotView: TemperaturePlotView!
-	let serialPortManager = ORSSerialPortManager.sharedSerialPortManager()
+	let serialPortManager = ORSSerialPortManager.shared()
 	let boardController = SerialBoardController()
 	
 	override func viewDidLoad() {
-		self.boardController.addObserver(self, forKeyPath: "temperature", options: NSKeyValueObservingOptions(), context: MainViewControllerKVOContext)
+        super.viewDidLoad()
+        
+        temperatureObserver = boardController.observe(\.temperature) { [weak self] (controller, change) in
+            self?.temperaturePlotView.addTemperature(controller.temperature)
+        }
 	}
 	
 	// MARK: KVO
 	
-	let MainViewControllerKVOContext = UnsafeMutablePointer<()>()
-	override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-		if context != MainViewControllerKVOContext {
-			super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
-		}
-		
-		if object as! NSObject == self.boardController && keyPath == "temperature" {
-			self.temperaturePlotView.addTemperature(self.boardController.temperature)
-		}
-	}
-
+    private var temperatureObserver: NSKeyValueObservation?
 }
 
