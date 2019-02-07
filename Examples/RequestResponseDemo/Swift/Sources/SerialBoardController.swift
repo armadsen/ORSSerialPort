@@ -39,9 +39,9 @@ class SerialBoardController: NSObject, ORSSerialPortDelegate {
 	
 	// MARK: - Private
 	
-	func pollingTimerFired(_ timer: Timer) {
-		self.readTemperature()
-		self.readLEDState()
+	@objc func pollingTimerFired(_ timer: Timer) {
+		readTemperature()
+		readLEDState()
 	}
 	
 	// MARK: Sending Commands
@@ -52,7 +52,7 @@ class SerialBoardController: NSObject, ORSSerialPortDelegate {
 			userInfo: SerialBoardRequestType.readTemperature.rawValue,
 			timeoutInterval: 0.5,
 			responseDescriptor: responseDescriptor)
-		self.serialPort?.send(request)
+		serialPort?.send(request)
 	}
 	
 	fileprivate func readLEDState() {
@@ -62,7 +62,7 @@ class SerialBoardController: NSObject, ORSSerialPortDelegate {
 			userInfo: SerialBoardRequestType.readLED.rawValue,
 			timeoutInterval: kTimeoutDuration,
 			responseDescriptor: responseDescriptor)
-		self.serialPort?.send(request)
+		serialPort?.send(request)
 	}
 	
 	fileprivate func sendCommandToSetLEDToState(_ state: Bool) {
@@ -73,7 +73,7 @@ class SerialBoardController: NSObject, ORSSerialPortDelegate {
 			userInfo: SerialBoardRequestType.setLED.rawValue,
 			timeoutInterval: kTimeoutDuration,
 			responseDescriptor: responseDescriptor)
-		self.serialPort?.send(request)
+		serialPort?.send(request)
 	}
 	
 	// MARK: Parsing Responses
@@ -112,19 +112,19 @@ class SerialBoardController: NSObject, ORSSerialPortDelegate {
 		let requestType = SerialBoardRequestType(rawValue: request.userInfo as! Int)!
 		switch requestType {
 		case .readTemperature:
-			self.temperature = self.temperatureFromResponsePacket(responseData)!
+			temperature = temperatureFromResponsePacket(responseData)!
 		case .readLED, .setLED:
-			self.internalLEDOn = self.LEDStateFromResponsePacket(responseData)!
+			internalLEDOn = LEDStateFromResponsePacket(responseData)!
 		}
 	}
 	
 	func serialPortWasOpened(_ serialPort: ORSSerialPort) {
-		self.pollingTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(SerialBoardController.pollingTimerFired(_:)), userInfo: nil, repeats: true)
-		self.pollingTimer!.fire()
+		pollingTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(SerialBoardController.pollingTimerFired(_:)), userInfo: nil, repeats: true)
+		pollingTimer!.fire()
 	}
 	
 	func serialPortWasClosed(_ serialPort: ORSSerialPort) {
-		self.pollingTimer = nil
+		pollingTimer = nil
 	}
 	
 	// MARK: - Properties
@@ -146,18 +146,18 @@ class SerialBoardController: NSObject, ORSSerialPortDelegate {
 		}
 	}
 	
-	dynamic fileprivate(set) internal var temperature: Int = 0
+	@objc dynamic fileprivate(set) internal var temperature: Int = 0
 	
-	dynamic fileprivate var internalLEDOn = false
+	@objc dynamic fileprivate var internalLEDOn = false
 	
 	class func keyPathsForValuesAffectingLEDOn() -> NSSet { return NSSet(object: "internalLEDOn") }
-	dynamic var LEDOn: Bool {
+	@objc dynamic var LEDOn: Bool {
 		get {
-			return self.internalLEDOn
+			return internalLEDOn
 		}
 		set(newValue) {
-			self.internalLEDOn = newValue
-			self.sendCommandToSetLEDToState(newValue)
+			internalLEDOn = newValue
+			sendCommandToSetLEDToState(newValue)
 		}
 	}
 	
