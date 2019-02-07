@@ -123,8 +123,10 @@ class StateMachine : NSObject, ORSSerialPortDelegate {
 	
 	// MARK: Data Processing
 	func handleUserInput(_ dataFromUser: Data) {
-		if let string = NSString(data: dataFromUser, encoding: String.Encoding.utf8.rawValue) as? String {
-			
+		if let nsString = NSString(data: dataFromUser, encoding: String.Encoding.utf8.rawValue) {
+
+            let string = nsString as String
+
 			if string.lowercased().hasPrefix("exit") ||
 				string.lowercased().hasPrefix("quit") {
 					print("Quitting...")
