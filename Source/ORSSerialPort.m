@@ -576,8 +576,7 @@ static __strong NSMutableArray *allSerialPorts;
             NSData *byte = [NSData dataWithBytesNoCopy:(void *)(bytes+i) length:1 freeWhenDone:NO];
 
             // Check for packets we're listening for
-            for (ORSSerialPacketDescriptor *descriptor in self.packetDescriptorsAndBuffers)
-            {
+            for (ORSSerialPacketDescriptor *descriptor in self.packetDescriptorsAndBuffers) {
                 // Append byte to buffer
                 ORSSerialBuffer *buffer = [self.packetDescriptorsAndBuffers objectForKey:descriptor];
                 [buffer appendData:byte];
@@ -1027,10 +1026,8 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (void)setPendingRequestTimeoutTimer:(dispatch_source_t)pendingRequestTimeoutTimer
 {
-    if (pendingRequestTimeoutTimer != _pendingRequestTimeoutTimer)
-    {
-        if (_pendingRequestTimeoutTimer)
-        {
+    if (pendingRequestTimeoutTimer != _pendingRequestTimeoutTimer) {
+        if (_pendingRequestTimeoutTimer) {
             dispatch_source_cancel(_pendingRequestTimeoutTimer);
             ORS_GCD_RELEASE(_pendingRequestTimeoutTimer);
         }
