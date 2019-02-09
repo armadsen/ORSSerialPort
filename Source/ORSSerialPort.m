@@ -37,14 +37,6 @@
 #error ORSSerialPort.m must be compiled with ARC. Either turn on ARC for the project or set the -fobjc-arc flag for ORSSerialPort.m in the Build Phases for this target
 #endif
 
-#if OS_OBJECT_USE_OBJC && __has_feature(objc_arc)
-#define ORS_GCD_RELEASE(x)
-#define ORS_GCD_RETAIN(x)
-#else
-#define ORS_GCD_RELEASE(x) if (x) { dispatch_release(x); }
-#define ORS_GCD_RETAIN(x) if (x) { dispatch_retain(x); }
-#endif
-
 #ifdef LOG_SERIAL_PORT_ERRORS
 #define LOG_SERIAL_PORT_ERROR(fmt, ...) NSLog(fmt, ## __VA_ARGS__)
 #else
@@ -76,17 +68,10 @@ static __strong NSMutableArray *allSerialPorts;
 @property (nonatomic, readwrite) BOOL DSR;
 @property (nonatomic, readwrite) BOOL DCD;
 
-#if OS_OBJECT_USE_OBJC
 @property (nonatomic, strong) dispatch_source_t readPollSource;
 @property (nonatomic, strong) dispatch_source_t pinPollTimer;
 @property (nonatomic, strong) dispatch_source_t pendingRequestTimeoutTimer;
 @property (nonatomic, strong) dispatch_queue_t requestHandlingQueue;
-#else
-@property (nonatomic) dispatch_source_t readPollSource;
-@property (nonatomic) dispatch_source_t pinPollTimer;
-@property (nonatomic) dispatch_source_t pendingRequestTimeoutTimer;
-@property (nonatomic) dispatch_queue_t requestHandlingQueue;
-#endif
 
 @end
 
@@ -170,11 +155,7 @@ static __strong NSMutableArray *allSerialPorts;
         self.path = bsdPath;
         self.name = [[self class] modemNameFromDevice:device];
         self.requestHandlingQueue = dispatch_queue_create("com.openreelsoftware.ORSSerialPort.requestHandlingQueue", 0);
-#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_8
         self.packetDescriptorsAndBuffers = [NSMapTable strongToStrongObjectsMapTable];
-#else
-        self.packetDescriptorsAndBuffers = [NSMapTable mapTableWithStrongToStrongObjects]; // Deprecated in 10.8.
-#endif
         self.requestsQueue = [NSMutableArray array];
         self.baudRate = @B19200;
         self.allowsNonStandardBaudRates = NO;
@@ -208,17 +189,14 @@ static __strong NSMutableArray *allSerialPorts;
     
     if (_readPollSource) {
         dispatch_source_cancel(_readPollSource);
-        ORS_GCD_RELEASE(_readPollSource);
     }
     
     if (_pinPollTimer) {
         dispatch_source_cancel(_pinPollTimer);
-        ORS_GCD_RELEASE(_pinPollTimer);
     }
     
     if (_pendingRequestTimeoutTimer) {
         dispatch_source_cancel(_pendingRequestTimeoutTimer);
-        ORS_GCD_RELEASE(_pendingRequestTimeoutTimer);
     }
     
     self.requestHandlingQueue = nil;
@@ -331,7 +309,6 @@ static __strong NSMutableArray *allSerialPorts;
     });
     self.pinPollTimer = timer;
     dispatch_resume(self.pinPollTimer);
-    ORS_GCD_RELEASE(timer);
 }
 
 - (BOOL)close;
@@ -952,10 +929,8 @@ static __strong NSMutableArray *allSerialPorts;
     if (readPollSource != _readPollSource) {
         if (_readPollSource) {
             dispatch_source_cancel(_readPollSource);
-            ORS_GCD_RELEASE(_readPollSource);
         }
         
-        ORS_GCD_RETAIN(readPollSource);
         _readPollSource = readPollSource;
     }
 }
@@ -965,10 +940,8 @@ static __strong NSMutableArray *allSerialPorts;
     if (timer != _pinPollTimer) {
         if (_pinPollTimer) {
             dispatch_source_cancel(_pinPollTimer);
-            ORS_GCD_RELEASE(_pinPollTimer);
         }
         
-        ORS_GCD_RETAIN(timer);
         _pinPollTimer = timer;
     }
 }
@@ -978,20 +951,9 @@ static __strong NSMutableArray *allSerialPorts;
     if (pendingRequestTimeoutTimer != _pendingRequestTimeoutTimer) {
         if (_pendingRequestTimeoutTimer) {
             dispatch_source_cancel(_pendingRequestTimeoutTimer);
-            ORS_GCD_RELEASE(_pendingRequestTimeoutTimer);
         }
         
-        ORS_GCD_RETAIN(pendingRequestTimeoutTimer);
         _pendingRequestTimeoutTimer = pendingRequestTimeoutTimer;
-    }
-}
-
-- (void)setRequestHandlingQueue:(dispatch_queue_t)requestHandlingQueue
-{
-    if (requestHandlingQueue != _requestHandlingQueue) {
-        ORS_GCD_RELEASE(_requestHandlingQueue);
-        ORS_GCD_RETAIN(requestHandlingQueue);
-        _requestHandlingQueue = requestHandlingQueue;
     }
 }
 
