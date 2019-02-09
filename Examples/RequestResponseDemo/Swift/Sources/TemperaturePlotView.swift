@@ -35,8 +35,8 @@ import Cocoa
 	}
 	
 	// MARK: Drawing
-	override func drawRect(dirtyRect: NSRect) {
-		super.drawRect(dirtyRect)
+	override func draw(_ dirtyRect: NSRect) {
+		super.draw(dirtyRect)
 		
 		NSColor(calibratedWhite: 0.82, alpha: 1.0).set()
 		NSRectFill(dirtyRect)
@@ -49,9 +49,9 @@ import Cocoa
 			self.plotColor.set()
 			let linePath = NSBezierPath()
 			linePath.lineWidth = 1.5
-			linePath.moveToPoint(self.pointForTemperatureAtIndex(0)!)
+			linePath.move(to: self.pointForTemperatureAtIndex(0)!)
 			for i in 1..<self.temperatures.count {
-				linePath.lineToPoint(self.pointForTemperatureAtIndex(i)!)
+				linePath.line(to: self.pointForTemperatureAtIndex(i)!)
 			}
 			linePath.stroke()
 		}
@@ -66,10 +66,10 @@ import Cocoa
 	
 	// MARK: Public
 	
-	func addTemperature(temperature: Int) {
+	func addTemperature(_ temperature: Int) {
 		let maxNumTemperatures = Int(NSWidth(self.bounds) / 10.0)
 		if self.temperatures.count >= maxNumTemperatures {
-			self.temperatures.removeAll(keepCapacity: false)
+			self.temperatures.removeAll(keepingCapacity: false)
 		}
 		self.temperatures.append(temperature)
 		self.needsDisplay = true
@@ -77,7 +77,7 @@ import Cocoa
 	
 	// MARK: Private
 	
-	func rectForTemperatureAtIndex(index: Int) -> NSRect? {
+	func rectForTemperatureAtIndex(_ index: Int) -> NSRect? {
 		let point = self.pointForTemperatureAtIndex(index)
 		if let point = point  {
 			let rectWidth: CGFloat = 5.0
@@ -87,7 +87,7 @@ import Cocoa
 		}
 	}
 	
-	func pointForTemperatureAtIndex(index: Int) -> NSPoint? {
+	func pointForTemperatureAtIndex(_ index: Int) -> NSPoint? {
 		if index >= self.temperatures.count {
 			return nil
 		}
@@ -99,12 +99,12 @@ import Cocoa
 	// MARK: Properties
 	
 	// Public
-	@IBInspectable var plotColor = NSColor.blueColor()
+	@IBInspectable var plotColor = NSColor.blue
 	@IBInspectable var drawsPoints = true
 	@IBInspectable var drawsLines = true
 	@IBInspectable var minTemperatureValue = 0
 	@IBInspectable var maxTemperatureValue = 100
 	
 	// Private
-	private var temperatures: [Int] = []
+	fileprivate var temperatures: [Int] = []
 }

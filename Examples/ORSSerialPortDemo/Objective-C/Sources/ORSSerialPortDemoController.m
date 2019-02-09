@@ -73,9 +73,19 @@
 	[self.serialPort sendData:dataToSend];
 }
 
+- (IBAction)returnPressedInTextField:(id)sender
+{
+	[self.sendButton performClick:sender];
+}
+
 - (IBAction)openOrClosePort:(id)sender
 {
 	self.serialPort.isOpen ? [self.serialPort close] : [self.serialPort open];
+}
+
+- (IBAction)clear:(id)sender
+{
+	self.receivedDataTextView.string = @"";
 }
 
 #pragma mark - ORSSerialPortDelegate Methods

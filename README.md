@@ -1,6 +1,6 @@
 # ORSSerialPort 
 
-ORSSerialPort is an easy-to-use Objective-C serial port library for OS X. It is useful for programmers writing Objective-C or Swift Mac apps that communicate with external devices through a serial port (most commonly RS-232). You can use ORSSerialPort to write apps that connect to Arduino projects, robots, data acquisition devices, ham radios, and all kinds of other devices. Using ORSSerialPort to open a port and send data can be as simple as this:
+ORSSerialPort is an easy-to-use Objective-C serial port library for macOS. It is useful for programmers writing Objective-C or Swift Mac apps that communicate with external devices through a serial port (most commonly RS-232). You can use ORSSerialPort to write apps that connect to Arduino projects, robots, data acquisition devices, ham radios, and all kinds of other devices. Using ORSSerialPort to open a port and send data can be as simple as this:
 
 ```objective-c
 ORSSerialPort *serialPort = [ORSSerialPort serialPortWithPath:@"/dev/cu.KeySerial1"];
@@ -138,7 +138,7 @@ For example, a program that read the temperature from a connected device might d
 
 For more information about ORSSerialPort's request/response API, see the [Request/Response API Guide](https://github.com/armadsen/ORSSerialPort/wiki/Request-Response-API), read the documentation in [ORSSerialRequest.h](https://github.com/armadsen/ORSSerialPort/blob/master/Source/ORSSerialRequest.h), and see the [RequestResponseDemo](https://github.com/armadsen/ORSSerialPort/tree/master/Examples/RequestResponseDemo) example app.
 
-#Example Projects
+# Example Projects
 
 Included with ORSSerialPort is a folder called Examples, containing Xcode projects for small programs demonstrating the use of ORSSerialPort. Each example is available in *both* Objective-C and Swift. The following example apps are included:
 
