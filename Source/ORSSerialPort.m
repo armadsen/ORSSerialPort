@@ -290,10 +290,12 @@ static __strong NSMutableArray *allSerialPorts;
 
 	// Start a read dispatch source in the background
 	dispatch_source_t readPollSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ, self.fileDescriptor, 0, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0));
+	__weak typeof(self) weakSelf = self;
 	dispatch_source_set_event_handler(readPollSource, ^{
+		__strong typeof(self) strongSelf = weakSelf;
 		
-		int localPortFD = self.fileDescriptor;
-		if (!self.isOpen) return;
+		int localPortFD = strongSelf.fileDescriptor;
+		if (!strongSelf.isOpen) return;
 		
 		// Data is available
 		char buf[1024];
@@ -301,10 +303,10 @@ static __strong NSMutableArray *allSerialPorts;
 		if (lengthRead>0)
 		{
 			NSData *readData = [NSData dataWithBytes:buf length:lengthRead];
-			if (readData != nil) [self receiveData:readData];
+			if (readData != nil) [strongSelf receiveData:readData];
 		}
 	});
-	dispatch_source_set_cancel_handler(readPollSource, ^{ [self reallyClosePort]; });
+	dispatch_source_set_cancel_handler(readPollSource, ^{ [weakSelf reallyClosePort]; });
 	dispatch_resume(readPollSource);
 	self.readPollSource = readPollSource;
 	
@@ -313,19 +315,20 @@ static __strong NSMutableArray *allSerialPorts;
 	dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, pollQueue);
 	dispatch_source_set_timer(timer, dispatch_time(DISPATCH_TIME_NOW, 0), 10*NSEC_PER_MSEC, 5*NSEC_PER_MSEC);
 	dispatch_source_set_event_handler(timer, ^{
-		if (!self.isOpen) {
+		__strong typeof(self) strongSelf = weakSelf;
+		if (!strongSelf.isOpen) {
 			dispatch_async(pollQueue, ^{ dispatch_source_cancel(timer); });
 			return;
 		}
 		
 		int32_t modemLines=0;
-		int result = ioctl(self.fileDescriptor, TIOCMGET, &modemLines);
+		int result = ioctl(strongSelf.fileDescriptor, TIOCMGET, &modemLines);
 		if (result < 0)
 		{
-			[self notifyDelegateOfPosixErrorWaitingUntilDone:(errno == ENXIO)];
+			[strongSelf notifyDelegateOfPosixErrorWaitingUntilDone:(errno == ENXIO)];
 			if (errno == ENXIO)
 			{
-				[self cleanupAfterSystemRemoval];
+				[strongSelf cleanupAfterSystemRemoval];
 			}
 			return;
 		}
@@ -334,12 +337,12 @@ static __strong NSMutableArray *allSerialPorts;
 		BOOL DSRPin = (modemLines & TIOCM_DSR) != 0;
 		BOOL DCDPin = (modemLines & TIOCM_CAR) != 0;
 		
-		if (CTSPin != self.CTS)
-			dispatch_sync(mainQueue, ^{self.CTS = CTSPin;});
-		if (DSRPin != self.DSR)
-			dispatch_sync(mainQueue, ^{self.DSR = DSRPin;});
-		if (DCDPin != self.DCD)
-			dispatch_sync(mainQueue, ^{self.DCD = DCDPin;});
+		if (CTSPin != strongSelf.CTS)
+			dispatch_sync(mainQueue, ^{strongSelf.CTS = CTSPin;});
+		if (DSRPin != strongSelf.DSR)
+			dispatch_sync(mainQueue, ^{strongSelf.DSR = DSRPin;});
+		if (DCDPin != strongSelf.DCD)
+			dispatch_sync(mainQueue, ^{strongSelf.DCD = DCDPin;});
 	});
 	self.pinPollTimer = timer;
 	dispatch_resume(self.pinPollTimer);
