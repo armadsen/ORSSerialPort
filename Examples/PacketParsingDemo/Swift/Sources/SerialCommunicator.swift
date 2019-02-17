@@ -39,9 +39,9 @@ class SerialCommunicator: NSObject, ORSSerialPortDelegate {
 	
 	// MARK: - Properties
 	
-	dynamic fileprivate(set) var sliderPosition: Int = 0
+	@objc dynamic fileprivate(set) var sliderPosition: Int = 0
 	
-	dynamic var serialPort: ORSSerialPort? {
+	@objc dynamic var serialPort: ORSSerialPort? {
 		willSet {
 			if let port = serialPort {
 				port.close()
