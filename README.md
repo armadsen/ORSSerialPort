@@ -2,22 +2,22 @@
 
 ORSSerialPort is an easy-to-use Objective-C serial port library for macOS. It is useful for programmers writing Objective-C or Swift Mac apps that communicate with external devices through a serial port (most commonly RS-232). You can use ORSSerialPort to write apps that connect to Arduino projects, robots, data acquisition devices, ham radios, and all kinds of other devices. Using ORSSerialPort to open a port and send data can be as simple as this:
 
-```objective-c
-ORSSerialPort *serialPort = [ORSSerialPort serialPortWithPath:@"/dev/cu.KeySerial1"];
-serialPort.baudRate = @4800;
-[serialPort open];
-[serialPort sendData:someData]; // someData is an NSData object
-[serialPort close]; // Later, when you're done with the port
-```
-
-Or, in Swift:
-
 ```swift
 let serialPort = ORSSerialPort(path: "/dev/cu.KeySerial1")
 serialPort.baudRate = 4800
 serialPort.open()
 serialPort.send(someData) // someData is an NSData object
 serialPort.close() // Later, when you're done with the port
+```
+
+Or, in Objective-C:
+
+```objective-c
+ORSSerialPort *serialPort = [ORSSerialPort serialPortWithPath:@"/dev/cu.KeySerial1"];
+serialPort.baudRate = @4800;
+[serialPort open];
+[serialPort sendData:someData]; // someData is an NSData object
+[serialPort close]; // Later, when you're done with the port
 ```
     
 ORSSerialPort is released under an MIT license, meaning you're free to use it in both closed and open source projects. However, even in a closed source project, you must include a publicly-accessible copy of ORSSerialPort's copyright notice, which you can find in the LICENSE file.
