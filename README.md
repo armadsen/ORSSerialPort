@@ -30,7 +30,7 @@ The example code in this readme is in Objective-C. However, ORSSerialPort can al
 
 # How to Use ORSSerialPort
 
-There are a number of ways to add ORSSerialPort to your project. You can use the included framework project, [Carthage](https://github.com/Carthage), [CocoaPods](http://cocoapods.org), or manually include the ORSSerialPort source code in your project. See the [Guide to Installing ORSSerialPort](https://github.com/armadsen/ORSSerialPort/wiki/Installing-ORSSerialPort) for detailed instructions for each of these methods.
+There are a number of ways to add ORSSerialPort to your project. You can use the included framework project, [Carthage](https://github.com/Carthage), [CocoaPods](http://cocoapods.org), or the [Swift Package Manager](https://swift.org/package-manager/). See the [Guide to Installing ORSSerialPort](https://github.com/armadsen/ORSSerialPort/wiki/Installing-ORSSerialPort) for detailed instructions for each of these methods.
 
 ### Opening a Port and Setting It Up
 
