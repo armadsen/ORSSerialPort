@@ -7,6 +7,7 @@ This section is for changes commited to the ORSSerialPort repository, but not ye
 ## [2.1.0] - 2019-06-13
 
 ### CHANGED
+- ORSSerialPort now supports deployment to mac OS 10.8 Mountain Lion or later. Support for 10.7 has been dropped.
 - Updated Swift examples to Swift 4.2 and otherwise modernized them
 - Updated all projects to more recent Xcode versions
 

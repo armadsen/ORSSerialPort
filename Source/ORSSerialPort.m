@@ -174,11 +174,7 @@ static __strong NSMutableArray *allSerialPorts;
 		self.path = bsdPath;
 		self.name = [[self class] modemNameFromDevice:device];
 		self.requestHandlingQueue = dispatch_queue_create("com.openreelsoftware.ORSSerialPort.requestHandlingQueue", 0);
-#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_8
 		self.packetDescriptorsAndBuffers = [NSMapTable strongToStrongObjectsMapTable];
-#else
-		self.packetDescriptorsAndBuffers = [NSMapTable mapTableWithStrongToStrongObjects]; // Deprecated in 10.8.
-#endif
 		self.requestsQueue = [NSMutableArray array];
 		self.baudRate = @B19200;
 		self.allowsNonStandardBaudRates = NO;
