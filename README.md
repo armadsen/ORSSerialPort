@@ -70,8 +70,8 @@ To receive data, you can implement the `ORSSerialPortDelegate` protocol's `seria
 
 ```swift
 func serialPort(_ serialPort: ORSSerialPort, didReceive data: Data) {
-	let string = String(data: data, encoding: .utf8)
-	print("Got \(string) from the serial port!")
+    let string = String(data: data, encoding: .utf8)
+    print("Got \(string) from the serial port!")
 }
 ```
 
@@ -105,13 +105,13 @@ For example, a program that read the temperature from a connected device might d
 
 ```swift
 func readTemperature() {
-	let command = "$TEMP?;".data(using: String.Encoding.ascii)!
-	let responseDescriptor = ORSSerialPacketDescriptor(prefixString: "!TEMP", suffixString: ";", maximumPacketLength: 10, userInfo: nil)
-	let request = ORSSerialRequest(dataToSend: command,
-		userInfo: SerialBoardRequestType.readTemperature.rawValue,
-		timeoutInterval: 0.5,
-		responseDescriptor: responseDescriptor)
-	serialPort?.send(request)
+    let command = "$TEMP?;".data(using: String.Encoding.ascii)!
+    let responseDescriptor = ORSSerialPacketDescriptor(prefixString: "!TEMP", suffixString: ";", maximumPacketLength: 10, userInfo: nil)
+    let request = ORSSerialRequest(dataToSend: command,
+        userInfo: SerialBoardRequestType.readTemperature.rawValue,
+        timeoutInterval: 0.5,
+        responseDescriptor: responseDescriptor)
+    serialPort?.send(request)
 }
 
 func serialPort(_ serialPort: ORSSerialPort, didReceiveResponse responseData: Data, to request: ORSSerialRequest) {
@@ -119,7 +119,7 @@ func serialPort(_ serialPort: ORSSerialPort, didReceiveResponse responseData: Da
 }
 
 func serialPort(_ serialPort: ORSSerialPort, requestDidTimeout request: ORSSerialRequest) {
-	print("Command timed out!")
+    print("Command timed out!")
 }
 ```
 
