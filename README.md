@@ -34,15 +34,15 @@ There are a number of ways to add ORSSerialPort to your project. You can use the
 
 ### Opening a Port and Setting It Up
 
-You can get an `ORSSerialPort` instance either of two ways. The easiest is to use `ORSSerialPortManager`'s `availablePorts` array (explained below). The other way is to get a new `ORSSerialPort` instance using the serial port's BSD device path:
+You can get an `ORSSerialPort` instance either of two ways. The easiest is to use `ORSSerialPortManager`'s `availablePorts` property (explained below). The other way is to get a new `ORSSerialPort` instance using the serial port's BSD device path:
 
 ```swift
 let port = ORSSerialPort(path: "/dev/cu.KeySerial1")
 ```
 
-Note that you must give `+serialPortWithPath:` the full path to the device, as shown in the example above.
+Note that you must give `ORSSerialPort.init(path:)` the full path to the device, as shown in the example above.
 
-After you've got a port instance, you can open it with the `-open` method. When you're done using the port, close it using the `-close` method.
+After you've got a port instance, you can open it with the `open()` method. When you're done using the port, close it using the `close()` method.
 
 Port settings such as baud rate, number of stop bits, parity, and flow control settings can be set using the various properties `ORSSerialPort` provides:
 
@@ -57,7 +57,7 @@ For more information, see the [Getting Started Guide](https://github.com/armadse
 
 ### Sending Data
 
-Send raw data by passing an `NSData` object to the `-sendData:` method:
+Send raw data by passing a `Data` object to the `send(_:)` method:
 
 ```swift
 let dataToSend = "Hello".data(using: .utf8)
