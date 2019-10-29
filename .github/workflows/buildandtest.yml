@@ -3,13 +3,12 @@ name: CI
 on: [push]
 
 jobs:
-  build:
-
-    runs-on: macOS-latest
-
-    steps:
-      - name: Checkout 
-      - uses: actions/checkout@v1
-      - name: Build and Test
-        run: |
-          xcodebuild test
+    build:
+        runs-on: macOS-latest
+        steps:
+          - name: Checkout 
+          - uses: actions/checkout@v1
+          - name: Build and Test
+            run: |
+                echo pwd
+                xcodebuild test
