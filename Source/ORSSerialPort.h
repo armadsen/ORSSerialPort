@@ -416,7 +416,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The baud rate for the port.
  *
- *  Unless supportsNonStandardBaudRates is YES, 
+ *  Unless allowsNonStandardBaudRates is YES, 
  *  this value should be one of the values defined in termios.h:
  *
  *	- 0
