@@ -25,7 +25,7 @@
 //	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
-#import "ORSSerialPacketDescriptor.h"
+#import <ORSSerial/ORSSerialPacketDescriptor.h>
 
 // Keep older versions of the compiler happy
 #ifndef NS_ASSUME_NONNULL_BEGIN
