@@ -153,7 +153,7 @@ typedef BOOL(^ORSSerialPacketEvaluator)(NSData * __nullable inputData);
 							userInfo:(nullable id)userInfo;
 
 /**
- *  Creates an initializes an ORSSerialPacketDescriptor instance using a regular expression.
+ *  Creates an initializes an ORSSerialPacketDescriptor instance using a regular expression. This is a convenience initializer that calls initWithRegularExpression:matchingOptions:maximumPacketLength:userInfo: with the matching options argument as NSMatchingAnchored.
  *
  *  A packet is considered valid as long as it contains at least one match for the provided
  *  regular expression. For this reason, the regex should match as conservatively (smallest match) as possible.
@@ -171,6 +171,30 @@ typedef BOOL(^ORSSerialPacketEvaluator)(NSData * __nullable inputData);
 - (instancetype)initWithRegularExpression:(NSRegularExpression *)regex
 					  maximumPacketLength:(NSUInteger)maxPacketLength
 								 userInfo:(nullable id)userInfo;
+
+/**
+*  Creates an initializes an ORSSerialPacketDescriptor instance using a regular expression.
+*
+*  A packet is considered valid as long as it contains at least one match for the provided
+*  regular expression. For this reason, the regex should match as conservatively (smallest match) as possible.
+*
+*  Packets described by descriptors created using this method are assumed to be ASCII or UTF8 strings.
+*  If your packets are not naturally represented as strings, consider using
+*  -initWithMaximumPacketLength:userInfo:responseEvaluator: instead.
+*
+*  @param regex    An NSRegularExpression instance for which valid packets are a match.
+*  @param options  The matching options the regular expression will use.
+*  @param maxPacketLength The maximum length of a valid packet. This value _must_ be correctly specified.
+*  @param userInfo An arbitrary userInfoObject. May be nil.
+*
+*  @return An initizliaized ORSSerialPacketDesciptor instance.
+*/
+
+- (instancetype)initWithRegularExpression:(NSRegularExpression *)regex
+                          matchingOptions:(NSMatchingOptions)options
+                      maximumPacketLength:(NSUInteger)maxPacketLength
+                                 userInfo:(nullable id)userInfo;
+
 
 /**
  *  Can be used to determine if a block of data is a valid packet matching the descriptor encapsulated

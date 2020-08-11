@@ -110,16 +110,24 @@
 					  maximumPacketLength:(NSUInteger)maxPacketLength
 								 userInfo:(id)userInfo;
 {
-	self = [self initWithMaximumPacketLength:maxPacketLength userInfo:userInfo responseEvaluator:^BOOL(NSData *data) {
-		NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-		if (!string) return NO;
-		
-		return [regex numberOfMatchesInString:string options:NSMatchingAnchored range:NSMakeRange(0, [string length])] > 0;
-	}];
-	if (self) {
-		_regularExpression = regex;
-	}
-	return self;
+    return [self initWithRegularExpression:regex matchingOptions:NSMatchingAnchored maximumPacketLength:maxPacketLength userInfo:userInfo];
+}
+
+-(instancetype)initWithRegularExpression:(NSRegularExpression *)regex
+                         matchingOptions:(NSMatchingOptions)options
+                     maximumPacketLength:(NSUInteger)maxPacketLength
+                                userInfo:(id)userInfo
+{
+    self = [self initWithMaximumPacketLength:maxPacketLength userInfo:userInfo responseEvaluator:^BOOL(NSData *data) {
+        NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        if (!string) return NO;
+        
+        return [regex numberOfMatchesInString:string options:options range:NSMakeRange(0, [string length])] > 0;
+    }];
+    if (self) {
+        _regularExpression = regex;
+    }
+    return self;
 }
 
 - (BOOL)isEqual:(id)object
