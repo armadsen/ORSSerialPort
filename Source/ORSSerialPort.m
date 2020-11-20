@@ -59,7 +59,7 @@ static __strong NSMutableArray *allSerialPorts;
 }
 
 @property (copy, readwrite) NSString *path;
-@property (readwrite) io_object_t IOKitDevice;
+@property (nonatomic, readwrite) io_object_t IOKitDevice;
 @property int fileDescriptor;
 @property (copy, readwrite) NSString *name;
 
@@ -170,7 +170,7 @@ static __strong NSMutableArray *allSerialPorts;
 	
 	if (self != nil)
 	{
-		self.ioKitDevice = device;
+		self.IOKitDevice = device;
 		self.path = bsdPath;
 		self.name = [[self class] modemNameFromDevice:device];
 		self.requestHandlingQueue = dispatch_queue_create("com.openreelsoftware.ORSSerialPort.requestHandlingQueue", 0);
@@ -834,7 +834,7 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (BOOL)isOpen { return self.fileDescriptor != 0; }
 
-- (void)setIoKitDevice:(io_object_t)device
+- (void)setIOKitDevice:(io_object_t)device
 {
 	if (device != _IOKitDevice) {
 		if (_IOKitDevice) IOObjectRelease(_IOKitDevice);
