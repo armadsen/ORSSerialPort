@@ -4,6 +4,25 @@ All notable changes to ORSSerialPort are documented in this file. This project a
 ## [Unreleased]
 This section is for changes commited to the ORSSerialPort repository, but not yet included in an official release.
 
+## [2.1.0] - 2019-06-13
+
+### CHANGED
+- ORSSerialPort now supports deployment to mac OS 10.8 Mountain Lion or later. Support for 10.7 has been dropped.
+- Updated Swift examples to Swift 4.2 and otherwise modernized them
+- Updated all projects to more recent Xcode versions
+
+### ADDED
+- Support for configuring number of data bits via `numberOfDataBits` property (credit: stbraun)
+- Support for Swift Package Manager
+
+### FIXED
+- Race condition when changing delegate
+- Issue where certain API would fail after unplugging then replugging a port (credit: KevinVitale)
+
+### NOTES
+
+Now that ORSSerialPort can be installed using the Swift Package Manager, I intend to deprecate support for CocoaPods and Carthage in the future. In the upcoming Xcode 11, SwiftPM packages can be managed directly in Xcode with no need for third-party dependency management tools. This is true even for pure Objective-C apps (despite SwiftPM's name). Please consider switching to using SwiftPM for management of ORSSerialPort. Formal deprecation of CocoaPods and Carthage, along with removal of support for them will be clearly communicated well in advance, so this only serves as a very early notice that that's coming.
+
 ## [2.0.2] - 2016-03-14
 
 ### CHANGED

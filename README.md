@@ -2,22 +2,22 @@
 
 ORSSerialPort is an easy-to-use Objective-C serial port library for macOS. It is useful for programmers writing Objective-C or Swift Mac apps that communicate with external devices through a serial port (most commonly RS-232). You can use ORSSerialPort to write apps that connect to Arduino projects, robots, data acquisition devices, ham radios, and all kinds of other devices. Using ORSSerialPort to open a port and send data can be as simple as this:
 
+```swift
+let serialPort = ORSSerialPort(path: "/dev/cu.KeySerial1")
+serialPort.baudRate = 4800
+serialPort.open()
+serialPort.send(someData) // someData is an NSData object
+serialPort.close() // Later, when you're done with the port
+```
+
+Or, in Objective-C:
+
 ```objective-c
 ORSSerialPort *serialPort = [ORSSerialPort serialPortWithPath:@"/dev/cu.KeySerial1"];
 serialPort.baudRate = @4800;
 [serialPort open];
 [serialPort sendData:someData]; // someData is an NSData object
 [serialPort close]; // Later, when you're done with the port
-```
-
-Or, in Swift:
-
-```swift
-let serialPort = ORSSerialPort(path: "/dev/cu.KeySerial1")
-serialPort.baudRate = 4800
-serialPort.open()
-serialPort.sendData(someData) // someData is an NSData object
-serialPort.close() // Later, when you're done with the port
 ```
     
 ORSSerialPort is released under an MIT license, meaning you're free to use it in both closed and open source projects. However, even in a closed source project, you must include a publicly-accessible copy of ORSSerialPort's copyright notice, which you can find in the LICENSE file.
@@ -26,54 +26,52 @@ If you have any questions about, suggestions for, or contributions to ORSSerialP
 
 This readme provides an overview of the ORSSerialPort library and is meant to provide enough information to get up and running quickly. You can read complete technical documentation for ORSSerialPort on [http://cocoadocs.org/docsets/ORSSerialPort/](http://cocoadocs.org/docsets/ORSSerialPort/). The [ORSSerialPort wiki](https://github.com/armadsen/ORSSerialPort/wiki) also contains detailed documentation.
 
-The example code in this readme is in Objective-C. However, ORSSerialPort can also easily be used from Swift code. The Examples folder contains Swift versions of all four example projects. See the Example Projects section below for more information.
+Most of the example code in this readme is in Swift. However, ORSSerialPort can also easily be used from Objective-C code. The Examples folder contains Swift and Objective-C versions of all four example projects. See the Example Projects section below for more information.
 
 # How to Use ORSSerialPort
 
-There are a number of ways to add ORSSerialPort to your project. You can use the included framework project, [Carthage](https://github.com/Carthage), [CocoaPods](http://cocoapods.org), or manually include the ORSSerialPort source code in your project. See the [Guide to Installing ORSSerialPort](https://github.com/armadsen/ORSSerialPort/wiki/Installing-ORSSerialPort) for detailed instructions for each of these methods.
+There are a number of ways to add ORSSerialPort to your project. You can use the included framework project, [Carthage](https://github.com/Carthage), [CocoaPods](http://cocoapods.org), or the [Swift Package Manager](https://swift.org/package-manager/). See the [Guide to Installing ORSSerialPort](https://github.com/armadsen/ORSSerialPort/wiki/Installing-ORSSerialPort) for detailed instructions for each of these methods.
 
 ### Opening a Port and Setting It Up
 
-You can get an `ORSSerialPort` instance either of two ways. The easiest is to use `ORSSerialPortManager`'s `availablePorts` array (explained below). The other way is to get a new `ORSSerialPort` instance using the serial port's BSD device path:
+You can get an `ORSSerialPort` instance either of two ways. The easiest is to use `ORSSerialPortManager`'s `availablePorts` property (explained below). The other way is to get a new `ORSSerialPort` instance using the serial port's BSD device path:
 
-```objective-c
-ORSSerialPort *port = [ORSSerialPort serialPortWithPath:@"/dev/cu.KeySerial1"];
+```swift
+let port = ORSSerialPort(path: "/dev/cu.KeySerial1")
 ```
 
-Note that you must give `+serialPortWithPath:` the full path to the device, as shown in the example above.
+Note that you must give `ORSSerialPort.init(path:)` the full path to the device, as shown in the example above.
 
-After you've got a port instance, you can open it with the `-open` method. When you're done using the port, close it using the `-close` method.
+After you've got a port instance, you can open it with the `open()` method. When you're done using the port, close it using the `close()` method.
 
 Port settings such as baud rate, number of stop bits, parity, and flow control settings can be set using the various properties `ORSSerialPort` provides:
 
-```objective-c
-port.baudRate = @9600;
-port.parity = ORSSerialPortParityNone;
-port.numberOfStopBits = 1;
-port.usesRTSCTSFlowControl = YES;
+```swift
+port.baudRate = 9600
+port.parity = .none
+port.numberOfStopBits = 1
+port.usesRTSCTSFlowControl = true
 ```
 
 For more information, see the [Getting Started Guide](https://github.com/armadsen/ORSSerialPort/wiki/Getting-Started#opening-a-port-and-setting-it-up).
 
 ### Sending Data
 
-Send raw data by passing an `NSData` object to the `-sendData:` method:
+Send raw data by passing a `Data` object to the `send(_:)` method:
 
-```objective-c
-NSData *dataToSend = [self.sendTextField.stringValue dataUsingEncoding:NSUTF8StringEncoding];
-[self.serialPort sendData:dataToSend];
+```swift
+let dataToSend = "Hello".data(using: .utf8)
+port.send(dataToSend)
 ```
 
 ### Receiving Data
 
-To receive data, you can implement the `ORSSerialPortDelegate` protocol's `-serialPort:didReceiveData:` method, and set the `ORSSerialPort` instance's delegate property. As noted below, this method is always called on the main queue. An example implementation is included below:
+To receive data, you can implement the `ORSSerialPortDelegate` protocol's `serialPort(_:, didReceive:)` method, and set the `ORSSerialPort` instance's delegate property. As noted below, this method is always called on the main queue. An example implementation is included below:
 
-```objective-c
-- (void)serialPort:(ORSSerialPort *)serialPort didReceiveData:(NSData *)data
-{
-    NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    [self.receivedDataTextView.textStorage.mutableString appendString:string];
-    [self.receivedDataTextView setNeedsDisplay:YES];
+```swift
+func serialPort(_ serialPort: ORSSerialPort, didReceive data: Data) {
+    let string = String(data: data, encoding: .utf8)
+    print("Got \(string) from the serial port!")
 }
 ```
 
@@ -85,8 +83,8 @@ To receive data, you can implement the `ORSSerialPortDelegate` protocol's `-seri
 
 `ORSSerialPortManager` is a singleton class (one instance per application) that can be used to get a list of available serial ports. Use the manager's `availablePorts` property to get a list of ports:
 
-```objective-c
-NSArray *ports = [[ORSSerialPortManager sharedSerialPortManager] availablePorts];
+```swift
+let ports = ORSSerialPortManager.shared().availablePorts
 ```
 
 ORSSerialPortManager's `availablePorts` can be observed with Key Value Observing to be notified when a USB to serial adapter is plugged in or removed. Additionally, it posts NSNotifications when these events occur. It will also handle closing open serial ports when the Mac goes to sleep, and reopening them automatically on wake. This prevents problems I've seen with serial port drivers that can hang if the port is left open when putting the machine to sleep. Note that using `ORSSerialPortManager` is optional. It provides some nice functionality, but only `ORSSerialPort` is necessary to simply send and receive data.
@@ -105,34 +103,23 @@ Often, applications will want to send a command to a device, then wait to receiv
 
 For example, a program that read the temperature from a connected device might do the following:
 
-```objective-c
-- (void)readTemperature
-{
-    NSData *command = [@"$TEMP?;" dataUsingEncoding:NSASCIIStringEncoding];
-    ORSSerialPacketDescriptor *responseDescriptor = 
-    [[ORSSerialPacketDescriptor alloc] initWithMaximumPacketLength:9
-                                                          userInfo:nil
-                                                 responseEvaluator:^BOOL(NSData *data) {
-        return [self temperatureFromResponsePacket:data] != nil;
-    }];
-    ORSSerialRequest *request = 
-        [ORSSerialRequest requestWithDataToSend:command
-                                       userInfo:nil
-                                timeoutInterval:kTimeoutDuration
-                             responseDescriptor:responseDescriptor];
-    [self.serialPort sendRequest:request];
-} 
-
-- (void)serialPort:(ORSSerialPort *)port didReceiveResponse:(NSData *)data toRequest:(ORSSerialRequest *)request
-{
-    NSString *response = [[NSString alloc] initWithData:data usingEncoding:NSASCIIStringEncoding];
-    NSLog(@"response = %@", response);
-    self.temperature = [self temperatureFromResponsePacket:data];
+```swift
+func readTemperature() {
+    let command = "$TEMP?;".data(using: String.Encoding.ascii)!
+    let responseDescriptor = ORSSerialPacketDescriptor(prefixString: "!TEMP", suffixString: ";", maximumPacketLength: 10, userInfo: nil)
+    let request = ORSSerialRequest(dataToSend: command,
+        userInfo: SerialBoardRequestType.readTemperature.rawValue,
+        timeoutInterval: 0.5,
+        responseDescriptor: responseDescriptor)
+    serialPort?.send(request)
 }
 
-- (void)serialPort:(ORSSerialPort *)port requestDidTimeout:(ORSSerialRequest *)request
-{
-    NSLog(@"command timed out!);
+func serialPort(_ serialPort: ORSSerialPort, didReceiveResponse responseData: Data, to request: ORSSerialRequest) {
+    temperature = temperatureFromResponsePacket(responseData)!
+}
+
+func serialPort(_ serialPort: ORSSerialPort, requestDidTimeout request: ORSSerialRequest) {
+    print("Command timed out!")
 }
 ```
 

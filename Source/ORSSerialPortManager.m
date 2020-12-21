@@ -276,8 +276,10 @@ static ORSSerialPortManager *sharedInstance = nil;
 	
 	self.portTerminatedNotificationIterator = portIterator;
 	IOObjectRelease(portIterator);
-	
-	while (IOIteratorNext(self.portTerminatedNotificationIterator)) {}; // Run out the iterator or notifications won't start
+
+	io_object_t device;
+	// Run out the iterator or notifications won't start
+	while ((device = IOIteratorNext(self.portTerminatedNotificationIterator))) { IOObjectRelease(device); }
 }
 
 #pragma mark - Properties
