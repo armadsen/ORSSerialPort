@@ -25,7 +25,10 @@
 //	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
-#import <ORSSerial/ORSSerialPacketDescriptor.h>
+
+//#import <ORSSerial/ORSSerialPacketDescriptor.h>
+// reference framework will not find it without framework. uncomment next line if not using framework.
+#import "ORSSerialPacketDescriptor.h"
 
 // Keep older versions of the compiler happy
 #ifndef NS_ASSUME_NONNULL_BEGIN
