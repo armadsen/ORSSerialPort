@@ -562,16 +562,23 @@ static __strong NSMutableArray *allSerialPorts;
 }
 
 #pragma mark Port Read/Write
+-(void) notifyDelegate:(NSData *)data {
+    if ([self.delegate respondsToSelector:@selector(serialPort:didReceiveData:)]) {
+        [self.delegate serialPort:self didReceiveData:data];
+    }
+}
 
 - (void)receiveData:(NSData *)data;
 {
-	dispatch_async(dispatch_get_main_queue(), ^{
-		if ([self.delegate respondsToSelector:@selector(serialPort:didReceiveData:)])
-		{
-			[self.delegate serialPort:self didReceiveData:data];
-		}
-	});
-	
+    /// https://github.com/armadsen/ORSSerialPort/issues/153
+    //	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+    //		if ([self.delegate respondsToSelector:@selector(serialPort:didReceiveData:)])
+    //		{
+    //			[self.delegate serialPort:self didReceiveData:data];
+    //		}
+    //	});
+    [self performSelectorOnMainThread:@selector(notifyDelegate:) withObject:data waitUntilDone:NO];
+
 	dispatch_async(self.requestHandlingQueue, ^{
 		const void *bytes = [data bytes];
 		for (NSUInteger i=0; i<[data length]; i++) {
