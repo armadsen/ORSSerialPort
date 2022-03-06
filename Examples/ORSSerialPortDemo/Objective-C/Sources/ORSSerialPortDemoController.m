@@ -25,7 +25,7 @@
 //	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import "ORSSerialPortDemoController.h"
-#import "ORSSerialPortManager.h"
+#import <ORSSerial/ORSSerial.h>
 
 @implementation ORSSerialPortDemoController
 
