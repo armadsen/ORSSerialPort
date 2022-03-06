@@ -25,8 +25,7 @@
 //	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
-#import "ORSSerialPort.h"
-#import "ORSSerialPortManager.h"
+@import ORSSerial;
 
 @interface ORSSerialPortHelper : NSObject <ORSSerialPortDelegate>
 
