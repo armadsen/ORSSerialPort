@@ -25,6 +25,7 @@
 //	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 import Foundation
+import ORSSerial
 
 enum ApplicationState {
 	case initializationState
