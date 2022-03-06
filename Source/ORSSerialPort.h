@@ -37,6 +37,10 @@
 #define __nullable
 #endif
 
+#ifndef NS_DESIGNATED_INITIALIZER
+#define NS_DESIGNATED_INITIALIZER
+#endif
+
 #ifndef ORSArrayOf
 	#if __has_feature(objc_generics)
 		#define ORSArrayOf(TYPE) NSArray<TYPE>
@@ -338,11 +342,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  The delegate for the serial port object. Must implement the `ORSSerialPortDelegate` protocol.
  *
  */
-#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_8
 @property (nonatomic, weak, nullable) id<ORSSerialPortDelegate> delegate;
-#else
-@property (nonatomic, unsafe_unretained, nullable) id<ORSSerialPortDelegate> delegate;
-#endif
 
 /** ---------------------------------------------------------------------------------------
  * @name Request/Response Properties
@@ -416,7 +416,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The baud rate for the port.
  *
- *  Unless supportsNonStandardBaudRates is YES, 
+ *  Unless allowsNonStandardBaudRates is YES, 
  *  this value should be one of the values defined in termios.h:
  *
  *	- 0
@@ -466,6 +466,11 @@ NS_ASSUME_NONNULL_BEGIN
  *  The number of stop bits. Values other than 1 or 2 are invalid.
  */
 @property (nonatomic) NSUInteger numberOfStopBits;
+
+/**
+ *  The number of data bits. Values other than 5, 6, 7, or 8 are ignored.
+ */
+@property (nonatomic) NSUInteger numberOfDataBits;
 
 /**
  *
@@ -580,7 +585,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param serialPort The `ORSSerialPort` instance representing the port that was removed.
  */
-- (void)serialPortWasRemovedFromSystem:(ORSSerialPort *)serialPort;
+- (void)serialPortWasRemovedFromSystem:(ORSSerialPort *)serialPort NS_SWIFT_NAME(serialPortWasRemovedFromSystem(_:));
 
 @optional
 

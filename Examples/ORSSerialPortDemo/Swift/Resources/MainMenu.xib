@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14109" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment version="1060" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14109"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -654,7 +655,7 @@
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1418"/>
             <value key="minSize" type="size" width="480" height="500"/>
             <view key="contentView" id="372">
-                <rect key="frame" x="0.0" y="5" width="480" height="585"/>
+                <rect key="frame" x="0.0" y="0.0" width="480" height="585"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <popUpButton verticalHuggingPriority="750" id="537">
@@ -725,12 +726,9 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="576">
+                    <box verticalHuggingPriority="750" boxType="separator" id="576">
                         <rect key="frame" x="12" y="328" width="456" height="5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <font key="titleFont" metaFont="system"/>
                     </box>
                     <textField verticalHuggingPriority="750" id="577">
                         <rect key="frame" x="20" y="290" width="232" height="22"/>
@@ -741,7 +739,7 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
-                            <action selector="send:" target="536" id="g0F-8f-kYA"/>
+                            <action selector="returnPressedInTextField:" target="536" id="3vm-Pi-EY1"/>
                         </connections>
                     </textField>
                     <button verticalHuggingPriority="750" id="579">
@@ -755,29 +753,24 @@
                             <action selector="send:" target="536" id="wOr-CU-Hek"/>
                         </connections>
                     </button>
-                    <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="583">
+                    <box verticalHuggingPriority="750" boxType="separator" id="583">
                         <rect key="frame" x="12" y="269" width="456" height="5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <font key="titleFont" metaFont="system"/>
                     </box>
-                    <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="584">
-                        <rect key="frame" x="20" y="71" width="440" height="182"/>
+                    <scrollView misplaced="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="584">
+                        <rect key="frame" x="20" y="71" width="440" height="156"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" id="4EM-9w-P8G">
-                            <rect key="frame" x="1" y="1" width="438" height="180"/>
+                            <rect key="frame" x="1" y="1" width="438" height="154"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <textView editable="NO" importsGraphics="NO" richText="NO" findStyle="panel" verticallyResizable="YES" id="585">
-                                    <rect key="frame" x="0.0" y="0.0" width="438" height="180"/>
+                                <textView editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" findStyle="panel" id="585">
+                                    <rect key="frame" x="0.0" y="0.0" width="438" height="154"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="438" height="180"/>
+                                    <size key="minSize" width="438" height="154"/>
                                     <size key="maxSize" width="471" height="10000000"/>
                                     <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="438" height="180"/>
-                                    <size key="maxSize" width="471" height="10000000"/>
                                 </textView>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -787,7 +780,7 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="587">
-                            <rect key="frame" x="423" y="1" width="16" height="180"/>
+                            <rect key="frame" x="423" y="1" width="16" height="154"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>
@@ -1078,9 +1071,20 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <button verticalHuggingPriority="750" misplaced="YES" id="WRk-Hd-V3Z">
+                        <rect key="frame" x="14" y="231" width="72" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Clear" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="GSh-fY-8WK">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="clear:" target="536" id="6mq-8j-fEJ"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="705" y="352.5"/>
+            <point key="canvasLocation" x="720" y="351"/>
         </window>
         <customObject id="494" customClass="AppDelegate" customModule="ORSSerialPortDemo" customModuleProvider="target">
             <connections>
@@ -1093,6 +1097,7 @@
                 <outlet property="lineEndingPopUpButton" destination="6mR-XF-AH1" id="nbJ-rR-0eO"/>
                 <outlet property="openCloseButton" destination="690" id="8IT-RK-mVg"/>
                 <outlet property="receivedDataTextView" destination="585" id="zuL-km-tmL"/>
+                <outlet property="sendButton" destination="579" id="nw4-ZI-N6a"/>
                 <outlet property="sendTextField" destination="577" id="nfG-J7-A59"/>
             </connections>
         </customObject>

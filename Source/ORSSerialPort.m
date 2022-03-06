@@ -160,7 +160,7 @@ static __strong NSMutableArray *allSerialPorts;
 	NSString *bsdPath = [[self class] bsdCalloutPathFromDevice:device];
 	ORSSerialPort *existingPort = [[self class] existingPortWithPath:bsdPath];
 	
-	if (existingPort != nil)
+    if (existingPort != nil && IOObjectIsEqualTo(_IOKitDevice, device))
 	{
 		self = nil;
 		return existingPort;
@@ -174,15 +174,12 @@ static __strong NSMutableArray *allSerialPorts;
 		self.path = bsdPath;
 		self.name = [[self class] modemNameFromDevice:device];
 		self.requestHandlingQueue = dispatch_queue_create("com.openreelsoftware.ORSSerialPort.requestHandlingQueue", 0);
-#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_8
 		self.packetDescriptorsAndBuffers = [NSMapTable strongToStrongObjectsMapTable];
-#else
-		self.packetDescriptorsAndBuffers = [NSMapTable mapTableWithStrongToStrongObjects]; // Deprecated in 10.8.
-#endif
 		self.requestsQueue = [NSMutableArray array];
 		self.baudRate = @B19200;
 		self.allowsNonStandardBaudRates = NO;
 		self.numberOfStopBits = 1;
+        self.numberOfDataBits = 8;
 		self.parity = ORSSerialPortParityNone;
 		self.shouldEchoReceivedData = NO;
 		self.usesRTSCTSFlowControl = NO;
@@ -254,7 +251,7 @@ static __strong NSMutableArray *allSerialPorts;
 	if (self.isOpen) return;
 	
 	dispatch_queue_t mainQueue = dispatch_get_main_queue();
-	
+
 	int descriptor=0;
 	descriptor = open([self.path cStringUsingEncoding:NSASCIIStringEncoding], O_RDWR | O_NOCTTY | O_EXLOCK | O_NONBLOCK);
 	if (descriptor < 1)
@@ -274,32 +271,19 @@ static __strong NSMutableArray *allSerialPorts;
 	
 	self.fileDescriptor = descriptor;
 	
+
 	// Port opened successfully, set options
 	tcgetattr(descriptor, &originalPortAttributes); // Get original options so they can be reset later
 	[self setPortOptions];
-	
-	// Get status of RTS and DTR lines
-	int modemLines=0;
-	if (ioctl(self.fileDescriptor, TIOCMGET, &modemLines) < 0)
-	{
-		LOG_SERIAL_PORT_ERROR(@"Error reading modem lines status");
-		[self notifyDelegateOfPosixError];
-	}
-	
-	BOOL desiredRTS = self.RTS;
-	BOOL desiredDTR = self.DTR;
-	self.RTS = modemLines & TIOCM_RTS;
-	self.DTR = modemLines & TIOCM_DTR;
-	self.RTS = desiredRTS;
-	self.DTR = desiredDTR;
-	
-	if ([self.delegate respondsToSelector:@selector(serialPortWasOpened:)])
-	{
-		dispatch_async(mainQueue, ^{
+	[self updateModemLines];
+
+	dispatch_async(mainQueue, ^{
+		if ([self.delegate respondsToSelector:@selector(serialPortWasOpened:)])
+		{
 			[self.delegate serialPortWasOpened:self];
-		});
-	}
-	
+		}
+	});
+
 	// Start a read dispatch source in the background
 	dispatch_source_t readPollSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ, self.fileDescriptor, 0, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0));
 	dispatch_source_set_event_handler(readPollSource, ^{
@@ -488,17 +472,6 @@ static __strong NSMutableArray *allSerialPorts;
 #pragma mark - Private Methods
 
 // Must only be called on requestHandlingQueue (ie. wrap call to this method in dispatch())
-- (NSData *)packetMatchingDescriptor:(ORSSerialPacketDescriptor *)descriptor atEndOfBuffer:(NSData *)buffer
-{
-	for (NSUInteger i=1; i<=[buffer length]; i++)
-	{
-		NSData *window = [buffer subdataWithRange:NSMakeRange([buffer length]-i, i)];
-		if ([descriptor dataIsValidPacket:window]) return window;
-	}
-	return nil;
-}
-
-// Must only be called on requestHandlingQueue (ie. wrap call to this method in dispatch())
 - (BOOL)reallySendRequest:(ORSSerialRequest *)request
 {
 	if (!self.pendingRequest)
@@ -571,7 +544,7 @@ static __strong NSMutableArray *allSerialPorts;
 	}
 	
 	[self.requestResponseReceiveBuffer appendData:byte];
-	NSData *responseData = [self packetMatchingDescriptor:packetDescriptor atEndOfBuffer:self.requestResponseReceiveBuffer.data];
+	NSData *responseData = [packetDescriptor packetMatchingAtEndOfBuffer:self.requestResponseReceiveBuffer.data];
 	if (!responseData) return;
 	
 	self.pendingRequestTimeoutTimer = nil;
@@ -592,12 +565,12 @@ static __strong NSMutableArray *allSerialPorts;
 
 - (void)receiveData:(NSData *)data;
 {
-	if ([self.delegate respondsToSelector:@selector(serialPort:didReceiveData:)])
-	{
-		dispatch_async(dispatch_get_main_queue(), ^{
+	dispatch_async(dispatch_get_main_queue(), ^{
+		if ([self.delegate respondsToSelector:@selector(serialPort:didReceiveData:)])
+		{
 			[self.delegate serialPort:self didReceiveData:data];
-		});
-	}
+		}
+	});
 	
 	dispatch_async(self.requestHandlingQueue, ^{
 		const void *bytes = [data bytes];
@@ -613,16 +586,16 @@ static __strong NSMutableArray *allSerialPorts;
 				[buffer appendData:byte];
 				
 				// Check for complete packet
-				NSData *completePacket = [self packetMatchingDescriptor:descriptor atEndOfBuffer:buffer.data];
+				NSData *completePacket = [descriptor packetMatchingAtEndOfBuffer:buffer.data];
 				if (![completePacket length]) continue;
 				
 				// Complete packet received, so notify delegate then clear buffer
-				if ([self.delegate respondsToSelector:@selector(serialPort:didReceivePacket:matchingDescriptor:)])
-				{
-					dispatch_async(dispatch_get_main_queue(), ^{
+				dispatch_async(dispatch_get_main_queue(), ^{
+					if ([self.delegate respondsToSelector:@selector(serialPort:didReceivePacket:matchingDescriptor:)])
+					{
 						[self.delegate serialPort:self didReceivePacket:completePacket matchingDescriptor:descriptor];
-					});
-				}
+					}
+				});
 				[buffer clearBuffer];
 			}
 			
@@ -648,8 +621,23 @@ static __strong NSMutableArray *allSerialPorts;
 	
 	// Set 8 data bits
 	options.c_cflag &= ~CSIZE;
-	options.c_cflag |= CS8;
-	
+    switch (self.numberOfDataBits) {
+        case 5:
+            options.c_cflag |= CS5;
+            break;
+        case 6:
+            options.c_cflag |= CS5;
+            break;
+        case 7:
+            options.c_cflag |= CS7;
+            break;
+        case 8:
+            options.c_cflag |= CS8;
+            break;
+        default:
+            break;
+    }
+    
 	// Set parity
 	switch (self.parity) {
 		case ORSSerialPortParityNone:
@@ -667,7 +655,7 @@ static __strong NSMutableArray *allSerialPorts;
 			break;
 	}
 	
-	options.c_cflag = [self numberOfStopBits] > 1 ? options.c_cflag | CSTOPB : options.c_cflag & ~CSTOPB; // number of stop bits
+    options.c_cflag = [self numberOfStopBits] > 1 ? options.c_cflag | CSTOPB : options.c_cflag & ~CSTOPB; // number of stop bits
 	options.c_lflag = [self shouldEchoReceivedData] ? options.c_lflag | ECHO : options.c_lflag & ~ECHO; // echo
 	options.c_cflag = [self usesRTSCTSFlowControl] ? options.c_cflag | CRTSCTS : options.c_cflag & ~CRTSCTS; // RTS/CTS Flow Control
 	options.c_cflag = [self usesDTRDSRFlowControl] ? options.c_cflag | (CDTR_IFLOW | CDSR_OFLOW) : options.c_cflag & ~(CDTR_IFLOW | CDSR_OFLOW); // DTR/DSR Flow Control
@@ -874,6 +862,15 @@ static __strong NSMutableArray *allSerialPorts;
 	}
 }
 
+- (void)setNumberOfDataBits:(NSUInteger)num
+{
+    if (num != _numberOfDataBits)
+    {
+        _numberOfDataBits = num;
+        [self setPortOptions];
+    }
+}
+
 - (void)setShouldEchoReceivedData:(BOOL)flag
 {
 	if (flag != _shouldEchoReceivedData)
@@ -946,22 +943,27 @@ static __strong NSMutableArray *allSerialPorts;
 	}
 }
 
+- (void)updateModemLines
+{
+	if (![self isOpen]) return;
+
+	int bits;
+	ioctl( self.fileDescriptor, TIOCMGET, &bits ) ;
+	bits = self.RTS ? bits | TIOCM_RTS : bits & ~TIOCM_RTS;
+	bits = self.DTR ? bits | TIOCM_DTR : bits & ~TIOCM_DTR;
+	if (ioctl( self.fileDescriptor, TIOCMSET, &bits ) < 0)
+	{
+		LOG_SERIAL_PORT_ERROR(@"Error in %s", __PRETTY_FUNCTION__);
+		[self notifyDelegateOfPosixError];
+	}
+}
+
 - (void)setRTS:(BOOL)flag
 {
 	if (flag != _RTS)
 	{
 		_RTS = flag;
-		
-		if (![self isOpen]) return;
-		
-		int bits;
-		ioctl( self.fileDescriptor, TIOCMGET, &bits ) ;
-		bits = _RTS ? bits | TIOCM_RTS : bits & ~TIOCM_RTS;
-		if (ioctl( self.fileDescriptor, TIOCMSET, &bits ) < 0)
-		{
-			LOG_SERIAL_PORT_ERROR(@"Error in %s", __PRETTY_FUNCTION__);
-			[self notifyDelegateOfPosixError];
-		}
+		[self updateModemLines];
 	}
 }
 
@@ -970,17 +972,7 @@ static __strong NSMutableArray *allSerialPorts;
 	if (flag != _DTR)
 	{
 		_DTR = flag;
-		
-		if (![self isOpen]) return;
-		
-		int bits;
-		ioctl( self.fileDescriptor, TIOCMGET, &bits ) ;
-		bits = _DTR ? bits | TIOCM_DTR : bits & ~TIOCM_DTR;
-		if (ioctl( self.fileDescriptor, TIOCMSET, &bits ) < 0)
-		{
-			LOG_SERIAL_PORT_ERROR(@"Error in %s", __PRETTY_FUNCTION__);
-			[self notifyDelegateOfPosixError];
-		}
+		[self updateModemLines];
 	}
 }
 

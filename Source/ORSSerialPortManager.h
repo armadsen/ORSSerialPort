@@ -35,6 +35,10 @@
 #define __nullable
 #endif
 
+#ifndef NS_DESIGNATED_INITIALIZER
+#define NS_DESIGNATED_INITIALIZER
+#endif
+
 #ifndef ORSArrayOf
 	#if __has_feature(objc_generics)
 		#define ORSArrayOf(TYPE) NSArray<TYPE>

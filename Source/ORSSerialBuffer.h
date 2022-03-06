@@ -8,6 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+// Keep older versions of the compiler happy
+#ifndef NS_DESIGNATED_INITIALIZER
+#define NS_DESIGNATED_INITIALIZER
+#endif
+
 @interface ORSSerialBuffer : NSObject
 
 - (instancetype)initWithMaximumLength:(NSUInteger)maxLength NS_DESIGNATED_INITIALIZER;

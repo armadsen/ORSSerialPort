@@ -350,9 +350,9 @@
 
 #pragma mark - ORSSerialPortDelegate
 
-- (void)serialPortWasRemovedFromSystem:(ORSSerialPort * __nonnull)serialPort {}
+- (void)serialPortWasRemovedFromSystem:(ORSSerialPort *)serialPort {}
 
-- (void)serialPort:(ORSSerialPort * __nonnull)serialPort didReceivePacket:(NSData * __nonnull)packetData matchingDescriptor:(ORSSerialPacketDescriptor * __nonnull)descriptor
+- (void)serialPort:(ORSSerialPort *)serialPort didReceivePacket:(NSData *)packetData matchingDescriptor:(ORSSerialPacketDescriptor *)descriptor
 {
 	NSDictionary *userInfo = (NSDictionary *)descriptor.userInfo;
 	XCTestExpectation *expectation = userInfo[packetData];
