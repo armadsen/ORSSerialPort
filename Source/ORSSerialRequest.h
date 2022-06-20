@@ -25,7 +25,12 @@
 //	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
+
+#ifdef SWIFTPM
+#import "ORSSerialPacketDescriptor.h"
+#else 
 #import <ORSSerial/ORSSerialPacketDescriptor.h>
+#endif
 
 // Keep older versions of the compiler happy
 #ifndef NS_ASSUME_NONNULL_BEGIN

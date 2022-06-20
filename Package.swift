@@ -25,7 +25,8 @@ let package = Package(
             name: "ORSSerial",
 			path: "Source",
 			exclude: ["ORSSerialBuffer.h"],
-			publicHeadersPath: "."
+			publicHeadersPath: ".",
+			cSettings: [ .define("SWIFTPM") ]
 		//	sources: ["Source/**/*.m"]
 		)
     ]
