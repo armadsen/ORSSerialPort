@@ -12,7 +12,6 @@
 		9D7472181B6D7767002D8B10 /* ORSSerialPort_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7472171B6D7767002D8B10 /* ORSSerialPort_Tests.m */; };
 		9D7472191B6D7767002D8B10 /* ORSSerial.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DCA89121A2BB106009285EB /* ORSSerial.framework */; };
 		9D7472201B6D7787002D8B10 /* ORSSerialPacketDescriptor_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D74721F1B6D7787002D8B10 /* ORSSerialPacketDescriptor_Tests.m */; };
-		9DCA89321A2BB15A009285EB /* ORSSerial.h in Headers */ = {isa = PBXBuildFile; fileRef = 9DCA89311A2BB15A009285EB /* ORSSerial.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9DCA893A1A2BB1E2009285EB /* ORSSerialPort.h in Headers */ = {isa = PBXBuildFile; fileRef = 9DCA89341A2BB1E2009285EB /* ORSSerialPort.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9DCA893B1A2BB1E2009285EB /* ORSSerialPort.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA89351A2BB1E2009285EB /* ORSSerialPort.m */; };
 		9DCA893C1A2BB1E2009285EB /* ORSSerialPortManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 9DCA89361A2BB1E2009285EB /* ORSSerialPortManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -21,6 +20,7 @@
 		9DCA893F1A2BB1E2009285EB /* ORSSerialRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA89391A2BB1E2009285EB /* ORSSerialRequest.m */; };
 		9DD6B1D21B5F4338000AB46E /* ORSSerialPacketDescriptor.h in Headers */ = {isa = PBXBuildFile; fileRef = 9DD6B1D01B5F4338000AB46E /* ORSSerialPacketDescriptor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9DD6B1D31B5F4338000AB46E /* ORSSerialPacketDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DD6B1D11B5F4338000AB46E /* ORSSerialPacketDescriptor.m */; };
+		9DE514D12864EBCD0038E411 /* ORSSerial.h in Headers */ = {isa = PBXBuildFile; fileRef = 9DE514D02864EBCD0038E411 /* ORSSerial.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,7 +42,6 @@
 		9D74721F1B6D7787002D8B10 /* ORSSerialPacketDescriptor_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSSerialPacketDescriptor_Tests.m; sourceTree = "<group>"; };
 		9D8FEC172864EA6E00664980 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9DCA89121A2BB106009285EB /* ORSSerial.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ORSSerial.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9DCA89311A2BB15A009285EB /* ORSSerial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSSerial.h; sourceTree = "<group>"; };
 		9DCA89341A2BB1E2009285EB /* ORSSerialPort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORSSerialPort.h; path = include/ORSSerial/ORSSerialPort.h; sourceTree = "<group>"; };
 		9DCA89351A2BB1E2009285EB /* ORSSerialPort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSSerialPort.m; sourceTree = "<group>"; };
 		9DCA89361A2BB1E2009285EB /* ORSSerialPortManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORSSerialPortManager.h; path = include/ORSSerial/ORSSerialPortManager.h; sourceTree = "<group>"; };
@@ -51,6 +50,7 @@
 		9DCA89391A2BB1E2009285EB /* ORSSerialRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSSerialRequest.m; sourceTree = "<group>"; };
 		9DD6B1D01B5F4338000AB46E /* ORSSerialPacketDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORSSerialPacketDescriptor.h; path = include/ORSSerial/ORSSerialPacketDescriptor.h; sourceTree = "<group>"; };
 		9DD6B1D11B5F4338000AB46E /* ORSSerialPacketDescriptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSSerialPacketDescriptor.m; sourceTree = "<group>"; };
+		9DE514D02864EBCD0038E411 /* ORSSerial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORSSerial.h; path = include/ORSSerial/ORSSerial.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,7 +89,7 @@
 				9D7472151B6D7767002D8B10 /* Supporting Files */,
 			);
 			name = ORSSerialPortTests;
-			path = ../Tests/ORSSerialPortTests;
+			path = Tests/ORSSerialPortTests;
 			sourceTree = "<group>";
 		};
 		9D7472151B6D7767002D8B10 /* Supporting Files */ = {
@@ -111,7 +111,6 @@
 		9DCA89081A2BB106009285EB = {
 			isa = PBXGroup;
 			children = (
-				9DCA89311A2BB15A009285EB /* ORSSerial.h */,
 				9DCA89331A2BB1E2009285EB /* Sources */,
 				9D7472141B6D7767002D8B10 /* ORSSerialPortTests */,
 				9DCA89131A2BB106009285EB /* Products */,
@@ -130,6 +129,7 @@
 		9DCA89331A2BB1E2009285EB /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				9DE514D02864EBCD0038E411 /* ORSSerial.h */,
 				9DCA89341A2BB1E2009285EB /* ORSSerialPort.h */,
 				9DCA89351A2BB1E2009285EB /* ORSSerialPort.m */,
 				9DCA89361A2BB1E2009285EB /* ORSSerialPortManager.h */,
@@ -141,8 +141,7 @@
 				9D8FEC162864EA6E00664980 /* Resources */,
 				9D64D0EA1B9CBCA4009D1AEB /* Private */,
 			);
-			name = Sources;
-			path = ../Sources;
+			path = Sources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -155,9 +154,9 @@
 				9DCA893A1A2BB1E2009285EB /* ORSSerialPort.h in Headers */,
 				9DCA893E1A2BB1E2009285EB /* ORSSerialRequest.h in Headers */,
 				9DD6B1D21B5F4338000AB46E /* ORSSerialPacketDescriptor.h in Headers */,
-				9DCA89321A2BB15A009285EB /* ORSSerial.h in Headers */,
 				9DCA893C1A2BB1E2009285EB /* ORSSerialPortManager.h in Headers */,
 				9D64D0E71B9CBC99009D1AEB /* ORSSerialBuffer.h in Headers */,
+				9DE514D12864EBCD0038E411 /* ORSSerial.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,7 +299,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = ../Tests/ORSSerialPortTests/Info.plist;
+				INFOPLIST_FILE = Tests/ORSSerialPortTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.openreelsoftware.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -317,7 +316,7 @@
 					"$(inherited)",
 				);
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = ../Tests/ORSSerialPortTests/Info.plist;
+				INFOPLIST_FILE = Tests/ORSSerialPortTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.openreelsoftware.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -423,7 +422,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -445,7 +444,7 @@
 					"$(inherited)",
 					ORSSERIAL_FRAMEWORK,
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/../Sources/Resources/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/Resources/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MARKETING_VERSION = 2.1.0;
@@ -466,7 +465,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
 				GCC_PREPROCESSOR_DEFINITIONS = ORSSERIAL_FRAMEWORK;
-				INFOPLIST_FILE = "$(SRCROOT)/../Sources/Resources/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/Resources/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MARKETING_VERSION = 2.1.0;
