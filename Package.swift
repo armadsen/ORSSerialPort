@@ -23,9 +23,8 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
             name: "ORSSerial",
-			path: "Source",
+			path: "Sources",
 			exclude: ["ORSSerialBuffer.h"],
-			publicHeadersPath: ".",
 			cSettings: [ .define("SWIFTPM") ]
 		//	sources: ["Source/**/*.m"]
 		)

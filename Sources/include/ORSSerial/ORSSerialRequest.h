@@ -27,7 +27,7 @@
 #import <Foundation/Foundation.h>
 
 #ifdef SWIFTPM
-#import "ORSSerialPacketDescriptor.h"
+#import "ORSSerial/ORSSerialPacketDescriptor.h"
 #else 
 #import <ORSSerial/ORSSerialPacketDescriptor.h>
 #endif
