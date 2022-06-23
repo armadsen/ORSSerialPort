@@ -89,7 +89,7 @@
 				9D7472151B6D7767002D8B10 /* Supporting Files */,
 			);
 			name = ORSSerialPortTests;
-			path = Tests/ORSSerialPortTests;
+			path = ../Tests/ORSSerialPortTests;
 			sourceTree = "<group>";
 		};
 		9D7472151B6D7767002D8B10 /* Supporting Files */ = {
@@ -141,7 +141,8 @@
 				9D8FEC162864EA6E00664980 /* Resources */,
 				9D64D0EA1B9CBCA4009D1AEB /* Private */,
 			);
-			path = Sources;
+			name = Sources;
+			path = ../Sources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -299,7 +300,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = Tests/ORSSerialPortTests/Info.plist;
+				INFOPLIST_FILE = ../Tests/ORSSerialPortTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.openreelsoftware.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -316,7 +317,7 @@
 					"$(inherited)",
 				);
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = Tests/ORSSerialPortTests/Info.plist;
+				INFOPLIST_FILE = ../Tests/ORSSerialPortTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.openreelsoftware.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -444,7 +445,7 @@
 					"$(inherited)",
 					ORSSERIAL_FRAMEWORK,
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/Sources/Resources/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/../Sources/Resources/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MARKETING_VERSION = 2.1.0;
@@ -465,7 +466,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
 				GCC_PREPROCESSOR_DEFINITIONS = ORSSERIAL_FRAMEWORK;
-				INFOPLIST_FILE = "$(SRCROOT)/Sources/Resources/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/../Sources/Resources/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MARKETING_VERSION = 2.1.0;
