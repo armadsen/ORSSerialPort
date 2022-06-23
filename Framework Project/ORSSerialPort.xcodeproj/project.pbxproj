@@ -81,14 +81,15 @@
 			name = Private;
 			sourceTree = "<group>";
 		};
-		9D7472141B6D7767002D8B10 /* ORSSerialPort Tests */ = {
+		9D7472141B6D7767002D8B10 /* ORSSerialPortTests */ = {
 			isa = PBXGroup;
 			children = (
 				9D7472171B6D7767002D8B10 /* ORSSerialPort_Tests.m */,
 				9D74721F1B6D7787002D8B10 /* ORSSerialPacketDescriptor_Tests.m */,
 				9D7472151B6D7767002D8B10 /* Supporting Files */,
 			);
-			path = "ORSSerialPort Tests";
+			name = ORSSerialPortTests;
+			path = ../Tests/ORSSerialPortTests;
 			sourceTree = "<group>";
 		};
 		9D7472151B6D7767002D8B10 /* Supporting Files */ = {
@@ -112,7 +113,7 @@
 			children = (
 				9DCA89311A2BB15A009285EB /* ORSSerial.h */,
 				9DCA89331A2BB1E2009285EB /* Sources */,
-				9D7472141B6D7767002D8B10 /* ORSSerialPort Tests */,
+				9D7472141B6D7767002D8B10 /* ORSSerialPortTests */,
 				9DCA89131A2BB106009285EB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -299,7 +300,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "ORSSerialPort Tests/Info.plist";
+				INFOPLIST_FILE = ../Tests/ORSSerialPortTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.openreelsoftware.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -316,7 +317,7 @@
 					"$(inherited)",
 				);
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "ORSSerialPort Tests/Info.plist";
+				INFOPLIST_FILE = ../Tests/ORSSerialPortTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.openreelsoftware.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
