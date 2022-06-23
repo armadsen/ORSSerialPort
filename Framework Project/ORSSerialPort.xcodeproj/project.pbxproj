@@ -21,8 +21,6 @@
 		9DCA893F1A2BB1E2009285EB /* ORSSerialRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA89391A2BB1E2009285EB /* ORSSerialRequest.m */; };
 		9DD6B1D21B5F4338000AB46E /* ORSSerialPacketDescriptor.h in Headers */ = {isa = PBXBuildFile; fileRef = 9DD6B1D01B5F4338000AB46E /* ORSSerialPacketDescriptor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9DD6B1D31B5F4338000AB46E /* ORSSerialPacketDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DD6B1D11B5F4338000AB46E /* ORSSerialPacketDescriptor.m */; };
-		A933F5991AC33D1700461525 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A933F5981AC33D1700461525 /* IOKit.framework */; };
-		A933F59B1AC33D2700461525 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A933F59A1AC33D2700461525 /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,8 +51,6 @@
 		9DCA89391A2BB1E2009285EB /* ORSSerialRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSSerialRequest.m; sourceTree = "<group>"; };
 		9DD6B1D01B5F4338000AB46E /* ORSSerialPacketDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSSerialPacketDescriptor.h; sourceTree = "<group>"; };
 		9DD6B1D11B5F4338000AB46E /* ORSSerialPacketDescriptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSSerialPacketDescriptor.m; sourceTree = "<group>"; };
-		A933F5981AC33D1700461525 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
-		A933F59A1AC33D2700461525 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,8 +66,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A933F59B1AC33D2700461525 /* Cocoa.framework in Frameworks */,
-				A933F5991AC33D1700461525 /* IOKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,9 +103,8 @@
 			isa = PBXGroup;
 			children = (
 				9DCA89311A2BB15A009285EB /* ORSSerial.h */,
-				9DCA89331A2BB1E2009285EB /* Source */,
+				9DCA89331A2BB1E2009285EB /* Sources */,
 				9DCA89301A2BB14E009285EB /* Resources */,
-				9DCCC2531AD1D289003E21FC /* Linked Frameworks */,
 				9D7472141B6D7767002D8B10 /* ORSSerialPort Tests */,
 				9DCA89131A2BB106009285EB /* Products */,
 			);
@@ -134,7 +127,7 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
-		9DCA89331A2BB1E2009285EB /* Source */ = {
+		9DCA89331A2BB1E2009285EB /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				9DCA89341A2BB1E2009285EB /* ORSSerialPort.h */,
@@ -147,17 +140,8 @@
 				9DD6B1D11B5F4338000AB46E /* ORSSerialPacketDescriptor.m */,
 				9D64D0EA1B9CBCA4009D1AEB /* Private */,
 			);
-			name = Source;
-			path = ../Source;
-			sourceTree = "<group>";
-		};
-		9DCCC2531AD1D289003E21FC /* Linked Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				A933F59A1AC33D2700461525 /* Cocoa.framework */,
-				A933F5981AC33D1700461525 /* IOKit.framework */,
-			);
-			name = "Linked Frameworks";
+			name = Sources;
+			path = ../Sources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
