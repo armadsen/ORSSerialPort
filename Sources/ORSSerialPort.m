@@ -102,37 +102,41 @@ static __strong NSMutableArray *allSerialPorts;
 
 + (void)addSerialPort:(ORSSerialPort *)port;
 {
-	[allSerialPorts addObject:[NSValue valueWithNonretainedObject:port]];
+    @synchronized(allSerialPorts) {
+        [allSerialPorts addObject:[NSValue valueWithNonretainedObject:port]];
+    }
 }
 
 + (void)removeSerialPort:(ORSSerialPort *)port;
 {
-	NSValue *valueToRemove = nil;
-	for (NSValue *value in allSerialPorts)
-	{
-		if ([value nonretainedObjectValue] == port)
-		{
-			valueToRemove = value;
-			break;
-		}
-	}
-	if (valueToRemove) [allSerialPorts removeObject:valueToRemove];
+    @synchronized(allSerialPorts) {
+        NSValue *valueToRemove = nil;
+        for (NSValue *value in allSerialPorts)
+        {
+            if ([value nonretainedObjectValue] == port) {
+                valueToRemove = value;
+                break;
+            }
+        }
+        if (valueToRemove) [allSerialPorts removeObject:valueToRemove];
+    }
 }
 
 + (ORSSerialPort *)existingPortWithPath:(NSString *)path;
 {
-	ORSSerialPort *existingPort = nil;
-	for (NSValue *value in allSerialPorts)
-	{
-		ORSSerialPort *port = [value nonretainedObjectValue];
-		if ([port.path isEqualToString:path])
-		{
-			existingPort = port;
-			break;
-		}
-	}
-	
-	return existingPort;
+    ORSSerialPort *existingPort = nil;
+    @synchronized(allSerialPorts) {
+        for (NSValue *value in allSerialPorts)
+        {
+            ORSSerialPort *port = [value nonretainedObjectValue];
+            if ([port.path isEqualToString:path]) {
+                existingPort = port;
+                break;
+            }
+        }
+    }
+    
+    return existingPort;
 }
 
 + (ORSSerialPort *)serialPortWithPath:(NSString *)devicePath
