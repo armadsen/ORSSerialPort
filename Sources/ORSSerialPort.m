@@ -517,6 +517,7 @@ static __strong NSMutableArray *allSerialPorts;
 // Will only be called on requestHandlingQueue
 - (void)pendingRequestDidTimeout
 {
+	if (!self.pendingRequestTimeoutTimer) return; // The request has already been handled
 	self.pendingRequestTimeoutTimer = nil;
 	
 	ORSSerialRequest *request = self.pendingRequest;
@@ -539,6 +540,7 @@ static __strong NSMutableArray *allSerialPorts;
 - (void)checkResponseToPendingRequestAndContinueIfValidWithReceivedByte:(NSData *)byte
 {
 	if (!self.pendingRequest) return; // Nothing to do
+	if (!self.pendingRequestTimeoutTimer) return; // The request has already timed out
 	
 	ORSSerialPacketDescriptor *packetDescriptor = self.pendingRequest.responseDescriptor;
 	
